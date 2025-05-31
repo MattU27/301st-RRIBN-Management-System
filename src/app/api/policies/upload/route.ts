@@ -3,8 +3,11 @@ import { validateToken } from '@/lib/auth';
 import Policy from '@/models/Policy';
 import { connectToDatabase } from '@/lib/mongodb';
 import mongoose from 'mongoose';
+import fs from 'fs';
+import path from 'path';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60; // Set maximum execution time to 60 seconds
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,13 +52,31 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // In a production environment, you would upload the file to a storage service
-    // and get back a URL. For this example, we'll simulate a file upload and URL generation.
-    
-    // Generate a filename based on the current timestamp and original filename
-    const fileExtension = file.name.split('.').pop();
-    const fileName = `policy_${Date.now()}.${fileExtension}`;
+    // Ensure it's a PDF file
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      return NextResponse.json(
+        { error: 'Only PDF files are allowed' },
+        { status: 400 }
+      );
+    }
+
+    // Generate a unique filename for the uploaded file
+    const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExtension}`;
     const documentUrl = `/uploads/policies/${fileName}`;
+    
+    // Create the uploads directory if it doesn't exist
+    const publicDir = path.join(process.cwd(), 'public');
+    const uploadsDir = path.join(publicDir, 'uploads', 'policies');
+    
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    
+    // Save the file to the filesystem
+    const filePath = path.join(uploadsDir, fileName);
+    const fileBuffer = Buffer.from(await file.arrayBuffer());
+    fs.writeFileSync(filePath, fileBuffer);
     
     // Parse dates
     const parsedEffectiveDate = new Date(effectiveDate);
@@ -80,9 +101,6 @@ export async function POST(request: NextRequest) {
     
     // Save to the database
     await policy.save();
-    
-    // In a real implementation, you would save the file to storage here
-    // For example, using AWS S3, Google Cloud Storage, etc.
     
     return NextResponse.json(
       { 

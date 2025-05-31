@@ -52,6 +52,7 @@ interface Policy {
   createdBy: string;
   createdAt: string;
   updatedAt: string;
+  documentUrl?: string;
 }
 
 export default function PoliciesPage() {
@@ -404,60 +405,159 @@ export default function PoliciesPage() {
         </div>
       </Card>
 
-      {/* View Policy Modal */}
+      {/* View Policy Modal - Enhanced for better readability */}
       {showViewModal && selectedPolicy && (
         <div className="fixed inset-0 overflow-y-auto z-50">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
             <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              <div className="absolute inset-0 bg-gray-800 opacity-80"></div>
             </div>
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <DocumentTextIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-full max-w-6xl">
+              {/* Header with title and close button */}
+              <div className="bg-white px-6 py-4 border-b border-gray-200">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 bg-indigo-100 rounded-full p-2 mr-3">
+                      <DocumentTextIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 leading-tight truncate max-w-[500px]">{selectedPolicy.title}</h2>
                   </div>
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">{selectedPolicy.title}</h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">{selectedPolicy.description}</p>
-                    </div>
-                    <div className="mt-4 flex space-x-4 text-sm text-gray-500">
-                      <div>
-                        <span className="font-semibold">Category:</span> {selectedPolicy.category}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Version:</span> {selectedPolicy.version}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Status:</span> {selectedPolicy.status.charAt(0).toUpperCase() + selectedPolicy.status.slice(1)}
-                      </div>
-                    </div>
-                    <div className="mt-2 flex space-x-4 text-sm text-gray-500">
-                      <div>
-                        <span className="font-semibold">Effective Date:</span> {formatDate(selectedPolicy.effectiveDate)}
-                      </div>
-                      {selectedPolicy.expirationDate && (
-                        <div>
-                          <span className="font-semibold">Expiration Date:</span> {formatDate(selectedPolicy.expirationDate)}
+                  <button
+                    type="button"
+                    className="rounded-md p-2 hover:bg-gray-100 focus:outline-none"
+                    onClick={() => setShowViewModal(false)}
+                  >
+                    <span className="sr-only">Close</span>
+                    <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              {/* Metadata badges */}
+              <div className="bg-gray-50 px-6 py-3 flex flex-wrap gap-2">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                  Category: {selectedPolicy.category}
+                </span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+                  Version: {selectedPolicy.version}
+                </span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                  Effective: {formatDate(selectedPolicy.effectiveDate)}
+                </span>
+                {selectedPolicy.expirationDate && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                    Expires: {formatDate(selectedPolicy.expirationDate)}
+                  </span>
+                )}
+                {getStatusBadge(selectedPolicy.status)}
+              </div>
+              
+              {/* Main content area */}
+              <div className="bg-white px-6 py-5">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                  {/* Left side - Policy description and content */}
+                  <div className="lg:col-span-3">
+                    <div className="mb-5">
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Description</h3>
+                      <div className="bg-gray-50 p-4 rounded-md">
+                        <div className="text-gray-700 whitespace-pre-wrap break-words overflow-auto max-h-[150px] text-sm">
+                          {selectedPolicy.description}
                         </div>
-                      )}
+                      </div>
                     </div>
-                    <div className="mt-4 border-t border-gray-200 pt-4">
-                      <h4 className="text-md font-medium text-gray-900">Policy Content</h4>
-                      <div className="mt-2 bg-gray-50 p-4 rounded-md overflow-auto max-h-96">
-                        <pre className="text-sm whitespace-pre-wrap font-mono text-gray-800">{selectedPolicy.content}</pre>
+                    
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Policy Content</h3>
+                      <div className="bg-gray-50 p-4 rounded-md overflow-auto max-h-80">
+                        <div className="text-gray-700 whitespace-pre-wrap break-words text-sm">
+                          {selectedPolicy.content}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Right side - Document preview & actions */}
+                  <div className="lg:col-span-2">
+                    <div className="bg-gray-50 p-4 rounded-md h-full flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-4">Document</h3>
+                        <div className="flex justify-center mb-4">
+                          <div className="w-32 h-40 bg-white border border-gray-300 shadow-sm rounded-md flex items-center justify-center">
+                            <DocumentTextIcon className="h-16 w-16 text-indigo-300" />
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-500 text-center mb-6">
+                          This policy was uploaded as a file. Please use the buttons below to view or download the attached document.
+                        </p>
+                      </div>
+                      
+                      <div className="mt-auto space-y-3">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            try {
+                              // Always use the policy ID for reliable document retrieval
+                              const viewUrl = `/api/policies/document?id=${selectedPolicy._id}`;
+                              const newWindow = window.open(viewUrl, '_blank');
+                              
+                              // Add an error handler in case the document can't be loaded
+                              setTimeout(() => {
+                                if (newWindow && newWindow.document.body.textContent?.includes('error')) {
+                                  toast.error('There was a problem loading the document. A placeholder has been created.');
+                                }
+                              }, 1000);
+                            } catch (error) {
+                              console.error('Error opening document:', error);
+                              toast.error('Failed to open document. Please try again.');
+                            }
+                          }}
+                          className="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
+                        >
+                          <EyeIcon className="h-5 w-5 mr-2" />
+                          View Document
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={() => {
+                            try {
+                              // Download option
+                              const downloadUrl = `/api/policies/document?id=${selectedPolicy._id}&download=true`;
+                              const newWindow = window.open(downloadUrl, '_blank');
+                              
+                              // Add an error handler in case the document can't be downloaded
+                              setTimeout(() => {
+                                if (newWindow && newWindow.document.body.textContent?.includes('error')) {
+                                  toast.error('There was a problem downloading the document. A placeholder has been created.');
+                                }
+                              }, 1000);
+                            } catch (error) {
+                              console.error('Error downloading document:', error);
+                              toast.error('Failed to download document. Please try again.');
+                            }
+                          }}
+                          className="w-full inline-flex justify-center items-center px-4 py-3 border border-gray-300 text-base font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                          </svg>
+                          Download PDF
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              
+              {/* Footer with actions */}
+              <div className="bg-gray-50 px-6 py-3 flex justify-end">
                 <Button
                   variant="secondary"
                   onClick={() => setShowViewModal(false)}
-                  className="w-full sm:w-auto sm:text-sm"
+                  className="w-auto sm:text-sm"
                 >
                   Close
                 </Button>
@@ -468,7 +568,7 @@ export default function PoliciesPage() {
                       setShowViewModal(false);
                       handleEditPolicy(selectedPolicy._id);
                     }}
-                    className="mt-3 w-full sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="ml-3 w-auto sm:text-sm"
                   >
                     Edit Policy
                   </Button>
