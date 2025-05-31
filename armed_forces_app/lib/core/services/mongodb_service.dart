@@ -712,6 +712,12 @@ class MongoDBService {
           print('  expirationDate: ${samplePolicy['expirationDate']}');
           print('  createdAt: ${samplePolicy['createdAt']}');
           print('  updatedAt: ${samplePolicy['updatedAt']}');
+          
+          // Print raw data structure for debugging
+          print('Raw MongoDB policy data structure:');
+          samplePolicy.forEach((key, value) {
+            print('  $key: $value (${value.runtimeType})');
+          });
         }
       }
       
@@ -719,7 +725,17 @@ class MongoDBService {
       final processedPolicies = policies.map((doc) {
         // Process MongoDB date fields to ensure they're in the correct format
         final processedDoc = _processMongoDBDates(doc);
-        return Policy.fromJson(processedDoc);
+        
+        // Create policy object
+        final policy = Policy.fromJson(processedDoc);
+        
+        if (kDebugMode) {
+          print('Processed policy: ${policy.title}');
+          print('  Effective Date: ${policy.effectiveDate}');
+          print('  Expiration Date: ${policy.expirationDate}');
+        }
+        
+        return policy;
       }).toList();
       
       return processedPolicies;
@@ -749,6 +765,18 @@ class MongoDBService {
       if (result.containsKey(field)) {
         final value = result[field];
         
+        if (kDebugMode) {
+          print('Processing field $field: $value (${value.runtimeType})');
+        }
+        
+        // If it's already a DateTime, leave it as is
+        if (value is DateTime) {
+          if (kDebugMode) {
+            print('  Field is already DateTime, keeping as is');
+          }
+          continue;
+        }
+        
         // Handle MongoDB date format
         if (value is Map && value.containsKey('\$date')) {
           if (kDebugMode) {
@@ -758,11 +786,39 @@ class MongoDBService {
           // Extract the date value
           if (value['\$date'] is String) {
             // Convert to ISO string format
-            result[field] = value['\$date'];
+            result[field] = DateTime.parse(value['\$date']);
+            if (kDebugMode) {
+              print('  Converted to DateTime: ${result[field]}');
+            }
           } else if (value['\$date'] is int) {
             // Convert timestamp to ISO string
             final date = DateTime.fromMillisecondsSinceEpoch(value['\$date']);
-            result[field] = date.toIso8601String();
+            result[field] = date;
+            if (kDebugMode) {
+              print('  Converted timestamp to DateTime: ${result[field]}');
+            }
+          }
+        }
+        // Handle string values that need to be preserved exactly
+        else if (value is String) {
+          try {
+            // Parse the string to DateTime
+            if (value.contains('T')) {
+              // ISO format string
+              result[field] = DateTime.parse(value);
+            } else if (value.contains('-')) {
+              // Date without time
+              result[field] = DateTime.parse('${value}T00:00:00.000Z');
+            }
+            
+            if (kDebugMode) {
+              print('  Converted string to DateTime: ${result[field]}');
+            }
+          } catch (e) {
+            if (kDebugMode) {
+              print('  Error parsing date string: $e');
+              print('  Keeping original string value: $value');
+            }
           }
         }
       }
@@ -771,15 +827,33 @@ class MongoDBService {
       final dotField = '$field.\$date';
       if (result.containsKey(dotField)) {
         if (kDebugMode) {
-          print('Found MongoDB dot notation date field: $dotField');
+          print('Found MongoDB dot notation date field: $dotField = ${result[dotField]}');
         }
         
         final value = result[dotField];
         if (value != null) {
-          // Use the value directly
-          result[field] = value;
-          // Remove the dot notation field to avoid confusion
-          result.remove(dotField);
+          try {
+            // Parse the value to DateTime
+            if (value is String) {
+              result[field] = DateTime.parse(value);
+            } else if (value is int) {
+              result[field] = DateTime.fromMillisecondsSinceEpoch(value);
+            }
+            
+            // Remove the dot notation field to avoid confusion
+            result.remove(dotField);
+            
+            if (kDebugMode) {
+              print('  Set $field to DateTime: ${result[field]}');
+            }
+          } catch (e) {
+            if (kDebugMode) {
+              print('  Error parsing dot notation date: $e');
+              // Use the value directly as fallback
+              result[field] = value;
+              result.remove(dotField);
+            }
+          }
         }
       }
     }

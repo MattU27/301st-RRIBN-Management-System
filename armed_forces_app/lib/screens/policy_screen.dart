@@ -344,6 +344,16 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
   }
 
   void _showPolicyDetails(Policy policy) {
+    // Debug log to verify dates
+    if (kDebugMode) {
+      print('Showing policy details:');
+      print('  Title: ${policy.title}');
+      print('  Effective Date: ${policy.effectiveDate}');
+      print('  Expiration Date: ${policy.expirationDate}');
+      print('  Created At: ${policy.createdAt}');
+      print('  Last Updated: ${policy.lastUpdated}');
+    }
+    
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -608,6 +618,13 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
         }
         // Return a placeholder for invalid dates
         return 'Date not available';
+      }
+      
+      // Log the date being formatted
+      if (kDebugMode) {
+        print('Formatting date: $date');
+        // Check if this is the expiration date and log the month and day
+        print('  Year: ${date.year}, Month: ${date.month}, Day: ${date.day}');
       }
       
       // Format as May 31, 2025

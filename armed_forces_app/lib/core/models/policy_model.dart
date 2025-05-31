@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Policy {
   final String id;
   final String title;
@@ -30,6 +32,15 @@ class Policy {
   });
 
   factory Policy.fromJson(Map<String, dynamic> json) {
+    // Debug logging
+    if (kDebugMode) {
+      print('Creating Policy from JSON:');
+      print('  _id: ${json['_id']}');
+      print('  title: ${json['title']}');
+      print('  effectiveDate: ${json['effectiveDate']}');
+      print('  expirationDate: ${json['expirationDate']}');
+    }
+    
     // Handle MongoDB ObjectId format
     String getId() {
       if (json['_id'] == null) return '';
@@ -47,15 +58,35 @@ class Policy {
     DateTime parseDate(dynamic dateValue, {DateTime? defaultValue}) {
       if (dateValue == null) return defaultValue ?? DateTime.now();
       
+      if (kDebugMode) {
+        print('Parsing date value: $dateValue (${dateValue.runtimeType})');
+      }
+      
       try {
+        // If the value is already a DateTime, use it directly
+        if (dateValue is DateTime) {
+          if (kDebugMode) {
+            print('  Already DateTime object: $dateValue');
+          }
+          return dateValue;
+        }
+        
         // Handle MongoDB date format (ISODate)
         if (dateValue is Map) {
           // Check for $date field
           if (dateValue.containsKey('\$date')) {
             if (dateValue['\$date'] is String) {
-              return DateTime.parse(dateValue['\$date']);
+              final dateString = dateValue['\$date'] as String;
+              if (kDebugMode) {
+                print('  Parsing MongoDB date string: $dateString');
+              }
+              return DateTime.parse(dateString);
             } else if (dateValue['\$date'] is int) {
-              return DateTime.fromMillisecondsSinceEpoch(dateValue['\$date']);
+              final timestamp = dateValue['\$date'] as int;
+              if (kDebugMode) {
+                print('  Parsing MongoDB timestamp: $timestamp');
+              }
+              return DateTime.fromMillisecondsSinceEpoch(timestamp);
             }
           }
           
@@ -65,6 +96,9 @@ class Policy {
               final value = dateValue[key];
               if (value is String) {
                 try {
+                  if (kDebugMode) {
+                    print('  Trying to parse date from map key $key: $value');
+                  }
                   return DateTime.parse(value);
                 } catch (_) {}
               } else if (value is int) {
@@ -78,17 +112,28 @@ class Policy {
         
         // Handle string date format
         if (dateValue is String) {
+          if (kDebugMode) {
+            print('  Parsing string date: $dateValue');
+          }
+          
           // Check if the string is a MongoDB ISO date format
           if (dateValue.startsWith('ISODate(') && dateValue.endsWith(')')) {
             // Extract the date string from ISODate("2025-05-31T00:00:00.000Z")
             final dateString = dateValue.substring(9, dateValue.length - 2);
+            if (kDebugMode) {
+              print('  Extracted ISO date string: $dateString');
+            }
             return DateTime.parse(dateString);
           }
           
           // Handle date strings without time component
           if (!dateValue.contains('T') && dateValue.contains('-')) {
             // Add time component to make it a valid ISO date
-            return DateTime.parse('${dateValue}T00:00:00.000Z');
+            final fullDateString = '${dateValue}T00:00:00.000Z';
+            if (kDebugMode) {
+              print('  Adding time component: $fullDateString');
+            }
+            return DateTime.parse(fullDateString);
           }
           
           // Try to parse as regular ISO date
@@ -97,10 +142,15 @@ class Policy {
         
         // Handle timestamp (milliseconds since epoch)
         if (dateValue is int) {
+          if (kDebugMode) {
+            print('  Parsing timestamp: $dateValue');
+          }
           return DateTime.fromMillisecondsSinceEpoch(dateValue);
         }
       } catch (e) {
-        print('Error parsing date: $e for value: $dateValue');
+        if (kDebugMode) {
+          print('Error parsing date: $e for value: $dateValue');
+        }
       }
       
       return defaultValue ?? DateTime.now();
@@ -112,12 +162,20 @@ class Policy {
       final effectiveDateValue = json['effectiveDate'];
       
       if (effectiveDateValue != null) {
-        return parseDate(effectiveDateValue, defaultValue: DateTime.now());
+        final date = parseDate(effectiveDateValue, defaultValue: DateTime.now());
+        if (kDebugMode) {
+          print('  Parsed effectiveDate: $date');
+        }
+        return date;
       }
       
       // If not found, check for MongoDB specific formats
       if (json.containsKey('effectiveDate.\$date')) {
-        return parseDate(json['effectiveDate.\$date'], defaultValue: DateTime.now());
+        final date = parseDate(json['effectiveDate.\$date'], defaultValue: DateTime.now());
+        if (kDebugMode) {
+          print('  Parsed effectiveDate from dot notation: $date');
+        }
+        return date;
       }
       
       // Default fallback
@@ -129,12 +187,20 @@ class Policy {
       final expirationDateValue = json['expirationDate'];
       
       if (expirationDateValue != null) {
-        return parseDate(expirationDateValue);
+        final date = parseDate(expirationDateValue);
+        if (kDebugMode) {
+          print('  Parsed expirationDate: $date');
+        }
+        return date;
       }
       
       // If not found, check for MongoDB specific formats
       if (json.containsKey('expirationDate.\$date')) {
-        return parseDate(json['expirationDate.\$date']);
+        final date = parseDate(json['expirationDate.\$date']);
+        if (kDebugMode) {
+          print('  Parsed expirationDate from dot notation: $date');
+        }
+        return date;
       }
       
       // Return null if no expiration date is found
