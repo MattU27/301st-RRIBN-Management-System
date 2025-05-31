@@ -117,8 +117,7 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Policies & Guidelines',
-        showBackButton: true,
-        onBackPressed: () => Navigator.pop(context),
+        showBackButton: false,
       ),
       body: Column(
         children: [
