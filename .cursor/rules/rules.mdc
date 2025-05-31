@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- No need to use npm run dev command
+- Don't use flutter run command either
+- Mongodb database is afp_personnel_db

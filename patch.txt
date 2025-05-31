@@ -1,0 +1,11 @@
+// Original:
+// Skip if no userId or userData is completely empty
+if (!userId || (!attendee.userData?.firstName && !attendee.userData?.lastName && !attendee.userData?.fullName)) {
+  return false;
+}
+ 
+// New:
+// Skip only if no userId
+if (!userId) {
+  return false;
+} 

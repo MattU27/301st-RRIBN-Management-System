@@ -1,0 +1,345 @@
+[{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154429"
+  },
+  "name": "Alpha Company",
+  "code": "ALPHA",
+  "description": "Infantry unit specializing in frontline operations and rapid deployment.",
+  "location": "Camp Aguinaldo, Quezon City",
+  "commandingOfficer": "LTC Roberto Cruz",
+  "totalPersonnel": 29,
+  "activePersonnel": 19,
+  "readinessScore": 87,
+  "documentsComplete": 92,
+  "trainingsComplete": 85,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.492Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.248Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442a"
+  },
+  "name": "Bravo Company",
+  "code": "BRAVO",
+  "description": "Combat support unit providing artillery and tactical assistance.",
+  "location": "Fort Bonifacio, Taguig City",
+  "commandingOfficer": "MAJ Elena Santos",
+  "totalPersonnel": 1,
+  "activePersonnel": 1,
+  "readinessScore": 92,
+  "documentsComplete": 96,
+  "trainingsComplete": 90,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.492Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-30T10:22:24.920Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442b"
+  },
+  "name": "Charlie Company",
+  "code": "CHARLIE",
+  "description": "Specialized unit focusing on urban combat and close-quarters operations.",
+  "location": "Camp Lapu-Lapu, Cebu City",
+  "commandingOfficer": "MAJ Antonio Reyes",
+  "totalPersonnel": 3,
+  "activePersonnel": 2,
+  "readinessScore": 76,
+  "documentsComplete": 82,
+  "trainingsComplete": 74,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.255Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442c"
+  },
+  "name": "Delta Company",
+  "code": "DELTA",
+  "description": "Reconnaissance and surveillance unit operating in high-risk environments.",
+  "location": "Camp General Emilio Aguinaldo, Cavite",
+  "commandingOfficer": "MAJ Francisco Magsaysay",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 79,
+  "documentsComplete": 84,
+  "trainingsComplete": 77,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.258Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442d"
+  },
+  "name": "Echo Company",
+  "code": "ECHO",
+  "description": "Support unit providing logistics and supply chain management.",
+  "location": "Camp General Servillano Aquino, Tarlac",
+  "commandingOfficer": "CPT Maria Lourdes Tan",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 80,
+  "documentsComplete": 85,
+  "trainingsComplete": 78,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.262Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442e"
+  },
+  "name": "Headquarters",
+  "code": "HEADQUARTERS",
+  "description": "Command and control center for all operations and strategic planning.",
+  "location": "Camp Aguinaldo, Quezon City",
+  "commandingOfficer": "COL Manuel Gomez",
+  "totalPersonnel": 1,
+  "activePersonnel": 1,
+  "readinessScore": 20,
+  "documentsComplete": 0,
+  "trainingsComplete": 0,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-21T19:10:15.450Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb15442f"
+  },
+  "name": "NERRSC (NERR-Signal Company)",
+  "code": "NERRSC",
+  "description": "Communications and signal intelligence unit supporting tactical operations.",
+  "location": "Fort Magsaysay, Nueva Ecija",
+  "commandingOfficer": "MAJ Rodrigo Duterte",
+  "totalPersonnel": 3,
+  "activePersonnel": 2,
+  "readinessScore": 13,
+  "documentsComplete": 0,
+  "trainingsComplete": 0,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-21T19:10:15.451Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154430"
+  },
+  "name": "NERRFAB (NERR-Field Artillery Battery)",
+  "code": "NERRFAB",
+  "description": "Artillery support unit specializing in long-range fire support.",
+  "location": "Fort Magsaysay, Nueva Ecija",
+  "commandingOfficer": "MAJ Paolo Santiago",
+  "totalPersonnel": 1,
+  "activePersonnel": 1,
+  "readinessScore": 20,
+  "documentsComplete": 0,
+  "trainingsComplete": 0,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-21T19:10:15.451Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154431"
+  },
+  "name": "Foxtrot Company",
+  "code": "FOXTROT",
+  "description": "Specialized infantry unit focused on jungle and mountain warfare.",
+  "location": "Camp Capinpin, Tanay, Rizal",
+  "commandingOfficer": "MAJ Ricardo Dalisay",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 88,
+  "documentsComplete": 90,
+  "trainingsComplete": 86,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.273Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154432"
+  },
+  "name": "Golf Company",
+  "code": "GOLF",
+  "description": "Rapid response unit trained for immediate deployment in crisis situations.",
+  "location": "Camp General Arturo Enrile, Malagutay, Zamboanga City",
+  "commandingOfficer": "MAJ Fernando Basco",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 86,
+  "documentsComplete": 88,
+  "trainingsComplete": 85,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.276Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154433"
+  },
+  "name": "Hotel Company",
+  "code": "HOTEL",
+  "description": "Security and defense unit specializing in base protection and perimeter control.",
+  "location": "Camp General Mateo Capinpin, Tanay, Rizal",
+  "commandingOfficer": "CPT Josefina Lopez",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 82,
+  "documentsComplete": 85,
+  "trainingsComplete": 80,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.278Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154434"
+  },
+  "name": "Medical Corps",
+  "code": "MEDCORP",
+  "description": "Medical support unit providing healthcare services to military personnel.",
+  "location": "V. Luna Medical Center, Quezon City",
+  "commandingOfficer": "LTC Dr. Benjamin Abalos",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 93,
+  "documentsComplete": 97,
+  "trainingsComplete": 91,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.281Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154435"
+  },
+  "name": "Engineering Battalion",
+  "code": "ENGBAT",
+  "description": "Specialized unit for construction, demolition, and field fortifications.",
+  "location": "Fort Bonifacio, Taguig City",
+  "commandingOfficer": "LTC Eduardo Villanueva",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 88,
+  "documentsComplete": 91,
+  "trainingsComplete": 87,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.284Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154436"
+  },
+  "name": "Intelligence Division",
+  "code": "INTELDIV",
+  "description": "Intelligence gathering and analysis unit supporting operational planning.",
+  "location": "Camp Aguinaldo, Quezon City",
+  "commandingOfficer": "COL Antonio Parlade",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 92,
+  "documentsComplete": 95,
+  "trainingsComplete": 90,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.494Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.286Z"
+  },
+  "__v": 0,
+  "hidden": false
+},
+{
+  "_id": {
+    "$oid": "67efd5b3c7528c0dfb154437"
+  },
+  "name": "Airborne Company",
+  "code": "AIRBORNE",
+  "description": "Elite paratrooper unit specialized in air assault and airborne operations.",
+  "location": "Fort Magsaysay, Nueva Ecija",
+  "commandingOfficer": "MAJ Alexander Santos",
+  "totalPersonnel": 0,
+  "activePersonnel": 0,
+  "readinessScore": 90,
+  "documentsComplete": 93,
+  "trainingsComplete": 88,
+  "createdAt": {
+    "$date": "2025-04-04T12:50:59.494Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-16T03:34:55.289Z"
+  },
+  "__v": 0,
+  "hidden": false
+}]

@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-05-21T03:54:42.936Z",
+  "serviceId": "CD-2019-1016781",
+  "results": {
+    "usersFound": 1,
+    "usersUpdated": 0,
+    "ridsDeleted": 0,
+    "documentsDeleted": 0,
+    "pendingUsersDeleted": 1,
+    "operations": [
+      {
+        "operation": "users_update",
+        "count": 0,
+        "userIds": [
+          "682d4ada361af620cf378c44"
+        ]
+      },
+      {
+        "operation": "pending_users_deleted",
+        "count": 1
+      },
+      {
+        "operation": "delete_by_service_id",
+        "count": 0
+      },
+      {
+        "operation": "delete_by_alternate_fields",
+        "count": 0
+      },
+      {
+        "operation": "delete_pending_rids",
+        "count": 0
+      },
+      {
+        "operation": "documents_delete",
+        "count": 0
+      }
+    ]
+  }
+}

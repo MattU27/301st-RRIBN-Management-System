@@ -1,0 +1,158 @@
+[{
+  "_id": {
+    "$oid": "67f011f547a45741ecca05d9"
+  },
+  "firstName": "Super",
+  "lastName": "Director",
+  "email": "director@afp.gov.ph",
+  "password": "$2b$10$TlWM5SNTVAXRv17FHCIgNeQtvG1jwoHymLuoBHjBHrdCH7/xz2hXS",
+  "role": "director",
+  "status": "active",
+  "militaryId": "2024-SD004",
+  "rank": "Colonel",
+  "company": "Headquarters",
+  "specializations": [],
+  "createdAt": {
+    "$date": "2025-04-04T17:08:05.926Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-28T08:14:48.967Z"
+  },
+  "lastLogin": {
+    "$date": "2025-05-28T08:14:48.965Z"
+  },
+  "serviceId": "2024-SD004",
+  "isArchived": false,
+  "canRegister": false,
+  "isRegistrationComplete": false
+},
+{
+  "_id": {
+    "$oid": "67f8999d4ba8bbe8d094aed8"
+  },
+  "firstName": "Kervie",
+  "lastName": "Mislang",
+  "email": "kervie@mil.ph",
+  "alternativeEmail": "kervie@gmail.com",
+  "password": "$2b$10$ki8nK3iJj5wnaE98tZ3ZfuY7Ow8Fxre0.ImWAC5Puw1FZMbt3La2u",
+  "role": "staff",
+  "company": "NERRSC (NERR-Signal Company)",
+  "rank": "Lieutenant General",
+  "serviceId": "2019-101691",
+  "status": "deactivated",
+  "specializations": [],
+  "createdAt": {
+    "$date": "2025-04-11T04:25:01.196Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-11T04:38:07.866Z"
+  },
+  "deactivationReason": "dwadadsa",
+  "lastLogin": {
+    "$date": "2025-04-11T04:38:00.429Z"
+  },
+  "isArchived": true
+},
+{
+  "_id": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "firstName": "Gerimiah",
+  "lastName": "Almero",
+  "email": "gerimiah@mil.ph",
+  "alternativeEmail": "gerimiah@gmail.com",
+  "password": "$2b$10$0ux1dPfW2DLF1x03fpWPtOMJpcmdLG6MiRqrKJjjzCeBfAqzpgEHK",
+  "role": "staff",
+  "company": "NERRSC (NERR-Signal Company)",
+  "rank": "Captain",
+  "serviceId": "2019-101680",
+  "status": "active",
+  "specializations": [],
+  "createdAt": {
+    "$date": "2025-04-11T04:40:07.328Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-29T03:48:36.036Z"
+  },
+  "deactivationReason": null,
+  "lastLogin": {
+    "$date": "2025-05-29T03:48:36.035Z"
+  },
+  "isArchived": false,
+  "canRegister": false,
+  "isRegistrationComplete": false
+},
+{
+  "_id": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "firstName": "John Matthew",
+  "lastName": "Banto",
+  "email": "bantojs@mil.ph",
+  "alternativeEmail": "sasukebanto@gmail.com",
+  "password": "$2b$10$QZFw7vubhm4qTrM.DCNjCe9NE1ZZPorEQ6UsLe7roBwuwQ/hKDpYm",
+  "role": "administrator",
+  "company": "NERRFAB (NERR-Field Artillery Battery)",
+  "rank": "Lieutenant General",
+  "serviceId": "2019-101679",
+  "status": "active",
+  "specializations": [],
+  "createdAt": {
+    "$date": "2025-04-11T04:56:10.649Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-29T06:43:27.659Z"
+  },
+  "deactivationReason": null,
+  "lastLogin": {
+    "$date": "2025-05-29T06:43:27.658Z"
+  },
+  "__v": 4,
+  "isArchived": false,
+  "passwordHistory": [
+    "Jm22152927-@",
+    "Jm22152927-",
+    "Jm22152927--",
+    "Jm22152927-"
+  ],
+  "canRegister": false,
+  "isRegistrationComplete": false
+},
+{
+  "_id": {
+    "$oid": "6800e8eeaec14642cc3ce05c"
+  },
+  "firstName": "Lolers",
+  "lastName": "Llalalala",
+  "email": "sasukebanto@mil.ph",
+  "alternativeEmail": "sasukebanto@gmail.com",
+  "password": "$2b$10$lyuNAnxZIpWMDUuPc9ZunOENEysPm91svrh8gu1jA.Bsy.x5SGn5a",
+  "role": "staff",
+  "company": "NERRSC (NERR-Signal Company)",
+  "rank": "Corporal",
+  "serviceId": "2019-101690",
+  "status": "active",
+  "specializations": [],
+  "createdAt": {
+    "$date": "2025-04-17T11:41:34.921Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-17T11:59:54.596Z"
+  },
+  "deactivationReason": null,
+  "lastLogin": {
+    "$date": "2025-04-17T11:53:10.722Z"
+  },
+  "address": {
+    "street": "",
+    "city": "",
+    "province": "",
+    "postalCode": ""
+  },
+  "contactNumber": "",
+  "emergencyContact": {
+    "name": "",
+    "relationship": "",
+    "contactNumber": ""
+  }
+}]

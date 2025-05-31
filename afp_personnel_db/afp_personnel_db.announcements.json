@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "680a845f9e771459635e342e"
+  },
+  "title": "HAHAHHHAHAHHHAHAHHHAHAHHHAHAHH",
+  "content": "HAHAHHHAHAHHHAHAHHHAHAHHHAHAHH",
+  "author": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "authorName": "Gerimiah Almero (Staff)",
+  "status": "published",
+  "priority": "high",
+  "targetCompanies": null,
+  "targetRoles": null,
+  "publishDate": {
+    "$date": "2025-04-24T00:00:00.000Z"
+  },
+  "expiryDate": {
+    "$date": "2025-04-26T00:00:00.000Z"
+  },
+  "attachmentUrls": [],
+  "viewCount": 0,
+  "createdAt": {
+    "$date": "2025-04-24T18:35:11.786Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T18:35:30.463Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6811840e49d5087198c54b13"
+  },
+  "title": "WEWEWEWEWEWWEWEWEWEWEWWEWEWEWEWEWWEWEWEWEWEW",
+  "content": "TUNG TUNG TUNGTUNG TUNG TUNGTUNG TUNG TUNG",
+  "author": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "authorName": "Gerimiah Almero (Staff)",
+  "status": "published",
+  "priority": "urgent",
+  "targetCompanies": null,
+  "targetRoles": null,
+  "publishDate": {
+    "$date": "2025-04-30T00:00:00.000Z"
+  },
+  "expiryDate": {
+    "$date": "2025-05-08T00:00:00.000Z"
+  },
+  "attachmentUrls": [],
+  "viewCount": 11,
+  "createdAt": {
+    "$date": "2025-04-30T01:59:42.013Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T13:23:55.764Z"
+  },
+  "__v": 0
+}]

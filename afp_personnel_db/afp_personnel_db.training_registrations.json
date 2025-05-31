@@ -1,0 +1,3293 @@
+[{
+  "_id": {
+    "$oid": "681a24886d663881b2e53625"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-26T15:02:32.760Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-09T15:02:32.760Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-10T15:02:32.760Z"
+  },
+  "userData": {
+    "firstName": "John Matthew",
+    "lastName": "Banto",
+    "fullName": "John Matthew Banto",
+    "rank": "Private",
+    "company": "Alpha",
+    "email": "banto@mil.ph",
+    "militaryId": "2019-10180"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.787Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.787Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53626"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-20T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-03T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-04T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Ramos",
+    "fullName": "Camila Ramos",
+    "rank": "First Lieutenant",
+    "company": "Bravo",
+    "email": "camila.ramos@mil.ph",
+    "militaryId": "2023-92595"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53627"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Ramos",
+    "fullName": "Camila Ramos",
+    "rank": "First Lieutenant",
+    "company": "Bravo",
+    "email": "camila.ramos@mil.ph",
+    "militaryId": "2023-92595"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53628"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-21T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-11-03T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-11-04T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Javier",
+    "lastName": "Velasco",
+    "fullName": "Javier Velasco",
+    "rank": "Lieutenant Colonel",
+    "company": "Unknown",
+    "email": "javier.velasco@mil.ph",
+    "militaryId": "2019-54769"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53629"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-02T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-15T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-16T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Javier",
+    "lastName": "Velasco",
+    "fullName": "Javier Velasco",
+    "rank": "Lieutenant Colonel",
+    "company": "Unknown",
+    "email": "javier.velasco@mil.ph",
+    "militaryId": "2019-54769"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362a"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-16T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-29T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-30T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Javier",
+    "lastName": "Velasco",
+    "fullName": "Javier Velasco",
+    "rank": "Lieutenant Colonel",
+    "company": "Unknown",
+    "email": "javier.velasco@mil.ph",
+    "militaryId": "2019-54769"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362b"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-28T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-11T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-12T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Miguel",
+    "lastName": "Bautista",
+    "fullName": "Miguel Bautista",
+    "rank": "Brigadier General",
+    "company": "Headquarters",
+    "email": "miguel.bautista@mil.ph",
+    "militaryId": "2023-24769"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362c"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457349"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-05-23T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-05T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-06T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Aquino",
+    "fullName": "Carmen Aquino",
+    "rank": "Staff Sergeant",
+    "company": "NERRSC (Signal Company)",
+    "email": "carmen.aquino@mil.ph",
+    "militaryId": "2018-33635"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362d"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-02T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-15T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-16T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Torres",
+    "fullName": "Carmen Torres",
+    "rank": "Lieutenant General",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "carmen.torres@mil.ph",
+    "militaryId": "2020-99713"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362e"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Valentina",
+    "lastName": "De Leon",
+    "fullName": "Valentina De Leon",
+    "rank": "Staff Sergeant",
+    "company": "Alpha",
+    "email": "valentina.de leon@mil.ph",
+    "militaryId": "2023-23992"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5362f"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-12T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-25T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-26T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Pascual",
+    "fullName": "Sofia Pascual",
+    "rank": "Lieutenant Colonel",
+    "company": "Bravo",
+    "email": "sofia.pascual@mil.ph",
+    "militaryId": "2019-66006"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53630"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-13T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-26T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-27T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Pascual",
+    "fullName": "Sofia Pascual",
+    "rank": "Lieutenant Colonel",
+    "company": "Bravo",
+    "email": "sofia.pascual@mil.ph",
+    "militaryId": "2019-66006"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53631"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-22T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-05T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-06T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Pascual",
+    "fullName": "Sofia Pascual",
+    "rank": "Lieutenant Colonel",
+    "company": "Bravo",
+    "email": "sofia.pascual@mil.ph",
+    "militaryId": "2019-66006"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53632"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-04-26T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-05-09T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-05-10T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Pascual",
+    "fullName": "Sofia Pascual",
+    "rank": "Lieutenant Colonel",
+    "company": "Bravo",
+    "email": "sofia.pascual@mil.ph",
+    "militaryId": "2019-66006"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53633"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-21T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-04T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-05T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Antonio",
+    "lastName": "Bautista",
+    "fullName": "Antonio Bautista",
+    "rank": "Master Sergeant",
+    "company": "Charlie",
+    "email": "antonio.bautista@mil.ph",
+    "militaryId": "2021-97322"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53634"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734f"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-31T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-13T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-14T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Robert",
+    "lastName": "Garcia",
+    "fullName": "Robert Garcia",
+    "rank": "General",
+    "company": "NERRSC (Signal Company)",
+    "email": "robert.garcia@mil.ph",
+    "militaryId": "2021-89572"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53635"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Rodriguez",
+    "fullName": "Carmen Rodriguez",
+    "rank": "First Lieutenant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "carmen.rodriguez@mil.ph",
+    "militaryId": "2020-83329"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53636"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-08T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-21T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-22T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Rodriguez",
+    "fullName": "Carmen Rodriguez",
+    "rank": "First Lieutenant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "carmen.rodriguez@mil.ph",
+    "militaryId": "2020-83329"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.788Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53637"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-01T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-14T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-15T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Rodriguez",
+    "fullName": "Carmen Rodriguez",
+    "rank": "First Lieutenant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "carmen.rodriguez@mil.ph",
+    "militaryId": "2020-83329"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53638"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-31T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-02-13T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-02-14T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Ramirez",
+    "fullName": "Carmen Ramirez",
+    "rank": "Staff Sergeant",
+    "company": "Alpha",
+    "email": "carmen.ramirez@mil.ph",
+    "militaryId": "2023-42317"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53639"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-16T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-29T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-30T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Daniel",
+    "lastName": "Mercado",
+    "fullName": "Daniel Mercado",
+    "rank": "Captain",
+    "company": "Bravo",
+    "email": "daniel.mercado@mil.ph",
+    "militaryId": "2020-80756"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363a"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-30T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-13T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-14T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Daniel",
+    "lastName": "Mercado",
+    "fullName": "Daniel Mercado",
+    "rank": "Captain",
+    "company": "Bravo",
+    "email": "daniel.mercado@mil.ph",
+    "militaryId": "2020-80756"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363b"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Daniel",
+    "lastName": "Mercado",
+    "fullName": "Daniel Mercado",
+    "rank": "Captain",
+    "company": "Bravo",
+    "email": "daniel.mercado@mil.ph",
+    "militaryId": "2020-80756"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363c"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457354"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-07T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-20T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-21T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Kristina",
+    "lastName": "Bautista",
+    "fullName": "Kristina Bautista",
+    "rank": "Sergeant Major",
+    "company": "Headquarters",
+    "email": "kristina.bautista@mil.ph",
+    "militaryId": "2018-35321"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363d"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457356"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-05-14T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-05-27T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-05-28T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Diego",
+    "lastName": "Aquino",
+    "fullName": "Diego Aquino",
+    "rank": "Sergeant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "diego.aquino@mil.ph",
+    "militaryId": "2022-61281"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363e"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-16T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-01T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-02T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Miguel",
+    "lastName": "Castro",
+    "fullName": "Miguel Castro",
+    "rank": "Sergeant Major",
+    "company": "Alpha",
+    "email": "miguel.castro@mil.ph",
+    "militaryId": "2020-71013"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5363f"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-25T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-07T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-08T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Rodriguez",
+    "fullName": "Camila Rodriguez",
+    "rank": "Colonel",
+    "company": "Bravo",
+    "email": "camila.rodriguez@mil.ph",
+    "militaryId": "2021-34427"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53640"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-24T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-07T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-08T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Rodriguez",
+    "fullName": "Camila Rodriguez",
+    "rank": "Colonel",
+    "company": "Bravo",
+    "email": "camila.rodriguez@mil.ph",
+    "militaryId": "2021-34427"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53641"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-05-01T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-05-14T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-05-15T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Rodriguez",
+    "fullName": "Camila Rodriguez",
+    "rank": "Colonel",
+    "company": "Bravo",
+    "email": "camila.rodriguez@mil.ph",
+    "militaryId": "2021-34427"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53642"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Rodriguez",
+    "fullName": "Camila Rodriguez",
+    "rank": "Colonel",
+    "company": "Bravo",
+    "email": "camila.rodriguez@mil.ph",
+    "militaryId": "2021-34427"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53643"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-02-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-02-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Fernando",
+    "lastName": "Pascual",
+    "fullName": "Fernando Pascual",
+    "rank": "Major",
+    "company": "Charlie",
+    "email": "fernando.pascual@mil.ph",
+    "militaryId": "2019-47946"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53644"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-04T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-17T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-18T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Fernando",
+    "lastName": "Pascual",
+    "fullName": "Fernando Pascual",
+    "rank": "Major",
+    "company": "Charlie",
+    "email": "fernando.pascual@mil.ph",
+    "militaryId": "2019-47946"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53645"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-13T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-26T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-27T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Fernando",
+    "lastName": "Pascual",
+    "fullName": "Fernando Pascual",
+    "rank": "Major",
+    "company": "Charlie",
+    "email": "fernando.pascual@mil.ph",
+    "militaryId": "2019-47946"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53646"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-09T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-22T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-23T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Fernando",
+    "lastName": "Pascual",
+    "fullName": "Fernando Pascual",
+    "rank": "Major",
+    "company": "Charlie",
+    "email": "fernando.pascual@mil.ph",
+    "militaryId": "2019-47946"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.789Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53647"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-14T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-27T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-28T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Gomez",
+    "fullName": "Carmen Gomez",
+    "rank": "First Lieutenant",
+    "company": "NERRSC (Signal Company)",
+    "email": "carmen.gomez@mil.ph",
+    "militaryId": "2021-44632"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53648"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-28T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-13T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-14T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Gomez",
+    "fullName": "Carmen Gomez",
+    "rank": "First Lieutenant",
+    "company": "NERRSC (Signal Company)",
+    "email": "carmen.gomez@mil.ph",
+    "militaryId": "2021-44632"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53649"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-26T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-08T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-09T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Gomez",
+    "fullName": "Carmen Gomez",
+    "rank": "First Lieutenant",
+    "company": "NERRSC (Signal Company)",
+    "email": "carmen.gomez@mil.ph",
+    "militaryId": "2021-44632"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364a"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-22T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-05T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-06T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Carmen",
+    "lastName": "Navarro",
+    "fullName": "Carmen Navarro",
+    "rank": "Staff Sergeant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "carmen.navarro@mil.ph",
+    "militaryId": "2019-31483"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364b"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735d"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-26T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-08T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-09T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Ramos",
+    "fullName": "Sofia Ramos",
+    "rank": "General",
+    "company": "Alpha",
+    "email": "sofia.ramos@mil.ph",
+    "militaryId": "2020-87717"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364c"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-01T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-14T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-15T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Andres",
+    "lastName": "Ramirez",
+    "fullName": "Andres Ramirez",
+    "rank": "Second Lieutenant",
+    "company": "Bravo",
+    "email": "andres.ramirez@mil.ph",
+    "militaryId": "2022-82772"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364d"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-07T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-20T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-21T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Andres",
+    "lastName": "Ramirez",
+    "fullName": "Andres Ramirez",
+    "rank": "Second Lieutenant",
+    "company": "Bravo",
+    "email": "andres.ramirez@mil.ph",
+    "militaryId": "2022-82772"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364e"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-15T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-28T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-29T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Kristina",
+    "lastName": "Aquino",
+    "fullName": "Kristina Aquino",
+    "rank": "Colonel",
+    "company": "Headquarters",
+    "email": "kristina.aquino@mil.ph",
+    "militaryId": "2021-50402"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5364f"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-04T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-17T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-18T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Kristina",
+    "lastName": "Aquino",
+    "fullName": "Kristina Aquino",
+    "rank": "Colonel",
+    "company": "Headquarters",
+    "email": "kristina.aquino@mil.ph",
+    "militaryId": "2021-50402"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53650"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-15T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-28T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-29T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Kristina",
+    "lastName": "Aquino",
+    "fullName": "Kristina Aquino",
+    "rank": "Colonel",
+    "company": "Headquarters",
+    "email": "kristina.aquino@mil.ph",
+    "militaryId": "2021-50402"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53651"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-09T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-22T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-23T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Bautista",
+    "fullName": "Ricardo Bautista",
+    "rank": "Lieutenant Colonel",
+    "company": "NERRSC (Signal Company)",
+    "email": "ricardo.bautista@mil.ph",
+    "militaryId": "2021-31348"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53652"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-19T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-02T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-03T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Bautista",
+    "fullName": "Ricardo Bautista",
+    "rank": "Lieutenant Colonel",
+    "company": "NERRSC (Signal Company)",
+    "email": "ricardo.bautista@mil.ph",
+    "militaryId": "2021-31348"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53653"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-11-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-11-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Bautista",
+    "fullName": "Ricardo Bautista",
+    "rank": "Lieutenant Colonel",
+    "company": "NERRSC (Signal Company)",
+    "email": "ricardo.bautista@mil.ph",
+    "militaryId": "2021-31348"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53654"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-24T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-07T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-08T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Rodrigo",
+    "lastName": "Aquino",
+    "fullName": "Rodrigo Aquino",
+    "rank": "Private First Class",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "rodrigo.aquino06551@mil.ph",
+    "militaryId": "2019-97480"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53655"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-22T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-05-05T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-06T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Gabriel",
+    "lastName": "Mercado",
+    "fullName": "Gabriel Mercado",
+    "rank": "Major",
+    "company": "Alpha",
+    "email": "gabriel.mercado16552@mil.ph",
+    "militaryId": "2021-16089"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53656"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-03T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-16T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-17T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Gabriel",
+    "lastName": "Mercado",
+    "fullName": "Gabriel Mercado",
+    "rank": "Major",
+    "company": "Alpha",
+    "email": "gabriel.mercado16552@mil.ph",
+    "militaryId": "2021-16089"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53657"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-01T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-12-14T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-12-15T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Gabriel",
+    "lastName": "Mercado",
+    "fullName": "Gabriel Mercado",
+    "rank": "Major",
+    "company": "Alpha",
+    "email": "gabriel.mercado16552@mil.ph",
+    "militaryId": "2021-16089"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53658"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-29T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-11T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-12T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Gabriel",
+    "lastName": "Mercado",
+    "fullName": "Gabriel Mercado",
+    "rank": "Major",
+    "company": "Alpha",
+    "email": "gabriel.mercado16552@mil.ph",
+    "militaryId": "2021-16089"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53659"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alberto",
+    "lastName": "Villanueva",
+    "fullName": "Alberto Villanueva",
+    "rank": "General",
+    "company": "Charlie",
+    "email": "alberto.villanueva36552@mil.ph",
+    "militaryId": "2023-62095"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365a"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405927"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-18T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-01T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-02T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Juan",
+    "lastName": "Tolentino",
+    "fullName": "Juan Tolentino",
+    "rank": "Captain",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "juan.tolentino66552@mil.ph",
+    "militaryId": "2018-41091"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365b"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405927"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-14T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-27T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-28T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Juan",
+    "lastName": "Tolentino",
+    "fullName": "Juan Tolentino",
+    "rank": "Captain",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "juan.tolentino66552@mil.ph",
+    "militaryId": "2018-41091"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365c"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-16T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-04-29T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-30T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Andres",
+    "lastName": "Ramirez",
+    "fullName": "Andres Ramirez",
+    "rank": "Major General",
+    "company": "Alpha",
+    "email": "andres.ramirez76552@mil.ph",
+    "militaryId": "2019-14484"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365d"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405929"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Regina",
+    "lastName": "Gomez",
+    "fullName": "Regina Gomez",
+    "rank": "Private First Class",
+    "company": "Bravo",
+    "email": "regina.gomez86552@mil.ph",
+    "militaryId": "2020-75298"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365e"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-17T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-30T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-01T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Isabella",
+    "lastName": "Torres",
+    "fullName": "Isabella Torres",
+    "rank": "Staff Sergeant",
+    "company": "Charlie",
+    "email": "isabella.torres96552@mil.ph",
+    "militaryId": "2020-73037"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5365f"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-05T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-11-18T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-11-19T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Ramos",
+    "fullName": "Sofia Ramos",
+    "rank": "Second Lieutenant",
+    "company": "Unknown",
+    "email": "sofia.ramos106552@mil.ph",
+    "militaryId": "2020-25664"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53660"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-02-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-02-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Andres",
+    "lastName": "Domingo",
+    "fullName": "Andres Domingo",
+    "rank": "Corporal",
+    "company": "Unknown",
+    "email": "andres.domingo116552@mil.ph",
+    "militaryId": "2022-60410"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53661"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592d"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-29T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-12T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-13T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Sofia",
+    "lastName": "Castro",
+    "fullName": "Sofia Castro",
+    "rank": "Lieutenant General",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "sofia.castro126552@mil.ph",
+    "militaryId": "2020-68945"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53662"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405930"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-05-07T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-05-20T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-05-21T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Fernando",
+    "lastName": "Tolentino",
+    "fullName": "Fernando Tolentino",
+    "rank": "General",
+    "company": "Charlie",
+    "email": "fernando.tolentino156552@mil.ph",
+    "militaryId": "2019-37995"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53663"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-21T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-05-04T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-05T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alejandro",
+    "lastName": "Martinez",
+    "fullName": "Alejandro Martinez",
+    "rank": "First Lieutenant",
+    "company": "Unknown",
+    "email": "alejandro.martinez166552@mil.ph",
+    "militaryId": "2018-66634"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53664"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alejandro",
+    "lastName": "Martinez",
+    "fullName": "Alejandro Martinez",
+    "rank": "First Lieutenant",
+    "company": "Unknown",
+    "email": "alejandro.martinez166552@mil.ph",
+    "militaryId": "2018-66634"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53665"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-27T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-12T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-13T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alejandro",
+    "lastName": "Martinez",
+    "fullName": "Alejandro Martinez",
+    "rank": "First Lieutenant",
+    "company": "Unknown",
+    "email": "alejandro.martinez166552@mil.ph",
+    "militaryId": "2018-66634"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53666"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405932"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-10-12T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-10-25T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-26T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Diego",
+    "lastName": "Flores",
+    "fullName": "Diego Flores",
+    "rank": "Corporal",
+    "company": "NERRSC (Signal Company)",
+    "email": "diego.flores176552@mil.ph",
+    "militaryId": "2019-76969"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53667"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Navarro",
+    "fullName": "Ricardo Navarro",
+    "rank": "Lieutenant Colonel",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "ricardo.navarro186552@mil.ph",
+    "militaryId": "2019-15679"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53668"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-06-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-06-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Navarro",
+    "fullName": "Ricardo Navarro",
+    "rank": "Lieutenant Colonel",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "ricardo.navarro186552@mil.ph",
+    "militaryId": "2019-15679"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53669"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-05-15T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-05-28T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-05-29T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Ricardo",
+    "lastName": "Navarro",
+    "fullName": "Ricardo Navarro",
+    "rank": "Lieutenant Colonel",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "ricardo.navarro186552@mil.ph",
+    "militaryId": "2019-15679"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366a"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-28T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-10T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-11T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Miguel",
+    "lastName": "Santiago",
+    "fullName": "Miguel Santiago",
+    "rank": "Sergeant Major",
+    "company": "Alpha",
+    "email": "miguel.santiago196552@mil.ph",
+    "militaryId": "2022-12362"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366b"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405935"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-17T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-30T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-10-01T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Isabella",
+    "lastName": "Santiago",
+    "fullName": "Isabella Santiago",
+    "rank": "Staff Sergeant",
+    "company": "Bravo",
+    "email": "isabella.santiago206552@mil.ph",
+    "militaryId": "2023-10547"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366c"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Torres",
+    "fullName": "Camila Torres",
+    "rank": "Sergeant Major",
+    "company": "Headquarters",
+    "email": "camila.torres226552@mil.ph",
+    "militaryId": "2019-49120"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366d"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-30T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-12T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-13T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Diego",
+    "lastName": "Reyes",
+    "fullName": "Diego Reyes",
+    "rank": "Sergeant",
+    "company": "NERRSC (Signal Company)",
+    "email": "diego.reyes236552@mil.ph",
+    "militaryId": "2022-79745"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366e"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-07T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-20T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-21T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Diego",
+    "lastName": "Reyes",
+    "fullName": "Diego Reyes",
+    "rank": "Sergeant",
+    "company": "NERRSC (Signal Company)",
+    "email": "diego.reyes236552@mil.ph",
+    "militaryId": "2022-79745"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5366f"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-19T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-02T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-03T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Camila",
+    "lastName": "Garcia",
+    "fullName": "Camila Garcia",
+    "rank": "Master Sergeant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "camila.garcia246552@mil.ph",
+    "militaryId": "2024-63732"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53670"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-31T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-04-13T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-14T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alberto",
+    "lastName": "Martinez",
+    "fullName": "Alberto Martinez",
+    "rank": "Sergeant Major",
+    "company": "Alpha",
+    "email": "alberto.martinez256552@mil.ph",
+    "militaryId": "2023-41659"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53671"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-11T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-24T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-25T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Regina",
+    "lastName": "Ramirez",
+    "fullName": "Regina Ramirez",
+    "rank": "Second Lieutenant",
+    "company": "Bravo",
+    "email": "regina.ramirez266552@mil.ph",
+    "militaryId": "2022-51190"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53672"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-29T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-02-11T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-02-12T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Regina",
+    "lastName": "Ramirez",
+    "fullName": "Regina Ramirez",
+    "rank": "Second Lieutenant",
+    "company": "Bravo",
+    "email": "regina.ramirez266552@mil.ph",
+    "militaryId": "2022-51190"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53673"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593c"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-12T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-25T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-26T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Valentina",
+    "lastName": "Mercado",
+    "fullName": "Valentina Mercado",
+    "rank": "Private",
+    "company": "Charlie",
+    "email": "valentina.mercado276552@mil.ph",
+    "militaryId": "2023-69817"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53674"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593d"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-21T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-08-03T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-08-04T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Emilio",
+    "lastName": "Reyes",
+    "fullName": "Emilio Reyes",
+    "rank": "First Sergeant",
+    "company": "Headquarters",
+    "email": "emilio.reyes286552@mil.ph",
+    "militaryId": "2022-31451"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53675"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-01T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-03-14T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-15T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Alberto",
+    "lastName": "Domingo",
+    "fullName": "Alberto Domingo",
+    "rank": "Master Sergeant",
+    "company": "Unknown",
+    "email": "alberto.domingo296552@mil.ph",
+    "militaryId": "2023-12940"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53676"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593f"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-07-02T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-15T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-16T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Kristina",
+    "lastName": "Rodriguez",
+    "fullName": "Kristina Rodriguez",
+    "rank": "Lieutenant General",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "kristina.rodriguez306552@mil.ph",
+    "militaryId": "2023-91156"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53677"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405940"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-12-27T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-01-09T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-01-10T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Javier",
+    "lastName": "Garcia",
+    "fullName": "Javier Garcia",
+    "rank": "Private First Class",
+    "company": "Alpha",
+    "email": "javier.garcia316552@mil.ph",
+    "militaryId": "2019-19037"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53678"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-08-28T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-10T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-11T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Miguel",
+    "lastName": "Mendoza",
+    "fullName": "Miguel Mendoza",
+    "rank": "Second Lieutenant",
+    "company": "Charlie",
+    "email": "miguel.mendoza336552@mil.ph",
+    "militaryId": "2020-58689"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e53679"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405943"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-09-06T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-09-19T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-09-20T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Valentina",
+    "lastName": "Flores",
+    "fullName": "Valentina Flores",
+    "rank": "Private",
+    "company": "Headquarters",
+    "email": "valentina.flores346552@mil.ph",
+    "militaryId": "2019-75558"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.790Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5367a"
+  },
+  "trainingId": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405945"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-17T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-04-30T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-01T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Isabella",
+    "lastName": "Castro",
+    "fullName": "Isabella Castro",
+    "rank": "Master Sergeant",
+    "company": "NERFAB (Artillery Battalion)",
+    "email": "isabella.castro366552@mil.ph",
+    "militaryId": "2021-81923"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5367b"
+  },
+  "trainingId": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-11-16T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-11-29T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-11-30T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Robert",
+    "lastName": "Tolentino",
+    "fullName": "Robert Tolentino",
+    "rank": "Captain",
+    "company": "Alpha",
+    "email": "robert.tolentino376552@mil.ph",
+    "militaryId": "2020-78332"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5367c"
+  },
+  "trainingId": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2024-06-23T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2024-07-06T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2024-07-07T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Robert",
+    "lastName": "Tolentino",
+    "fullName": "Robert Tolentino",
+    "rank": "Captain",
+    "company": "Alpha",
+    "email": "robert.tolentino376552@mil.ph",
+    "militaryId": "2020-78332"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "681a24886d663881b2e5367d"
+  },
+  "trainingId": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-01-29T15:02:32.761Z"
+  },
+  "attendanceDate": {
+    "$date": "2025-02-11T15:02:32.761Z"
+  },
+  "completionDate": {
+    "$date": "2025-02-12T15:02:32.761Z"
+  },
+  "userData": {
+    "firstName": "Robert",
+    "lastName": "Tolentino",
+    "fullName": "Robert Tolentino",
+    "rank": "Captain",
+    "company": "Alpha",
+    "email": "robert.tolentino376552@mil.ph",
+    "militaryId": "2020-78332"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-06T15:02:32.791Z"
+  }
+}]

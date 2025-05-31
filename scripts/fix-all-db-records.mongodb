@@ -1,0 +1,173 @@
+// MongoDB script to update ALL personnel records with standardized ranks and companies
+
+// Define valid values
+const validRanks = [
+  'Private',
+  'Private First Class',
+  'Corporal', 
+  'Sergeant',
+  'Second Lieutenant',
+  'First Lieutenant',
+  'Captain',
+  'Major',
+  'Lieutenant Colonel',
+  'Colonel',
+  'Brigadier General'
+];
+
+const validCompanies = [
+  'Alpha',
+  'Bravo',
+  'Charlie',
+  'Headquarters',
+  'NERRSC (NERR-Signal Company)',
+  'NERRFAB (NERR-Field Artillery Battery)'
+];
+
+// Map of rank abbreviations to full ranks
+const rankMapping = {
+  // Army ranks
+  'PVT': 'Private',
+  'PFC': 'Private First Class',
+  'CPL': 'Corporal',
+  'SGT': 'Sergeant',
+  'SGM': 'Sergeant',
+  '2LT': 'Second Lieutenant',
+  '1LT': 'First Lieutenant',
+  'LT': 'Second Lieutenant',
+  'CAPT': 'Captain',
+  'CPT': 'Captain',
+  'MAJ': 'Major',
+  'LTC': 'Lieutenant Colonel',
+  'COL': 'Colonel',
+  'BG': 'Brigadier General',
+  'GEN': 'Brigadier General',
+  'MG': 'Brigadier General',
+  
+  // Navy ranks
+  'CPO': 'Sergeant',
+  'PO1': 'Corporal',
+  'PO2': 'Corporal',
+  'PO3': 'Private First Class',
+  'MCPO': 'Sergeant',
+  'SCPO': 'Sergeant',
+  'CWO': 'First Lieutenant',
+  'WO': 'Second Lieutenant',
+  'RADM': 'Colonel',
+  
+  // Air Force ranks
+  'TSG': 'Sergeant',
+  'FMCPO': 'Private',
+  'ATC': 'Private',
+  'MSG': 'Sergeant',
+  'SFC': 'Sergeant',
+  'CSM': 'Sergeant',
+  'SSG': 'Sergeant',
+  'SSGT': 'Sergeant'
+};
+
+// Map of company codes to full names
+const companyMapping = {
+  'HQ': 'Headquarters',
+  'FOXTROT': 'Alpha',
+  'NERRRSC': 'NERRSC (NERR-Signal Company)',
+  'NERRSC': 'NERRSC (NERR-Signal Company)',
+  'ENGBAT': 'Alpha',
+  'INTELDIV': 'Alpha',
+  'MEDCORP': 'Alpha',
+  'DELTA': 'Alpha',
+  'ECHO': 'Alpha',
+  'HOTEL': 'Alpha',
+  'NERRFAB': 'NERRFAB (NERR-Field Artillery Battery)',
+  // Case-sensitive mappings
+  'ALPHA': 'Alpha',
+  'BRAVO': 'Bravo',
+  'CHARLIE': 'Charlie',
+  'HEADQUARTERS': 'Headquarters'
+};
+
+// First, print the current distribution of ranks and companies
+print("Current distribution of ranks:");
+db.personnels.aggregate([
+  { $group: { _id: "$rank", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+print("\nCurrent distribution of companies:");
+db.personnels.aggregate([
+  { $group: { _id: "$company", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+// Count personnel with non-standard ranks/companies
+const nonStandardRanks = db.personnels.count({
+  rank: { $nin: validRanks }
+});
+print(`\nFound ${nonStandardRanks} personnel with non-standard ranks`);
+
+const nonStandardCompanies = db.personnels.count({
+  company: { $nin: validCompanies }
+});
+print(`Found ${nonStandardCompanies} personnel with non-standard companies`);
+
+// Process EVERY record in the database
+print("\nProcessing ALL records:");
+const allPersonnel = db.personnels.find().toArray();
+let updatedRanks = 0;
+let updatedCompanies = 0;
+
+allPersonnel.forEach(person => {
+  const updates = {};
+  
+  // Check and update rank
+  if (person.rank && !validRanks.includes(person.rank)) {
+    const newRank = rankMapping[person.rank] || 'Private'; // Default to Private
+    updates.rank = newRank;
+    updatedRanks++;
+    print(`Updating ${person.name}: rank ${person.rank} -> ${newRank}`);
+  }
+  
+  // Check and update company
+  if (person.company && !validCompanies.includes(person.company)) {
+    const newCompany = companyMapping[person.company] || 'Alpha'; // Default to Alpha
+    updates.company = newCompany;
+    updatedCompanies++;
+    print(`Updating ${person.name}: company ${person.company} -> ${newCompany}`);
+  }
+  
+  // Update the record if needed
+  if (Object.keys(updates).length > 0) {
+    updates.lastUpdated = new Date();
+    db.personnels.updateOne(
+      { _id: person._id },
+      { $set: updates }
+    );
+  }
+});
+
+// Print summary
+print(`\nUpdate summary: ${updatedRanks} ranks and ${updatedCompanies} companies updated`);
+
+// Verify the specific records mentioned by the user
+print("\nVerifying specific personnel records:");
+["Josefina Ramos", "Elena Marquez", "Roberto Torres", "Rosa Fernandez", "Carlos Castro"].forEach(name => {
+  const person = db.personnels.findOne({ name: name });
+  if (person) {
+    print(`${person.name}: rank=${person.rank}, company=${person.company}`);
+  } else {
+    print(`${name} not found in database`);
+  }
+});
+
+// Print final distribution to verify all records have valid values
+print("\nFinal distribution of ranks:");
+db.personnels.aggregate([
+  { $group: { _id: "$rank", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+print("\nFinal distribution of companies:");
+db.personnels.aggregate([
+  { $group: { _id: "$company", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`)); 

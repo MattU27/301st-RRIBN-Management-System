@@ -1,0 +1,84 @@
+// MongoDB script to update specific personnel records with proper rank and company values
+
+// First let's fix Josefina Ramos (CPO, CHARLIE)
+db.personnels.updateOne(
+  { _id: ObjectId("67efd5bb8e395126edf28273") },
+  { 
+    $set: { 
+      rank: "Sergeant",  // CPO maps to Sergeant
+      company: "Charlie", // Fix capitalization
+      lastUpdated: new Date()
+    } 
+  }
+);
+print("Updated Josefina Ramos: CPO -> Sergeant, CHARLIE -> Charlie");
+
+// Fix Elena Marquez (MG, HQ)
+db.personnels.updateOne(
+  { _id: ObjectId("67efd5bb8e395126edf28274") },
+  { 
+    $set: { 
+      rank: "Brigadier General",  // MG maps to Brigadier General
+      company: "Headquarters", // HQ -> Headquarters
+      lastUpdated: new Date()
+    } 
+  }
+);
+print("Updated Elena Marquez: MG -> Brigadier General, HQ -> Headquarters");
+
+// Fix Roberto Torres (SSG, NERRFAB)
+db.personnels.updateOne(
+  { _id: ObjectId("67efd5bb8e395126edf28275") },
+  { 
+    $set: { 
+      rank: "Sergeant",  // SSG maps to Sergeant
+      company: "NERRFAB (NERR-Field Artillery Battery)", // Fix full name
+      lastUpdated: new Date()
+    } 
+  }
+);
+print("Updated Roberto Torres: SSG -> Sergeant, NERRFAB -> NERRFAB (NERR-Field Artillery Battery)");
+
+// Fix Rosa Fernandez (RADM, HQ)
+db.personnels.updateOne(
+  { _id: ObjectId("67efd5bb8e395126edf28276") },
+  { 
+    $set: { 
+      rank: "Colonel",  // RADM maps to Colonel
+      company: "Headquarters", // HQ -> Headquarters
+      lastUpdated: new Date()
+    } 
+  }
+);
+print("Updated Rosa Fernandez: RADM -> Colonel, HQ -> Headquarters");
+
+// Fix Carlos Castro (GEN, HQ)
+db.personnels.updateOne(
+  { _id: ObjectId("67efd5bb8e395126edf28277") },
+  { 
+    $set: { 
+      rank: "Brigadier General",  // GEN maps to Brigadier General
+      company: "Headquarters", // HQ -> Headquarters
+      lastUpdated: new Date()
+    } 
+  }
+);
+print("Updated Carlos Castro: GEN -> Brigadier General, HQ -> Headquarters");
+
+// Now verify the changes
+const records = db.personnels.find({
+  _id: {
+    $in: [
+      ObjectId("67efd5bb8e395126edf28273"),
+      ObjectId("67efd5bb8e395126edf28274"),
+      ObjectId("67efd5bb8e395126edf28275"),
+      ObjectId("67efd5bb8e395126edf28276"),
+      ObjectId("67efd5bb8e395126edf28277")
+    ]
+  }
+}).toArray();
+
+print("\nVerifying updated records:");
+records.forEach(r => {
+  print(`${r.name}: rank=${r.rank}, company=${r.company}`);
+}); 

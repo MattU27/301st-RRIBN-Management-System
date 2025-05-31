@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-05-21T04:02:04.007Z",
+  "results": {
+    "collections": [
+      {
+        "name": "users",
+        "deletedCount": 1
+      }
+    ]
+  }
+}

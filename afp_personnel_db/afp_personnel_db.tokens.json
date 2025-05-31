@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "67f8a24d4ba8bbe8d094b0f5"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "token": "5ff5c784f8a083858e8d9abd82263d2be6ee040448bf8c0fa33e1219b9de2e6b",
+  "type": "password_reset",
+  "expiresAt": {
+    "$date": "2025-04-11T06:02:05.629Z"
+  },
+  "createdAt": {
+    "$date": "2025-04-11T05:02:05.629Z"
+  },
+  "__v": 0
+}]

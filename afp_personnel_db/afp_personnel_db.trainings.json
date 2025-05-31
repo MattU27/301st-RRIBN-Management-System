@@ -1,0 +1,214 @@
+[{
+  "_id": {
+    "$oid": "67fdf68282150da212a47a08"
+  },
+  "title": "DASDADSADSA",
+  "description": "DASDASDSADAS",
+  "type": "seminar",
+  "startDate": {
+    "$date": "2025-04-15T06:02:12.073Z"
+  },
+  "endDate": {
+    "$date": "2025-04-16T22:02:00.000Z"
+  },
+  "location": {
+    "name": "DWADWADWAD",
+    "address": "AWDAWDWAD"
+  },
+  "instructor": {
+    "name": "mr. hahaha",
+    "rank": "General"
+  },
+  "status": "completed",
+  "capacity": 40,
+  "registered": 4,
+  "eligibleRanks": [],
+  "eligibleCompanies": [],
+  "mandatory": false,
+  "attendees": [],
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "tags": [
+    "3"
+  ],
+  "certificationOffered": false,
+  "materials": [],
+  "createdAt": {
+    "$date": "2025-04-15T06:02:42.940Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T16:30:23.938Z"
+  },
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "68064d2a90ca93474ece6a41"
+  },
+  "title": "HAHAHAHA",
+  "description": "HAHAHAHAHAHAHAHAHAHAHAHA",
+  "type": "combat_drill",
+  "startDate": {
+    "$date": "2025-04-21T13:43:51.812Z"
+  },
+  "endDate": {
+    "$date": "2025-04-22T05:43:00.000Z"
+  },
+  "location": {
+    "name": "HAHAHAHA",
+    "address": "HAHAHAHA"
+  },
+  "instructor": {
+    "name": "HAHAHAHA",
+    "rank": "HAHAHAHA"
+  },
+  "status": "completed",
+  "capacity": 20,
+  "registered": 1,
+  "eligibleRanks": [],
+  "eligibleCompanies": [],
+  "mandatory": true,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-04-21T19:06:30.055Z"
+      },
+      "_id": {
+        "$oid": "68069736cc3f39fa9fe0aed8"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "tags": [],
+  "certificationOffered": false,
+  "materials": [],
+  "createdAt": {
+    "$date": "2025-04-21T13:50:34.402Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T17:11:36.338Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "680a68867fb8ca25360e6ddc"
+  },
+  "title": "weeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeee",
+  "description": "weeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeeeweeeeeeeeeee",
+  "type": "combat_drill",
+  "startDate": {
+    "$date": "2025-04-29T08:31:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-04-30T08:31:00.000Z"
+  },
+  "location": {
+    "name": "weeeeeeeeeee",
+    "address": "weeeeeeeeeeeweeeeeeeeeee"
+  },
+  "instructor": {
+    "name": "weeeeeeeeeee",
+    "rank": "weeeeeeeeeee"
+  },
+  "status": "upcoming",
+  "capacity": 40,
+  "registered": 3,
+  "eligibleRanks": [],
+  "eligibleCompanies": [],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457346"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-04-24T17:46:38.115Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "67f89d274ba8bbe8d094b0be"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-04-24T18:20:27.367Z"
+      },
+      "_id": {
+        "$oid": "680a80eb9e771459635e32e2"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "68063c32bb93f9ffb2000000"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-04-24T18:39:45.806Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "tags": [],
+  "certificationOffered": false,
+  "materials": [],
+  "createdAt": {
+    "$date": "2025-04-24T16:36:22.192Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T18:39:45.806Z"
+  },
+  "__v": 9
+},
+{
+  "_id": {
+    "$oid": "680a85b69e771459635e34b1"
+  },
+  "title": "HEHEHEHEHEHEHEHEHEHEHEHE",
+  "description": "HEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHEHE",
+  "type": "technical",
+  "startDate": {
+    "$date": "2025-04-25T10:40:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-04-30T10:40:00.000Z"
+  },
+  "location": {
+    "name": "HEHEHEHEHEHEHEHEHEHEHEHE",
+    "address": "HEHEHEHEHEHEHEHEHEHEHEHE"
+  },
+  "instructor": {
+    "name": "HEHEHEHEHEHEHEHEHEHEHEHE",
+    "rank": "HEHEHEHEHEHEHEHEHEHEHEHE"
+  },
+  "status": "upcoming",
+  "capacity": 50,
+  "registered": 0,
+  "eligibleRanks": [],
+  "eligibleCompanies": [],
+  "mandatory": true,
+  "attendees": [],
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "tags": [],
+  "certificationOffered": false,
+  "materials": [],
+  "createdAt": {
+    "$date": "2025-04-24T18:40:54.937Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-24T18:41:09.334Z"
+  },
+  "__v": 2
+}]

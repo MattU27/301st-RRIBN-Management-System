@@ -1,0 +1,87 @@
+/* Carousel styles */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px 0;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.4s ease;
+}
+
+.carousel-slide {
+  width: 100%;
+  flex-shrink: 0;
+  display: grid;
+  gap: 18px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.carousel-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: white;
+  border-radius: 9999px;
+  padding: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.carousel-nav-button:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-nav-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prev-button {
+  left: 8px;
+}
+
+.next-button {
+  right: 8px;
+}
+
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding-bottom: 0px;
+}
+
+.carousel-pagination-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.carousel-pagination-dot.active {
+  width: 20px;
+  background-color: #6366f1;
+  border-radius: 3px;
+} 

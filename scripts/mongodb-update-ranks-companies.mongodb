@@ -1,0 +1,164 @@
+// MongoDB Shell script to update personnel with valid ranks and companies
+// This can be executed directly in MongoDB Shell or MongoDB Compass's Mongosh tab
+
+// Connect to the database (if not already connected)
+// use afp_personnel_db;
+
+// Define valid values from dropdowns
+const validRanks = [
+  'Private',
+  'Private First Class',
+  'Corporal',
+  'Sergeant',
+  'Second Lieutenant',
+  'First Lieutenant',
+  'Captain',
+  'Major',
+  'Lieutenant Colonel',
+  'Colonel',
+  'Brigadier General'
+];
+
+const validCompanies = [
+  'Alpha',
+  'Bravo',
+  'Charlie',
+  'Headquarters',
+  'NERRSC (NERR-Signal Company)',
+  'NERRFAB (NERR-Field Artillery Battery)'
+];
+
+// Map of invalid ranks to valid ones
+const rankMapping = {
+  'PVT': 'Private',
+  'PFC': 'Private First Class',
+  'CPL': 'Corporal',
+  'SGT': 'Sergeant',
+  'SGM': 'Sergeant',
+  '2LT': 'Second Lieutenant',
+  '1LT': 'First Lieutenant',
+  'LT': 'Second Lieutenant',
+  'CAPT': 'Captain',
+  'CPT': 'Captain',
+  'MAJ': 'Major',
+  'LTC': 'Lieutenant Colonel',
+  'COL': 'Colonel',
+  'BG': 'Brigadier General',
+  'GEN': 'Brigadier General',
+  'MSG': 'Sergeant',
+  'SFC': 'Sergeant',
+  'CSM': 'Sergeant',
+  'ATC': 'Private',
+  'FMCPO': 'Private',
+  'TSG': 'Sergeant',
+  'RADM': 'Colonel',
+};
+
+// Map of invalid companies to valid ones
+const companyMapping = {
+  'HQ': 'Headquarters',
+  'FOXTROT': 'Alpha',
+  'NERRRSC': 'NERRSC (NERR-Signal Company)',
+  'NERRSC': 'NERRSC (NERR-Signal Company)',
+  'ENGBAT': 'Alpha',
+  'INTELDIV': 'Alpha',
+  'MEDCORP': 'Alpha',
+  'DELTA': 'Alpha',
+  'ECHO': 'Alpha',
+  'HOTEL': 'Alpha',
+  'NERRFAB': 'NERRFAB (NERR-Field Artillery Battery)',
+};
+
+// First, show the current state of ranks and companies
+print("Current distribution of ranks:");
+db.personnels.aggregate([
+  { $group: { _id: "$rank", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+print("\nCurrent distribution of companies:");
+db.personnels.aggregate([
+  { $group: { _id: "$company", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+// Count personnel with invalid ranks
+const invalidRanksCount = db.personnels.countDocuments({
+  rank: { $nin: validRanks }
+});
+print(`\nFound ${invalidRanksCount} personnel with invalid ranks`);
+
+// Count personnel with invalid companies
+const invalidCompaniesCount = db.personnels.countDocuments({
+  company: { $nin: validCompanies }
+});
+print(`Found ${invalidCompaniesCount} personnel with invalid companies`);
+
+// Update each invalid rank
+Object.entries(rankMapping).forEach(([invalidRank, validRank]) => {
+  const result = db.personnels.updateMany(
+    { rank: invalidRank },
+    { 
+      $set: { 
+        rank: validRank,
+        lastUpdated: new Date()
+      } 
+    }
+  );
+  if (result.modifiedCount > 0) {
+    print(`Updated ${result.modifiedCount} records with rank ${invalidRank} -> ${validRank}`);
+  }
+});
+
+// Update invalid companies
+Object.entries(companyMapping).forEach(([invalidCompany, validCompany]) => {
+  const result = db.personnels.updateMany(
+    { company: invalidCompany },
+    { 
+      $set: { 
+        company: validCompany,
+        lastUpdated: new Date()
+      } 
+    }
+  );
+  if (result.modifiedCount > 0) {
+    print(`Updated ${result.modifiedCount} records with company ${invalidCompany} -> ${validCompany}`);
+  }
+});
+
+// Update any remaining invalid ranks to default (Private)
+const remainingInvalidRanks = db.personnels.updateMany(
+  { rank: { $nin: validRanks } },
+  { 
+    $set: { 
+      rank: 'Private',
+      lastUpdated: new Date()
+    } 
+  }
+);
+print(`Updated ${remainingInvalidRanks.modifiedCount} additional records with invalid ranks to 'Private'`);
+
+// Update any remaining invalid companies to default (Alpha)
+const remainingInvalidCompanies = db.personnels.updateMany(
+  { company: { $nin: validCompanies } },
+  { 
+    $set: { 
+      company: 'Alpha',
+      lastUpdated: new Date()
+    } 
+  }
+);
+print(`Updated ${remainingInvalidCompanies.modifiedCount} additional records with invalid companies to 'Alpha'`);
+
+// Show the updated distribution
+print("\nUpdated distribution of ranks:");
+db.personnels.aggregate([
+  { $group: { _id: "$rank", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`));
+
+print("\nUpdated distribution of companies:");
+db.personnels.aggregate([
+  { $group: { _id: "$company", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]).forEach(r => print(`${r._id}: ${r.count}`)); 
