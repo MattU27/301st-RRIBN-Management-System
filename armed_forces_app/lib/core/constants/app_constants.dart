@@ -3,9 +3,15 @@ class AppConstants {
   static const String appName = 'Armed Forces of the Philippines';
   static const String appVersion = '1.0.0';
   
-  // API endpoints
-  static const String baseUrl = 'https://api.armedforces.ph';
+  // API endpoints - Updated to use local development server
+  static const String baseUrl = 'http://10.0.2.2:3000'; // Android emulator address for localhost
+  // Alternative URLs for different environments
+  static const String localUrl = 'http://localhost:3000';
+  static const String emulatorUrl = 'http://10.0.2.2:3000';
+  static const String productionUrl = 'https://api.armedforces.ph';
+  
   static const String apiVersion = 'v1';
+  static const String databaseName = 'afp_personnel_db'; // MongoDB database name
   
   // Storage keys
   static const String authTokenKey = 'auth_token';
@@ -36,13 +42,21 @@ class AppConstants {
   
   // User roles
   static const String roleAdmin = 'admin';
+  static const String roleDirector = 'director';
+  static const String roleStaff = 'staff';
   static const String roleOfficer = 'officer';
   static const String roleEnlisted = 'enlisted';
+  
+  // Policy status
+  static const String policyStatusDraft = 'draft';
+  static const String policyStatusPublished = 'published';
+  static const String policyStatusArchived = 'archived';
   
   // Notification types
   static const String notificationTypeAnnouncement = 'announcement';
   static const String notificationTypeTraining = 'training';
   static const String notificationTypeDocument = 'document';
+  static const String notificationTypePolicy = 'policy';
   
   // Error messages
   static const String errorGeneric = 'An error occurred. Please try again.';
@@ -59,48 +73,38 @@ class AppConstants {
   static const String successDocumentUpload = 'Document uploaded successfully.';
   static const String successProfileUpdate = 'Profile updated successfully.';
   
-  // API Routes
-  static const String loginEndpoint = '$baseUrl/auth/login';
-  static const String registerEndpoint = '$baseUrl/auth/register';
-  static const String refreshTokenEndpoint = '$baseUrl/auth/refresh';
-  static const String forgotPasswordEndpoint = '$baseUrl/auth/forgot-password';
-  static const String resetByServiceIdEndpoint = '$baseUrl/auth/recover-password/service-id';
-  static const String resetPasswordEndpoint = '$baseUrl/auth/reset-password';
-  static const String validateTokenEndpoint = '$baseUrl/auth/validate-token';
+  // API Routes - Updated to match the Next.js backend
+  static const String loginEndpoint = '$baseUrl/api/auth/login';
+  static const String registerEndpoint = '$baseUrl/api/auth/register';
+  static const String refreshTokenEndpoint = '$baseUrl/api/auth/refresh';
+  static const String forgotPasswordEndpoint = '$baseUrl/api/auth/forgot-password';
+  static const String resetPasswordEndpoint = '$baseUrl/api/auth/reset-password';
+  static const String validateTokenEndpoint = '$baseUrl/api/auth/validate-token';
   
   // User Endpoints
-  static const String userProfileEndpoint = '$baseUrl/user/profile';
-  static const String updateProfileEndpoint = '$baseUrl/user/profile/update';
-  static const String changePasswordEndpoint = '$baseUrl/user/change-password';
+  static const String userProfileEndpoint = '$baseUrl/api/user/profile';
+  static const String updateProfileEndpoint = '$baseUrl/api/user/update';
+  static const String changePasswordEndpoint = '$baseUrl/api/user/change-password';
   
   // Document Endpoints
-  static const String documentsEndpoint = '$baseUrl/documents';
-  static const String uploadDocumentEndpoint = '$baseUrl/documents/upload';
-  static const String documentVerificationEndpoint = '$baseUrl/documents/verify';
+  static const String documentsEndpoint = '$baseUrl/api/documents';
+  static const String uploadDocumentEndpoint = '$baseUrl/api/documents/upload';
   
   // Training Endpoints
-  static const String trainingsEndpoint = '$baseUrl/trainings';
-  static const String registerTrainingEndpoint = '$baseUrl/trainings/register';
-  static const String myTrainingsEndpoint = '$baseUrl/trainings/my-trainings';
-  static const String attendedTrainingsEndpoint = '$baseUrl/trainings/attended';
+  static const String trainingsEndpoint = '$baseUrl/api/trainings';
   
-  // Policy Endpoints
-  static const String policiesEndpoint = '$baseUrl/policies';
+  // Policy Endpoints - Updated to match Next.js backend
+  static const String policiesEndpoint = '$baseUrl/api/policies';
+  static const String policyUploadEndpoint = '$baseUrl/api/policies/upload';
+  static const String policyDocumentEndpoint = '$baseUrl/api/policies/document';
   
   // Announcement Endpoints
-  static const String announcementsEndpoint = '$baseUrl/announcements';
-  
-  // Calendar Endpoints
-  static const String calendarEventsEndpoint = '$baseUrl/calendar';
+  static const String announcementsEndpoint = '$baseUrl/api/announcements';
   
   // Local Storage Keys
   static const String tokenKey = 'auth_token';
   static const String refreshTokenKey = 'refresh_token';
   static const String userRoleKey = 'user_role';
-  static const String firstTimeKey = 'first_time';
-  static const String lastSyncTimeKey = 'last_sync_time';
-  static const String themeKey = 'app_theme';
-  static const String notificationsKey = 'notifications_enabled';
   
   // App-specific Constants
   static const double defaultPadding = 16.0;
@@ -108,11 +112,6 @@ class AppConstants {
   static const double largePadding = 24.0;
   static const double buttonRadius = 12.0;
   static const double cardRadius = 16.0;
-  static const double defaultBorderWidth = 1.0;
-  static const double defaultIconSize = 24.0;
-  static const double smallIconSize = 16.0;
-  static const double largeIconSize = 32.0;
-  static const int defaultAnimationDuration = 300; // milliseconds
   
   // Military-specific constants
   static const List<String> militaryRanks = [

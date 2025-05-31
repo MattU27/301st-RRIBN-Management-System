@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 
 import '../../models/user_model.dart';
+import '../models/policy_model.dart';
 import './email_service.dart';
 import '../config/mongodb_config.dart';
 
@@ -683,6 +684,119 @@ class MongoDBService {
         'success': false,
         'message': 'An error occurred. Please try again later.',
       };
+    }
+  }
+
+  // Policy-specific methods
+  
+  // Get all policies from the database
+  Future<List<Policy>> getPolicies() async {
+    try {
+      await connect();
+      if (!_isConnected) {
+        throw Exception('Database connection failed');
+      }
+      
+      final policyCollection = _db!.collection(MongoDBConfig.policyCollection);
+      final List<Map<String, dynamic>> policies = await policyCollection
+          .find()
+          .map((doc) => doc)
+          .toList();
+      
+      return policies.map((doc) => Policy.fromJson(doc)).toList();
+    } catch (e) {
+      _logger.e('Error fetching policies: $e');
+      print('Error fetching policies from MongoDB: $e');
+      
+      // Return empty list on error
+      return [];
+    }
+  }
+  
+  // Get a single policy by ID
+  Future<Policy?> getPolicyById(String id) async {
+    try {
+      await connect();
+      if (!_isConnected) {
+        throw Exception('Database connection failed');
+      }
+      
+      final policyCollection = _db!.collection(MongoDBConfig.policyCollection);
+      
+      // Try to find by string ID first
+      Map<String, dynamic>? policyDoc = await policyCollection.findOne(
+        where.eq('_id', id)
+      );
+      
+      // If not found, try with ObjectId
+      if (policyDoc == null) {
+        try {
+          final objectId = ObjectId.parse(id);
+          policyDoc = await policyCollection.findOne(
+            where.eq('_id', objectId)
+          );
+        } catch (e) {
+          // Invalid ObjectId format, ignore
+        }
+      }
+      
+      if (policyDoc != null) {
+        return Policy.fromJson(policyDoc);
+      }
+      
+      return null;
+    } catch (e) {
+      _logger.e('Error fetching policy by ID: $e');
+      print('Error fetching policy from MongoDB: $e');
+      return null;
+    }
+  }
+  
+  // Get policies by status
+  Future<List<Policy>> getPoliciesByStatus(String status) async {
+    try {
+      await connect();
+      if (!_isConnected) {
+        throw Exception('Database connection failed');
+      }
+      
+      final policyCollection = _db!.collection(MongoDBConfig.policyCollection);
+      final List<Map<String, dynamic>> policies = await policyCollection
+          .find(where.eq('status', status))
+          .map((doc) => doc)
+          .toList();
+      
+      return policies.map((doc) => Policy.fromJson(doc)).toList();
+    } catch (e) {
+      _logger.e('Error fetching policies by status: $e');
+      print('Error fetching policies by status from MongoDB: $e');
+      
+      // Return empty list on error
+      return [];
+    }
+  }
+  
+  // Get policies by category
+  Future<List<Policy>> getPoliciesByCategory(String category) async {
+    try {
+      await connect();
+      if (!_isConnected) {
+        throw Exception('Database connection failed');
+      }
+      
+      final policyCollection = _db!.collection(MongoDBConfig.policyCollection);
+      final List<Map<String, dynamic>> policies = await policyCollection
+          .find(where.eq('category', category))
+          .map((doc) => doc)
+          .toList();
+      
+      return policies.map((doc) => Policy.fromJson(doc)).toList();
+    } catch (e) {
+      _logger.e('Error fetching policies by category: $e');
+      print('Error fetching policies by category from MongoDB: $e');
+      
+      // Return empty list on error
+      return [];
     }
   }
 } 

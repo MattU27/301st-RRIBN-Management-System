@@ -30,29 +30,75 @@ class Policy {
   });
 
   factory Policy.fromJson(Map<String, dynamic> json) {
+    // Handle MongoDB ObjectId format
+    String getId() {
+      if (json['_id'] == null) return '';
+      
+      // If _id is a map with $oid field (MongoDB extended JSON format)
+      if (json['_id'] is Map && json['_id'].containsKey('\$oid')) {
+        return json['_id']['\$oid'] as String;
+      }
+      
+      // If _id is a string
+      return json['_id'].toString();
+    }
+    
+    // Parse dates with better error handling
+    DateTime parseDate(dynamic dateValue, {DateTime? defaultValue}) {
+      if (dateValue == null) return defaultValue ?? DateTime.now();
+      
+      try {
+        // Handle MongoDB date format (ISODate)
+        if (dateValue is Map && dateValue.containsKey('\$date')) {
+          if (dateValue['\$date'] is String) {
+            return DateTime.parse(dateValue['\$date']);
+          } else if (dateValue['\$date'] is int) {
+            return DateTime.fromMillisecondsSinceEpoch(dateValue['\$date']);
+          }
+        }
+        
+        // Handle string date format
+        if (dateValue is String) {
+          return DateTime.parse(dateValue);
+        }
+        
+        // Handle timestamp (milliseconds since epoch)
+        if (dateValue is int) {
+          return DateTime.fromMillisecondsSinceEpoch(dateValue);
+        }
+      } catch (e) {
+        print('Error parsing date: $e for value: $dateValue');
+      }
+      
+      return defaultValue ?? DateTime.now();
+    }
+    
     return Policy(
-      id: json['_id'] ?? '',
+      id: getId(),
       title: json['title'] ?? '',
       description: json['description'] ?? '',
       content: json['content'] ?? '',
       category: json['category'] ?? '',
       version: json['version'] ?? '',
       status: json['status'] ?? 'draft',
-      effectiveDate: json['effectiveDate'] != null 
-          ? DateTime.parse(json['effectiveDate']) 
-          : DateTime.now(),
+      effectiveDate: parseDate(
+        json['effectiveDate'], 
+        defaultValue: DateTime.now()
+      ),
       expirationDate: json['expirationDate'] != null 
-          ? DateTime.parse(json['expirationDate']) 
+          ? parseDate(json['expirationDate']) 
           : null,
-      lastUpdated: json['updatedAt'] != null 
-          ? DateTime.parse(json['updatedAt']) 
-          : DateTime.now(),
-      createdAt: json['createdAt'] != null 
-          ? DateTime.parse(json['createdAt']) 
-          : DateTime.now(),
-      documentUrl: json['documentUrl'],
+      lastUpdated: parseDate(
+        json['updatedAt'], 
+        defaultValue: DateTime.now()
+      ),
+      createdAt: parseDate(
+        json['createdAt'], 
+        defaultValue: DateTime.now()
+      ),
+      documentUrl: json['documentUrl'] as String?,
       createdBy: json['createdBy'] is Map 
-          ? json['createdBy'] as Map<String, dynamic> 
+          ? Map<String, dynamic>.from(json['createdBy']) 
           : null,
     );
   }

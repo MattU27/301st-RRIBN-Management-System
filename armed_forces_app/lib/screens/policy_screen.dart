@@ -6,6 +6,9 @@ import '../widgets/custom_appbar.dart';
 import '../core/widgets/loading_widget.dart';
 import '../core/widgets/error_widget.dart';
 import '../core/widgets/empty_widget.dart';
+import '../core/constants/app_constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class PolicyScreen extends StatefulWidget {
   const PolicyScreen({Key? key}) : super(key: key);
@@ -14,14 +17,46 @@ class PolicyScreen extends StatefulWidget {
   State<PolicyScreen> createState() => _PolicyScreenState();
 }
 
-class _PolicyScreenState extends State<PolicyScreen> {
+class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderStateMixin {
   late Future<List<Policy>> _policiesFuture;
   bool _isLoading = true;
+  String _currentFilter = 'all'; // 'all', 'published', 'draft', 'archived'
+  late TabController _tabController;
+  final PolicyService _policyService = PolicyService();
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(_handleTabChange);
     _loadPolicies();
+  }
+  
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+  
+  void _handleTabChange() {
+    if (!_tabController.indexIsChanging) {
+      setState(() {
+        switch (_tabController.index) {
+          case 0:
+            _currentFilter = 'all';
+            break;
+          case 1:
+            _currentFilter = 'published';
+            break;
+          case 2:
+            _currentFilter = 'draft';
+            break;
+          case 3:
+            _currentFilter = 'archived';
+            break;
+        }
+      });
+    }
   }
 
   Future<void> _loadPolicies() async {
@@ -30,8 +65,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
     });
 
     try {
-      final policyService = PolicyService();
-      _policiesFuture = policyService.getPolicies();
+      _policiesFuture = _policyService.getPolicies();
     } catch (e) {
       // Error will be handled in the FutureBuilder
       print('Error loading policies: $e');
@@ -41,192 +75,260 @@ class _PolicyScreenState extends State<PolicyScreen> {
       });
     }
   }
+  
+  Future<void> _viewPolicyDocument(Policy policy) async {
+    try {
+      if (policy.documentUrl != null && policy.documentUrl!.isNotEmpty) {
+        final url = '${AppConstants.baseUrl}${policy.documentUrl}';
+        final Uri uri = Uri.parse(url);
+        
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        } else {
+          throw 'Could not launch $url';
+        }
+      } else {
+        _showErrorDialog('No document available for this policy');
+      }
+    } catch (e) {
+      _showErrorDialog('Error opening document: $e');
+    }
+  }
+  
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Policies',
+        title: 'Policies & Guidelines',
         showBackButton: true,
         onBackPressed: () => Navigator.pop(context),
       ),
-      body: RefreshIndicator(
-        onRefresh: _loadPolicies,
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : FutureBuilder<List<Policy>>(
-                future: _policiesFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const LoadingWidget(message: 'Loading policies...');
-                  }
+      body: Column(
+        children: [
+          // Tab bar for filtering policies
+          TabBar(
+            controller: _tabController,
+            labelColor: AppTheme.primaryColor,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: AppTheme.primaryColor,
+            tabs: const [
+              Tab(text: 'All'),
+              Tab(text: 'Published'),
+              Tab(text: 'Drafts'),
+              Tab(text: 'Archived'),
+            ],
+          ),
+          
+          // Main content
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadPolicies,
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : FutureBuilder<List<Policy>>(
+                      future: _policiesFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const LoadingWidget(message: 'Loading policies...');
+                        }
 
-                  if (snapshot.hasError) {
-                    String errorMessage = 'Failed to load policies';
-                    
-                    // Provide more user-friendly error messages
-                    if (snapshot.error.toString().contains('HandshakeException')) {
-                      errorMessage = 'Unable to connect securely to the server. Please check your connection and try again.';
-                    } else if (snapshot.error.toString().contains('SocketException') || 
-                               snapshot.error.toString().contains('Network error')) {
-                      errorMessage = 'Network connection issue. Please check your internet connection and try again.';
-                    } else if (snapshot.error.toString().contains('timeout')) {
-                      errorMessage = 'Connection timed out. The server is taking too long to respond.';
-                    }
-                    
-                    return CustomErrorWidget(
-                      message: errorMessage,
-                      onRetry: _loadPolicies,
-                    );
-                  }
+                        if (snapshot.hasError) {
+                          String errorMessage = 'Failed to load policies';
+                          
+                          // Provide more user-friendly error messages
+                          if (snapshot.error.toString().contains('HandshakeException')) {
+                            errorMessage = 'Unable to connect securely to the server. Please check your connection and try again.';
+                          } else if (snapshot.error.toString().contains('SocketException') || 
+                                     snapshot.error.toString().contains('Network error')) {
+                            errorMessage = 'Network connection issue. Please check your internet connection and try again.';
+                          } else if (snapshot.error.toString().contains('timeout')) {
+                            errorMessage = 'Connection timed out. The server is taking too long to respond.';
+                          }
+                          
+                          return CustomErrorWidget(
+                            message: errorMessage,
+                            onRetry: _loadPolicies,
+                          );
+                        }
 
-                  final policies = snapshot.data ?? [];
+                        final allPolicies = snapshot.data ?? [];
+                        
+                        // Filter policies based on selected tab
+                        final List<Policy> filteredPolicies;
+                        if (_currentFilter == 'all') {
+                          filteredPolicies = allPolicies;
+                        } else {
+                          filteredPolicies = allPolicies.where((p) => p.status == _currentFilter).toList();
+                        }
 
-                  if (policies.isEmpty) {
-                    return const EmptyWidget(
-                      message: 'No policies available',
-                      icon: Icons.policy,
-                    );
-                  }
+                        if (filteredPolicies.isEmpty) {
+                          return EmptyWidget(
+                            message: 'No ${_currentFilter == 'all' ? '' : _currentFilter} policies available',
+                            icon: Icons.policy,
+                          );
+                        }
 
-                  return ListView.builder(
-                    itemCount: policies.length,
-                    padding: const EdgeInsets.all(16),
-                    itemBuilder: (context, index) {
-                      final policy = policies[index];
-                      return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.only(bottom: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            _showPolicyDetails(policy);
+                        return ListView.builder(
+                          itemCount: filteredPolicies.length,
+                          padding: const EdgeInsets.all(16),
+                          itemBuilder: (context, index) {
+                            final policy = filteredPolicies[index];
+                            return _buildPolicyCard(policy);
                           },
-                          borderRadius: BorderRadius.circular(12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.primaryColor.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Icon(
-                                        _getPolicyIcon(policy.category),
-                                        color: AppTheme.primaryColor,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            policy.title,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'v${policy.version}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[700],
-                                                ),
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Text(
-                                                'Updated: ${_formatDate(policy.lastUpdated)}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            policy.description,
-                                            style: const TextStyle(fontSize: 14),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 4,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: Colors.blue.withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(16),
-                                          ),
-                                          child: Text(
-                                            policy.category,
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.blue,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        _getStatusBadge(policy.status),
-                                      ],
-                                    ),
-                                    TextButton.icon(
-                                      onPressed: () {
-                                        _showPolicyDetails(policy);
-                                      },
-                                      icon: const Icon(
-                                        Icons.arrow_forward,
-                                        size: 16,
-                                      ),
-                                      label: const Text('View Details'),
-                                      style: TextButton.styleFrom(
-                                        foregroundColor: AppTheme.primaryColor,
-                                        minimumSize: Size.zero,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
-                                        ),
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                        );
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPolicyCard(Policy policy) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: InkWell(
+        onTap: () {
+          _showPolicyDetails(policy);
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      _getPolicyIcon(policy.category),
+                      color: AppTheme.primaryColor,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          policy.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Text(
+                              'v${policy.version}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Updated: ${_formatDate(policy.lastUpdated)}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          policy.description,
+                          style: const TextStyle(fontSize: 14),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          policy.category,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      _getStatusBadge(policy.status),
+                    ],
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      _showPolicyDetails(policy);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward,
+                      size: 16,
+                    ),
+                    label: const Text('View Details'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppTheme.primaryColor,
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -392,6 +494,27 @@ class _PolicyScreenState extends State<PolicyScreen> {
                 ),
               ),
               const SizedBox(height: 16),
+              
+              // Document view button if available
+              if (policy.documentUrl != null && policy.documentUrl!.isNotEmpty) ...[
+                const Divider(),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _viewPolicyDocument(policy),
+                    icon: const Icon(Icons.visibility),
+                    label: const Text('View Document'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -444,27 +567,30 @@ class _PolicyScreenState extends State<PolicyScreen> {
         return Icons.public;
       case 'health':
         return Icons.health_and_safety;
+      case 'promotions':
+        return Icons.trending_up;
+      case 'security':
+        return Icons.security;
+      case 'hr':
+        return Icons.people;
+      case 'finance':
+        return Icons.attach_money;
+      case 'compliance':
+        return Icons.verified;
+      case 'general':
+        return Icons.article;
       default:
         return Icons.policy;
     }
   }
 
   String _formatDate(DateTime date) {
-    final month = _getMonthName(date.month);
-    return '$month ${date.day}, ${date.year}';
-  }
-
-  String _getMonthName(int month) {
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    return months[month - 1];
+    return DateFormat('MMM d, yyyy').format(date);
   }
 
   // Helper method to get status badge
   Widget _getStatusBadge(String status) {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'published':
         return Container(
           padding: const EdgeInsets.symmetric(
