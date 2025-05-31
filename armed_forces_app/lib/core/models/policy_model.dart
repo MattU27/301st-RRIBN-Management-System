@@ -49,16 +49,49 @@ class Policy {
       
       try {
         // Handle MongoDB date format (ISODate)
-        if (dateValue is Map && dateValue.containsKey('\$date')) {
-          if (dateValue['\$date'] is String) {
-            return DateTime.parse(dateValue['\$date']);
-          } else if (dateValue['\$date'] is int) {
-            return DateTime.fromMillisecondsSinceEpoch(dateValue['\$date']);
+        if (dateValue is Map) {
+          // Check for $date field
+          if (dateValue.containsKey('\$date')) {
+            if (dateValue['\$date'] is String) {
+              return DateTime.parse(dateValue['\$date']);
+            } else if (dateValue['\$date'] is int) {
+              return DateTime.fromMillisecondsSinceEpoch(dateValue['\$date']);
+            }
+          }
+          
+          // If it's a map but doesn't have $date field, try other common MongoDB date fields
+          for (final key in dateValue.keys) {
+            if (key.toString().contains('date') || key.toString().contains('Date')) {
+              final value = dateValue[key];
+              if (value is String) {
+                try {
+                  return DateTime.parse(value);
+                } catch (_) {}
+              } else if (value is int) {
+                try {
+                  return DateTime.fromMillisecondsSinceEpoch(value);
+                } catch (_) {}
+              }
+            }
           }
         }
         
         // Handle string date format
         if (dateValue is String) {
+          // Check if the string is a MongoDB ISO date format
+          if (dateValue.startsWith('ISODate(') && dateValue.endsWith(')')) {
+            // Extract the date string from ISODate("2025-05-31T00:00:00.000Z")
+            final dateString = dateValue.substring(9, dateValue.length - 2);
+            return DateTime.parse(dateString);
+          }
+          
+          // Handle date strings without time component
+          if (!dateValue.contains('T') && dateValue.contains('-')) {
+            // Add time component to make it a valid ISO date
+            return DateTime.parse('${dateValue}T00:00:00.000Z');
+          }
+          
+          // Try to parse as regular ISO date
           return DateTime.parse(dateValue);
         }
         
@@ -73,6 +106,69 @@ class Policy {
       return defaultValue ?? DateTime.now();
     }
     
+    // Extract dates with special handling for MongoDB formats
+    DateTime getEffectiveDate() {
+      // First try the standard field
+      final effectiveDateValue = json['effectiveDate'];
+      
+      if (effectiveDateValue != null) {
+        return parseDate(effectiveDateValue, defaultValue: DateTime.now());
+      }
+      
+      // If not found, check for MongoDB specific formats
+      if (json.containsKey('effectiveDate.\$date')) {
+        return parseDate(json['effectiveDate.\$date'], defaultValue: DateTime.now());
+      }
+      
+      // Default fallback
+      return DateTime.now();
+    }
+    
+    DateTime? getExpirationDate() {
+      // First try the standard field
+      final expirationDateValue = json['expirationDate'];
+      
+      if (expirationDateValue != null) {
+        return parseDate(expirationDateValue);
+      }
+      
+      // If not found, check for MongoDB specific formats
+      if (json.containsKey('expirationDate.\$date')) {
+        return parseDate(json['expirationDate.\$date']);
+      }
+      
+      // Return null if no expiration date is found
+      return null;
+    }
+    
+    // Get created and updated dates
+    DateTime getCreatedAt() {
+      // Try multiple possible field names
+      final possibleFields = ['createdAt', 'created_at', 'dateCreated'];
+      
+      for (final field in possibleFields) {
+        if (json.containsKey(field)) {
+          return parseDate(json[field], defaultValue: DateTime.now());
+        }
+      }
+      
+      return DateTime.now();
+    }
+    
+    DateTime getUpdatedAt() {
+      // Try multiple possible field names
+      final possibleFields = ['updatedAt', 'updated_at', 'lastUpdated', 'dateUpdated'];
+      
+      for (final field in possibleFields) {
+        if (json.containsKey(field)) {
+          return parseDate(json[field], defaultValue: DateTime.now());
+        }
+      }
+      
+      // If no update date is found, use created date
+      return getCreatedAt();
+    }
+    
     return Policy(
       id: getId(),
       title: json['title'] ?? '',
@@ -81,21 +177,10 @@ class Policy {
       category: json['category'] ?? '',
       version: json['version'] ?? '',
       status: json['status'] ?? 'draft',
-      effectiveDate: parseDate(
-        json['effectiveDate'], 
-        defaultValue: DateTime.now()
-      ),
-      expirationDate: json['expirationDate'] != null 
-          ? parseDate(json['expirationDate']) 
-          : null,
-      lastUpdated: parseDate(
-        json['updatedAt'], 
-        defaultValue: DateTime.now()
-      ),
-      createdAt: parseDate(
-        json['createdAt'], 
-        defaultValue: DateTime.now()
-      ),
+      effectiveDate: getEffectiveDate(),
+      expirationDate: getExpirationDate(),
+      lastUpdated: getUpdatedAt(),
+      createdAt: getCreatedAt(),
       documentUrl: json['documentUrl'] as String?,
       createdBy: json['createdBy'] is Map 
           ? Map<String, dynamic>.from(json['createdBy']) 

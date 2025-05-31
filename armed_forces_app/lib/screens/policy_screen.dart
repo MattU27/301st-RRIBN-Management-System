@@ -9,6 +9,7 @@ import '../core/widgets/empty_widget.dart';
 import '../core/constants/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart';
 
 class PolicyScreen extends StatefulWidget {
   const PolicyScreen({Key? key}) : super(key: key);
@@ -202,6 +203,15 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
   }
 
   Widget _buildPolicyCard(Policy policy) {
+    // Debug print to see the actual date values
+    if (kDebugMode) {
+      print('Policy: ${policy.title}');
+      print('  Effective Date: ${policy.effectiveDate}');
+      print('  Expiration Date: ${policy.expirationDate}');
+      print('  Created At: ${policy.createdAt}');
+      print('  Last Updated: ${policy.lastUpdated}');
+    }
+    
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
@@ -257,7 +267,7 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Updated: ${_formatDate(policy.lastUpdated)}',
+                              'Updated: ${_formatDateExact(policy.lastUpdated)}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[600],
@@ -430,20 +440,20 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
               const Divider(),
               const SizedBox(height: 8),
               
-              // Policy metadata
+              // Policy metadata with accurate dates
               Row(
                 children: [
                   Expanded(
                     child: _buildInfoItem(
                       'Effective Date', 
-                      _formatDate(policy.effectiveDate)
+                      _formatDateExact(policy.effectiveDate)
                     ),
                   ),
                   if (policy.expirationDate != null)
                     Expanded(
                       child: _buildInfoItem(
                         'Expiration Date', 
-                        _formatDate(policy.expirationDate!)
+                        _formatDateExact(policy.expirationDate!)
                       ),
                     ),
                 ],
@@ -454,13 +464,13 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
                   Expanded(
                     child: _buildInfoItem(
                       'Created', 
-                      _formatDate(policy.createdAt)
+                      _formatDateExact(policy.createdAt)
                     ),
                   ),
                   Expanded(
                     child: _buildInfoItem(
                       'Last Updated', 
-                      _formatDate(policy.lastUpdated)
+                      _formatDateExact(policy.lastUpdated)
                     ),
                   ),
                 ],
@@ -586,6 +596,28 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
 
   String _formatDate(DateTime date) {
     return DateFormat('MMM d, yyyy').format(date);
+  }
+
+  // Format date in the exact format from MongoDB (yyyy-MM-dd)
+  String _formatDateExact(DateTime date) {
+    try {
+      // Check if the date is valid
+      if (date.year < 1900 || date.year > 2100) {
+        if (kDebugMode) {
+          print('Invalid date detected: $date');
+        }
+        // Return a placeholder for invalid dates
+        return 'Date not available';
+      }
+      
+      // Format as May 31, 2025
+      return DateFormat('MMM d, yyyy').format(date);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error formatting date: $e for date: $date');
+      }
+      return 'Date not available';
+    }
   }
 
   // Helper method to get status badge

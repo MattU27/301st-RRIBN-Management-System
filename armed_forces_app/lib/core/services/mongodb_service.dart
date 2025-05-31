@@ -703,7 +703,26 @@ class MongoDBService {
           .map((doc) => doc)
           .toList();
       
-      return policies.map((doc) => Policy.fromJson(doc)).toList();
+      if (kDebugMode) {
+        print('Found ${policies.length} policies in MongoDB');
+        if (policies.isNotEmpty) {
+          print('Sample policy date fields:');
+          final samplePolicy = policies[0];
+          print('  effectiveDate: ${samplePolicy['effectiveDate']}');
+          print('  expirationDate: ${samplePolicy['expirationDate']}');
+          print('  createdAt: ${samplePolicy['createdAt']}');
+          print('  updatedAt: ${samplePolicy['updatedAt']}');
+        }
+      }
+      
+      // Process each policy to ensure dates are correctly formatted
+      final processedPolicies = policies.map((doc) {
+        // Process MongoDB date fields to ensure they're in the correct format
+        final processedDoc = _processMongoDBDates(doc);
+        return Policy.fromJson(processedDoc);
+      }).toList();
+      
+      return processedPolicies;
     } catch (e) {
       _logger.e('Error fetching policies: $e');
       print('Error fetching policies from MongoDB: $e');
@@ -711,6 +730,61 @@ class MongoDBService {
       // Return empty list on error
       return [];
     }
+  }
+  
+  // Helper method to process MongoDB date fields
+  Map<String, dynamic> _processMongoDBDates(Map<String, dynamic> doc) {
+    final result = Map<String, dynamic>.from(doc);
+    
+    // List of fields that should be processed as dates
+    final dateFields = [
+      'effectiveDate', 
+      'expirationDate', 
+      'createdAt', 
+      'updatedAt',
+      'lastUpdated'
+    ];
+    
+    for (final field in dateFields) {
+      if (result.containsKey(field)) {
+        final value = result[field];
+        
+        // Handle MongoDB date format
+        if (value is Map && value.containsKey('\$date')) {
+          if (kDebugMode) {
+            print('Processing MongoDB date format for $field: $value');
+          }
+          
+          // Extract the date value
+          if (value['\$date'] is String) {
+            // Convert to ISO string format
+            result[field] = value['\$date'];
+          } else if (value['\$date'] is int) {
+            // Convert timestamp to ISO string
+            final date = DateTime.fromMillisecondsSinceEpoch(value['\$date']);
+            result[field] = date.toIso8601String();
+          }
+        }
+      }
+      
+      // Also check for dot notation field format (field.$date)
+      final dotField = '$field.\$date';
+      if (result.containsKey(dotField)) {
+        if (kDebugMode) {
+          print('Found MongoDB dot notation date field: $dotField');
+        }
+        
+        final value = result[dotField];
+        if (value != null) {
+          // Use the value directly
+          result[field] = value;
+          // Remove the dot notation field to avoid confusion
+          result.remove(dotField);
+        }
+      }
+    }
+    
+    return result;
   }
   
   // Get a single policy by ID
@@ -741,7 +815,9 @@ class MongoDBService {
       }
       
       if (policyDoc != null) {
-        return Policy.fromJson(policyDoc);
+        // Process MongoDB date fields
+        final processedDoc = _processMongoDBDates(policyDoc);
+        return Policy.fromJson(processedDoc);
       }
       
       return null;
