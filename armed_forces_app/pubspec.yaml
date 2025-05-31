@@ -79,6 +79,7 @@ dependencies:
   # Email
   mailer: ^6.0.1
   enough_mail: ^2.1.1
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:

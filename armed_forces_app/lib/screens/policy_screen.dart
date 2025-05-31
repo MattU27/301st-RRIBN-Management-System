@@ -33,7 +33,8 @@ class _PolicyScreenState extends State<PolicyScreen> {
       final policyService = PolicyService();
       _policiesFuture = policyService.getPolicies();
     } catch (e) {
-      // Handle error
+      // Error will be handled in the FutureBuilder
+      print('Error loading policies: $e');
     } finally {
       setState(() {
         _isLoading = false;
@@ -45,7 +46,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Policies & Guidelines',
+        title: 'Policies',
         showBackButton: true,
         onBackPressed: () => Navigator.pop(context),
       ),
@@ -61,8 +62,20 @@ class _PolicyScreenState extends State<PolicyScreen> {
                   }
 
                   if (snapshot.hasError) {
+                    String errorMessage = 'Failed to load policies';
+                    
+                    // Provide more user-friendly error messages
+                    if (snapshot.error.toString().contains('HandshakeException')) {
+                      errorMessage = 'Unable to connect securely to the server. Please check your connection and try again.';
+                    } else if (snapshot.error.toString().contains('SocketException') || 
+                               snapshot.error.toString().contains('Network error')) {
+                      errorMessage = 'Network connection issue. Please check your internet connection and try again.';
+                    } else if (snapshot.error.toString().contains('timeout')) {
+                      errorMessage = 'Connection timed out. The server is taking too long to respond.';
+                    }
+                    
                     return CustomErrorWidget(
-                      message: 'Failed to load policies: ${snapshot.error}',
+                      message: errorMessage,
                       onRetry: _loadPolicies,
                     );
                   }

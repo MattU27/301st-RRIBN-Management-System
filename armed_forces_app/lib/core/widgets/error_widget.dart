@@ -3,55 +3,53 @@ import '../theme/app_theme.dart';
 
 // Rename to CustomErrorWidget to avoid conflict with Flutter's ErrorWidget
 class CustomErrorWidget extends StatelessWidget {
-  final String? message;
-  final VoidCallback? onRetry;
-  final IconData? icon;
+  final String message;
+  final VoidCallback onRetry;
+  final IconData icon;
   
   const CustomErrorWidget({
     Key? key,
-    this.message,
-    this.onRetry,
-    this.icon,
+    required this.message,
+    required this.onRetry,
+    this.icon = Icons.error_outline,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon ?? Icons.error_outline,
-              color: AppTheme.errorColor,
-              size: 60,
+              icon,
+              size: 64,
+              color: Colors.red[300],
             ),
             const SizedBox(height: 16),
             Text(
-              message ?? 'An error occurred',
+              message,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
               ),
-              textAlign: TextAlign.center,
             ),
-            if (onRetry != null) ...[
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: AppTheme.primaryColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-            ],
+            ),
           ],
         ),
       ),
