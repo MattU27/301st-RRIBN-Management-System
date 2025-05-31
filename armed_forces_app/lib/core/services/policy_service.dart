@@ -21,11 +21,11 @@ class PolicyService {
     int retryCount = 0;
     
     while (retryCount < _maxRetries) {
-      try {
-        // Get the authentication token
-        final token = await _authService.getToken();
-        
-        if (token == null) {
+    try {
+      // Get the authentication token
+      final token = await _authService.getToken();
+      
+      if (token == null) {
           if (kDebugMode) {
             print('Authentication token not available - trying direct MongoDB connection');
           }
@@ -35,14 +35,14 @@ class PolicyService {
         if (kDebugMode) {
           print('Fetching policies from: $baseUrl/api/policies');
           print('Using token: ${token.substring(0, min(10, token.length))}...');
-        }
-        
-        // Make API request
-        final response = await http.get(
-          Uri.parse('$baseUrl/api/policies'),
-          headers: {
+      }
+      
+      // Make API request
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/policies'),
+        headers: {
             'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
           },
         ).timeout(
           const Duration(seconds: 15),
@@ -52,9 +52,9 @@ class PolicyService {
         if (kDebugMode) {
           print('Response status code: ${response.statusCode}');
         }
-        
-        if (response.statusCode == 200) {
-          final Map<String, dynamic> data = json.decode(response.body);
+      
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
           if (kDebugMode) {
             print('Received data: ${data.keys}');
           }
@@ -251,11 +251,11 @@ class PolicyService {
     int retryCount = 0;
     
     while (retryCount < _maxRetries) {
-      try {
-        // Get the authentication token
-        final token = await _authService.getToken();
-        
-        if (token == null) {
+    try {
+      // Get the authentication token
+      final token = await _authService.getToken();
+      
+      if (token == null) {
           if (kDebugMode) {
             print('Authentication token not available - trying direct MongoDB connection');
           }
@@ -267,23 +267,23 @@ class PolicyService {
           }
           
           throw Exception('Authentication token not available');
-        }
-        
-        // Make API request
-        final response = await http.get(
-          Uri.parse('$baseUrl/api/policies/$id'),
-          headers: {
+      }
+      
+      // Make API request
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/policies/$id'),
+        headers: {
             'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
+          'Content-Type': 'application/json',
+        },
         ).timeout(
           const Duration(seconds: 15),
           onTimeout: () => throw TimeoutException('Connection timed out'),
         );
-        
-        if (response.statusCode == 200) {
-          final Map<String, dynamic> data = json.decode(response.body);
-          return Policy.fromJson(data['policy']);
+      
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return Policy.fromJson(data['policy']);
         } else if (response.statusCode == 401 || response.statusCode == 403) {
           // Authentication issue - token may be invalid
           if (kDebugMode) {
@@ -307,8 +307,8 @@ class PolicyService {
           // Wait briefly before retrying
           await Future.delayed(const Duration(milliseconds: 500));
           continue;
-        } else {
-          // Handle error responses
+      } else {
+        // Handle error responses
           throw Exception('Failed to load policy: ${response.statusCode}');
         }
       } on SocketException catch (e) {
@@ -489,8 +489,8 @@ class PolicyService {
             
             if (kDebugMode) {
               print('  Set $field to: ${result[field]}');
-            }
-          } catch (e) {
+      }
+    } catch (e) {
             if (kDebugMode) {
               print('  Error parsing dot notation date: $e');
               // Use the value directly as fallback

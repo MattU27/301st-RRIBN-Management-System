@@ -201,44 +201,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: _screens,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: _onItemTapped,
-        backgroundColor: Colors.white,
-        elevation: 8,
-        shadowColor: Colors.black26,
-        height: 60,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
-            label: _titles[0],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.school_outlined),
-            selectedIcon: const Icon(Icons.school),
-            label: _titles[1],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.description_outlined),
-            selectedIcon: const Icon(Icons.description),
-            label: _titles[2],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.policy_outlined),
-            selectedIcon: const Icon(Icons.policy),
-            label: _titles[3],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person_outlined),
-            selectedIcon: const Icon(Icons.person),
-            label: _titles[4],
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: _onItemTapped,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          height: 60,
+          animationDuration: const Duration(milliseconds: 400),
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: _titles[0],
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.school_outlined),
+              selectedIcon: const Icon(Icons.school),
+              label: _titles[1],
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.description_outlined),
+              selectedIcon: const Icon(Icons.description),
+              label: _titles[2],
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.policy_outlined),
+              selectedIcon: const Icon(Icons.policy),
+              label: _titles[3],
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.person_outlined),
+              selectedIcon: const Icon(Icons.person),
+              label: _titles[4],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: _showFloatingActionButton && isAdmin
           ? FloatingActionButton(
