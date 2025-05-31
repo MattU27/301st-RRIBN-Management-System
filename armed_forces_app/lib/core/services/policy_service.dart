@@ -6,7 +6,7 @@ import '../models/policy_model.dart';
 import '../services/auth_service.dart';
 
 class PolicyService {
-  final String baseUrl = AppConstants.apiBaseUrl;
+  final String baseUrl = AppConstants.baseUrl;
   final AuthService _authService = AuthService();
 
   // Fetch policies from the API
