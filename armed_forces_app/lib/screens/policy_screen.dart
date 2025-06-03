@@ -116,7 +116,7 @@ class _PolicyScreenState extends State<PolicyScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Policies & Guidelines',
+        title: 'Policies',
         showBackButton: false,
       ),
       body: Column(
