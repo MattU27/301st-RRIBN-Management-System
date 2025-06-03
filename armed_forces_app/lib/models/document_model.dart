@@ -49,24 +49,75 @@ class Document {
   bool get isTopSecret => securityClassification == 'Top Secret';
 
   factory Document.fromJson(Map<String, dynamic> json) {
+    // Handle date parsing more robustly
+    DateTime parseDate(dynamic dateValue) {
+      if (dateValue == null) {
+        return DateTime.now();
+      }
+      
+      try {
+        if (dateValue is DateTime) {
+          return dateValue;
+        } else if (dateValue is String) {
+          return DateTime.parse(dateValue);
+        } else {
+          print('Unknown date format: $dateValue (${dateValue.runtimeType})');
+          return DateTime.now();
+        }
+      } catch (e) {
+        print('Error parsing date: $e for value: $dateValue');
+        return DateTime.now();
+      }
+    }
+    
+    // Handle nullable DateTime fields
+    DateTime? parseNullableDate(dynamic dateValue) {
+      if (dateValue == null) return null;
+      try {
+        if (dateValue is DateTime) {
+          return dateValue;
+        } else if (dateValue is String) {
+          return DateTime.parse(dateValue);
+        }
+      } catch (e) {
+        print('Error parsing nullable date: $e for value: $dateValue');
+      }
+      return null;
+    }
+    
+    // Handle fileSize to ensure it's an integer
+    int parseFileSize(dynamic sizeValue) {
+      if (sizeValue is int) {
+        return sizeValue;
+      } else if (sizeValue is double) {
+        return sizeValue.toInt();
+      } else if (sizeValue is String) {
+        return int.tryParse(sizeValue) ?? 0;
+      }
+      return 0;
+    }
+    
+    // Use _id if id is not available (MongoDB uses _id)
+    final String docId = json['id'] ?? json['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
+    
     return Document(
-      id: json['id'],
-      userId: json['userId'],
-      title: json['title'],
-      type: json['type'],
+      id: docId,
+      userId: json['userId'] ?? 'current_user',
+      title: json['title'] ?? 'Untitled Document',
+      type: json['type'] ?? 'Other',
       description: json['description'],
-      fileUrl: json['fileUrl'],
-      fileName: json['fileName'],
-      fileSize: json['fileSize'],
+      fileUrl: json['fileUrl'] ?? '',
+      fileName: json['fileName'] ?? 'document.pdf',
+      fileSize: parseFileSize(json['fileSize']),
       mimeType: json['mimeType'],
-      status: json['status'],
-      securityClassification: json['securityClassification'],
-      expirationDate: json['expirationDate'] != null ? DateTime.parse(json['expirationDate']) : null,
+      status: json['status'] ?? 'pending',
+      securityClassification: json['securityClassification'] ?? 'Unclassified',
+      expirationDate: parseNullableDate(json['expirationDate']),
       verifiedBy: json['verifiedBy'],
-      verifiedAt: json['verifiedAt'] != null ? DateTime.parse(json['verifiedAt']) : null,
+      verifiedAt: parseNullableDate(json['verifiedAt']),
       rejectionReason: json['rejectionReason'],
-      uploadedAt: DateTime.parse(json['uploadedAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      uploadedAt: parseDate(json['uploadedAt']),
+      updatedAt: parseDate(json['updatedAt']),
       version: json['version'] ?? 1,
       previousVersions: json['previousVersions'] != null
           ? (json['previousVersions'] as List)

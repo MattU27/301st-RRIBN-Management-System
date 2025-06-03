@@ -151,11 +151,20 @@ class AppConstants {
   
   // Document types
   static const List<String> documentTypes = [
-    'ID Card', 
-    'Medical Certificate', 
-    'Training Certificate', 
-    'Deployment Order', 
-    'Commendation', 
+    'Birth Certificate',
+    'ID Card',
+    'Picture 2x2',
+    '3R ROTC Certificate',
+    'Enlistment Order',
+    'Promotion Order',
+    'Order of Incorporation',
+    'Schooling Certificate',
+    'College Diploma',
+    'RIDS',
+    'Medical Certificate',
+    'Training Certificate',
+    'Deployment Order',
+    'Commendation',
     'Other'
   ];
   

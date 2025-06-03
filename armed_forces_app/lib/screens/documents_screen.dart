@@ -1,9 +1,16 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart' as path;
+import 'dart:convert';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
 import '../screens/home_screen.dart'; // Import for NotificationState
+import '../services/document_service.dart'; // Import the document service
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({Key? key}) : super(key: key);
@@ -14,69 +21,53 @@ class DocumentsScreen extends StatefulWidget {
 
 class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  bool _isLoading = false;
-  
-  // Sample document data
-  final List<Document> _documents = [
-    Document(
-      id: '1',
-      userId: 'user123',
-      title: 'ID Card',
-      type: 'ID Card',
-      fileUrl: 'https://example.com/documents/idcard.pdf',
-      fileName: 'idcard.pdf',
-      fileSize: 256000,
-      mimeType: 'application/pdf',
-      status: 'verified',
-      securityClassification: 'Unclassified',
-      uploadedAt: DateTime.now().subtract(const Duration(days: 100)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 90)),
-      version: 1,
-    ),
-    Document(
-      id: '2',
-      userId: 'user123',
-      title: 'Medical Certificate',
-      type: 'Medical Certificate',
-      description: 'Annual medical checkup certificate',
-      fileUrl: 'https://example.com/documents/medical.pdf',
-      fileName: 'medical_cert.pdf',
-      fileSize: 512000,
-      mimeType: 'application/pdf',
-      status: 'verified',
-      securityClassification: 'Unclassified',
-      expirationDate: DateTime.now().add(const Duration(days: 265)),
-      uploadedAt: DateTime.now().subtract(const Duration(days: 30)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 25)),
-      version: 1,
-    ),
-    Document(
-      id: '3',
-      userId: 'user123',
-      title: 'Training Certificate - Basic Combat',
-      type: 'Training Certificate',
-      fileUrl: 'https://example.com/documents/training.pdf',
-      fileName: 'basic_combat_cert.pdf',
-      fileSize: 384000,
-      mimeType: 'application/pdf',
-      status: 'pending',
-      securityClassification: 'Unclassified',
-      uploadedAt: DateTime.now().subtract(const Duration(days: 5)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 5)),
-      version: 1,
-    ),
-  ];
+  bool _isLoading = true;
+  List<Document> _documents = [];
+  final DocumentService _documentService = DocumentService();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _fetchDocuments();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _fetchDocuments() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      print('Fetching documents from service...');
+      final documents = await _documentService.getUserDocuments();
+      print('Fetched ${documents.length} documents');
+      
+      if (documents.isNotEmpty) {
+        print('First document: ${documents.first.title}');
+      }
+      
+      setState(() {
+        _documents = documents;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching documents: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error loading documents: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -88,6 +79,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              _fetchDocuments();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              _showRequiredDocumentsInfo(context);
+            },
+          ),
           // Notification bell with badge
           Stack(
             alignment: Alignment.center,
@@ -210,8 +213,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
 
     return RefreshIndicator(
       onRefresh: () async {
-        // Implement refresh logic
-        await Future.delayed(const Duration(seconds: 1));
+        await _fetchDocuments();
       },
       child: ListView.builder(
         padding: const EdgeInsets.all(AppConstants.defaultPadding),
@@ -265,166 +267,133 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.cardRadius),
       ),
-      child: InkWell(
-        onTap: () {
-          // View document details
-        },
-        borderRadius: BorderRadius.circular(AppConstants.cardRadius),
-        child: Padding(
-          padding: const EdgeInsets.all(AppConstants.defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: _getDocumentTypeColor(document.type).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      _getDocumentTypeIcon(document.type),
-                      color: _getDocumentTypeColor(document.type),
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Document type icon
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          document.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          document.fileName,
-                          style: const TextStyle(
-                            color: AppTheme.textSecondaryColor,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: Icon(
+                    _getDocumentTypeIcon(document.type),
+                    color: _getDocumentTypeColor(document.type),
+                    size: 24,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: statusColor),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          statusIcon,
-                          size: 12,
-                          color: statusColor,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          statusText,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: statusColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              if (document.description != null) ...[
-                Text(
-                  document.description!,
-                  style: const TextStyle(color: AppTheme.textSecondaryColor),
                 ),
-                const SizedBox(height: 8),
-              ],
-              _buildInfoRow(Icons.calendar_today, 'Uploaded: ${dateFormat.format(document.uploadedAt)}'),
-              if (document.expirationDate != null) ...[
-                const SizedBox(height: 4),
-                _buildInfoRow(
-                  Icons.event_busy,
-                  'Expires: ${dateFormat.format(document.expirationDate!)}',
-                  textColor: document.isExpired ? AppTheme.errorColor : null,
+                const SizedBox(width: 12),
+                
+                // Document title and filename
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        document.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        document.fileName,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Status badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: statusColor),
+                  ),
+                  child: Text(
+                    statusText,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: statusColor,
+                    ),
+                  ),
                 ),
               ],
-              const SizedBox(height: 4),
-              _buildInfoRow(
-                Icons.security,
-                'Classification: ${document.securityClassification}',
-                textColor: document.isConfidential ? AppTheme.militaryRed : null,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedButton.icon(
-                    onPressed: () {
-                      // View document
-                    },
-                    icon: const Icon(Icons.remove_red_eye),
-                    label: const Text('View'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppTheme.primaryColor,
-                      side: BorderSide(color: AppTheme.primaryColor),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Download document
-                    },
-                    icon: const Icon(Icons.download),
-                    label: const Text('Download'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryColor,
-                      foregroundColor: Colors.white,
-                    ),
-                  ),
-                ],
+            ),
+            
+            // Description if available
+            if (document.description != null && document.description!.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                document.description!,
+                style: TextStyle(color: Colors.grey[700]),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
-          ),
+            
+            // Upload date
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Icon(Icons.calendar_today, size: 14, color: Colors.grey[600]),
+                const SizedBox(width: 6),
+                Text(
+                  'Uploaded: ${dateFormat.format(document.uploadedAt)}',
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                ),
+              ],
+            ),
+            
+            // Action buttons
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                OutlinedButton.icon(
+                  onPressed: () => _viewDocument(document),
+                  icon: const Icon(Icons.visibility, size: 18),
+                  label: const Text('View'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppTheme.primaryColor,
+                    side: BorderSide(color: AppTheme.primaryColor),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton.icon(
+                  onPressed: () => _downloadDocument(document),
+                  icon: const Icon(Icons.download, size: 18),
+                  label: const Text('Download'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String text, {Color? textColor}) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 16,
-          color: textColor ?? AppTheme.textSecondaryColor,
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: textColor ?? AppTheme.textSecondaryColor,
-              fontSize: 14,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showUploadDocumentDialog() {
+  void _showUploadDocumentDialog({String? preselectedDocType}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -469,7 +438,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                     ],
                   ),
                   const SizedBox(height: 16),
-                  _buildUploadForm(),
+                  _buildUploadForm(preselectedDocType: preselectedDocType),
                 ],
               ),
             ),
@@ -479,12 +448,19 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     );
   }
 
-  Widget _buildUploadForm() {
+  Widget _buildUploadForm({String? preselectedDocType}) {
     final TextEditingController titleController = TextEditingController();
     final TextEditingController descriptionController = TextEditingController();
-    String? selectedDocumentType;
-    String? selectedClassification = 'Unclassified';
-    DateTime? expirationDate;
+    String? selectedDocumentType = preselectedDocType;
+    String? selectedFileName;
+    int? selectedFileSize;
+    bool isUploading = false;
+    PlatformFile? pickedFile;
+    
+    // If preselected document type is provided, set the title as well
+    if (preselectedDocType != null) {
+      titleController.text = preselectedDocType;
+    }
     
     return StatefulBuilder(
       builder: (context, setState) {
@@ -492,55 +468,91 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
-                  border: Border.all(color: Colors.grey[400]!),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.cloud_upload,
-                        size: 40,
-                        color: AppTheme.primaryColor,
+              GestureDetector(
+                onTap: () async {
+                  try {
+                    // Use file_picker to select files
+                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx'],
+                      allowMultiple: false,
+                    );
+                    
+                    if (result != null && result.files.isNotEmpty) {
+                      final file = result.files.first;
+                      setState(() {
+                        selectedFileName = file.name;
+                        selectedFileSize = file.size;
+                        pickedFile = file;
+                      });
+                    }
+                  } catch (e) {
+                    print('Error picking file: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Error selecting file. Please try again.'),
+                        backgroundColor: Colors.red,
                       ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Implement file picking
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primaryColor,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Text('Select File'),
-                      ),
-                    ],
+                    );
+                  }
+                },
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
+                    border: Border.all(color: Colors.grey[400]!),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (selectedFileName != null)
+                          Column(
+                            children: [
+                              const Icon(
+                                Icons.description,
+                                size: 40,
+                                color: AppTheme.primaryColor,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                selectedFileName!,
+                                style: const TextStyle(fontSize: 12),
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                '${(selectedFileSize! / 1024).toStringAsFixed(2)} KB',
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          )
+                        else
+                          Column(
+                            children: [
+                              const Icon(
+                                Icons.cloud_upload,
+                                size: 40,
+                                color: AppTheme.primaryColor,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Tap to select file',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                  labelText: 'Document Type',
+                  labelText: 'Document Type*',
                   border: OutlineInputBorder(),
                 ),
                 value: selectedDocumentType,
@@ -553,6 +565,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                 onChanged: (value) {
                   setState(() {
                     selectedDocumentType = value;
+                    // Auto-fill title based on document type
+                    if (value != null && titleController.text.isEmpty) {
+                      titleController.text = value;
+                    }
                   });
                 },
                 validator: (value) {
@@ -564,76 +580,121 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               ),
               const SizedBox(height: 16),
               TextFormField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title*',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
                 controller: descriptionController,
                 decoration: const InputDecoration(
                   labelText: 'Description (Optional)',
                   border: OutlineInputBorder(),
                 ),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Security Classification',
-                  border: OutlineInputBorder(),
-                ),
-                value: selectedClassification,
-                items: AppConstants.securityClassifications.map((classification) {
-                  return DropdownMenuItem(
-                    value: classification,
-                    child: Text(classification),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedClassification = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap: () async {
-                  final DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: expirationDate ?? DateTime.now().add(const Duration(days: 365)),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 3650)),
-                  );
-                  if (pickedDate != null) {
-                    setState(() {
-                      expirationDate = pickedDate;
-                    });
-                  }
-                },
-                child: AbsorbPointer(
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Expiration Date (Optional)',
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.calendar_today),
-                    ),
-                    controller: TextEditingController(
-                      text: expirationDate != null
-                          ? DateFormat('yyyy-MM-dd').format(expirationDate!)
-                          : '',
-                    ),
-                  ),
-                ),
+                maxLines: 2,
               ),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Implement document upload
-                    Navigator.pop(context);
+                  onPressed: isUploading || selectedFileName == null ? null : () async {
+                    // Validate the form
+                    if (selectedDocumentType == null || titleController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please fill in all required fields'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                    
+                    setState(() {
+                      isUploading = true;
+                    });
+                    
+                    try {
+                      // Get the file from the picker result
+                      if (pickedFile == null) {
+                        throw Exception('No file selected');
+                      }
+                      
+                      // For mobile platforms, we need to get the file path
+                      final path = pickedFile?.path;
+                      if (path == null || path.isEmpty) {
+                        throw Exception('File path is null or empty');
+                      }
+                      
+                      final file = File(path);
+                      
+                      // Upload the document using our service
+                      final document = await _documentService.uploadDocument(
+                        title: titleController.text,
+                        type: selectedDocumentType!,
+                        file: file,
+                        description: descriptionController.text.isNotEmpty ? descriptionController.text : null,
+                      );
+                      
+                      print('Document uploaded successfully: ${document.title}');
+                      
+                      // Close the dialog first
+                      Navigator.pop(context);
+                      
+                      // Then fetch documents again to refresh the list
+                      await _fetchDocuments();
+                      
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Document uploaded successfully'),
+                          backgroundColor: AppTheme.successColor,
+                        ),
+                      );
+                    } catch (e) {
+                      print('Error uploading document: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Error uploading document: ${e.toString()}'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } finally {
+                      setState(() {
+                        isUploading = false;
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
                     foregroundColor: Colors.white,
+                    disabledBackgroundColor: Colors.grey,
                   ),
-                  child: const Text('Upload Document'),
+                  child: isUploading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('Upload Document'),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Center(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
                 ),
               ),
             ],
@@ -908,6 +969,368 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
         'initialTabIndex': tabIndex,
         'params': params,
       },
+    );
+  }
+
+  // Method to show required documents info
+  void _showRequiredDocumentsInfo(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        maxChildSize: 0.9,
+        minChildSize: 0.5,
+        expand: false,
+        builder: (context, scrollController) {
+          return Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Required Documents',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ListView(
+                    controller: scrollController,
+                    children: [
+                      _buildRequiredDocumentItem(
+                        'Birth Certificate',
+                        'Official birth certificate issued by PSA/NSO',
+                        Icons.description,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'Picture 2x2',
+                        'Recent 2x2 ID picture with white background',
+                        Icons.photo,
+                      ),
+                      _buildRequiredDocumentItem(
+                        '3R ROTC Certificate',
+                        'Reserve Officers\' Training Corps certificate',
+                        Icons.military_tech,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'Enlistment Order',
+                        'Official enlistment order document',
+                        Icons.assignment,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'Promotion Order',
+                        'Official promotion order document',
+                        Icons.trending_up,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'Order of Incorporation',
+                        'Official order of incorporation document',
+                        Icons.integration_instructions,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'Schooling Certificate',
+                        'Certificate of schooling or training completion',
+                        Icons.school,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'College Diploma',
+                        'College or university diploma',
+                        Icons.workspace_premium,
+                      ),
+                      _buildRequiredDocumentItem(
+                        'RIDS',
+                        'Reservist Information Data Sheet',
+                        Icons.article,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _showUploadDocumentDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text('Upload Document'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildRequiredDocumentItem(String title, String description, IconData icon) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        leading: Icon(icon, color: AppTheme.primaryColor),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(description),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        onTap: () {
+          Navigator.pop(context);
+          _showUploadDocumentDialog(preselectedDocType: title);
+        },
+      ),
+    );
+  }
+
+  // Method to view a document
+  Future<void> _viewDocument(Document document) async {
+    try {
+      // Set loading state
+      setState(() {
+        _isLoading = true;
+      });
+      
+      // Use the document URL directly if it's a web URL
+      if (document.fileUrl.startsWith('http')) {
+        // Launch URL using url_launcher package
+        // For simplicity, we'll just show a dialog with the URL
+        _showDocumentViewerDialog(document);
+      } else {
+        // Download the file first if it's not a direct URL
+        final file = await _documentService.downloadDocument(document.id, document.fileName);
+        _showDocumentViewerDialog(document, localFile: file);
+      }
+    } catch (e) {
+      print('Error viewing document: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error viewing document: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+  
+  // Method to download a document
+  Future<void> _downloadDocument(Document document) async {
+    try {
+      // Set loading state
+      setState(() {
+        _isLoading = true;
+      });
+      
+      // Download the document
+      final file = await _documentService.downloadDocument(document.id, document.fileName);
+      
+      // Show success message with file path
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Document downloaded to: ${file.path}'),
+          backgroundColor: AppTheme.successColor,
+          duration: const Duration(seconds: 5),
+          action: SnackBarAction(
+            label: 'OPEN',
+            onPressed: () {
+              // Open the file using platform-specific method
+              // This would typically use a plugin like open_file
+              // For simplicity, we'll just print the path
+              print('Opening file: ${file.path}');
+            },
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error downloading document: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error downloading document: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+  
+  // Show document viewer dialog
+  void _showDocumentViewerDialog(Document document, {File? localFile}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(document.title),
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 400,
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.grey[200],
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: _buildFilePreview(localFile, document),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text('File: ${document.fileName}'),
+              Text('Type: ${document.type}'),
+              if (document.description != null) Text('Description: ${document.description}'),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _downloadDocument(document);
+            },
+            child: const Text('Download'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryColor,
+              foregroundColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  // Build file preview based on file type
+  Widget _buildFilePreview(File? file, Document document) {
+    if (file == null) {
+      return _buildPlaceholderPreview(document);
+    }
+    
+    final String fileName = file.path.toLowerCase();
+    
+    try {
+      if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
+        return Image.file(
+          file,
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            print('Error loading image: $error');
+            return _buildPlaceholderPreview(document);
+          },
+        );
+      } else if (fileName.endsWith('.pdf')) {
+        // For PDF files, we would ideally use a PDF viewer package
+        // For now, just show a placeholder
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.picture_as_pdf,
+              size: 80,
+              color: AppTheme.primaryColor,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'PDF Document: ${document.title}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'PDF preview is not available. Please download the file to view it.',
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      } else {
+        // For other file types
+        return _buildPlaceholderPreview(document);
+      }
+    } catch (e) {
+      print('Error building file preview: $e');
+      return _buildPlaceholderPreview(document);
+    }
+  }
+  
+  // Build a placeholder preview for documents
+  Widget _buildPlaceholderPreview(Document document) {
+    IconData iconData;
+    String fileType;
+    
+    final String fileName = document.fileName.toLowerCase();
+    
+    if (fileName.endsWith('.pdf')) {
+      iconData = Icons.picture_as_pdf;
+      fileType = 'PDF Document';
+    } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
+      iconData = Icons.image;
+      fileType = 'Image';
+    } else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+      iconData = Icons.description;
+      fileType = 'Word Document';
+    } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+      iconData = Icons.table_chart;
+      fileType = 'Excel Spreadsheet';
+    } else {
+      iconData = Icons.insert_drive_file;
+      fileType = 'Document';
+    }
+    
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          iconData,
+          size: 80,
+          color: AppTheme.primaryColor,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          '$fileType: ${document.title}',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Preview is not available. Please download the file to view it.',
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 } 
