@@ -100,10 +100,27 @@ class Document {
     // Use _id if id is not available (MongoDB uses _id)
     final String docId = json['id'] ?? json['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
     
+    // Handle web interface format differences
+    // Web app uses 'name' instead of 'title'
+    final String title = json['title'] ?? json['name'] ?? 'Untitled Document';
+    
+    // Web app uses 'uploadDate' instead of 'uploadedAt'
+    final uploadedAt = json['uploadedAt'] != null ? parseDate(json['uploadedAt']) :
+                       json['uploadDate'] != null ? parseDate(json['uploadDate']) :
+                       DateTime.now();
+    
+    // Web app uses 'comments' for rejection reason
+    final String? rejectionReason = json['rejectionReason'] ?? json['comments'];
+    
+    // Web app uses 'verifiedDate' instead of 'verifiedAt'
+    final verifiedAt = json['verifiedAt'] != null ? parseNullableDate(json['verifiedAt']) :
+                       json['verifiedDate'] != null ? parseNullableDate(json['verifiedDate']) :
+                       null;
+    
     return Document(
       id: docId,
       userId: json['userId'] ?? 'current_user',
-      title: json['title'] ?? 'Untitled Document',
+      title: title,
       type: json['type'] ?? 'Other',
       description: json['description'],
       fileUrl: json['fileUrl'] ?? '',
@@ -114,10 +131,10 @@ class Document {
       securityClassification: json['securityClassification'] ?? 'Unclassified',
       expirationDate: parseNullableDate(json['expirationDate']),
       verifiedBy: json['verifiedBy'],
-      verifiedAt: parseNullableDate(json['verifiedAt']),
-      rejectionReason: json['rejectionReason'],
-      uploadedAt: parseDate(json['uploadedAt']),
-      updatedAt: parseDate(json['updatedAt']),
+      verifiedAt: verifiedAt,
+      rejectionReason: rejectionReason,
+      uploadedAt: uploadedAt,
+      updatedAt: parseDate(json['updatedAt'] ?? json['uploadDate'] ?? uploadedAt),
       version: json['version'] ?? 1,
       previousVersions: json['previousVersions'] != null
           ? (json['previousVersions'] as List)
@@ -128,10 +145,13 @@ class Document {
   }
 
   Map<String, dynamic> toJson() {
+    // Include both mobile and web format fields for compatibility
     return {
       'id': id,
+      '_id': id,
       'userId': userId,
       'title': title,
+      'name': title, // Web app uses 'name'
       'type': type,
       'description': description,
       'fileUrl': fileUrl,
@@ -143,8 +163,11 @@ class Document {
       'expirationDate': expirationDate?.toIso8601String(),
       'verifiedBy': verifiedBy,
       'verifiedAt': verifiedAt?.toIso8601String(),
+      'verifiedDate': verifiedAt?.toIso8601String(), // Web app uses 'verifiedDate'
       'rejectionReason': rejectionReason,
+      'comments': rejectionReason, // Web app uses 'comments'
       'uploadedAt': uploadedAt.toIso8601String(),
+      'uploadDate': uploadedAt.toIso8601String(), // Web app uses 'uploadDate'
       'updatedAt': updatedAt.toIso8601String(),
       'version': version,
       'previousVersions': previousVersions?.map((v) => v.toJson()).toList(),

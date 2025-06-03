@@ -1146,22 +1146,45 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
         _isLoading = true;
       });
       
+      // Show downloading indicator
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Downloading document...'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      
       // Download the document
       final file = await _documentService.downloadDocument(document.id, document.fileName);
+      
+      // Get a user-friendly path to display
+      String displayPath = 'App Storage';
+      if (file.path.contains('documents')) {
+        displayPath = 'App Documents Folder';
+      }
       
       // Show success message with file path
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Document downloaded to: ${file.path}'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Document downloaded successfully!', 
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text('Saved to: $displayPath'),
+            ],
+          ),
           backgroundColor: AppTheme.successColor,
           duration: const Duration(seconds: 5),
           action: SnackBarAction(
-            label: 'OPEN',
-            onPressed: () {
-              // Open the file using platform-specific method
-              // This would typically use a plugin like open_file
-              // For simplicity, we'll just print the path
-              print('Opening file: ${file.path}');
+            label: 'VIEW',
+            textColor: Colors.white,
+            onPressed: () async {
+              // Show document viewer
+              _viewDocument(document);
             },
           ),
         ),
@@ -1191,20 +1214,53 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
           width: double.maxFinite,
           height: 400,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Document info
+              Text('Type: ${document.type}', style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text('Filename: ${document.fileName}'),
+              if (document.description != null && document.description!.isNotEmpty)
+                Text('Description: ${document.description}'),
+              const SizedBox(height: 12),
+              const Divider(),
+              const SizedBox(height: 12),
+              
+              // Document preview
               Expanded(
                 child: Container(
-                  color: Colors.grey[200],
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[300]!),
+                  ),
                   padding: const EdgeInsets.all(16),
                   child: Center(
                     child: _buildFilePreview(localFile, document),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text('File: ${document.fileName}'),
-              Text('Type: ${document.type}'),
-              if (document.description != null) Text('Description: ${document.description}'),
+              
+              // File location info if available
+              if (localFile != null) ...[
+                const SizedBox(height: 12),
+                const Text('File Location:', style: TextStyle(fontWeight: FontWeight.bold)),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.grey[300]!),
+                  ),
+                  child: Text(
+                    localFile.path,
+                    style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -1213,12 +1269,13 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
             onPressed: () => Navigator.pop(context),
             child: const Text('Close'),
           ),
-          ElevatedButton(
+          ElevatedButton.icon(
             onPressed: () {
               Navigator.pop(context);
               _downloadDocument(document);
             },
-            child: const Text('Download'),
+            icon: const Icon(Icons.download, size: 18),
+            label: const Text('Download'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primaryColor,
               foregroundColor: Colors.white,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -21,10 +22,18 @@ class DocumentService {
     try {
       print('Connecting to MongoDB...');
       // Use 10.0.2.2 for Android emulator to connect to host machine
-      _db = await Db.create('mongodb://10.0.2.2:27017/${AppConstants.databaseName}');
+      // This should be the same MongoDB instance that the Next.js app is using
+      final String connectionString = 'mongodb://10.0.2.2:27017/${AppConstants.databaseName}';
+      print('Connection string: $connectionString');
+      
+      _db = await Db.create(connectionString);
       await _db!.open();
+      
+      // Use the same collection name as the web app
       _documentsCollection = _db!.collection('documents');
+      
       print('Connected to MongoDB successfully');
+      print('Available collections: ${await _db!.getCollectionNames()}');
     } catch (e) {
       print('Error connecting to MongoDB: $e');
       throw Exception('Failed to connect to MongoDB: $e');
@@ -102,10 +111,34 @@ class DocumentService {
             }
           });
           
+          // Handle web app field names
+          // If 'name' exists but 'title' doesn't, copy name to title
+          if (processedDoc.containsKey('name') && !processedDoc.containsKey('title')) {
+            processedDoc['title'] = processedDoc['name'];
+          }
+          // If 'title' exists but 'name' doesn't, copy title to name
+          else if (processedDoc.containsKey('title') && !processedDoc.containsKey('name')) {
+            processedDoc['name'] = processedDoc['title'];
+          }
+          
+          // Handle uploadDate vs uploadedAt
+          if (processedDoc.containsKey('uploadDate') && !processedDoc.containsKey('uploadedAt')) {
+            try {
+              if (processedDoc['uploadDate'] is String) {
+                processedDoc['uploadedAt'] = DateTime.parse(processedDoc['uploadDate']);
+              } else {
+                processedDoc['uploadedAt'] = processedDoc['uploadDate'];
+              }
+            } catch (e) {
+              print('Error converting uploadDate: $e');
+              processedDoc['uploadedAt'] = DateTime.now();
+            }
+          }
+          
           // Ensure required fields exist
           processedDoc['id'] = processedDoc['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
           processedDoc['userId'] = processedDoc['userId'] ?? 'current_user';
-          processedDoc['title'] = processedDoc['title'] ?? 'Untitled Document';
+          processedDoc['title'] = processedDoc['title'] ?? processedDoc['name'] ?? 'Untitled Document';
           processedDoc['type'] = processedDoc['type'] ?? 'Other';
           processedDoc['fileUrl'] = processedDoc['fileUrl'] ?? '';
           processedDoc['fileName'] = processedDoc['fileName'] ?? 'document.pdf';
@@ -256,11 +289,15 @@ class DocumentService {
       final String documentId = ObjectId().toHexString();
       final now = DateTime.now();
       
-      // Create document data with proper field names for MongoDB
+      // Format dates in ISO format for compatibility with web app
+      final String formattedNow = now.toIso8601String();
+      
+      // Create document data with proper field names for MongoDB and web compatibility
       final Map<String, dynamic> documentData = {
         '_id': documentId,
         'userId': 'current_user',
-        'title': title,
+        'name': title, // Web app uses 'name' instead of 'title'
+        'title': title, // Keep 'title' for mobile app
         'type': type,
         'description': description,
         'fileUrl': 'file://$savedFilePath',
@@ -269,7 +306,8 @@ class DocumentService {
         'mimeType': _getMimeType(file.path),
         'status': 'pending',
         'securityClassification': 'Unclassified',
-        'uploadedAt': now,
+        'uploadDate': formattedNow, // Web app uses 'uploadDate'
+        'uploadedAt': now, // Mobile app uses 'uploadedAt'
         'updatedAt': now,
         'version': 1,
         'localFilePath': savedFilePath,
@@ -417,14 +455,10 @@ class DocumentService {
           );
           
           if (response.statusCode == 200) {
-            // Create a temporary file
-            final Directory tempDir = Directory.systemTemp;
-            final File file = File('${tempDir.path}/$fileName');
-            
-            // Write the file
-            await file.writeAsBytes(response.bodyBytes);
-            print('File downloaded from API to: ${file.path}');
-            return file;
+            // Create a file in the app's documents directory
+            final downloadFile = await _saveToDownloads(fileName, response.bodyBytes);
+            print('File downloaded from API to: ${downloadFile.path}');
+            return downloadFile;
           }
         }
       } catch (e) {
@@ -451,16 +485,18 @@ class DocumentService {
       
       // Try to get the local file path
       String? localFilePath = document['localFilePath'];
+      File? sourceFile;
       
       // If we have a local file path, check if the file exists
       if (localFilePath != null) {
         print('Local file path found: $localFilePath');
-        final File localFile = File(localFilePath);
-        if (await localFile.exists()) {
-          print('Local file exists, returning it');
-          return localFile;
+        sourceFile = File(localFilePath);
+        if (await sourceFile.exists()) {
+          print('Local file exists, returning it directly');
+          return sourceFile;
         } else {
           print('Local file does not exist at path: $localFilePath');
+          sourceFile = null;
         }
       } else {
         print('No local file path found in document data');
@@ -468,59 +504,98 @@ class DocumentService {
       
       // If we have a fileUrl that starts with file:// but the file doesn't exist
       // or we don't have a localFilePath, try to extract the path from fileUrl
-      final String? fileUrl = document['fileUrl'];
-      if (fileUrl != null && fileUrl.startsWith('file://')) {
-        final String extractedPath = fileUrl.substring(7); // Remove 'file://'
-        final File extractedFile = File(extractedPath);
-        if (await extractedFile.exists()) {
-          print('File found from fileUrl: $extractedPath');
-          
-          // Update document with correct localFilePath
-          await _documentsCollection!.update(
-            {'_id': documentId},
-            {'\$set': {'localFilePath': extractedPath}}
-          );
-          
-          return extractedFile;
-        } else {
-          print('File from fileUrl does not exist: $extractedPath');
+      if (sourceFile == null) {
+        final String? fileUrl = document['fileUrl'];
+        if (fileUrl != null && fileUrl.startsWith('file://')) {
+          final String extractedPath = fileUrl.substring(7); // Remove 'file://'
+          sourceFile = File(extractedPath);
+          if (await sourceFile.exists()) {
+            print('File found from fileUrl: $extractedPath');
+            
+            // Update document with correct localFilePath
+            await _documentsCollection!.update(
+              {'_id': documentId},
+              {'\$set': {'localFilePath': extractedPath}}
+            );
+            
+            return sourceFile;
+          } else {
+            print('File from fileUrl does not exist: $extractedPath');
+            sourceFile = null;
+          }
         }
       }
       
       // If we still don't have a file, create a placeholder file with some content
       print('Creating a placeholder file for: $fileName');
-      final Directory tempDir = Directory.systemTemp;
-      final String placeholderPath = '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_$fileName';
-      final File placeholderFile = File(placeholderPath);
       
-      // Create a simple text file as placeholder
+      // Create placeholder content based on file type
+      String placeholderContent;
       if (fileName.toLowerCase().endsWith('.pdf')) {
-        // For PDFs, we could use a package to create a simple PDF
-        await placeholderFile.writeAsString('This is a placeholder for the document: ${document['title']}');
+        placeholderContent = 'PDF PLACEHOLDER\n\nThis is a placeholder for the document: ${document['title']}\n\nThe original file could not be found.';
       } else if (fileName.toLowerCase().endsWith('.jpg') || 
                 fileName.toLowerCase().endsWith('.jpeg') || 
                 fileName.toLowerCase().endsWith('.png')) {
-        // For images, create a text file explaining it's a placeholder
-        await placeholderFile.writeAsString('This is a placeholder for the image: ${document['title']}');
+        placeholderContent = 'IMAGE PLACEHOLDER\n\nThis is a placeholder for the image: ${document['title']}\n\nThe original image could not be found.';
       } else {
-        // For other files, create a text file
-        await placeholderFile.writeAsString('This is a placeholder for the document: ${document['title']}');
+        placeholderContent = 'DOCUMENT PLACEHOLDER\n\nThis is a placeholder for the document: ${document['title']}\n\nThe original file could not be found.';
       }
+      
+      final downloadFile = await _saveToDownloads(fileName, utf8.encode(placeholderContent));
       
       // Update document with new localFilePath
       await _documentsCollection!.update(
         {'_id': documentId},
         {'\$set': {
-          'localFilePath': placeholderPath,
-          'fileUrl': 'file://$placeholderPath'
+          'localFilePath': downloadFile.path,
+          'fileUrl': 'file://${downloadFile.path}'
         }}
       );
       
-      print('Created placeholder file at: $placeholderPath');
-      return placeholderFile;
+      print('Created placeholder file at: ${downloadFile.path}');
+      return downloadFile;
     } catch (e) {
       print('Error downloading document: $e');
       throw Exception('Error downloading document: $e');
+    }
+  }
+  
+  // Helper method to save file to Downloads directory
+  Future<File> _saveToDownloads(String fileName, Uint8List fileData) async {
+    try {
+      // For simplicity and to avoid permission issues, let's use the app's internal storage
+      Directory? directory;
+      
+      try {
+        // Use the app's documents directory which doesn't require special permissions
+        directory = Directory.systemTemp;
+        
+        // Create a documents subdirectory if it doesn't exist
+        final Directory docsDir = Directory('${directory.path}/documents');
+        if (!await docsDir.exists()) {
+          await docsDir.create(recursive: true);
+        }
+        directory = docsDir;
+        
+        print('Using internal storage directory: ${directory.path}');
+      } catch (e) {
+        print('Error getting app directory: $e');
+        directory = Directory.systemTemp;
+      }
+      
+      // Ensure unique filename to avoid overwriting existing files
+      final String uniqueFileName = '${DateTime.now().millisecondsSinceEpoch}_$fileName';
+      final String filePath = '${directory.path}/$uniqueFileName';
+      
+      // Create and write to the file
+      final File file = File(filePath);
+      await file.writeAsBytes(fileData);
+      
+      print('File saved to: $filePath');
+      return file;
+    } catch (e) {
+      print('Error saving file: $e');
+      throw Exception('Failed to save file: $e');
     }
   }
 } 
