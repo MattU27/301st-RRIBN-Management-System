@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { dbConnect } from '@/utils/dbConnect';
 import { connectDB } from '@/lib/db';
 import User from '@/models/User';
 import { UserStatus } from '@/types/auth';
@@ -7,23 +6,28 @@ import { UserStatus } from '@/types/auth';
 interface UserDocument {
   _id: string;
   status: UserStatus;
+  email: string;
+  alternativeEmail?: string;
   [key: string]: any;
 }
 
 export async function POST(request: Request) {
   try {
-    // Connect to MongoDB - try both connection methods to ensure we're connected
+    // Connect to MongoDB using only one connection method
     try {
       await connectDB();
       console.log('Connected to database via connectDB');
     } catch (e) {
-      console.log('Failed to connect via connectDB, trying dbConnect...');
-      await dbConnect();
-      console.log('Connected to database via dbConnect');
+      console.error('Database connection failed:', e);
+      return NextResponse.json(
+        { success: false, error: 'Database connection failed' },
+        { status: 500 }
+      );
     }
     
     // Get email from request body
-    const { email } = await request.json();
+    const body = await request.json().catch(() => ({}));
+    const { email } = body;
     
     if (!email) {
       return NextResponse.json(

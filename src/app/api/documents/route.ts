@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/utils/dbConnect';
 import Document from '@/models/Document';
 import { verifyJWT } from '@/utils/auth';
+import mongoose from 'mongoose';
+import { emitSocketEvent } from '@/utils/socket';
 
 /**
  * GET handler to retrieve documents for the current user or all documents for admins
@@ -10,6 +12,7 @@ export async function GET(request: Request) {
   try {
     // Connect to MongoDB
     await dbConnect();
+    console.log('Connected to database');
     
     // Get query parameters
     const { searchParams } = new URL(request.url);
@@ -17,9 +20,12 @@ export async function GET(request: Request) {
     const userId = searchParams.get('userId');
     const type = searchParams.get('type');
     
+    console.log('Query parameters:', { status, userId, type });
+    
     // Verify authentication
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.log('Missing or invalid authorization header');
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -27,14 +33,17 @@ export async function GET(request: Request) {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = await verifyJWT(token);
+    const decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
     
     if (!decoded) {
+      console.log('Invalid token');
       return NextResponse.json(
         { success: false, error: 'Invalid token' },
         { status: 401 }
       );
     }
+    
+    console.log('User authenticated:', { userId: decoded.userId, role: decoded.role });
     
     // Build query
     const query: any = {};
@@ -50,7 +59,7 @@ export async function GET(request: Request) {
     }
     
     // Filter by user ID (admins can see all documents, users can only see their own)
-    if (decoded.role === 'admin' || decoded.role === 'director') {
+    if (decoded.role === 'admin' || decoded.role === 'director' || decoded.role === 'administrator' || decoded.role === 'staff') {
       // Admin can see all documents or filter by specific user
       if (userId) {
         query.userId = userId;
@@ -60,10 +69,225 @@ export async function GET(request: Request) {
       query.userId = decoded.userId;
     }
     
-    // Execute query
-    const documents = await Document.find(query)
-      .sort({ uploadDate: -1 })
+    console.log('Query:', query);
+    
+    // Execute query with populated uploadedBy field
+    let documents = await Document.find(query)
+      .populate([
+        {
+          path: 'uploadedBy',
+          select: 'firstName lastName serviceId company email',
+          model: 'User'
+        },
+        {
+          path: 'uploadedBy',
+          select: 'firstName lastName serviceNumber company email',
+          model: 'Personnel'
+        }
+      ])
+      .populate({
+        path: 'verifiedBy',
+        select: 'firstName lastName'
+      })
+      .sort({ uploadDate: -1, createdAt: -1 })
       .lean();
+    
+    console.log(`Found ${documents.length} documents`);
+    
+    // Format dates and ensure all documents have proper uploadedBy information
+    documents = await Promise.all(documents.map(async doc => {
+      // Format dates as strings for consistent display
+      if (doc.uploadDate) {
+        doc.uploadDate = new Date(doc.uploadDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      } else if (doc.createdAt) {
+        doc.uploadDate = new Date(doc.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      } else {
+        doc.uploadDate = new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+      
+      if (doc.verifiedDate) {
+        doc.verifiedDate = new Date(doc.verifiedDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+      
+      // Handle case where uploadedBy is not populated or is a string ID
+      if (!doc.uploadedBy || typeof doc.uploadedBy === 'string' || (doc.uploadedBy && !doc.uploadedBy.firstName)) {
+        console.log(`Document ${doc._id} has unpopulated uploadedBy: ${doc.uploadedBy}`);
+        
+        // Try to use userId if available
+        if (doc.userId) {
+          console.log(`Using userId ${doc.userId} as fallback`);
+          
+          let userId = doc.userId;
+          // If userId is a string but not 'current_user', try to convert to ObjectId
+          if (typeof userId === 'string' && userId !== 'current_user') {
+            try {
+              userId = new mongoose.Types.ObjectId(userId);
+              console.log(`Converted userId to ObjectId: ${userId}`);
+            } catch (err) {
+              console.log(`Error converting userId to ObjectId: ${err}`);
+              // If conversion fails, try to find John Matthew Banto's record as fallback
+              console.log('Using default personnel (John Matthew Banto) as fallback');
+              userId = '68063c32bb93f9ffb2000000';
+              try {
+                userId = new mongoose.Types.ObjectId(userId);
+              } catch (convertErr) {
+                console.log(`Error converting default ID to ObjectId: ${convertErr}`);
+              }
+            }
+          } else if (typeof userId === 'string' && userId === 'current_user') {
+            console.log('userId is "current_user", using default personnel ID');
+            userId = '68063c32bb93f9ffb2000000';
+            try {
+              userId = new mongoose.Types.ObjectId(userId);
+            } catch (convertErr) {
+              console.log(`Error converting default ID to ObjectId: ${convertErr}`);
+            }
+          }
+          
+          // Try to find the user in both collections
+          const db = await dbConnect();
+          
+          // First try the users collection
+          const User = mongoose.model('User');
+          let user = null;
+          
+          try {
+            console.log(`Looking for user with ID: ${userId}`);
+            user = await User.findById(userId).select('firstName lastName serviceId company email').lean();
+            if (user) {
+              console.log(`Found user in users collection: ${(user as any).firstName} ${(user as any).lastName}`);
+            } else {
+              console.log('User not found in users collection');
+            }
+          } catch (err) {
+            console.log(`Error finding user: ${err}`);
+          }
+          
+          // If not found in users, try personnels collection
+          if (!user) {
+            console.log(`User not found in users collection, trying personnels collection`);
+            const Personnel = mongoose.model('Personnel');
+            try {
+              // Use any type to bypass TypeScript's strict checking
+              const personnelUser: any = await Personnel.findById(userId).select('firstName lastName serviceNumber company email').lean();
+              
+              if (personnelUser) {
+                console.log(`Found personnel: ${personnelUser.firstName} ${personnelUser.lastName}`);
+                // Create a new object with the required fields
+                user = {
+                  firstName: personnelUser.firstName,
+                  lastName: personnelUser.lastName,
+                  serviceId: personnelUser.serviceNumber, // Map serviceNumber to serviceId
+                  company: personnelUser.company,
+                  email: personnelUser.email
+                } as any;
+              } else {
+                console.log('Personnel not found with ID:', userId);
+              }
+            } catch (err) {
+              console.log(`Error finding personnel: ${err}`);
+            }
+          }
+          
+          if (user) {
+            console.log(`Found user: ${(user as any).firstName || 'Unknown'} ${(user as any).lastName || 'User'}`);
+            doc.uploadedBy = user;
+          } else {
+            // If userId is 'current_user' or we couldn't find a user, use the default personnel
+            console.log('Using default personnel for current_user or not found user');
+            
+            // Try to find John Matthew Banto's record as fallback
+            const Personnel = mongoose.model('Personnel');
+            try {
+              const defaultPersonnel = await Personnel.findOne({ serviceNumber: '2019-10180' }).lean() as any;
+              
+              if (defaultPersonnel) {
+                console.log(`Using default personnel record (John Matthew Banto): ${defaultPersonnel._id}`);
+                doc.uploadedBy = {
+                  firstName: defaultPersonnel.firstName,
+                  lastName: defaultPersonnel.lastName,
+                  serviceId: defaultPersonnel.serviceNumber,
+                  company: defaultPersonnel.company,
+                  email: defaultPersonnel.email
+                };
+              } else {
+                console.log('Default personnel not found, using generic Unknown User');
+                doc.uploadedBy = {
+                  firstName: 'Unknown',
+                  lastName: 'User',
+                  serviceId: 'N/A'
+                };
+              }
+            } catch (err) {
+              console.log(`Error finding default personnel: ${err}`);
+              doc.uploadedBy = {
+                firstName: 'Unknown',
+                lastName: 'User',
+                serviceId: 'N/A'
+              };
+            }
+          }
+        } else {
+          console.log('No userId available, using generic Unknown User');
+          doc.uploadedBy = {
+            firstName: 'Unknown',
+            lastName: 'User',
+            serviceId: 'N/A'
+          };
+        }
+      } else if (doc.uploadedBy && (doc.uploadedBy as any).serviceNumber && !(doc.uploadedBy as any).serviceId) {
+        // If we have a populated uploadedBy from Personnel model, map serviceNumber to serviceId
+        console.log(`Mapping serviceNumber to serviceId for document ${doc._id}`);
+        (doc.uploadedBy as any).serviceId = (doc.uploadedBy as any).serviceNumber;
+      }
+      
+      // Map document type if it's not one of the standard types
+      if (doc.type && !['training_certificate', 'medical_record', 'identification', 'promotion', 'commendation', 'other'].includes(doc.type)) {
+        // Map to a standard type
+        const typeMapping: { [key: string]: string } = {
+          'Birth Certificate': 'other',
+          'ID Card': 'identification',
+          'Picture 2x2': 'identification',
+          '3R ROTC Certificate': 'training_certificate',
+          'Enlistment Order': 'other',
+          'Promotion Order': 'promotion',
+          'Order of Incorporation': 'other',
+          'Schooling Certificate': 'training_certificate',
+          'College Diploma': 'training_certificate',
+          'RIDS': 'other',
+          'Deployment Order': 'other',
+          'Medical Certificate': 'medical_record',
+          'Training Certificate': 'training_certificate',
+          'Commendation': 'commendation',
+          'Other': 'other'
+        };
+        
+        doc.type = typeMapping[doc.type] || 'other';
+      }
+      
+      return doc;
+    }));
+    
+    // Log a sample document to check if uploadedBy is populated
+    if (documents.length > 0) {
+      console.log('Sample document:', JSON.stringify(documents[0], null, 2));
+    }
     
     return NextResponse.json({
       success: true,
@@ -87,10 +311,12 @@ export async function POST(request: Request) {
   try {
     // Connect to MongoDB
     await dbConnect();
+    console.log('Connected to database for document creation');
     
     // Verify authentication
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.log('Missing or invalid authorization header');
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
@@ -98,24 +324,67 @@ export async function POST(request: Request) {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = await verifyJWT(token);
+    const decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
     
     if (!decoded) {
+      console.log('Invalid token');
       return NextResponse.json(
         { success: false, error: 'Invalid token' },
         { status: 401 }
       );
     }
     
+    console.log('User authenticated for document upload:', { userId: decoded.userId, role: decoded.role });
+    
     // Get data from request body
     const data = await request.json();
+    console.log('Document upload data:', { ...data, fileUrl: data.fileUrl ? '(truncated)' : undefined });
     
     // Validate required fields
     if (!data.name || !data.type || !data.fileUrl) {
+      console.log('Missing required fields:', { name: !!data.name, type: !!data.type, fileUrl: !!data.fileUrl });
       return NextResponse.json(
         { success: false, error: 'Missing required fields' },
         { status: 400 }
       );
+    }
+    
+    // Handle userId from mobile app
+    let userId = decoded.userId;
+    
+    // If the request includes a userId and it's from a staff/admin/director, allow setting a different userId
+    if (data.userId && ['admin', 'director', 'staff'].includes(decoded.role)) {
+      console.log(`Staff/admin setting document for user ID: ${data.userId}`);
+      userId = data.userId;
+    } else if (data.userId === 'current_user') {
+      // This is from the mobile app, we need to find a personnel record to associate with
+      console.log(`Mobile app upload with 'current_user', finding appropriate personnel record`);
+      
+      try {
+        // Try to find a personnel record with the email from the token
+        const Personnel = mongoose.model('Personnel');
+        const personnel = await Personnel.findOne({ email: decoded.email }).lean() as any;
+        
+        if (personnel) {
+          console.log(`Found personnel record for email ${decoded.email}: ${personnel._id}`);
+          userId = personnel._id;
+        } else {
+          // Try to find John Matthew Banto's record as fallback
+          const defaultPersonnel = await Personnel.findOne({ serviceNumber: '2019-10180' }).lean() as any;
+          
+          if (defaultPersonnel) {
+            console.log(`Using default personnel record (John Matthew Banto): ${defaultPersonnel._id}`);
+            userId = defaultPersonnel._id;
+          } else {
+            console.log(`No default personnel found, using token userId: ${decoded.userId}`);
+          }
+        }
+      } catch (error) {
+        console.error('Error finding personnel record:', error);
+        // Continue with the decoded userId
+      }
+    } else if (data.userId && data.userId !== decoded.userId) {
+      console.log(`Warning: User ${decoded.userId} attempted to set document for ${data.userId}. Using token userId instead.`);
     }
     
     // Map frontend document type to schema enum values
@@ -128,7 +397,18 @@ export async function POST(request: Request) {
       'Military Training': 'training_certificate',
       'Other': 'other',
       'Promotion': 'promotion',
-      'Commendation': 'commendation'
+      'Promotion Order': 'promotion',
+      'Commendation': 'commendation',
+      'College Diploma': 'training_certificate',
+      'Birth Certificate': 'other',
+      'ID Card': 'identification',
+      'Picture 2x2': 'identification',
+      '3R ROTC Certificate': 'training_certificate',
+      'Enlistment Order': 'other',
+      'Order of Incorporation': 'other',
+      'Schooling Certificate': 'training_certificate',
+      'RIDS': 'other',
+      'Deployment Order': 'other'
     };
     
     // Extract file name, mime type and size from fileUrl if not provided
@@ -146,17 +426,27 @@ export async function POST(request: Request) {
       fileName: fileName,
       fileSize: fileSize,
       mimeType: mimeType,
-      userId: decoded.userId,
-      uploadedBy: decoded.userId, // Use the same user ID for both
+      userId: userId,
+      uploadedBy: userId, // Use the same user ID for both fields
       status: 'pending', // All uploads start as pending
       uploadDate: new Date(),
-      securityClassification: data.securityClassification || 'Unclassified',
       expirationDate: data.expirationDate || undefined,
       version: 1
     };
     
+    console.log('Creating new document with data:', { 
+      ...newDocument,
+      fileUrl: '(truncated)',
+      userId: userId,
+      uploadedBy: userId
+    });
+    
     // Save to database
     const result = await Document.create(newDocument);
+    console.log('Document created successfully:', { id: result._id });
+    
+    // Emit socket event
+    emitSocketEvent('document:new', result);
     
     return NextResponse.json({
       success: true,
@@ -191,7 +481,7 @@ export async function PUT(request: Request) {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = await verifyJWT(token);
+    const decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
     
     if (!decoded) {
       return NextResponse.json(
@@ -248,6 +538,9 @@ export async function PUT(request: Request) {
       );
     }
     
+    // Emit socket event
+    emitSocketEvent('document:update', result);
+    
     return NextResponse.json({
       success: true,
       data: {
@@ -281,7 +574,7 @@ export async function DELETE(request: Request) {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = await verifyJWT(token);
+    const decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
     
     if (!decoded) {
       return NextResponse.json(
@@ -323,6 +616,9 @@ export async function DELETE(request: Request) {
     
     // Delete the document
     await Document.findByIdAndDelete(id);
+    
+    // Emit socket event
+    emitSocketEvent('document:delete', id);
     
     return NextResponse.json({
       success: true,

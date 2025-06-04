@@ -5,6 +5,7 @@ class AppConstants {
   
   // API endpoints - Updated to use local development server
   static const String baseUrl = 'http://10.0.2.2:3000'; // Android emulator address for localhost
+  static const String socketUrl = 'http://10.0.2.2:3000'; // Socket.IO server URL
   // Alternative URLs for different environments
   static const String localUrl = 'http://localhost:3000';
   static const String emulatorUrl = 'http://10.0.2.2:3000';
@@ -15,6 +16,7 @@ class AppConstants {
   
   // Storage keys
   static const String authTokenKey = 'auth_token';
+  static const String userIdKey = 'user_id';
   static const String userDataKey = 'user_data';
   static const String rememberMeKey = 'remember_me';
   
@@ -152,7 +154,7 @@ class AppConstants {
   // Document types
   static const List<String> documentTypes = [
     'Birth Certificate',
-    'ID Card',
+    'ID Card', 
     'Picture 2x2',
     '3R ROTC Certificate',
     'Enlistment Order',
@@ -161,10 +163,10 @@ class AppConstants {
     'Schooling Certificate',
     'College Diploma',
     'RIDS',
-    'Medical Certificate',
-    'Training Certificate',
-    'Deployment Order',
-    'Commendation',
+    'Medical Certificate', 
+    'Training Certificate', 
+    'Deployment Order', 
+    'Commendation', 
     'Other'
   ];
   

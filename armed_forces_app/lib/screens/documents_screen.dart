@@ -11,6 +11,7 @@ import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
 import '../screens/home_screen.dart'; // Import for NotificationState
 import '../services/document_service.dart'; // Import the document service
+import '../services/socket_service.dart'; // Import the socket service
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({Key? key}) : super(key: key);
@@ -24,12 +25,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   bool _isLoading = true;
   List<Document> _documents = [];
   final DocumentService _documentService = DocumentService();
+  final SocketService _socketService = SocketService();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _initializeSocket();
     _fetchDocuments();
+  }
+
+  Future<void> _initializeSocket() async {
+    try {
+      await _socketService.initSocket();
+      print('Socket initialized in DocumentsScreen: ${_socketService.isConnected ? 'connected' : 'not connected'}');
+    } catch (e) {
+      print('Error initializing socket: $e');
+    }
   }
 
   @override
@@ -267,83 +279,92 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.cardRadius),
       ),
-      child: Padding(
+        child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                children: [
                 // Document type icon
-                Container(
+                  Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Icon(
-                    _getDocumentTypeIcon(document.type),
-                    color: _getDocumentTypeColor(document.type),
+                    ),
+                    child: Icon(
+                      _getDocumentTypeIcon(document.type),
+                      color: _getDocumentTypeColor(document.type),
                     size: 24,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                
-                // Document title and filename
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        document.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        document.fileName,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                
-                // Status badge
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: statusColor),
-                  ),
-                  child: Text(
-                    statusText,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: statusColor,
                     ),
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                
+                // Document title and filename
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          document.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          document.fileName,
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          _getDisplayDocumentType(document.type),
+                          style: TextStyle(
+                            color: _getDocumentTypeColor(document.type),
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                
+                // Status badge
+                  Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: statusColor),
+                    ),
+                  child: Text(
+                          statusText,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: statusColor,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
             
             // Description if available
             if (document.description != null && document.description!.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Text(
-                document.description!,
+                Text(
+                  document.description!,
                 style: TextStyle(color: Colors.grey[700]),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-              ),
+                ),
             ],
             
             // Upload date
@@ -360,34 +381,34 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
             ),
             
             // Action buttons
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlinedButton.icon(
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  OutlinedButton.icon(
                   onPressed: () => _viewDocument(document),
                   icon: const Icon(Icons.visibility, size: 18),
-                  label: const Text('View'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.primaryColor,
-                    side: BorderSide(color: AppTheme.primaryColor),
+                    label: const Text('View'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppTheme.primaryColor,
+                      side: BorderSide(color: AppTheme.primaryColor),
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
                   onPressed: () => _downloadDocument(document),
                   icon: const Icon(Icons.download, size: 18),
-                  label: const Text('Download'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    foregroundColor: Colors.white,
+                    label: const Text('Download'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
         ),
       ),
     );
@@ -497,15 +518,15 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                   }
                 },
                 child: Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
-                    border: Border.all(color: Colors.grey[400]!),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (selectedFileName != null)
                           Column(
@@ -531,23 +552,23 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                           )
                         else
                           Column(
-                            children: [
-                              const Icon(
-                                Icons.cloud_upload,
-                                size: 40,
-                                color: AppTheme.primaryColor,
-                              ),
-                              const SizedBox(height: 8),
+                    children: [
+                      const Icon(
+                        Icons.cloud_upload,
+                        size: 40,
+                        color: AppTheme.primaryColor,
+                      ),
+                      const SizedBox(height: 8),
                               Text(
                                 'Tap to select file',
                                 style: TextStyle(color: Colors.grey[600]),
-                              ),
+                        ),
                             ],
-                          ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
@@ -618,9 +639,9 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                       return;
                     }
                     
-                    setState(() {
+                  setState(() {
                       isUploading = true;
-                    });
+                  });
                     
                     try {
                       // Get the file from the picker result
@@ -658,7 +679,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                           content: Text('Document uploaded successfully'),
                           backgroundColor: AppTheme.successColor,
                         ),
-                      );
+                  );
                     } catch (e) {
                       print('Error uploading document: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -668,7 +689,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                         ),
                       );
                     } finally {
-                      setState(() {
+                    setState(() {
                         isUploading = false;
                       });
                     }
@@ -705,7 +726,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   }
 
   Color _getDocumentTypeColor(String type) {
-    switch (type) {
+    // Map internal types to display types
+    String displayType = _getDisplayDocumentType(type);
+    
+    switch (displayType) {
       case 'ID Card':
         return AppTheme.primaryColor;
       case 'Medical Certificate':
@@ -722,7 +746,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   }
 
   IconData _getDocumentTypeIcon(String type) {
-    switch (type) {
+    // Map internal types to display types
+    String displayType = _getDisplayDocumentType(type);
+    
+    switch (displayType) {
       case 'ID Card':
         return Icons.badge;
       case 'Medical Certificate':
@@ -736,6 +763,27 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       default:
         return Icons.description;
     }
+  }
+  
+  // Convert internal document types to display types
+  String _getDisplayDocumentType(String type) {
+    // Map from internal types to display types
+    final Map<String, String> typeMapping = {
+      'identification': 'ID Card',
+      'medical_record': 'Medical Certificate',
+      'training_certificate': 'Training Certificate',
+      'promotion': 'Promotion Order',
+      'commendation': 'Commendation',
+      'other': 'Other Document'
+    };
+    
+    // If it's already a display type, return it
+    if (AppConstants.documentTypes.contains(type)) {
+      return type;
+    }
+    
+    // Return the mapped type or the original if not found
+    return typeMapping[type] ?? type;
   }
 
   // Add notification dialog method

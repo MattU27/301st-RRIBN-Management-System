@@ -77,6 +77,7 @@ class AuthService extends ChangeNotifier {
               _currentUser = user;
               await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
+              await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
               
               notifyListeners();
             } catch (e) {
@@ -122,6 +123,7 @@ class AuthService extends ChangeNotifier {
               _currentUser = user;
               await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
+              await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
               
               notifyListeners();
               
@@ -160,6 +162,7 @@ class AuthService extends ChangeNotifier {
               _currentUser = user;
               await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
+              await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
               
               notifyListeners();
               
@@ -206,6 +209,7 @@ class AuthService extends ChangeNotifier {
           _currentUser = user;
           await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
           await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
+          await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
           
           notifyListeners();
           

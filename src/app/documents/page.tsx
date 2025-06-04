@@ -21,9 +21,9 @@ import ConfirmationDialog from '@/components/ConfirmationDialog';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import DocumentViewer from '@/components/DocumentViewer';
+import { useSocket } from '@/contexts/SocketContext';
 
 type DocumentStatus = 'verified' | 'pending' | 'rejected';
-type SecurityClassification = 'Unclassified' | 'Confidential' | 'Secret' | 'Top Secret';
 
 interface Document {
   _id: string;
@@ -35,8 +35,14 @@ interface Document {
   verifiedDate?: string;
   comments?: string;
   fileUrl: string;
-  securityClassification: SecurityClassification;
   expirationDate?: string;
+  uploadedBy?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    serviceId: string;
+    company?: string;
+  };
 }
 
 export default function DocumentsPage() {
@@ -53,21 +59,97 @@ export default function DocumentsPage() {
   const [documentToVerify, setDocumentToVerify] = useState<Document | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  
+  // Add filter states
+  const [filterServiceId, setFilterServiceId] = useState('');
+  const [filterCompany, setFilterCompany] = useState('');
+  const [companies, setCompanies] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const { socket } = useSocket();
+
+  // Listen for real-time document updates
+  useEffect(() => {
+    if (!socket) return;
+
+    // Listen for new document events
+    socket.on('document:new', (newDocument) => {
+      console.log('New document received:', newDocument);
+      
+      // Add the new document to the state
+      setDocuments((prevDocs) => [newDocument, ...prevDocs]);
+      
+      // Show a notification
+      toast.success('New document uploaded');
+    });
+
+    // Listen for document update events
+    socket.on('document:update', (updatedDocument) => {
+      console.log('Document updated:', updatedDocument);
+      
+      // Update the document in the state
+      setDocuments((prevDocs) => 
+        prevDocs.map((doc) => 
+          doc._id === updatedDocument._id ? updatedDocument : doc
+        )
+      );
+    });
+
+    // Listen for document delete events
+    socket.on('document:delete', (deletedDocId) => {
+      console.log('Document deleted:', deletedDocId);
+      
+      // Remove the document from the state
+      setDocuments((prevDocs) => 
+        prevDocs.filter((doc) => doc._id !== deletedDocId)
+      );
+    });
+
+    return () => {
+      // Clean up listeners
+      socket.off('document:new');
+      socket.off('document:update');
+      socket.off('document:delete');
+    };
+  }, [socket]);
 
   // Fetch documents from API
   const fetchDocuments = async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) return;
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
 
+      console.log('Fetching documents...');
       const response = await axios.get('/api/documents', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
+      console.log('API response:', response.data);
+
       if (response.data.success) {
-        setDocuments(response.data.data.documents);
+        const docs = response.data.data.documents;
+        console.log('Documents received:', docs.length);
+        console.log('Sample document:', docs.length > 0 ? docs[0] : 'No documents');
+        
+        setDocuments(docs);
+        
+        // Extract unique companies for the filter dropdown
+        const uniqueCompanies = Array.from(
+          new Set(
+            docs
+              .filter((doc: Document) => doc.uploadedBy?.company)
+              .map((doc: Document) => doc.uploadedBy?.company)
+          )
+        );
+        console.log('Unique companies:', uniqueCompanies);
+        setCompanies(uniqueCompanies as string[]);
+      } else {
+        console.error('API returned success: false');
       }
     } catch (error) {
       console.error('Error fetching documents:', error);
@@ -178,9 +260,29 @@ export default function DocumentsPage() {
     }
   };
 
+  // Apply filters
   const filteredDocuments = activeTab === 'all' 
     ? documents 
     : documents.filter(doc => doc.status === activeTab);
+  
+  // Apply additional filters (service ID and company)
+  const finalFilteredDocuments = filteredDocuments.filter((doc: Document) => {
+    // Filter by service ID if provided
+    if (filterServiceId && doc.uploadedBy?.serviceId) {
+      if (!doc.uploadedBy.serviceId.toLowerCase().includes(filterServiceId.toLowerCase())) {
+        return false;
+      }
+    }
+    
+    // Filter by company if provided
+    if (filterCompany && doc.uploadedBy?.company) {
+      if (doc.uploadedBy.company !== filterCompany) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
 
   const getStatusBadge = (status: DocumentStatus) => {
     switch (status) {
@@ -213,6 +315,20 @@ export default function DocumentsPage() {
   
   // Determine if user is an administrator (for RIDS permissions)
   const isAdministrator = user && user.role === 'administrator';
+
+  // Format document type for display
+  const formatDocumentType = (type: string): string => {
+    const typeMapping: { [key: string]: string } = {
+      'training_certificate': 'Training Certificate',
+      'medical_record': 'Medical Certificate',
+      'identification': 'Identification',
+      'promotion': 'Promotion Order',
+      'commendation': 'Commendation',
+      'other': 'Other Document'
+    };
+    
+    return typeMapping[type] || type;
+  };
 
   if (isLoading) {
     return (
@@ -350,11 +466,76 @@ export default function DocumentsPage() {
               >
                 Rejected
               </button>
+              
+              {/* Filter toggle button */}
+              <button
+                className={`ml-auto whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${
+                  showFilters ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <div className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
+                  </svg>
+                  Filters
+                </div>
+              </button>
             </nav>
           </div>
 
+          {/* Filter section */}
+          {showFilters && (
+            <div className="bg-gray-50 p-4 border-b border-gray-200">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="serviceId" className="block text-sm font-medium text-gray-700 mb-1">
+                    Service ID
+                  </label>
+                  <input
+                    type="text"
+                    id="serviceId"
+                    value={filterServiceId}
+                    onChange={(e) => setFilterServiceId(e.target.value)}
+                    placeholder="Filter by Service ID"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+                    Company
+                  </label>
+                  <select
+                    id="company"
+                    value={filterCompany}
+                    onChange={(e) => setFilterCompany(e.target.value)}
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  >
+                    <option value="">All Companies</option>
+                    {companies.map((company) => (
+                      <option key={company} value={company}>
+                        {company}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={() => {
+                    setFilterServiceId('');
+                    setFilterCompany('');
+                  }}
+                  className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="mt-6">
-            {filteredDocuments.length === 0 ? (
+            {finalFilteredDocuments.length === 0 ? (
               <div className="text-center py-12">
                 <DocumentTextIcon className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No documents found</h3>
@@ -376,13 +557,13 @@ export default function DocumentsPage() {
                         Type
                       </th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Classification
-                      </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Upload Date
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Uploaded By
                       </th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -390,7 +571,7 @@ export default function DocumentsPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredDocuments.map((document) => (
+                    {finalFilteredDocuments.map((document) => (
                       <tr key={document._id} className={document.status === 'pending' ? 'bg-yellow-50' : ''}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -399,19 +580,7 @@ export default function DocumentsPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">{document.type}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              document.securityClassification === 'Unclassified' ? 'bg-gray-100 text-gray-800' :
-                              document.securityClassification === 'Confidential' ? 'bg-blue-100 text-blue-800' :
-                              document.securityClassification === 'Secret' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-red-100 text-red-800'
-                            }`}>
-                              {document.securityClassification}
-                            </span>
-                          </div>
+                          <div className="text-sm text-gray-500">{formatDocumentType(document.type)}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {getStatusBadge(document.status)}
@@ -421,6 +590,21 @@ export default function DocumentsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">{document.uploadDate}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {document.uploadedBy ? (
+                            <div className="text-sm text-gray-900">
+                              <div>{document.uploadedBy.firstName} {document.uploadedBy.lastName}</div>
+                              <div className="text-xs text-gray-500">
+                                {document.uploadedBy.serviceId}
+                                {document.uploadedBy.company && (
+                                  <span className="ml-1">| {document.uploadedBy.company}</span>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-sm text-gray-500">Unknown</div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex space-x-2">

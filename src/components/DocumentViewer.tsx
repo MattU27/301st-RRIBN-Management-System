@@ -19,7 +19,6 @@ import DocumentVersionHistory from './DocumentVersionHistory';
 import ConfirmationDialog from './ConfirmationDialog';
 
 type DocumentStatus = 'verified' | 'pending' | 'rejected';
-type SecurityClassification = 'Unclassified' | 'Confidential' | 'Secret' | 'Top Secret';
 
 interface Document {
   _id: string;
@@ -31,7 +30,6 @@ interface Document {
   verifiedDate?: string;
   comments?: string;
   fileUrl: string;
-  securityClassification: SecurityClassification;
   expirationDate?: string;
 }
 
@@ -192,9 +190,6 @@ export default function DocumentViewer({ document: docData, onClose }: DocumentV
                       
                       <div className="text-gray-500">Upload Date</div>
                       <div className="font-medium text-gray-900">{docData.uploadDate}</div>
-                      
-                      <div className="text-gray-500">Security</div>
-                      <div className="font-medium text-gray-900">{docData.securityClassification}</div>
                       
                       {docData.expirationDate && (
                         <>

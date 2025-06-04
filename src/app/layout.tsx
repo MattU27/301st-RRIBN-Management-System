@@ -12,6 +12,7 @@ import StateResetWrapper from '@/components/StateResetWrapper';
 import { Toaster } from 'react-hot-toast';
 import MainContentWrapper from "@/components/MainContentWrapper";
 import DatabaseCleanupWrapper from "@/components/DatabaseCleanupWrapper";
+import { SocketProvider } from '@/contexts/SocketContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,20 +30,22 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <AuthProvider>
-          <NotificationProvider>
-            <SidebarProvider>
-              <StateResetWrapper>
-                <Sidebar />
-                <MainContentWrapper>
-                  {children}
-                </MainContentWrapper>
-                <SessionTimeoutWarning />
-                <AccountDeactivationNotice />
-                <DatabaseCleanupWrapper />
-                <Toaster position="top-right" />
-              </StateResetWrapper>
-            </SidebarProvider>
-          </NotificationProvider>
+          <SocketProvider>
+            <NotificationProvider>
+              <SidebarProvider>
+                <StateResetWrapper>
+                  <Sidebar />
+                  <MainContentWrapper>
+                    {children}
+                  </MainContentWrapper>
+                  <SessionTimeoutWarning />
+                  <AccountDeactivationNotice />
+                  <DatabaseCleanupWrapper />
+                  <Toaster position="top-right" />
+                </StateResetWrapper>
+              </SidebarProvider>
+            </NotificationProvider>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>

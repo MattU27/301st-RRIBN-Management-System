@@ -27,9 +27,9 @@ export interface IDocument extends mongoose.Document {
   fileSize: number;
   mimeType: string;
   userId: mongoose.Types.ObjectId;
-  uploadedBy: mongoose.Types.ObjectId;
+  uploadedBy: mongoose.Types.ObjectId | any; // Allow for populated user object
   status: DocumentStatus;
-  verifiedBy?: mongoose.Types.ObjectId;
+  verifiedBy?: mongoose.Types.ObjectId | any; // Allow for populated user object
   verificationDate?: Date;
   verificationNotes?: string;
   version: number;
@@ -53,7 +53,6 @@ export interface IDocument extends mongoose.Document {
   verifiedDate: Date;
   comments: string;
   uploadDate: Date;
-  securityClassification: string;
 }
 
 // Define the Document schema
@@ -165,13 +164,10 @@ const DocumentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  securityClassification: {
-    type: String,
-    enum: ['Unclassified', 'Confidential', 'Secret', 'Top Secret'],
-    default: 'Unclassified'
-  },
 }, {
   timestamps: true,
+  toJSON: { virtuals: true }, // Enable virtuals when converting to JSON
+  toObject: { virtuals: true } // Enable virtuals when converting to object
 });
 
 // Create and export the Document model

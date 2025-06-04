@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // MongoDB connection string (should be stored in environment variables in production)
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/armed_forces_app';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/afp_personnel_db';
 
 // Track connection status
 let isConnected = false;

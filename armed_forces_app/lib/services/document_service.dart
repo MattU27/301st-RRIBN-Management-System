@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
+import './socket_service.dart';
 
 class DocumentService {
   // MongoDB connection
@@ -22,18 +23,10 @@ class DocumentService {
     try {
       print('Connecting to MongoDB...');
       // Use 10.0.2.2 for Android emulator to connect to host machine
-      // This should be the same MongoDB instance that the Next.js app is using
-      final String connectionString = 'mongodb://10.0.2.2:27017/${AppConstants.databaseName}';
-      print('Connection string: $connectionString');
-      
-      _db = await Db.create(connectionString);
+      _db = await Db.create('mongodb://10.0.2.2:27017/${AppConstants.databaseName}');
       await _db!.open();
-      
-      // Use the same collection name as the web app
       _documentsCollection = _db!.collection('documents');
-      
       print('Connected to MongoDB successfully');
-      print('Available collections: ${await _db!.getCollectionNames()}');
     } catch (e) {
       print('Error connecting to MongoDB: $e');
       throw Exception('Failed to connect to MongoDB: $e');
@@ -111,40 +104,15 @@ class DocumentService {
             }
           });
           
-          // Handle web app field names
-          // If 'name' exists but 'title' doesn't, copy name to title
-          if (processedDoc.containsKey('name') && !processedDoc.containsKey('title')) {
-            processedDoc['title'] = processedDoc['name'];
-          }
-          // If 'title' exists but 'name' doesn't, copy title to name
-          else if (processedDoc.containsKey('title') && !processedDoc.containsKey('name')) {
-            processedDoc['name'] = processedDoc['title'];
-          }
-          
-          // Handle uploadDate vs uploadedAt
-          if (processedDoc.containsKey('uploadDate') && !processedDoc.containsKey('uploadedAt')) {
-            try {
-              if (processedDoc['uploadDate'] is String) {
-                processedDoc['uploadedAt'] = DateTime.parse(processedDoc['uploadDate']);
-              } else {
-                processedDoc['uploadedAt'] = processedDoc['uploadDate'];
-              }
-            } catch (e) {
-              print('Error converting uploadDate: $e');
-              processedDoc['uploadedAt'] = DateTime.now();
-            }
-          }
-          
           // Ensure required fields exist
           processedDoc['id'] = processedDoc['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
           processedDoc['userId'] = processedDoc['userId'] ?? 'current_user';
-          processedDoc['title'] = processedDoc['title'] ?? processedDoc['name'] ?? 'Untitled Document';
+          processedDoc['title'] = processedDoc['title'] ?? 'Untitled Document';
           processedDoc['type'] = processedDoc['type'] ?? 'Other';
           processedDoc['fileUrl'] = processedDoc['fileUrl'] ?? '';
           processedDoc['fileName'] = processedDoc['fileName'] ?? 'document.pdf';
           processedDoc['fileSize'] = processedDoc['fileSize'] ?? 0;
           processedDoc['status'] = processedDoc['status'] ?? 'pending';
-          processedDoc['securityClassification'] = processedDoc['securityClassification'] ?? 'Unclassified';
           
           // Handle date fields
           try {
@@ -186,7 +154,38 @@ class DocumentService {
       // Try API first
       try {
         final prefs = await SharedPreferences.getInstance();
-        final token = prefs.getString(AppConstants.authTokenKey);
+        final token = prefs.getString(AppConstants.authTokenKey) ?? prefs.getString(AppConstants.tokenKey);
+        final userId = prefs.getString(AppConstants.userIdKey);
+        
+        print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
+        print('User ID from prefs: $userId');
+        
+        // If no userId is found in prefs, try to get it from the API
+        String effectiveUserId = userId ?? '';
+        if (effectiveUserId.isEmpty) {
+          // Try to get user info from API to get a valid ID
+          try {
+            final userResponse = await http.get(
+              Uri.parse(AppConstants.userProfileEndpoint),
+              headers: {
+                'Authorization': 'Bearer $token',
+              },
+            );
+            
+            if (userResponse.statusCode == 200) {
+              final userData = json.decode(userResponse.body);
+              if (userData['success'] && userData['data'] != null && userData['data']['user'] != null) {
+                effectiveUserId = userData['data']['user']['_id'] ?? userData['data']['user']['id'] ?? '';
+                // Save this ID for future use
+                if (effectiveUserId.isNotEmpty) {
+                  await prefs.setString(AppConstants.userIdKey, effectiveUserId);
+                }
+              }
+            }
+          } catch (e) {
+            print('Error fetching user profile: $e');
+          }
+        }
         
         if (token != null) {
           // Create multipart request
@@ -215,9 +214,10 @@ class DocumentService {
           request.files.add(multipartFile);
           
           // Add form fields
-          request.fields['title'] = title;
+          request.fields['name'] = title;
           request.fields['type'] = type;
-          request.fields['securityClassification'] = 'Unclassified'; // Default value
+          // Use a fixed ID if we don't have a real one - this should match the one in our fix script
+          request.fields['userId'] = effectiveUserId.isNotEmpty ? effectiveUserId : '68063c32bb93f9ffb2000000';
           
           if (description != null && description.isNotEmpty) {
             request.fields['description'] = description;
@@ -227,11 +227,26 @@ class DocumentService {
           final streamedResponse = await request.send();
           final response = await http.Response.fromStream(streamedResponse);
           
+          print('Document upload response status: ${response.statusCode}');
+          print('Document upload response body: ${response.body.substring(0, math.min(200, response.body.length))}...');
+          
           if (response.statusCode == 200 || response.statusCode == 201) {
             final Map<String, dynamic> data = json.decode(response.body);
             
             if (data['success'] == true && data['data'] != null && data['data']['document'] != null) {
-              return Document.fromJson(data['data']['document']);
+              final document = Document.fromJson(data['data']['document']);
+              
+              // Notify web app via socket
+              try {
+                final socketService = SocketService();
+                await socketService.initSocket();
+                socketService.notifyDocumentUploaded(data['data']['document']);
+              } catch (socketError) {
+                print('Socket notification error: $socketError');
+                // Continue even if socket notification fails
+              }
+              
+              return document;
             }
           }
         }
@@ -285,29 +300,33 @@ class DocumentService {
       final fileSize = await savedFile.length();
       print('File size: $fileSize bytes');
       
+      // Try to get current user ID from shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString(AppConstants.userIdKey);
+      print('User ID from shared preferences: $userId');
+      
+      // Use a fixed ID if we don't have a real one - this should match the one in our fix script
+      final String effectiveUserId = userId != null && userId.isNotEmpty ? userId : '68063c32bb93f9ffb2000000';
+      print('Using effective user ID: $effectiveUserId');
+      
       // Create document object
       final String documentId = ObjectId().toHexString();
       final now = DateTime.now();
       
-      // Format dates in ISO format for compatibility with web app
-      final String formattedNow = now.toIso8601String();
-      
-      // Create document data with proper field names for MongoDB and web compatibility
+      // Create document data with proper field names for MongoDB
       final Map<String, dynamic> documentData = {
         '_id': documentId,
-        'userId': 'current_user',
-        'name': title, // Web app uses 'name' instead of 'title'
-        'title': title, // Keep 'title' for mobile app
-        'type': type,
+        'userId': effectiveUserId,
+        'uploadedBy': effectiveUserId,
+        'title': title,
+        'type': _mapDocumentType(type),
         'description': description,
         'fileUrl': 'file://$savedFilePath',
         'fileName': originalFileName,
         'fileSize': fileSize,
         'mimeType': _getMimeType(file.path),
         'status': 'pending',
-        'securityClassification': 'Unclassified',
-        'uploadDate': formattedNow, // Web app uses 'uploadDate'
-        'uploadedAt': now, // Mobile app uses 'uploadedAt'
+        'uploadedAt': now,
         'updatedAt': now,
         'version': 1,
         'localFilePath': savedFilePath,
@@ -340,16 +359,15 @@ class DocumentService {
       // Return document object
       return Document(
         id: documentId,
-        userId: 'current_user',
+        userId: effectiveUserId,
         title: title,
-        type: type,
+        type: _mapDocumentType(type),
         description: description,
         fileUrl: 'file://$savedFilePath',
         fileName: originalFileName,
         fileSize: fileSize,
         mimeType: _getMimeType(file.path),
         status: 'pending',
-        securityClassification: 'Unclassified',
         uploadedAt: now,
         updatedAt: now,
         version: 1,
@@ -400,6 +418,15 @@ class DocumentService {
           if (response.statusCode == 200) {
             final Map<String, dynamic> data = json.decode(response.body);
             if (data['success'] == true) {
+              // Notify web app via socket
+              try {
+                final socketService = SocketService();
+                await socketService.initSocket();
+                socketService.notifyDocumentDeleted(documentId);
+              } catch (socketError) {
+                print('Socket notification error: $socketError');
+                // Continue even if socket notification fails
+              }
               return true;
             }
           }
@@ -597,5 +624,30 @@ class DocumentService {
       print('Error saving file: $e');
       throw Exception('Failed to save file: $e');
     }
+  }
+
+  // Map document type to a format that matches the web app
+  String _mapDocumentType(String type) {
+    // Map from mobile app document types to web app document types
+    final Map<String, String> typeMapping = {
+      'Birth Certificate': 'other',
+      'ID Card': 'identification',
+      'Picture 2x2': 'identification',
+      '3R ROTC Certificate': 'training_certificate',
+      'Enlistment Order': 'other',
+      'Promotion Order': 'promotion',
+      'Order of Incorporation': 'other',
+      'Schooling Certificate': 'training_certificate',
+      'College Diploma': 'training_certificate',
+      'RIDS': 'other',
+      'Medical Certificate': 'medical_record',
+      'Training Certificate': 'training_certificate',
+      'Deployment Order': 'other',
+      'Commendation': 'commendation',
+      'Other': 'other'
+    };
+    
+    // Return the mapped type or default to 'other'
+    return typeMapping[type] ?? 'other';
   }
 } 
