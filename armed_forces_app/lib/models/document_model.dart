@@ -96,8 +96,8 @@ class Document {
     // Use _id if id is not available (MongoDB uses _id)
     final String docId = json['id'] ?? json['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
     
-    // Default to John Matthew Banto's ID if userId is missing or 'current_user'
-    final String defaultUserId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's ID
+    // Default to Camila Ramos's ID if userId is missing or 'current_user'
+    final String defaultUserId = '680644b64c09aeb74f457346'; // Camila Ramos's ID
     String userId = json['userId'] ?? '';
     if (userId.isEmpty || userId == 'current_user') {
       userId = defaultUserId;

@@ -258,13 +258,19 @@ class MongoDBService {
       
       if (kDebugMode) {
         print('Login successful for user: $email');
+        print('User ID: ${user['_id']}');
+        print('User role: ${user['role']}');
       }
+      
+      // Ensure we have a proper ID
+      final userId = user['_id'] != null ? user['_id'].toString() : null;
       
       return {
         'success': true,
         'message': 'Login successful',
         'user': _user,
         'token': 'mongodb_auth_token', // In a real app, generate a proper JWT
+        'userId': userId, // Include the user ID in the response
       };
     } catch (e) {
       _logger.e('Login error: $e');

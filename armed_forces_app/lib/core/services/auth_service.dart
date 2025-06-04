@@ -77,7 +77,33 @@ class AuthService extends ChangeNotifier {
               _currentUser = user;
               await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
-              await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
+              
+              // Ensure we have a valid user ID
+              if (user.id != null && user.id!.isNotEmpty) {
+                await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
+                
+                // Log the stored user ID for debugging
+                if (kDebugMode) {
+                  print('Stored user ID in secure storage: ${user.id}');
+                  print('Stored user role in secure storage: ${user.role}');
+                }
+              } else if (result['userId'] != null) {
+                // If user.id is missing but result has userId, use that
+                final userId = result['userId'].toString();
+                await _secureStorage.write(key: AppConstants.userIdKey, value: userId);
+                
+                if (kDebugMode) {
+                  print('Stored user ID from result in secure storage: $userId');
+                }
+              }
+              
+              // Store user email for document uploads
+              if (user.email != null && user.email!.isNotEmpty) {
+                await _secureStorage.write(key: 'user_email', value: user.email);
+                if (kDebugMode) {
+                  print('Stored user email in secure storage: ${user.email}');
+                }
+              }
               
               notifyListeners();
             } catch (e) {
@@ -125,6 +151,14 @@ class AuthService extends ChangeNotifier {
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
               await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
               
+              // Store user email for document uploads
+              if (user.email != null && user.email!.isNotEmpty) {
+                await _secureStorage.write(key: 'user_email', value: user.email);
+                if (kDebugMode) {
+                  print('Stored user email in secure storage: ${user.email}');
+                }
+              }
+              
               notifyListeners();
               
               return {
@@ -163,6 +197,14 @@ class AuthService extends ChangeNotifier {
               await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
               await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
               await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
+              
+              // Store user email for document uploads
+              if (user.email != null && user.email!.isNotEmpty) {
+                await _secureStorage.write(key: 'user_email', value: user.email);
+                if (kDebugMode) {
+                  print('Stored user email in secure storage: ${user.email}');
+                }
+              }
               
               notifyListeners();
               
@@ -210,6 +252,20 @@ class AuthService extends ChangeNotifier {
           await _secureStorage.write(key: AppConstants.userDataKey, value: jsonEncode(user.toJson()));
           await _secureStorage.write(key: AppConstants.userRoleKey, value: user.role);
           await _secureStorage.write(key: AppConstants.userIdKey, value: user.id);
+          
+          // Log the stored user ID for debugging
+          if (kDebugMode) {
+            print('Stored user ID in secure storage: ${user.id}');
+            print('Stored user role in secure storage: ${user.role}');
+          }
+          
+          // Store user email for document uploads
+          if (user.email != null && user.email!.isNotEmpty) {
+            await _secureStorage.write(key: 'user_email', value: user.email);
+            if (kDebugMode) {
+              print('Stored user email in secure storage: ${user.email}');
+            }
+          }
           
           notifyListeners();
           

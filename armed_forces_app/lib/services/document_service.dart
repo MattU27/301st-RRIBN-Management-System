@@ -151,41 +151,20 @@ class DocumentService {
     String? description,
   }) async {
     try {
+      // Get user ID from shared preferences first
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString(AppConstants.userIdKey);
+      
+      if (userId == null || userId.isEmpty) {
+        throw Exception('User ID not found. Please log in again.');
+      }
+      
       // Try API first
       try {
-        final prefs = await SharedPreferences.getInstance();
         final token = prefs.getString(AppConstants.authTokenKey) ?? prefs.getString(AppConstants.tokenKey);
-        final userId = prefs.getString(AppConstants.userIdKey);
         
         print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
         print('User ID from prefs: $userId');
-        
-        // If no userId is found in prefs, try to get it from the API
-        String effectiveUserId = userId ?? '';
-        if (effectiveUserId.isEmpty) {
-          // Try to get user info from API to get a valid ID
-          try {
-            final userResponse = await http.get(
-              Uri.parse(AppConstants.userProfileEndpoint),
-              headers: {
-                'Authorization': 'Bearer $token',
-              },
-            );
-            
-            if (userResponse.statusCode == 200) {
-              final userData = json.decode(userResponse.body);
-              if (userData['success'] && userData['data'] != null && userData['data']['user'] != null) {
-                effectiveUserId = userData['data']['user']['_id'] ?? userData['data']['user']['id'] ?? '';
-                // Save this ID for future use
-                if (effectiveUserId.isNotEmpty) {
-                  await prefs.setString(AppConstants.userIdKey, effectiveUserId);
-                }
-              }
-            }
-          } catch (e) {
-            print('Error fetching user profile: $e');
-          }
-        }
         
         if (token != null) {
           // Create multipart request
@@ -216,8 +195,7 @@ class DocumentService {
           // Add form fields
           request.fields['name'] = title;
           request.fields['type'] = type;
-          // Use a fixed ID if we don't have a real one - this should match the one in our fix script
-          request.fields['userId'] = effectiveUserId.isNotEmpty ? effectiveUserId : '68063c32bb93f9ffb2000000';
+          request.fields['userId'] = userId;
           
           if (description != null && description.isNotEmpty) {
             request.fields['description'] = description;
@@ -251,7 +229,7 @@ class DocumentService {
           }
         }
       } catch (e) {
-        print('API upload error: $e. Using direct MongoDB upload.');
+        print('API error: $e');
       }
       
       // Fallback to direct MongoDB
@@ -261,6 +239,13 @@ class DocumentService {
       if (_documentsCollection == null) {
         throw Exception('Documents collection not initialized');
       }
+      
+      if (userId == null || userId.isEmpty) {
+        throw Exception('User ID not found. Please log in again.');
+      }
+      
+      // Generate a unique ID for the document
+      final ObjectId documentId = ObjectId();
       
       // Get file name and create a unique name to avoid conflicts
       final String originalFileName = file.path.split('/').last;
@@ -279,45 +264,24 @@ class DocumentService {
         appDir = docsDir;
       } catch (e) {
         print('Error creating documents directory: $e');
-        // Fallback to system temp
         appDir = Directory.systemTemp;
       }
       
-      final String savedFilePath = '${appDir.path}/$uniqueFileName';
-      print('Saving file to: $savedFilePath');
-      
-      // Copy the file to our storage location
-      final File savedFile = await file.copy(savedFilePath);
-      print('File saved locally to: $savedFilePath');
-      
-      // Verify the file was saved
-      if (!await savedFile.exists()) {
-        print('Warning: File was not saved properly');
-        throw Exception('Failed to save file locally');
-      }
+      // Save the file
+      final String savedFilePath = '${appDir!.path}/$uniqueFileName';
+      await file.copy(savedFilePath);
       
       // Get file size
-      final fileSize = await savedFile.length();
-      print('File size: $fileSize bytes');
+      final int fileSize = await file.length();
       
-      // Try to get current user ID from shared preferences
-      final prefs = await SharedPreferences.getInstance();
-      final userId = prefs.getString(AppConstants.userIdKey);
-      print('User ID from shared preferences: $userId');
+      // Get current timestamp
+      final DateTime now = DateTime.now();
       
-      // Use a fixed ID if we don't have a real one - this should match the one in our fix script
-      final String effectiveUserId = userId != null && userId.isNotEmpty ? userId : '68063c32bb93f9ffb2000000';
-      print('Using effective user ID: $effectiveUserId');
-      
-      // Create document object
-      final String documentId = ObjectId().toHexString();
-      final now = DateTime.now();
-      
-      // Create document data with proper field names for MongoDB
+      // Create document data
       final Map<String, dynamic> documentData = {
         '_id': documentId,
-        'userId': effectiveUserId,
-        'uploadedBy': effectiveUserId,
+        'userId': userId,
+        'uploadedBy': userId,
         'title': title,
         'type': _mapDocumentType(type),
         'description': description,
@@ -358,8 +322,8 @@ class DocumentService {
       
       // Return document object
       return Document(
-        id: documentId,
-        userId: effectiveUserId,
+        id: documentId.toHexString(),
+        userId: userId,
         title: title,
         type: _mapDocumentType(type),
         description: description,
@@ -649,5 +613,75 @@ class DocumentService {
     
     // Return the mapped type or default to 'other'
     return typeMapping[type] ?? 'other';
+  }
+
+  // Create a new document in MongoDB
+  Future<Document> _createDocumentInMongoDB({
+    required String title,
+    required String type,
+    required String fileUrl,
+    required String fileName,
+    required int fileSize,
+    String? description,
+    String? userId,
+  }) async {
+    try {
+      await _initMongoDB();
+      
+      if (_documentsCollection == null) {
+        throw Exception('Documents collection not initialized');
+      }
+      
+      // Use Camila Ramos's ID if userId is not provided
+      final String effectiveUserId = userId != null && userId.isNotEmpty ? userId : '680644b64c09aeb74f457346';
+      print('Using effective user ID: $effectiveUserId');
+      
+      // Generate a unique ID for the document
+      final ObjectId documentId = ObjectId();
+      
+      // Create the document object
+      final Map<String, dynamic> documentData = {
+        '_id': documentId,
+        'title': title,
+        'type': type,
+        'description': description,
+        'fileUrl': fileUrl,
+        'fileName': fileName,
+        'fileSize': fileSize,
+        'mimeType': _getMimeType(fileName),
+        'userId': effectiveUserId,
+        'uploadedBy': effectiveUserId,
+        'status': 'pending',
+        'version': 1,
+        'createdAt': DateTime.now(),
+        'updatedAt': DateTime.now(),
+        'uploadedAt': DateTime.now(),
+      };
+      
+      // Insert the document into MongoDB
+      await _documentsCollection!.insert(documentData);
+      
+      print('Document created in MongoDB: ${documentId.toHexString()}');
+      
+      // Convert the document data to a Document object
+      return Document.fromJson({
+        'id': documentId.toHexString(),
+        'userId': effectiveUserId,
+        'title': title,
+        'type': type,
+        'description': description,
+        'fileUrl': fileUrl,
+        'fileName': fileName,
+        'fileSize': fileSize,
+        'mimeType': _getMimeType(fileName),
+        'status': 'pending',
+        'uploadedAt': DateTime.now(),
+        'updatedAt': DateTime.now(),
+        'version': 1,
+      });
+    } catch (e) {
+      print('Error creating document in MongoDB: $e');
+      throw Exception('Failed to create document: $e');
+    }
   }
 } 

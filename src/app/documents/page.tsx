@@ -36,6 +36,7 @@ interface Document {
   comments?: string;
   fileUrl: string;
   expirationDate?: string;
+  userId: string;
   uploadedBy?: {
     _id: string;
     firstName: string;
@@ -136,12 +137,23 @@ export default function DocumentsPage() {
         console.log('Documents received:', docs.length);
         console.log('Sample document:', docs.length > 0 ? docs[0] : 'No documents');
         
-        setDocuments(docs);
+        // Ensure each document has proper user information
+        const processedDocs = docs.map((doc: Document) => ({
+          ...doc,
+          uploadedBy: doc.uploadedBy || {
+            _id: doc.userId,
+            firstName: 'Unknown',
+            lastName: 'User',
+            serviceId: 'N/A'
+          }
+        }));
+        
+        setDocuments(processedDocs);
         
         // Extract unique companies for the filter dropdown
         const uniqueCompanies = Array.from(
           new Set(
-            docs
+            processedDocs
               .filter((doc: Document) => doc.uploadedBy?.company)
               .map((doc: Document) => doc.uploadedBy?.company)
           )
