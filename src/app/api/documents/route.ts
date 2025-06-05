@@ -96,6 +96,7 @@ export async function GET(request: Request) {
     
     // Format dates and ensure all documents have proper uploadedBy information
     documents = await Promise.all(documents.map(async doc => {
+      try {
       // Format dates as strings for consistent display
       if (doc.uploadDate) {
         doc.uploadDate = new Date(doc.uploadDate).toLocaleDateString('en-US', {
@@ -134,32 +135,48 @@ export async function GET(request: Request) {
           console.log(`Using userId ${doc.userId} as fallback`);
           
           let userId = doc.userId;
+            let validObjectId = false;
+            
           // If userId is a string but not 'current_user', try to convert to ObjectId
           if (typeof userId === 'string' && userId !== 'current_user') {
             try {
+                // Check if the userId is a valid ObjectId before conversion
+                if (mongoose.Types.ObjectId.isValid(userId)) {
               userId = new mongoose.Types.ObjectId(userId);
+                  validObjectId = true;
               console.log(`Converted userId to ObjectId: ${userId}`);
+                } else {
+                  console.log(`Invalid ObjectId format: ${userId}`);
+                  // Use a generic Unknown User instead of trying to convert an invalid ID
+                  doc.uploadedBy = {
+                    firstName: 'Unknown',
+                    lastName: 'User',
+                    serviceId: 'N/A'
+                  };
+                  return doc;
+                }
             } catch (err) {
               console.log(`Error converting userId to ObjectId: ${err}`);
-              // If conversion fails, try to find John Matthew Banto's record as fallback
-              console.log('Using default personnel (John Matthew Banto) as fallback');
-              userId = '68063c32bb93f9ffb2000000';
-              try {
-                userId = new mongoose.Types.ObjectId(userId);
-              } catch (convertErr) {
-                console.log(`Error converting default ID to ObjectId: ${convertErr}`);
-              }
+                // Use a generic Unknown User instead of defaulting to John Matthew Banto
+                doc.uploadedBy = {
+                  firstName: 'Unknown',
+                  lastName: 'User',
+                  serviceId: 'N/A'
+                };
+                return doc;
             }
           } else if (typeof userId === 'string' && userId === 'current_user') {
-            console.log('userId is "current_user", using default personnel ID');
-            userId = '68063c32bb93f9ffb2000000';
-            try {
-              userId = new mongoose.Types.ObjectId(userId);
-            } catch (convertErr) {
-              console.log(`Error converting default ID to ObjectId: ${convertErr}`);
+              console.log('userId is "current_user", using generic Unknown User');
+              doc.uploadedBy = {
+                firstName: 'Unknown',
+                lastName: 'User',
+                serviceId: 'N/A'
+              };
+              return doc;
             }
-          }
-          
+            
+            // Only proceed with database lookup if we have a valid ObjectId
+            if (validObjectId) {
           // Try to find the user in both collections
           const db = await dbConnect();
           
@@ -209,33 +226,8 @@ export async function GET(request: Request) {
             console.log(`Found user: ${(user as any).firstName || 'Unknown'} ${(user as any).lastName || 'User'}`);
             doc.uploadedBy = user;
           } else {
-            // If userId is 'current_user' or we couldn't find a user, use the default personnel
-            console.log('Using default personnel for current_user or not found user');
-            
-            // Try to find John Matthew Banto's record as fallback
-            const Personnel = mongoose.model('Personnel');
-            try {
-              const defaultPersonnel = await Personnel.findOne({ serviceNumber: '2019-10180' }).lean() as any;
-              
-              if (defaultPersonnel) {
-                console.log(`Using default personnel record (John Matthew Banto): ${defaultPersonnel._id}`);
-                doc.uploadedBy = {
-                  firstName: defaultPersonnel.firstName,
-                  lastName: defaultPersonnel.lastName,
-                  serviceId: defaultPersonnel.serviceNumber,
-                  company: defaultPersonnel.company,
-                  email: defaultPersonnel.email
-                };
-              } else {
-                console.log('Default personnel not found, using generic Unknown User');
-                doc.uploadedBy = {
-                  firstName: 'Unknown',
-                  lastName: 'User',
-                  serviceId: 'N/A'
-                };
-              }
-            } catch (err) {
-              console.log(`Error finding default personnel: ${err}`);
+                // If we couldn't find a user, use a generic Unknown User
+                console.log('User not found, using generic Unknown User');
               doc.uploadedBy = {
                 firstName: 'Unknown',
                 lastName: 'User',
@@ -282,6 +274,19 @@ export async function GET(request: Request) {
       }
       
       return doc;
+      } catch (error) {
+        console.error(`Error processing document:`, error);
+        // Return a safe copy of the document with generic uploadedBy information
+        // to prevent the entire request from failing
+        return {
+          ...doc,
+          uploadedBy: {
+            firstName: 'Unknown',
+            lastName: 'User',
+            serviceId: 'N/A'
+          }
+        };
+      }
     }));
     
     // Log a sample document to check if uploadedBy is populated

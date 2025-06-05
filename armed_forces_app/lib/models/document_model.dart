@@ -17,6 +17,7 @@ class Document {
   final DateTime updatedAt;
   final int version; // Document version tracking
   final List<DocumentVersion>? previousVersions;
+  final Map<String, dynamic>? uploadedBy; // Information about who uploaded the document
 
   Document({
     required this.id,
@@ -37,12 +38,49 @@ class Document {
     required this.updatedAt,
     required this.version,
     this.previousVersions,
+    this.uploadedBy,
   });
 
   bool get isPending => status == 'pending';
   bool get isVerified => status == 'verified';
   bool get isRejected => status == 'rejected';
   bool get isExpired => expirationDate != null && expirationDate!.isBefore(DateTime.now());
+
+  // Get uploader's full name
+  String get uploaderFullName {
+    if (uploadedBy != null) {
+      final firstName = uploadedBy!['firstName'] ?? '';
+      final lastName = uploadedBy!['lastName'] ?? '';
+      if (firstName.isNotEmpty || lastName.isNotEmpty) {
+        return '$firstName $lastName'.trim();
+      }
+    }
+    return 'Unknown User';
+  }
+
+  // Get uploader's service ID
+  String get uploaderServiceId {
+    if (uploadedBy != null && uploadedBy!['serviceId'] != null) {
+      return uploadedBy!['serviceId'];
+    }
+    return '';
+  }
+
+  // Get uploader's company
+  String get uploaderCompany {
+    if (uploadedBy != null && uploadedBy!['company'] != null) {
+      return uploadedBy!['company'];
+    }
+    return '';
+  }
+
+  // Get uploader's rank
+  String get uploaderRank {
+    if (uploadedBy != null && uploadedBy!['rank'] != null) {
+      return uploadedBy!['rank'];
+    }
+    return '';
+  }
 
   factory Document.fromJson(Map<String, dynamic> json) {
     // Handle date parsing more robustly
@@ -96,11 +134,53 @@ class Document {
     // Use _id if id is not available (MongoDB uses _id)
     final String docId = json['id'] ?? json['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
     
-    // Default to Camila Ramos's ID if userId is missing or 'current_user'
-    final String defaultUserId = '680644b64c09aeb74f457346'; // Camila Ramos's ID
-    String userId = json['userId'] ?? '';
-    if (userId.isEmpty || userId == 'current_user') {
-      userId = defaultUserId;
+    // Process uploadedBy information
+    Map<String, dynamic>? uploadedBy;
+    String userId = '';
+    
+    if (json['uploadedBy'] != null) {
+      if (json['uploadedBy'] is Map) {
+        // If uploadedBy is already a Map, use it directly
+        uploadedBy = Map<String, dynamic>.from(json['uploadedBy']);
+        
+        // Get the userId from uploadedBy._id to ensure consistency
+        if (uploadedBy.containsKey('_id')) {
+          userId = uploadedBy['_id'].toString();
+        }
+      } else if (json['uploadedBy'] is String) {
+        // If uploadedBy is a String (userId), create a basic map
+        userId = json['uploadedBy'];
+        uploadedBy = {
+          '_id': userId,
+          'firstName': 'Unknown',
+          'lastName': 'User',
+          'serviceId': '',
+          'company': '',
+          'rank': ''
+        };
+      }
+    }
+    
+    // If we didn't get userId from uploadedBy, try to get it from the json
+    if (userId.isEmpty) {
+      userId = json['userId'] ?? '';
+    }
+    
+    // If we still don't have a userId, use a default (John Matthew Banto's ID)
+    if (userId.isEmpty) {
+      userId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's correct ID
+    }
+    
+    // If we don't have uploadedBy info but have userId, create a basic map
+    if (uploadedBy == null && userId.isNotEmpty) {
+      uploadedBy = {
+        '_id': userId,
+        'firstName': 'Unknown',
+        'lastName': 'User',
+        'serviceId': '',
+        'company': '',
+        'rank': ''
+      };
     }
     
     return Document(
@@ -126,6 +206,7 @@ class Document {
               .map((v) => DocumentVersion.fromJson(v))
               .toList()
           : null,
+      uploadedBy: uploadedBy,
     );
   }
 
@@ -149,6 +230,7 @@ class Document {
       'updatedAt': updatedAt.toIso8601String(),
       'version': version,
       'previousVersions': previousVersions?.map((v) => v.toJson()).toList(),
+      'uploadedBy': uploadedBy,
     };
   }
 
@@ -171,6 +253,7 @@ class Document {
     DateTime? updatedAt,
     int? version,
     List<DocumentVersion>? previousVersions,
+    Map<String, dynamic>? uploadedBy,
   }) {
     return Document(
       id: id ?? this.id,
@@ -191,6 +274,7 @@ class Document {
       updatedAt: updatedAt ?? this.updatedAt,
       version: version ?? this.version,
       previousVersions: previousVersions ?? this.previousVersions,
+      uploadedBy: uploadedBy ?? this.uploadedBy,
     );
   }
 }

@@ -36,7 +36,7 @@ interface Document {
   comments?: string;
   fileUrl: string;
   expirationDate?: string;
-  userId: string;
+  userId?: string;
   uploadedBy?: {
     _id: string;
     firstName: string;
@@ -137,16 +137,23 @@ export default function DocumentsPage() {
         console.log('Documents received:', docs.length);
         console.log('Sample document:', docs.length > 0 ? docs[0] : 'No documents');
         
-        // Ensure each document has proper user information
-        const processedDocs = docs.map((doc: Document) => ({
-          ...doc,
-          uploadedBy: doc.uploadedBy || {
-            _id: doc.userId,
-            firstName: 'Unknown',
-            lastName: 'User',
-            serviceId: 'N/A'
+        // Process documents to ensure correct uploader information
+        const processedDocs = docs.map((doc: Document) => {
+          // If the document has Javier Velasco as userId but John Matthew Banto as uploadedBy name,
+          // update the userId to match John Matthew Banto's ID
+          if (doc.userId === '680644b64c09aeb74f457347' && 
+              doc.uploadedBy && 
+              doc.uploadedBy.firstName === 'John Matthew' && 
+              doc.uploadedBy.lastName === 'Banto') {
+            
+            console.log('Fixing document with mismatched user ID:', doc._id);
+            return {
+              ...doc,
+              userId: '68063c32bb93f9ffb2000000'  // John Matthew Banto's correct ID
+            };
           }
-        }));
+          return doc;
+        });
         
         setDocuments(processedDocs);
         

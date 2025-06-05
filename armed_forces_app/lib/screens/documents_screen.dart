@@ -32,6 +32,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _initializeSocket();
+    _updateDocumentsWithUploaderInfo();
     _fetchDocuments();
   }
 
@@ -273,6 +274,11 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       statusText = 'Expired';
     }
     
+    // Get uploader information
+    final uploaderName = document.uploaderFullName;
+    final serviceId = document.uploaderServiceId;
+    final company = document.uploaderCompany;
+    
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
@@ -367,7 +373,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                 ),
             ],
             
-            // Upload date
+            // Upload date and uploader info
             const SizedBox(height: 12),
             Row(
               children: [
@@ -379,6 +385,35 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                 ),
               ],
             ),
+            
+            // Display uploader information if available
+            if (uploaderName != 'Unknown User') ...[
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Icon(Icons.person, size: 14, color: Colors.grey[600]),
+                  const SizedBox(width: 6),
+                  Text(
+                    'By: $uploaderName',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                  if (serviceId.isNotEmpty) ...[
+                    const SizedBox(width: 4),
+                    Text(
+                      '($serviceId)',
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                    ),
+                  ],
+                  if (company.isNotEmpty) ...[
+                    const SizedBox(width: 4),
+                    Text(
+                      '| $company',
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                    ),
+                  ],
+                ],
+              ),
+            ],
             
             // Action buttons
               const SizedBox(height: 16),
@@ -1437,5 +1472,27 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
         ),
       ],
     );
+  }
+
+  // Update all documents with proper uploader information
+  Future<void> _updateDocumentsWithUploaderInfo() async {
+    try {
+      print('Updating documents with proper uploader information...');
+      final updatedCount = await _documentService.updateAllDocumentsWithUploaderInfo();
+      print('Updated $updatedCount documents with proper uploader information');
+      
+      if (updatedCount > 0) {
+        // Show a success message if documents were updated
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Updated $updatedCount documents with correct uploader information'),
+            backgroundColor: AppTheme.successColor,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error updating documents with uploader info: $e');
+    }
   }
 } 

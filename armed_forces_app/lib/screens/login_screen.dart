@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../core/constants/app_constants.dart';
 import '../core/theme/app_theme.dart';
 import '../core/services/auth_service.dart';
+import '../services/document_service.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import './register_screen.dart';
@@ -50,6 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (result['success']) {
+        // Ensure user information is properly saved
+        if (result['user'] != null) {
+          print('Login successful for: ${result['user']['firstName']} ${result['user']['lastName']}');
+        }
+        
+        // Initialize document service to ensure user info is saved
+        final documentService = DocumentService();
+        await documentService.ensureCurrentUserInfo();
+        
         if (mounted) {
           Navigator.pushReplacement(
             context,

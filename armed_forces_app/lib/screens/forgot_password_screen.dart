@@ -216,13 +216,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 
                 // Service ID option
                 RadioListTile<String>(
-                  title: Text('Recover with Service ID',
+                  title: Text('Recover with Military Email',
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                     ),
                   ),
-                  subtitle: Text('Use your service ID number and it will automatically send a reset link to your primary @mil.ph email',
+                  subtitle: Text('Use your Military issued email and it will automatically send a reset link to your primary @mil.ph email',
                     style: GoogleFonts.roboto(
                       fontSize: 14,
                       color: AppTheme.textSecondaryColor,
