@@ -15,67 +15,95 @@ interface MongooseConnection {
   useLocalFallback: boolean;
 }
 
-// Declare a global variable to cache the database connection
-declare global {
-  var mongoose: MongooseConnection;
-}
+// Global cached connection
+let cachedConnection: MongooseConnection = {
+  conn: null,
+  promise: null,
+  useLocalFallback: false
+};
 
-// Initialize the global mongoose object if it doesn't exist
-if (!global.mongoose) {
-  global.mongoose = { conn: null, promise: null, useLocalFallback: false };
+// Display connection string (hiding credentials for security)
+function getRedactedConnectionString(uri: string): string {
+  try {
+    // For URI with credentials
+    if (uri.includes('@')) {
+      const [protocol, rest] = uri.split('://');
+      const [credentials, hostAndPath] = rest.split('@');
+      return `${protocol}://*****:*****@${hostAndPath}`;
+    }
+    // For URI without credentials
+    return uri;
+  } catch (e) {
+    return 'Invalid MongoDB URI';
+  }
 }
 
 /**
- * Connect to MongoDB database with fallback to local JSON files
+ * Connect to MongoDB database
  */
-export async function dbConnect() {
+export async function dbConnect(): Promise<typeof mongoose> {
   // If we already have a connection, return it
-  if (global.mongoose.conn) {
-    return global.mongoose.conn;
+  if (cachedConnection.conn) {
+    console.log('Using existing MongoDB connection');
+    return cachedConnection.conn;
   }
 
-  // If we're already using local fallback, don't try to connect to MongoDB
-  if (global.mongoose.useLocalFallback) {
-    console.log('Using local JSON fallback (already established)');
-    return global.mongoose.conn;
+  // If we're already trying to connect, return the promise
+  if (cachedConnection.promise) {
+    console.log('Waiting for existing MongoDB connection attempt to complete');
+    try {
+      cachedConnection.conn = await cachedConnection.promise;
+      return cachedConnection.conn;
+    } catch (error) {
+      // If connection fails, reset the promise so we can try again
+      cachedConnection.promise = null;
+      console.error('MongoDB connection attempt failed:', error);
+      throw error;
+    }
   }
 
-  // If a connection is being established, wait for it
-  if (!global.mongoose.promise) {
-    const opts = {
-      bufferCommands: false,
-      connectTimeoutMS: 5000, // 5 second timeout for connection
-      serverSelectionTimeoutMS: 5000, // 5 second timeout for server selection
-    };
-
-    // Create a new connection promise
-    global.mongoose.promise = mongoose.connect(MONGODB_URI, opts)
-      .then((mongoose) => {
-        console.log('Connected to MongoDB');
-        global.mongoose.useLocalFallback = false;
-        return mongoose;
-      })
-      .catch((error) => {
-        console.error('MongoDB connection error:', error);
-        console.log('Falling back to local JSON database files');
-        
-        // Set the fallback flag
-        global.mongoose.useLocalFallback = true;
-        
-        // Setup a minimal mongoose instance for compatibility
-        // This won't actually connect to MongoDB but provides the same interface
-        return mongoose;
-      });
-  }
+  console.log(`Connecting to MongoDB: ${getRedactedConnectionString(MONGODB_URI)}`);
+  
+  // Create a new connection promise
+  cachedConnection.promise = mongoose.connect(MONGODB_URI, {
+    bufferCommands: false,
+    maxPoolSize: 10, // Maintain up to 10 socket connections
+    serverSelectionTimeoutMS: 5000, // Give up initial connection after 5 seconds
+    socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+    family: 4 // Use IPv4, skip trying IPv6
+  })
+  .then(mongoose => {
+    console.log('Connected to MongoDB successfully!');
+    // Check if connection and db exist before accessing properties
+    if (mongoose.connection && mongoose.connection.db) {
+      console.log(`Database name: ${mongoose.connection.db.databaseName}`);
+    }
+    console.log(`Connection state: ${mongoose.connection.readyState}`);
+    return mongoose;
+  })
+  .catch(error => {
+    console.error('MongoDB connection error:', error);
+    
+    // Set fallback flag if MongoDB connection fails
+    cachedConnection.useLocalFallback = true;
+    
+    // Handle different types of connection errors
+    if (error.name === 'MongoNetworkError' || error.name === 'MongoServerSelectionError') {
+      console.warn('Failed to connect to MongoDB. Check your connection string and network connectivity.');
+    }
+    
+    // Re-throw the error
+    throw error;
+  });
 
   try {
     // Wait for the connection to be established
-    global.mongoose.conn = await global.mongoose.promise;
-    return global.mongoose.conn;
+    cachedConnection.conn = await cachedConnection.promise;
+    return cachedConnection.conn;
   } catch (error) {
-    console.error('Error finalizing database connection:', error);
-    global.mongoose.useLocalFallback = true;
-    return mongoose; // Return mongoose instance anyway for API compatibility
+    // If connection fails, reset the promise so we can try again
+    cachedConnection.promise = null;
+    throw error;
   }
 }
 
@@ -83,7 +111,7 @@ export async function dbConnect() {
  * Check if we're using the local JSON fallback
  */
 export function isUsingLocalFallback() {
-  return global.mongoose?.useLocalFallback || false;
+  return cachedConnection?.useLocalFallback || false;
 }
 
 /**
