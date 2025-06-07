@@ -1,0 +1,32 @@
+services:
+  # Web service (Next.js app)
+  - type: web
+    name: 301st-rribn-management-system
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false # This will be set manually in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true # Automatically generates a secure value
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: 301st-rribn-management-system
+          property: host
+      # Add other environment variables your app needs here
+
+    # Optional: Connect to a MongoDB database
+    # If you decide to use Render's database service
+    # - key: MONGODB_URI
+    #   fromDatabase:
+    #     name: afp-mongodb
+    #     property: connectionString
+
+# Uncomment if you want to use Render's database service
+# databases:
+#   - name: afp-mongodb
+#     plan: free 

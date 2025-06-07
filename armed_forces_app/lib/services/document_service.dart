@@ -38,6 +38,39 @@ class DocumentService {
     }
   }
   
+  // Ensure current user information is properly saved and available
+  Future<void> ensureCurrentUserInfo() async {
+    try {
+      final userData = await _getCurrentUserData();
+      
+      if (userData == null) {
+        print('No user data found. Unable to ensure user information.');
+        return;
+      }
+      
+      print('Ensuring user information is available: ${userData['firstName']} ${userData['lastName']}');
+      
+      // If needed, you can validate the user data further here
+      // For example, check if required fields are present
+      
+      // Optionally sync with backend to ensure latest data
+      if (userData['serviceNumber'] != null) {
+        final serverUserData = await _findUserByServiceNumber(userData['serviceNumber']);
+        
+        if (serverUserData != null && serverUserData.isNotEmpty) {
+          // Update local storage with latest server data
+          await _secureStorage.write(
+            key: AppConstants.userDataKey, 
+            value: json.encode(serverUserData)
+          );
+          print('Updated local user data with server information');
+        }
+      }
+    } catch (e) {
+      print('Error ensuring current user info: $e');
+    }
+  }
+  
   // Find user by service number
   Future<Map<String, dynamic>?> _findUserByServiceNumber(String serviceNumber) async {
     if (serviceNumber.isEmpty) return null;

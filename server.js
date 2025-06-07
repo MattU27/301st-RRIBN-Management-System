@@ -17,8 +17,10 @@ app.prepare().then(() => {
   const io = initSocketServer(server);
   console.log('Socket.IO server initialized');
 
-  server.listen(3000, (err) => {
+  // Use PORT environment variable provided by Render, or fallback to 3000
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
+    console.log(`> Ready on http://localhost:${PORT}`);
   });
 }); 
