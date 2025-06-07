@@ -85,16 +85,53 @@ module.exports = nextConfig;
 `;
 fs.writeFileSync('next.config.js', nextConfigContent);
 
-// Step 4: Create postcss.config.js
+// Step 4: Create PostCSS configuration
 console.log('Creating PostCSS configuration...');
 const postcssConfigContent = `
 module.exports = {
   plugins: {
+    tailwindcss: {},
     autoprefixer: {},
   },
 };
 `;
 fs.writeFileSync('postcss.config.js', postcssConfigContent);
+
+// Create Tailwind config if it doesn't exist
+const tailwindConfigContent = `
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+          950: '#082f49',
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+`;
+console.log('Ensuring Tailwind config exists...');
+if (!fs.existsSync('tailwind.config.js')) {
+  fs.writeFileSync('tailwind.config.js', tailwindConfigContent);
+}
 
 // Step 5: Create missing directories and stub files
 console.log('Creating missing directories and stub files...');
@@ -183,65 +220,6 @@ const cleanupDatabasePath = path.join(utilsDir, 'cleanupDatabase.ts');
 if (!fs.existsSync(cleanupDatabasePath)) {
   fs.writeFileSync(cleanupDatabasePath, cleanupDatabaseStub);
 }
-
-// Create a simplified globals.css file without Tailwind imports
-console.log('Creating simplified globals.css...');
-const globalsDir = path.join(process.cwd(), 'src', 'app');
-const globalsCss = `
-/* Base styles */
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-/* Utility classes */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-`;
-
-fs.writeFileSync(path.join(globalsDir, 'globals.css'), globalsCss);
 
 // Step 6: Run the build
 console.log('Running Next.js build...');
