@@ -29,7 +29,14 @@ export default function PasswordRecoveryPage() {
     setIsLoading(true);
 
     if (!serviceId.trim()) {
-      setError('Please enter your Service ID');
+      setError('Please enter your Military Email');
+      setIsLoading(false);
+      return;
+    }
+
+    // Validate email format
+    if (!isValidEmailFormat(serviceId)) {
+      setError('Please enter a valid email address');
       setIsLoading(false);
       return;
     }
@@ -41,7 +48,7 @@ export default function PasswordRecoveryPage() {
       if (response.data.success) {
         setIsLoading(false);
         setStep('success');
-        setSuccessMessage(response.data.message || 'If your Service ID is registered in our system, you will receive a password reset link at your registered email address.');
+        setSuccessMessage(response.data.message || 'If your Military Email is registered in our system, you will receive a password reset link at your registered email address.');
       } else if (process.env.NODE_ENV !== 'production' && response.data.devToken) {
         // Handle development mode response with token
         setIsLoading(false);

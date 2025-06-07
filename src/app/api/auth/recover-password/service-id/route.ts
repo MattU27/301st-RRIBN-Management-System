@@ -5,7 +5,7 @@ import Token, { TokenType } from '@/models/Token';
 import { sendPasswordResetEmail } from '@/services/emailService';
 
 /**
- * API endpoint for requesting a password reset using Service ID
+ * API endpoint for requesting a password reset using Military Email
  * POST /api/auth/recover-password/service-id
  */
 export async function POST(req: NextRequest) {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       }, { status: 500 });
     }
     
-    // Get service ID from request body
+    // Get service ID or email from request body
     let body;
     try {
       body = await req.json();
@@ -39,20 +39,27 @@ export async function POST(req: NextRequest) {
     const { serviceId } = body;
     
     if (!serviceId) {
-      console.log('Missing service ID in request');
+      console.log('Missing Military Email in request');
       return NextResponse.json({ 
         success: false, 
-        error: 'Service ID is required' 
+        error: 'Military Email is required' 
       }, { status: 400 });
     }
     
-    console.log(`Password reset requested for Service ID: ${serviceId}`);
+    console.log(`Password reset requested for Military Email: ${serviceId}`);
     
-    // Find user by service ID
+    // Find user by email (as we now use Military Email instead of Service ID)
     let user;
     try {
-      user = await User.findOne({ serviceId: serviceId.trim() });
-      console.log(user ? `User found with Service ID ${serviceId}` : `No user found with Service ID ${serviceId}`);
+      // First try to find by email
+      user = await User.findOne({ email: serviceId.trim().toLowerCase() });
+      
+      // If not found by email, try the old serviceId field for backward compatibility
+      if (!user) {
+        user = await User.findOne({ serviceId: serviceId.trim() });
+      }
+      
+      console.log(user ? `User found with Military Email ${serviceId}` : `No user found with Military Email ${serviceId}`);
     } catch (userError: any) {
       console.error('Error finding user:', userError);
       return NextResponse.json({ 
@@ -65,19 +72,19 @@ export async function POST(req: NextRequest) {
     // For security reasons, always return the same response regardless of whether
     // the user was found or not to prevent enumeration attacks
     if (!user) {
-      console.log(`Password reset requested for non-existent Service ID: ${serviceId}`);
+      console.log(`Password reset requested for non-existent Military Email: ${serviceId}`);
       return NextResponse.json({ 
         success: true,
-        message: 'If your Service ID is registered in our system, you will receive a password reset link at your registered email address.'
+        message: 'If your Military Email is registered in our system, you will receive a password reset link at your registered email address.'
       });
     }
     
     // Make sure user has an email
     if (!user.email) {
-      console.error(`User ${user._id} (Service ID: ${serviceId}) has no registered email`);
+      console.error(`User ${user._id} (Military Email: ${serviceId}) has no registered email`);
       return NextResponse.json({ 
         success: false, 
-        error: 'No email address associated with this Service ID' 
+        error: 'No email address associated with this Military Email' 
       }, { status: 404 });
     }
     
@@ -152,10 +159,10 @@ export async function POST(req: NextRequest) {
         }, { status: 500 });
       }
       
-      console.log(`Password reset email sent to ${user.email} for Service ID ${serviceId}`);
+      console.log(`Password reset email sent to ${user.email} for Military Email ${serviceId}`);
       return NextResponse.json({ 
         success: true,
-        message: 'If your Service ID is registered in our system, you will receive a password reset link at your registered email address.'
+        message: 'If your Military Email is registered in our system, you will receive a password reset link at your registered email address.'
       });
     } catch (error: any) {
       console.error('Password reset process error:', error);
