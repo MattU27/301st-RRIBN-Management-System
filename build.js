@@ -90,7 +90,6 @@ console.log('Creating PostCSS configuration...');
 const postcssConfigContent = `
 module.exports = {
   plugins: {
-    tailwindcss: {},
     autoprefixer: {},
   },
 };
@@ -184,6 +183,65 @@ const cleanupDatabasePath = path.join(utilsDir, 'cleanupDatabase.ts');
 if (!fs.existsSync(cleanupDatabasePath)) {
   fs.writeFileSync(cleanupDatabasePath, cleanupDatabaseStub);
 }
+
+// Create a simplified globals.css file without Tailwind imports
+console.log('Creating simplified globals.css...');
+const globalsDir = path.join(process.cwd(), 'src', 'app');
+const globalsCss = `
+/* Base styles */
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Utility classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+`;
+
+fs.writeFileSync(path.join(globalsDir, 'globals.css'), globalsCss);
 
 // Step 6: Run the build
 console.log('Running Next.js build...');
