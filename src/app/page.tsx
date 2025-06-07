@@ -17,6 +17,7 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import Button from '@/components/Button';
+import ImageSlider from '@/components/ImageSlider';
 import { useAuth } from '@/contexts/AuthContext';
 import IMAGES from '@/utils/images';
 
@@ -200,14 +201,14 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* Modern navigation bar with animation */}
       <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-[#092140]/95 py-2 shadow-lg' : 'bg-[#092140]/80 py-4'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
             {/* Logo and Brand */}
             <div className="flex items-center">
               <Link href="/" 
                 onClick={() => scrollToSection(homeRef, "home")}
                 className="flex items-center group">
-                <div className="flex flex-col relative overflow-hidden">
+                <div className="relative flex flex-col overflow-hidden">
                   <span className="text-white font-bold text-lg sm:text-xl tracking-wider group-hover:text-[#D1B000] transition-colors duration-300">301st READY RESERVE</span>
                   <span className="text-[#D1B000] text-xs sm:text-sm tracking-widest">INFANTRY BATTALION</span>
                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D1B000] group-hover:w-full transition-all duration-500"></div>
@@ -216,7 +217,7 @@ export default function Home() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="items-center hidden space-x-1 md:flex">
               {!isLoggedIn && (
                 <>
                   {navigationItems.map((item) => (
@@ -266,14 +267,14 @@ export default function Home() {
                     href="/profile"
                     className="p-1 text-white hover:text-[#D1B000]"
                   >
-                    <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                    <UserCircleIcon className="w-6 h-6" aria-hidden="true" />
                   </Link>
                   <button
                     onClick={handleLogoutClick}
                     className="p-1 text-white hover:text-[#D1B000]"
                     title="Logout"
                   >
-                    <ArrowRightOnRectangleIcon className="h-6 w-6" aria-hidden="true" />
+                    <ArrowRightOnRectangleIcon className="w-6 h-6" aria-hidden="true" />
                   </button>
                 </div>
               ) : (
@@ -297,9 +298,9 @@ export default function Home() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 {mobileMenuOpen ? (
-                  <XMarkIcon className="h-6 w-6" />
+                  <XMarkIcon className="w-6 h-6" />
                 ) : (
-                  <Bars3Icon className="h-6 w-6" />
+                  <Bars3Icon className="w-6 h-6" />
                 )}
               </button>
             </div>
@@ -346,37 +347,42 @@ export default function Home() {
         )}
       </nav>
 
-      {/* US Army-style hero with full-width image */}
+      {/* US Army-style hero with image slider */}
       <div ref={homeRef} className="relative min-h-screen bg-[#092140]">
-        {/* Full background image */}
+        {/* Image slider - positioned at lower z-index */}
         <div className="absolute inset-0">
-          <img
-            src={IMAGES.HERO_BATTALION}
-            alt="301st Ready Reserve Infantry Battalion Training" 
-            className="h-full w-full object-cover object-center transform scale-x-[-1]"
-            onError={(e) => {
-              console.error("Image failed to load, trying imgur");
-              e.currentTarget.src = IMAGES.FALLBACK_HERO;
-            }}
+          <ImageSlider 
+            images={[
+              '/images/AFP.png',
+              '/images/battalion-training.jpg',
+              '/images/battalion-training-2.jpg',
+              '/images/battalion-training-3.jpg'
+            ]}
+            flippedImages={['/images/AFP.png']}
+            alt="301st Ready Reserve Infantry Battalion"
+            className="h-full"
+            interval={6000}
+            showControls={true}
+            showIndicators={true}
           />
           
-          {/* Gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+          {/* Gradient overlay for better text readability - increased z-index */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
         </div>
         
         {/* Content positioned over the image */}
-        <div className="relative h-screen flex flex-col justify-center px-8 md:px-16 max-w-3xl animate-fadeIn">
+        <div className="relative z-20 flex flex-col justify-center h-screen max-w-3xl px-8 md:px-16 animate-fadeIn">
           <div className="mb-8">
             {/* Single decorative line above Administrative Portal */}
             <div className="w-100 h-[2px] bg-[#D1B000] mb-3 animate-slideInUp"></div>
             <div className="text-[#D1B000] text-sm tracking-widest uppercase mb-2 animate-slideInUp">Administrative Portal</div>
-            <h1 className="text-5xl font-bold text-white tracking-tight mb-6 animate-slideInUp animation-delay-300">
+            <h1 className="mb-6 text-5xl font-bold tracking-tight text-white animate-slideInUp animation-delay-300">
               <span className="block mb-2">301st READY</span>
               <span className="block">RESERVE INFANTRY</span>
               <span className="block">BATTALION</span>
             </h1>
             
-            <p className="text-gray-300 mb-3 animate-slideInUp animation-delay-500">
+            <p className="mb-3 text-gray-300 animate-slideInUp animation-delay-500">
               Personnel Management System for administrators and staff members of the 301st Ready Reserve Infantry Battalion.
             </p>
             
@@ -385,8 +391,8 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
+        {/* Scroll indicator - increased z-index */}
+        <div className="absolute z-20 transform -translate-x-1/2 cursor-pointer bottom-10 left-1/2 animate-bounce"
              onClick={() => scrollToSection(capabilitiesRef, "capabilities")}>
           <svg className="w-10 h-10 text-[#D1B000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
@@ -396,8 +402,8 @@ export default function Home() {
 
       {/* Benefits banner with unique Philippines-focused messaging - Remove skew transformation which might cause spacing issues */}
       <div className="bg-[#092140] py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide uppercase animate-pulse">
+        <div className="px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold tracking-wide text-white uppercase md:text-3xl animate-pulse">
             SECURE. EFFICIENT. INTEGRATED.<br/>
             PERSONNEL MANAGEMENT SYSTEM.
           </h2>
@@ -406,21 +412,21 @@ export default function Home() {
 
       {/* Features section with modern cards */}
       <div id="capabilities" ref={capabilitiesRef} className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
             <h2 className="text-base text-[#D9534F] font-semibold tracking-wide uppercase">Battalion Management System</h2>
             <p className="mt-2 text-4xl leading-tight font-extrabold tracking-tight text-[#092140] sm:text-5xl">
               Administrative Capabilities
             </p>
             <div className="w-24 h-1 bg-[#D1B000] mx-auto my-6"></div>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            <p className="max-w-2xl mx-auto mt-4 text-xl text-gray-500">
               Our digital platform enhances the battalion's administrative efficiency through modern tools for personnel, training, and documentation management.
             </p>
           </div>
 
           {/* Redesigned Feature Cards */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="px-4 mx-auto mb-24 max-w-7xl sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {/* Personnel Management Card */}
               <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:translate-y-[-5px]">
                 <div className="bg-[#092140] px-6 py-4 flex items-center justify-between">
@@ -430,12 +436,12 @@ export default function Home() {
                 <div className="p-6">
                   <div className="flex items-start mb-4">
                     <div className="bg-[#092140] p-3 rounded-full mr-4">
-                      <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="leading-relaxed text-gray-600">
                         Efficiently manage reservist and enlisted personnel records with role-based access control.
                       </p>
                       <ul className="mt-4 space-y-2">
@@ -472,12 +478,12 @@ export default function Home() {
                 <div className="p-6">
                   <div className="flex items-start mb-4">
                     <div className="bg-[#092140] p-3 rounded-full mr-4">
-                      <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="leading-relaxed text-gray-600">
                         Secure document upload, verification, and management with blockchain-backed immutability.
                       </p>
                       <ul className="mt-4 space-y-2">
@@ -514,12 +520,12 @@ export default function Home() {
                 <div className="p-6">
                   <div className="flex items-start mb-4">
                     <div className="bg-[#092140] p-3 rounded-full mr-4">
-                      <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="leading-relaxed text-gray-600">
                         Schedule, manage, and track training sessions and attendance for all personnel.
                       </p>
                       <ul className="mt-4 space-y-2">
@@ -558,27 +564,27 @@ export default function Home() {
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/tactical-pattern.png')] bg-repeat animate-slide"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-center mb-8">
             <div className="w-16 h-[1px] bg-[#D1B000] mx-2"></div>
             <div className="w-16 h-[1px] bg-[#D1B000] mx-2"></div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-6 transform transition-all duration-500 hover:scale-110">
+          <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+            <div className="p-6 transition-all duration-500 transform hover:scale-110">
               <p className="text-4xl md:text-5xl font-bold text-[#D1B000] animate-count">130K+</p>
-              <p className="mt-2 text-sm md:text-base font-medium text-white uppercase tracking-wider">Active Personnel</p>
+              <p className="mt-2 text-sm font-medium tracking-wider text-white uppercase md:text-base">Active Personnel</p>
             </div>
-            <div className="p-6 transform transition-all duration-500 hover:scale-110">
+            <div className="p-6 transition-all duration-500 transform hover:scale-110">
               <p className="text-4xl md:text-5xl font-bold text-[#D1B000] animate-count">45+</p>
-              <p className="mt-2 text-sm md:text-base font-medium text-white uppercase tracking-wider">Years of Service</p>
+              <p className="mt-2 text-sm font-medium tracking-wider text-white uppercase md:text-base">Years of Service</p>
             </div>
-            <div className="p-6 transform transition-all duration-500 hover:scale-110">
+            <div className="p-6 transition-all duration-500 transform hover:scale-110">
               <p className="text-4xl md:text-5xl font-bold text-[#D1B000] animate-count">24/7</p>
-              <p className="mt-2 text-sm md:text-base font-medium text-white uppercase tracking-wider">Operational Support</p>
+              <p className="mt-2 text-sm font-medium tracking-wider text-white uppercase md:text-base">Operational Support</p>
             </div>
-            <div className="p-6 transform transition-all duration-500 hover:scale-110">
+            <div className="p-6 transition-all duration-500 transform hover:scale-110">
               <p className="text-4xl md:text-5xl font-bold text-[#D1B000] animate-count">100%</p>
-              <p className="mt-2 text-sm md:text-base font-medium text-white uppercase tracking-wider">Commitment</p>
+              <p className="mt-2 text-sm font-medium tracking-wider text-white uppercase md:text-base">Commitment</p>
             </div>
           </div>
           <div className="flex justify-center mt-8">
@@ -589,11 +595,11 @@ export default function Home() {
       </div>
       
       {/* About Section - New */}
-      <div id="about" ref={aboutRef} className="py-20 bg-white relative scroll-mt-20">
+      <div id="about" ref={aboutRef} className="relative py-20 bg-white scroll-mt-20">
         {/* Improved marker that's bigger and positioned better */}
         <div className="absolute top-0 left-0 w-full h-40 -mt-40" id="about-marker"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
             <h2 className="text-base text-[#D9534F] font-semibold tracking-wide uppercase">About Us</h2>
             <p className="mt-2 text-4xl leading-tight font-extrabold tracking-tight text-[#092140] sm:text-5xl">
               Our Mission & Heritage
@@ -604,18 +610,23 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
             <div className="relative">
-              <div className="absolute -left-4 -top-4 w-24 h-24 border-2 border-[#D1B000] opacity-50"></div>
-              <img 
-                src="/battalion-formation.jpg" 
-                alt="301st Ready Reserve Battalion Formation"
-                className="relative z-10 w-full h-auto rounded shadow-xl transform transition-all duration-700 hover:scale-105 hover:shadow-2xl"
-                onError={(e) => {
-                  e.currentTarget.src = "https://i.imgur.com/JXG8Q5Z.jpg";
-                }}
-              />
-              <div className="absolute -right-4 -bottom-4 w-24 h-24 border-2 border-[#D1B000] opacity-50"></div>
+              <div className="absolute -left-4 -top-4 w-24 h-24 border-2 border-[#D1B000] opacity-50 z-20"></div>
+              <div className="relative z-10 w-full overflow-hidden transition-all duration-700 transform rounded shadow-xl h-80 hover:shadow-2xl">
+                <ImageSlider 
+                  images={[
+                    '/images/AFP.png',
+                    '/images/battalion-training.jpg',
+                    '/images/battalion-training-2.jpg',
+                    '/images/battalion-training-3.jpg'
+                  ]}
+                  alt="301st Ready Reserve Battalion Personnel"
+                  className="h-full rounded"
+                  interval={5000}
+                />
+              </div>
+              <div className="absolute -right-4 -bottom-4 w-24 h-24 border-2 border-[#D1B000] opacity-50 z-20"></div>
             </div>
             
             <div className="space-y-6">
@@ -644,7 +655,7 @@ export default function Home() {
       
       {/* Footer */}
       <footer className="bg-[#092140] border-t border-gray-800 text-white py-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-between items-center text-[10px] py-1">
             <div className="flex items-center">
               <div className="mr-4">
@@ -655,10 +666,10 @@ export default function Home() {
                 <span className="font-semibold">301st READY RESERVE</span>
                 <span className="text-[#D1B000] ml-1">INFANTRY BATTALION</span>
               </div>
-              <div className="hidden sm:flex space-x-3">
-                <button onClick={() => scrollToSection(homeRef, "home")} className="text-gray-400 hover:text-white transition-colors">Home</button>
-                <button onClick={() => scrollToSection(capabilitiesRef, "capabilities")} className="text-gray-400 hover:text-white transition-colors">Capabilities</button>
-                <button onClick={() => scrollToSection(aboutRef, "about")} className="text-gray-400 hover:text-white transition-colors">About</button>
+              <div className="hidden space-x-3 sm:flex">
+                <button onClick={() => scrollToSection(homeRef, "home")} className="text-gray-400 transition-colors hover:text-white">Home</button>
+                <button onClick={() => scrollToSection(capabilitiesRef, "capabilities")} className="text-gray-400 transition-colors hover:text-white">Capabilities</button>
+                <button onClick={() => scrollToSection(aboutRef, "about")} className="text-gray-400 transition-colors hover:text-white">About</button>
               </div>
             </div>
             <div className="flex items-center space-x-4 text-gray-400">
@@ -676,14 +687,14 @@ export default function Home() {
       
       {/* Logout confirmation dialog */}
       {showLogoutConfirmation && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
+          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
             <h3 className="text-lg font-medium text-gray-900">Confirm Logout</h3>
             <p className="mt-2 text-gray-500">Are you sure you want to log out of your account?</p>
-            <div className="mt-4 flex justify-end space-x-3">
+            <div className="flex justify-end mt-4 space-x-3">
               <button
                 onClick={() => setShowLogoutConfirmation(false)}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
+                className="px-4 py-2 text-gray-800 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Cancel
               </button>

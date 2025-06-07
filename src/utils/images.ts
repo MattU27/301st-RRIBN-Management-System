@@ -1,7 +1,7 @@
 // Image asset paths
 export const IMAGES = {
   // Logo & Branding
-  AFP_SEAL: '/images/AFP_seal.png',
+  AFP_SEAL: '/images/laang-kawal.png',
   
   // Hero Images
   HERO_BATTALION: '/images/AFP.png',

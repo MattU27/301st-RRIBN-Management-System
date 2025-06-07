@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -192,9 +192,9 @@ export default function PasswordRecoveryPage() {
               <div className="relative">
                 <div className="absolute -inset-1 rounded-full opacity-50 bg-gradient-to-r from-[#D1B000] to-[#092140] blur-sm animate-pulse"></div>
                 <img 
-                  src="/images/laang-kawal.png" 
-                  alt="LAANG-KAWAL PILIPINAS" 
-                  className="relative w-24 h-24 animate-breathe"
+                  src="/AFP_seal.png" 
+                  alt="301st Battalion Seal" 
+                  className="relative w-24 h-24 animate-slideInUp"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                   }} 
@@ -311,7 +311,7 @@ export default function PasswordRecoveryPage() {
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
-                    We'll send a password reset link to your mil.ph email address
+                    We'll send a password reset link to the email associated with this Military Email
                   </p>
                 </div>
                 
@@ -388,10 +388,16 @@ export default function PasswordRecoveryPage() {
                   
                   {/* Allowed email domains */}
                   <div className="mt-4">
-                    <p className="mb-2 text-sm font-medium text-gray-700">Accepted email provider:</p>
+                    <p className="mb-2 text-sm font-medium text-gray-700">Accepted email providers:</p>
                     <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 text-xs font-medium text-red-700 rounded-full bg-red-50">
-                        mil.ph
+                      <span className="px-3 py-1 text-xs font-medium text-blue-700 rounded-full bg-blue-50">
+                        Gmail
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium text-purple-700 rounded-full bg-purple-50">
+                        Yahoo
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium text-green-700 rounded-full bg-green-50">
+                        Outlook
                       </span>
                     </div>
                   </div>
@@ -470,7 +476,7 @@ export default function PasswordRecoveryPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4 text-gray-400">
-              <span>© {new Date().getFullYear()} AFP</span>
+              <span>Â© {new Date().getFullYear()} AFP</span>
             </div>
           </div>
         </div>
@@ -499,21 +505,6 @@ export default function PasswordRecoveryPage() {
           50% { opacity: 0.8; }
         }
         
-        @keyframes breathe {
-          0% {
-            transform: scale(1);
-            filter: drop-shadow(0 0 0px rgba(0, 153, 0, 0.7));
-          }
-          50% {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 8px rgba(0, 153, 0, 0.9));
-          }
-          100% {
-            transform: scale(1);
-            filter: drop-shadow(0 0 0px rgba(0, 153, 0, 0.7));
-          }
-        }
-        
         .animate-fadeIn {
           animation: fadeIn 1s ease-out forwards;
         }
@@ -524,10 +515,6 @@ export default function PasswordRecoveryPage() {
         
         .animate-pulse {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        .animate-breathe {
-          animation: breathe 3s ease-in-out infinite;
         }
         
         .animation-delay-300 {

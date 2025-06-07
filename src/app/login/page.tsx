@@ -132,9 +132,9 @@ function LoginContent() {
               <div className="relative">
                 <div className="absolute -inset-1 rounded-full opacity-50 bg-gradient-to-r from-[#D1B000] to-[#092140] blur-sm animate-pulse"></div>
                 <img 
-                  src="/AFP_seal.png" 
-                  alt="301st Battalion Seal" 
-                  className="h-24 w-24 animate-slideInUp relative"
+                  src="/images/laang-kawal.png" 
+                  alt="LAANG-KAWAL PILIPINAS" 
+                  className="h-24 w-24 animate-breathe relative"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                   }} 
@@ -462,6 +462,21 @@ function LoginContent() {
           50% { opacity: 0.8; }
         }
         
+        @keyframes breathe {
+          0% {
+            transform: scale(1);
+            filter: drop-shadow(0 0 0px rgba(0, 153, 0, 0.7));
+          }
+          50% {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(0, 153, 0, 0.9));
+          }
+          100% {
+            transform: scale(1);
+            filter: drop-shadow(0 0 0px rgba(0, 153, 0, 0.7));
+          }
+        }
+        
         .animate-fadeIn {
           animation: fadeIn 1s ease-out forwards;
         }
@@ -472,6 +487,10 @@ function LoginContent() {
         
         .animate-pulse {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .animate-breathe {
+          animation: breathe 3s ease-in-out infinite;
         }
         
         .animation-delay-300 {
