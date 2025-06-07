@@ -63,11 +63,7 @@ const nextConfig = {
       config.externals = [...(config.externals || []), { ws: 'ws' }];
     }
     return config;
-  },
-  // Update server configuration to allow for WebSocket upgrades
-  experimental: {
-    serverExternalPackages: ['ws'],
-  },
+  }
 };
 
 module.exports = nextConfig; 
