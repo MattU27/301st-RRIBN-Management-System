@@ -295,16 +295,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           if (_recoveryMethod == 'email')
             CustomTextField(
               controller: _emailController,
-              labelText: 'Email',
-              hintText: 'Enter your email address',
+              labelText: 'Alternative Email',
+              hintText: 'Enter your alternative email address',
               prefixIcon: Icons.email,
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Email is required';
+                  return 'Alternative email is required';
                 }
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                  return 'Please enter a valid email';
+                // More comprehensive email validation
+                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$').hasMatch(value)) {
+                  return 'Please enter a valid email address';
+                }
+                // Prevent mil.ph emails in the alternative email field
+                if (value.toLowerCase().endsWith('@mil.ph')) {
+                  return 'Please use a non-military email address';
                 }
                 return null;
               },
@@ -312,16 +317,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           else
             CustomTextField(
               controller: _serviceIdController,
-              labelText: 'Service ID',
-              hintText: 'Enter your service ID',
-              prefixIcon: Icons.badge,
-              keyboardType: TextInputType.text,
+              labelText: 'Military Email',
+              hintText: 'Enter your Military Email (@mil.ph)',
+              prefixIcon: Icons.email,
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Service ID is required';
+                  return 'Military Email is required';
                 }
-                if (value.length < 4) {
-                  return 'Please enter a valid Service ID';
+                if (!value.toLowerCase().endsWith('@mil.ph')) {
+                  return 'Please enter a valid Military Email (@mil.ph)';
+                }
+                if (!RegExp(r'^[\w-\.]+@mil\.ph$').hasMatch(value)) {
+                  return 'Please enter a valid email format';
                 }
                 return null;
               },

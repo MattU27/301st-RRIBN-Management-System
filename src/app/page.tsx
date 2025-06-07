@@ -621,6 +621,7 @@ export default function Home() {
                     '/images/battalion-training-2.jpg',
                     '/images/battalion-training-3.jpg'
                   ]}
+                  flippedImages={['/images/AFP.png']}
                   alt="301st Ready Reserve Battalion Personnel"
                   className="h-full rounded"
                   interval={5000}
