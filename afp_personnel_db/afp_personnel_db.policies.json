@@ -1,123 +1,54 @@
 [{
   "_id": {
-    "$oid": "67eeaa076aaaa92bc113bc5e"
+    "$oid": "683acd42069b9fced2b1e342"
   },
-  "title": "Standard Operating Procedures",
-  "description": "Outlines standard procedures for daily operations",
-  "content": "# Standard Operating Procedures\n\n## Overview\nThis document outlines the standard operating procedures for all daily operations within the organization.\n\n## Procedures\n1. Morning reporting\n2. Equipment checks\n3. Communication protocols\n4. Evening reporting",
-  "category": "Operations",
-  "version": "1.2",
-  "status": "published",
-  "effectiveDate": {
-    "$date": "2023-10-15T00:00:00.000Z"
-  },
-  "createdBy": {
-    "$oid": "6406473b18c35a9b9c26e756"
-  },
-  "createdAt": {
-    "$date": "2023-09-15T10:00:00.000Z"
-  },
-  "updatedAt": {
-    "$date": "2023-09-15T10:00:00.000Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "67eeaa076aaaa92bc113bc5f"
-  },
-  "title": "Emergency Response Protocol",
-  "description": "Procedures to follow in emergency situations",
-  "content": "# Emergency Response Protocol\n\n## Overview\nThis document outlines the procedures to follow in various emergency situations.\n\n## Emergency Types\n1. Natural disasters\n2. Medical emergencies\n3. Security breaches\n4. Equipment failures",
-  "category": "Safety",
-  "version": "2.1",
-  "status": "published",
-  "effectiveDate": {
-    "$date": "2023-11-01T00:00:00.000Z"
-  },
-  "createdBy": {
-    "$oid": "6406473b18c35a9b9c26e756"
-  },
-  "createdAt": {
-    "$date": "2023-10-01T14:30:00.000Z"
-  },
-  "updatedAt": {
-    "$date": "2023-10-15T09:45:00.000Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "67eeaa076aaaa92bc113bc60"
-  },
-  "title": "Personnel Leave Policy",
-  "description": "Guidelines for requesting and approving leave",
-  "content": "# Personnel Leave Policy\n\n## Overview\nThis document outlines the guidelines for requesting and approving personnel leave.\n\n## Leave Types\n1. Annual leave\n2. Sick leave\n3. Emergency leave\n4. Training leave",
-  "category": "HR",
+  "title": "dsadasdsadasdsadasdsadasdsadas",
+  "description": "dsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadas",
+  "content": "This policy was uploaded as a file. Please refer to the attached document.",
+  "category": "dsaadaadwa",
   "version": "1.0",
-  "status": "draft",
+  "status": "published",
   "effectiveDate": {
-    "$date": "2024-01-01T00:00:00.000Z"
-  },
-  "createdBy": {
-    "$oid": "6406473b18c35a9b9c26e756"
-  },
-  "createdAt": {
-    "$date": "2023-11-10T11:20:00.000Z"
-  },
-  "updatedAt": {
-    "$date": "2023-11-10T11:20:00.000Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "67eeaa076aaaa92bc113bc61"
-  },
-  "title": "Equipment Maintenance Guidelines",
-  "description": "Procedures for regular equipment maintenance",
-  "content": "# Equipment Maintenance Guidelines\n\n## Overview\nThis document outlines the procedures for regular equipment maintenance.\n\n## Maintenance Schedule\n1. Daily checks\n2. Weekly maintenance\n3. Monthly inspections\n4. Quarterly overhauls",
-  "category": "Operations",
-  "version": "1.5",
-  "status": "archived",
-  "effectiveDate": {
-    "$date": "2022-06-01T00:00:00.000Z"
+    "$date": "2025-05-31T00:00:00.000Z"
   },
   "expirationDate": {
-    "$date": "2023-06-01T00:00:00.000Z"
+    "$date": "2025-06-05T00:00:00.000Z"
   },
   "createdBy": {
-    "$oid": "6406473b18c35a9b9c26e756"
+    "$oid": "67f89d274ba8bbe8d094b0be"
   },
   "createdAt": {
-    "$date": "2022-05-15T13:40:00.000Z"
+    "$date": "2025-05-31T09:34:58.632Z"
   },
   "updatedAt": {
-    "$date": "2023-06-02T10:15:00.000Z"
+    "$date": "2025-05-31T09:34:58.632Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "67eeaa076aaaa92bc113bc62"
+    "$oid": "683ae27614988b2d3c0294dc"
   },
-  "title": "Data Security Policy",
-  "description": "Guidelines for maintaining data security",
-  "content": "# Data Security Policy\n\n## Overview\nThis document outlines the guidelines for maintaining data security across all systems.\n\n## Security Measures\n1. Password requirements\n2. Data encryption\n3. Access control\n4. Incident reporting",
-  "category": "Security",
-  "version": "2.0",
+  "title": "DSADASDAS",
+  "description": "DSADASDAS",
+  "content": "This policy was uploaded as a file. Please refer to the attached document.",
+  "category": "DSADASDAW",
+  "version": "1.0",
   "status": "published",
   "effectiveDate": {
-    "$date": "2023-09-01T00:00:00.000Z"
+    "$date": "2025-05-31T00:00:00.000Z"
+  },
+  "expirationDate": {
+    "$date": "2025-06-03T00:00:00.000Z"
   },
   "createdBy": {
-    "$oid": "6406473b18c35a9b9c26e756"
+    "$oid": "67f89d274ba8bbe8d094b0be"
   },
   "createdAt": {
-    "$date": "2023-08-15T09:30:00.000Z"
+    "$date": "2025-05-31T11:05:26.454Z"
   },
   "updatedAt": {
-    "$date": "2023-08-20T14:15:00.000Z"
+    "$date": "2025-05-31T11:05:26.454Z"
   },
   "__v": 0
 }]

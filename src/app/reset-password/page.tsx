@@ -205,29 +205,29 @@ function ResetPasswordForm() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f0f4f8] via-white to-[#e6f0f8]">
       {/* Header - even more compact */}
       <div className="bg-gradient-to-r from-[#092140] to-[#0f3b6d] text-white py-1 px-4 shadow-md">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           <span className="text-base font-bold tracking-wider">301st READY RESERVE <span className="text-[#f0c14b]">INFANTRY BATTALION</span></span>
         </div>
       </div>
 
       {/* Main content - expanded */}
       <div className="flex-grow flex items-center justify-center px-4 bg-[url('/bg-pattern.png')] bg-no-repeat bg-center bg-cover bg-opacity-5">
-        <div className="w-full max-w-5xl relative z-10">
-          <div className="text-center mb-1">
+        <div className="relative z-10 w-full max-w-5xl">
+          <div className="mb-1 text-center">
             <h2 className="text-2xl font-bold text-[#092140]">Reset Password</h2>
             <div className="w-28 h-[2px] bg-gradient-to-r from-[#092140] to-[#f0c14b] mx-auto"></div>
           </div>
 
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-100 backdrop-blur-sm bg-white/95">
+          <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-lg backdrop-blur-sm bg-white/95">
             {tokenError ? (
               <div className="p-5 text-center">
-                <div className="text-red-500 mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="mb-2 text-red-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Invalid Reset Link</h3>
-                <p className="text-gray-600 mb-3">
+                <h3 className="mb-2 text-lg font-medium text-gray-900">Invalid Reset Link</h3>
+                <p className="mb-3 text-gray-600">
                   The password reset link is invalid or has expired.
                 </p>
                 <Link 
@@ -239,13 +239,13 @@ function ResetPasswordForm() {
               </div>
             ) : success ? (
               <div className="p-5 text-center">
-                <div className="text-green-500 mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="mb-2 text-green-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Password Reset Successful</h3>
-                <p className="text-gray-600 mb-3">
+                <h3 className="mb-2 text-lg font-medium text-gray-900">Password Reset Successful</h3>
+                <p className="mb-3 text-gray-600">
                   Your password has been updated. Redirecting to login...
                 </p>
                 <Link 
@@ -259,10 +259,10 @@ function ResetPasswordForm() {
               <div className="p-5">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {error && (
-                    <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                    <div className="p-4 mb-4 border-l-4 border-red-500 bg-red-50">
                       <div className="flex">
                         <div className="flex-shrink-0">
-                          <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>
                         </div>
@@ -292,7 +292,7 @@ function ResetPasswordForm() {
                     {newPassword && (
                       <div className="mt-1 text-xs">
                         <div className="flex items-center">
-                          <div className="flex-grow h-1 bg-gray-200 rounded overflow-hidden">
+                          <div className="flex-grow h-1 overflow-hidden bg-gray-200 rounded">
                             <div 
                               className={`h-1 ${strengthClass}`} 
                               style={{ width: `${passwordStrength * 20}%` }}
@@ -300,7 +300,7 @@ function ResetPasswordForm() {
                           </div>
                           <span className="ml-2 text-gray-500">{strengthText}</span>
                         </div>
-                        <ul className="mt-1 text-gray-500 list-disc pl-5">
+                        <ul className="pl-5 mt-1 text-gray-500 list-disc">
                           <li className={newPassword.length >= PASSWORD_MIN_LENGTH ? 'text-green-500' : ''}>
                             At least {PASSWORD_MIN_LENGTH} characters
                           </li>
@@ -368,7 +368,7 @@ function ResetPasswordForm() {
                     >
                       {isLoading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 mr-2 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>

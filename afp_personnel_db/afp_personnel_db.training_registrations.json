@@ -3290,4 +3290,58 @@
   "updatedAt": {
     "$date": "2025-05-06T15:02:32.791Z"
   }
+},
+{
+  "_id": {
+    "$oid": "683ed83964e056f8b8000000"
+  },
+  "trainingId": {
+    "$oid": "683ed83060a74f4521a51302"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "status": "registered",
+  "registrationDate": {
+    "$date": "2025-06-03T11:10:49.388Z"
+  },
+  "attendanceDate": null,
+  "completionDate": null,
+  "score": null,
+  "feedback": null,
+  "certificate": null,
+  "additionalInfo": null,
+  "createdAt": {
+    "$date": "2025-06-03T11:10:49.388Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-03T11:10:49.388Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "683ffd9e9f5f4b6fd1000000"
+  },
+  "trainingId": {
+    "$oid": "683ed83060a74f4521a51302"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "status": "registered",
+  "registrationDate": {
+    "$date": "2025-06-04T08:02:38.754Z"
+  },
+  "attendanceDate": null,
+  "completionDate": null,
+  "score": null,
+  "feedback": null,
+  "certificate": null,
+  "additionalInfo": null,
+  "createdAt": {
+    "$date": "2025-06-04T08:02:38.754Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T08:02:38.754Z"
+  }
 }]

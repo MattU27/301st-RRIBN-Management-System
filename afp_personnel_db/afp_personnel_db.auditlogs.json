@@ -18484,4 +18484,1082 @@
   "ipAddress": "::1",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6838724a29e3ac70225d7c99"
+  },
+  "timestamp": {
+    "$date": "2025-05-29T14:42:18.602Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::ffff:192.168.1.2",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683872e829e3ac70225d7cdf"
+  },
+  "timestamp": {
+    "$date": "2025-05-29T14:44:56.069Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6838730929e3ac70225d7d11"
+  },
+  "timestamp": {
+    "$date": "2025-05-29T14:45:29.278Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68387973a5696ebd22c0fa5a"
+  },
+  "timestamp": {
+    "$date": "2025-05-29T15:12:51.585Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68388dcfa5696ebd22c0fb71"
+  },
+  "timestamp": {
+    "$date": "2025-05-29T16:39:43.068Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ab8465ccfbd2d8b39a437"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T08:05:26.711Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae1535d2a12f4e58cf3bf"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:00:35.745Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae15d5d2a12f4e58cf3ca"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:00:45.097Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae16f5d2a12f4e58cf3cf"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:01:03.292Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae1895d2a12f4e58cf3d4"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:01:29.862Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae1db5d2a12f4e58cf3d9"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:02:51.155Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae1f35d2a12f4e58cf40c"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:03:15.756Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae1fa5d2a12f4e58cf412"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:03:22.773Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae2015d2a12f4e58cf43e"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:03:29.444Z"
+  },
+  "userId": "67f8a0ea4ba8bbe8d094b0dd",
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f8a0ea4ba8bbe8d094b0dd",
+  "details": "Lieutenant General John Matthew Banto (NERRFAB (NERR-Field Artillery Battery)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae24914988b2d3c02946c"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:04:41.273Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae24c14988b2d3c02949c"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:04:44.038Z"
+  },
+  "userId": "67f8a0ea4ba8bbe8d094b0dd",
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f8a0ea4ba8bbe8d094b0dd",
+  "details": "Lieutenant General John Matthew Banto (NERRFAB (NERR-Field Artillery Battery)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ae25114988b2d3c0294aa"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T11:04:49.872Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683affcf14988b2d3c029587"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T13:10:39.082Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683b075c14988b2d3c02958d"
+  },
+  "timestamp": {
+    "$date": "2025-05-31T13:42:52.796Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed62760a74f4521a512a7"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:01:59.370Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed64060a74f4521a512e7"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:02:24.004Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed81960a74f4521a512fb"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:10:17.367Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed83060a74f4521a51304"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:10:40.810Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "683ed83060a74f4521a51302"
+  },
+  "details": "Created new training: ASDASDAS",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed83060a74f4521a5130a"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:10:40.976Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "683ed83060a74f4521a51302",
+  "details": "Created new training: ASDASDAS",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed85060a74f4521a51311"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:11:12.850Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed86560a74f4521a51322"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:11:33.113Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ed86b60a74f4521a51325"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:11:39.848Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683edaf760a74f4521a51337"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:22:31.876Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683edc1f60a74f4521a51343"
+  },
+  "timestamp": {
+    "$date": "2025-06-03T11:27:27.581Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683f9dc23a726268c486f6b2"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T01:13:38.307Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683fa9890076b157379a28da"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T02:03:53.443Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683fe1c47131028094b2eb2d"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T06:03:48.574Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683fead1c9d89991447df46f"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T06:42:25.457Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683fead9c9d89991447df47d"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T06:42:33.278Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683feef6605e9f91344150f8"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:00:06.801Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683feeff605e9f9134415106"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:00:15.282Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ff046f470c4224e222975"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:05:42.215Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ff04ef470c4224e222981"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:05:50.635Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ffa0ef65caf0c244cfc06"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:47:26.376Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ffa16f65caf0c244cfc14"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T07:47:34.715Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "683ffd9ff65caf0c244cfc73"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T08:02:39.538Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684039c56f9d838c6e64e321"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T12:19:17.271Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684039c56f9d838c6e64e322"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T12:19:17.276Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684039cf6f9d838c6e64e32d"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T12:19:27.295Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68404bdf85c97d1dfb3d1f19"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T13:36:31.360Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68404be585c97d1dfb3d1f2d"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T13:36:37.243Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68404f1c85c97d1dfb3d1f6d"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T13:50:20.168Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68404f2b85c97d1dfb3d1f74"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T13:50:35.627Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68405375a9c859b77162bd0a"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T14:08:53.632Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684061d7a9c859b77162bd10"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T15:10:15.071Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684063baa9c859b77162bd56"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T15:18:18.772Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684063c4a9c859b77162bd5c"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T15:18:28.120Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684063cea9c859b77162bd89"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T15:18:38.296Z"
+  },
+  "userId": "67f8a0ea4ba8bbe8d094b0dd",
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f8a0ea4ba8bbe8d094b0dd",
+  "details": "Lieutenant General John Matthew Banto (NERRFAB (NERR-Field Artillery Battery)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684063d3a9c859b77162bd8f"
+  },
+  "timestamp": {
+    "$date": "2025-06-04T15:18:43.937Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684273dd1bc3fc40b7617752"
+  },
+  "timestamp": {
+    "$date": "2025-06-06T04:51:41.388Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684273f01bc3fc40b7617793"
+  },
+  "timestamp": {
+    "$date": "2025-06-06T04:52:00.143Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "personnel",
+  "resourceId": "680644e406bb3a2a1640592c",
+  "details": "View personnel record: Andres Domingo",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684274201bc3fc40b76177a3"
+  },
+  "timestamp": {
+    "$date": "2025-06-06T04:52:48.268Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6843ff393e8535dc557e92ae"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T08:58:33.962Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6843ff403e8535dc557e92e6"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T08:58:40.422Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
 }]

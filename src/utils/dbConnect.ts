@@ -63,8 +63,8 @@ export async function dbConnect(): Promise<typeof mongoose> {
   }
 
   console.log(`Connecting to MongoDB: ${getRedactedConnectionString(MONGODB_URI)}`);
-  
-  // Create a new connection promise
+
+    // Create a new connection promise
   cachedConnection.promise = mongoose.connect(MONGODB_URI, {
     bufferCommands: false,
     maxPoolSize: 10, // Maintain up to 10 socket connections
@@ -79,14 +79,14 @@ export async function dbConnect(): Promise<typeof mongoose> {
       console.log(`Database name: ${mongoose.connection.db.databaseName}`);
     }
     console.log(`Connection state: ${mongoose.connection.readyState}`);
-    return mongoose;
-  })
+        return mongoose;
+      })
   .catch(error => {
-    console.error('MongoDB connection error:', error);
-    
+        console.error('MongoDB connection error:', error);
+        
     // Set fallback flag if MongoDB connection fails
     cachedConnection.useLocalFallback = true;
-    
+        
     // Handle different types of connection errors
     if (error.name === 'MongoNetworkError' || error.name === 'MongoServerSelectionError') {
       console.warn('Failed to connect to MongoDB. Check your connection string and network connectivity.');
@@ -94,7 +94,7 @@ export async function dbConnect(): Promise<typeof mongoose> {
     
     // Re-throw the error
     throw error;
-  });
+      });
 
   try {
     // Wait for the connection to be established

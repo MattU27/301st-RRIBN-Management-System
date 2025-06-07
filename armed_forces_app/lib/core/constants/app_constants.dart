@@ -3,13 +3,13 @@ class AppConstants {
   static const String appName = 'Armed Forces of the Philippines';
   static const String appVersion = '1.0.0';
   
-  // API endpoints - Updated to use local development server
-  static const String baseUrl = 'http://10.0.2.2:3000'; // Android emulator address for localhost
-  static const String socketUrl = 'http://10.0.2.2:3000'; // Socket.IO server URL
+  // API endpoints - Updated to use Render deployment
+  static const String baseUrl = 'https://301st-rribn-management-system.onrender.com'; // Render deployment URL
+  static const String socketUrl = 'https://301st-rribn-management-system.onrender.com'; // Socket.IO server URL
   // Alternative URLs for different environments
   static const String localUrl = 'http://localhost:3000';
   static const String emulatorUrl = 'http://10.0.2.2:3000';
-  static const String productionUrl = 'https://api.armedforces.ph';
+  static const String productionUrl = 'https://301st-rribn-management-system.onrender.com';
   
   static const String apiVersion = 'v1';
   static const String databaseName = 'afp_personnel_db'; // MongoDB database name

@@ -72,11 +72,11 @@
     "$date": "2025-04-11T04:40:07.328Z"
   },
   "updatedAt": {
-    "$date": "2025-05-29T03:48:36.036Z"
+    "$date": "2025-06-07T08:58:33.947Z"
   },
   "deactivationReason": null,
   "lastLogin": {
-    "$date": "2025-05-29T03:48:36.035Z"
+    "$date": "2025-06-07T08:58:33.940Z"
   },
   "isArchived": false,
   "canRegister": false,
@@ -101,11 +101,11 @@
     "$date": "2025-04-11T04:56:10.649Z"
   },
   "updatedAt": {
-    "$date": "2025-05-29T06:43:27.659Z"
+    "$date": "2025-06-04T15:18:28.113Z"
   },
   "deactivationReason": null,
   "lastLogin": {
-    "$date": "2025-05-29T06:43:27.658Z"
+    "$date": "2025-06-04T15:18:28.110Z"
   },
   "__v": 4,
   "isArchived": false,
@@ -117,42 +117,4 @@
   ],
   "canRegister": false,
   "isRegistrationComplete": false
-},
-{
-  "_id": {
-    "$oid": "6800e8eeaec14642cc3ce05c"
-  },
-  "firstName": "Lolers",
-  "lastName": "Llalalala",
-  "email": "sasukebanto@mil.ph",
-  "alternativeEmail": "sasukebanto@gmail.com",
-  "password": "$2b$10$lyuNAnxZIpWMDUuPc9ZunOENEysPm91svrh8gu1jA.Bsy.x5SGn5a",
-  "role": "staff",
-  "company": "NERRSC (NERR-Signal Company)",
-  "rank": "Corporal",
-  "serviceId": "2019-101690",
-  "status": "active",
-  "specializations": [],
-  "createdAt": {
-    "$date": "2025-04-17T11:41:34.921Z"
-  },
-  "updatedAt": {
-    "$date": "2025-04-17T11:59:54.596Z"
-  },
-  "deactivationReason": null,
-  "lastLogin": {
-    "$date": "2025-04-17T11:53:10.722Z"
-  },
-  "address": {
-    "street": "",
-    "city": "",
-    "province": "",
-    "postalCode": ""
-  },
-  "contactNumber": "",
-  "emergencyContact": {
-    "name": "",
-    "relationship": "",
-    "contactNumber": ""
-  }
 }]

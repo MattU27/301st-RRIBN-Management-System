@@ -211,4 +211,65 @@
     "$date": "2025-04-24T18:41:09.334Z"
   },
   "__v": 2
+},
+{
+  "_id": {
+    "$oid": "683ed83060a74f4521a51302"
+  },
+  "title": "ASDASDAS",
+  "description": "ASDASDASASDASDASASDASDASASDASDAS",
+  "type": "combat_drill",
+  "startDate": {
+    "$date": "2025-06-03T11:10:17.310Z"
+  },
+  "endDate": {
+    "$date": "2025-06-06T03:10:00.000Z"
+  },
+  "location": {
+    "name": "ASDASDAS",
+    "address": "ASDASDAS"
+  },
+  "instructor": {
+    "name": "ASDASDAS",
+    "rank": "ASDASDAS"
+  },
+  "status": "upcoming",
+  "capacity": 30,
+  "registered": 2,
+  "eligibleRanks": [],
+  "eligibleCompanies": [],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "68063c32bb93f9ffb2000000"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-06-03T11:10:49.388Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457346"
+      },
+      "status": "registered",
+      "registrationDate": {
+        "$date": "2025-06-04T08:02:38.754Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "tags": [],
+  "certificationOffered": false,
+  "materials": [],
+  "createdAt": {
+    "$date": "2025-06-03T11:10:40.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T08:02:38.754Z"
+  },
+  "__v": 0
 }]
