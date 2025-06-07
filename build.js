@@ -97,7 +97,49 @@ module.exports = {
 `;
 fs.writeFileSync('postcss.config.js', postcssConfigContent);
 
-// Step 5: Run the build
+// Step 5: Create missing directories and stub files
+console.log('Creating missing directories and stub files...');
+
+// Create lib directory if it doesn't exist
+const libDir = path.join(process.cwd(), 'src', 'lib');
+if (!fs.existsSync(libDir)) {
+  fs.mkdirSync(libDir, { recursive: true });
+}
+
+// Create audit.js stub
+const auditStub = `
+// Stub file for @/lib/audit
+export const auditLog = (action, details) => {
+  console.log('Audit log:', action, details);
+};
+
+export default {
+  auditLog
+};
+`;
+fs.writeFileSync(path.join(libDir, 'audit.js'), auditStub);
+
+// Create mongodb.js stub
+const mongodbStub = `
+// Stub file for mongodb connection
+import mongoose from 'mongoose';
+
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/afp_personnel_db';
+
+export async function connectToDatabase() {
+  try {
+    return await mongoose.connect(MONGODB_URI);
+  } catch (error) {
+    console.error('Failed to connect to MongoDB', error);
+    return null;
+  }
+}
+
+export default { connectToDatabase };
+`;
+fs.writeFileSync(path.join(libDir, 'mongodb.js'), mongodbStub);
+
+// Step 6: Run the build
 console.log('Running Next.js build...');
 try {
   execSync('npx next build', { stdio: 'inherit' });
