@@ -51,7 +51,7 @@ function LoginContent() {
     setPendingAccount(false);
     setInactiveAccount(false);
     setIsLoading(true);
-    console.log('Attempting login with:', { email });
+    console.log('Attempting login with:', { email, rememberMe });
 
     try {
       // Check account status first
@@ -87,7 +87,7 @@ function LoginContent() {
       
       // Proceed with login 
       console.log('Proceeding with login attempt');
-      await login(email, password);
+      await login(email, password, rememberMe); // Pass rememberMe to login function
       console.log('Login successful, redirecting...');
     } catch (err: any) {
       console.error('Login failed:', err);

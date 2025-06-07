@@ -222,8 +222,8 @@ export default function PasswordRecoveryPage() {
                         </svg>
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold text-lg text-[#092140]">Recover with Military ID</p>
-                        <p className="mt-1 text-base text-gray-600">Use your AFP Military ID number</p>
+                        <p className="font-semibold text-lg text-[#092140]">Recover with Military Email</p>
+                        <p className="mt-1 text-base text-gray-600">Use your AFP Military Email</p>
                       </div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -265,7 +265,7 @@ export default function PasswordRecoveryPage() {
 
                           {step === 'serviceId' && (
                 <form className="p-8" onSubmit={handleServiceIdSubmit}>
-                 <h3 className="mb-8 text-xl font-medium text-center text-gray-900">Recover with Military ID</h3>
+                 <h3 className="mb-8 text-xl font-medium text-center text-gray-900">Recover with Military Email</h3>
                 
                 {error && (
                   <div className="p-4 mb-8 border-l-4 border-red-500 bg-red-50">
@@ -284,27 +284,27 @@ export default function PasswordRecoveryPage() {
                 
                                   <div className="mb-8">
                    <label htmlFor="service-id" className="block mb-2 text-base font-medium text-gray-700">
-                      Military ID
+                      Military Email
                     </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <input
                       id="service-id"
                       name="serviceId"
-                      type="text"
+                      type="email"
                       value={serviceId}
                       onChange={(e) => setServiceId(e.target.value)}
                       required
                       className="appearance-none relative block w-full pl-12 px-4 py-4 text-base border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-[#092140] focus:border-[#092140] focus:z-10"
-                      placeholder="Enter your Military ID"
+                      placeholder="Enter your Military Email"
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
-                    We'll send a password reset link to the email associated with this Military ID
+                    We'll send a password reset link to the email associated with this Military Email
                   </p>
                 </div>
                 

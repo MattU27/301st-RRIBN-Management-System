@@ -47,7 +47,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   mounted: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
   logout: () => Promise<void>;
   hasPermission: (permission: string) => boolean;
   hasSpecificPermission: (permission: string) => boolean;
@@ -337,7 +337,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [sessionExpiring, resetSessionTimeout]);
 
   // Login function
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, rememberMe: boolean = false) => {
     setIsLoading(true);
     try {
       console.log('AuthContext: Sending login request');
@@ -350,9 +350,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         console.log('AuthContext: Login successful, storing token and user data');
         
-        // Save token to both localStorage and cookies for redundancy
+        // Save token based on rememberMe preference
+        const expiryDays = rememberMe ? 30 : 1; // 30 days if remember me is checked, 1 day otherwise
+        
+        // Store in localStorage for session persistence
         localStorage.setItem('token', token);
-        Cookies.set('token', token, { expires: 1, secure: process.env.NODE_ENV === 'production' });
+        
+        // Set cookie with appropriate expiration
+        Cookies.set('token', token, { 
+          expires: expiryDays, 
+          secure: process.env.NODE_ENV === 'production'
+        });
         
         // Clear any existing session timeouts before setting user
         if (sessionTimeoutRef.current) {
