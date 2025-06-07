@@ -39,7 +39,7 @@ ensureUploadDirectories();
 
 const nextConfig = {
   reactStrictMode: false, // Set to false to prevent double mounting in development
-  swcMinify: true,
+  
   // Disable TypeScript type checking in build
   typescript: {
     // !! WARN !!
@@ -66,7 +66,7 @@ const nextConfig = {
   },
   // Update server configuration to allow for WebSocket upgrades
   experimental: {
-    serverComponentsExternalPackages: ['ws'],
+    serverExternalPackages: ['ws'],
   },
 };
 
