@@ -12,6 +12,12 @@ import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'dart:math';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
+import 'package:open_file/open_file.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:cross_file/cross_file.dart';
 
 // Helper function to get minimum of two integers
 int min(int a, int b) => a < b ? a : b;
@@ -79,6 +85,28 @@ class _PolicyScreenState extends State<PolicyScreen> {
         ),
       );
       
+      // Request storage permissions
+      if (Platform.isAndroid) {
+        // Request both storage permissions
+        var storageStatus = await Permission.storage.request();
+        var externalStorageStatus = await Permission.manageExternalStorage.request();
+        
+        // Check if either permission was granted
+        if (!storageStatus.isGranted && !externalStorageStatus.isGranted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Storage permission is required to download files'),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 5),
+            ),
+          );
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        }
+      }
+      
       // First try direct MongoDB download
       if (policy.fileId != null) {
         if (kDebugMode) {
@@ -93,9 +121,46 @@ class _PolicyScreenState extends State<PolicyScreen> {
             print('Successfully downloaded file directly from MongoDB: ${fileBytes.length} bytes');
           }
           
-          // Get temporary directory to save the file
-          final directory = await getApplicationDocumentsDirectory();
-          final filePath = '${directory.path}/${policy.title.replaceAll(' ', '_')}_policy.pdf';
+          // Get Downloads directory
+          Directory? downloadsDir;
+          
+          if (Platform.isAndroid) {
+            try {
+              // Try to use the external storage directory first
+              final externalDir = await getExternalStorageDirectory();
+              if (externalDir != null) {
+                // Create a Downloads directory in the external storage
+                downloadsDir = Directory('${externalDir.path}/Download');
+                if (!await downloadsDir.exists()) {
+                  await downloadsDir.create(recursive: true);
+                }
+              }
+            } catch (e) {
+              print('Error accessing external storage: $e');
+            }
+            
+            // If external storage is not available, use application documents directory
+            if (downloadsDir == null) {
+              final appDocDir = await getApplicationDocumentsDirectory();
+              downloadsDir = Directory('${appDocDir.path}/Download');
+              if (!await downloadsDir.exists()) {
+                await downloadsDir.create(recursive: true);
+              }
+            }
+          } else {
+            // For iOS and other platforms, use the documents directory
+            final appDocDir = await getApplicationDocumentsDirectory();
+            downloadsDir = appDocDir;
+          }
+          
+          if (downloadsDir == null) {
+            throw Exception('Could not access Downloads directory');
+          }
+          
+          // Create a unique filename
+          final String safeFileName = policy.title.replaceAll(RegExp(r'[^\w\s.-]'), '_');
+          final String uniqueFileName = '${safeFileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+          final filePath = '${downloadsDir.path}/$uniqueFileName';
           
           // Write to file
           final file = File(filePath);
@@ -117,6 +182,14 @@ class _PolicyScreenState extends State<PolicyScreen> {
               ),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'VIEW',
+                textColor: Colors.white,
+                onPressed: () async {
+                  // Open the file
+                  await _openFile(file);
+                },
+              ),
             ),
           );
           
@@ -188,153 +261,256 @@ class _PolicyScreenState extends State<PolicyScreen> {
         }
       }
       
-      if (response.statusCode != 200) {
-        // Try alternative endpoint if first attempt fails
-        if (policy.fileId != null) {
-          final String cleanFileId = _cleanObjectId(policy.fileId!);
-          // Try the policyFiles.files collection endpoint
-          final fallbackUri = Uri.parse('${AppConstants.baseUrl}/api/v1/policyFiles/${cleanFileId}');
-          
+      if (response.statusCode == 200) {
+        // Get Downloads directory
+        Directory? downloadsDir;
+        
+        if (Platform.isAndroid) {
+          // For Android, use the Downloads directory
+          downloadsDir = Directory('/storage/emulated/0/Download');
+          if (!await downloadsDir.exists()) {
+            // Fallback to external storage directory
+            final externalDir = await getExternalStorageDirectory();
+            if (externalDir != null) {
+              downloadsDir = Directory('${externalDir.path}/Download');
+              await downloadsDir.create(recursive: true);
+            }
+          }
+        } else {
+          // For iOS and other platforms, use the documents directory
+          final appDocDir = await getApplicationDocumentsDirectory();
+          downloadsDir = appDocDir;
+        }
+        
+        if (downloadsDir == null) {
+          throw Exception('Could not access Downloads directory');
+        }
+        
+        // Create a unique filename
+        final String safeFileName = policy.title.replaceAll(RegExp(r'[^\w\s.-]'), '_');
+        final String uniqueFileName = '${safeFileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+        final filePath = '${downloadsDir.path}/$uniqueFileName';
+        
+        // Write to file
+        final file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Document downloaded successfully!', 
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text('Saved to: ${file.path}'),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'VIEW',
+              textColor: Colors.white,
+              onPressed: () async {
+                // Open the file
+                await _openFile(file);
+              },
+            ),
+          ),
+        );
+        
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+      
+      // Try alternative endpoint if first attempt fails
+      if (policy.fileId != null) {
+        final String cleanFileId = _cleanObjectId(policy.fileId!);
+        // Try the policyFiles.files collection endpoint
+        final fallbackUri = Uri.parse('${AppConstants.baseUrl}/api/v1/policyFiles/${cleanFileId}');
+        
+        if (kDebugMode) {
+          print('First attempt failed. Trying fallback URL: $fallbackUri');
+        }
+        
+        final fallbackResponse = await http.get(
+          fallbackUri,
+          headers: {'Authorization': 'Bearer $token'},
+        );
+        
+        if (fallbackResponse.statusCode == 200) {
+          // Success with fallback URL
           if (kDebugMode) {
-            print('First attempt failed. Trying fallback URL: $fallbackUri');
+            print('Fallback URL succeeded with status code: ${fallbackResponse.statusCode}');
           }
           
-          final fallbackResponse = await http.get(
-            fallbackUri,
-            headers: {'Authorization': 'Bearer $token'},
+          // Get Downloads directory
+          Directory? downloadsDir;
+          
+          if (Platform.isAndroid) {
+            // For Android, use the Downloads directory
+            downloadsDir = Directory('/storage/emulated/0/Download');
+            if (!await downloadsDir.exists()) {
+              // Fallback to external storage directory
+              final externalDir = await getExternalStorageDirectory();
+              if (externalDir != null) {
+                downloadsDir = Directory('${externalDir.path}/Download');
+                await downloadsDir.create(recursive: true);
+              }
+            }
+          } else {
+            // For iOS and other platforms, use the documents directory
+            final appDocDir = await getApplicationDocumentsDirectory();
+            downloadsDir = appDocDir;
+          }
+          
+          if (downloadsDir == null) {
+            throw Exception('Could not access Downloads directory');
+          }
+          
+          // Create a unique filename
+          final String safeFileName = policy.title.replaceAll(RegExp(r'[^\w\s.-]'), '_');
+          final String uniqueFileName = '${safeFileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+          final filePath = '${downloadsDir.path}/$uniqueFileName';
+          
+          // Write to file
+          final file = File(filePath);
+          await file.writeAsBytes(fallbackResponse.bodyBytes);
+          
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Document downloaded successfully!', 
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Text('Saved to: ${file.path}'),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'VIEW',
+                textColor: Colors.white,
+                onPressed: () async {
+                  // Open the file
+                  await _openFile(file);
+                },
+              ),
+            ),
           );
           
-          if (fallbackResponse.statusCode == 200) {
-            // Success with fallback URL
-            if (kDebugMode) {
-              print('Fallback URL succeeded with status code: ${fallbackResponse.statusCode}');
-            }
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        } else if (kDebugMode) {
+          print('Fallback URL also failed with status code: ${fallbackResponse.statusCode}');
+          print('Fallback response body: ${fallbackResponse.body}');
+          
+          // Try one more fallback with documentUrl if available
+          if (policy.documentUrl != null && policy.documentUrl!.isNotEmpty) {
+            final String documentPath = policy.documentUrl!.startsWith('/') 
+                ? policy.documentUrl! 
+                : '/${policy.documentUrl!}';
+            final lastFallbackUri = Uri.parse('${AppConstants.baseUrl}${documentPath}');
             
-            // Get temporary directory to save the file
-            final directory = await getApplicationDocumentsDirectory();
-            final filePath = '${directory.path}/${policy.title.replaceAll(' ', '_')}_policy.pdf';
+            print('Trying last fallback with documentUrl: $lastFallbackUri');
             
-            // Write to file
-            final file = File(filePath);
-            await file.writeAsBytes(fallbackResponse.bodyBytes);
-            
-            // Show success message
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Document downloaded successfully!', 
-                      style: TextStyle(fontWeight: FontWeight.bold),
+            try {
+              final lastFallbackResponse = await http.get(
+                lastFallbackUri,
+                headers: {'Authorization': 'Bearer $token'},
+              );
+              
+              if (lastFallbackResponse.statusCode == 200) {
+                // Success with last fallback URL
+                print('Last fallback URL succeeded with status code: ${lastFallbackResponse.statusCode}');
+                
+                // Get Downloads directory
+                Directory? downloadsDir;
+                
+                if (Platform.isAndroid) {
+                  // For Android, use the Downloads directory
+                  downloadsDir = Directory('/storage/emulated/0/Download');
+                  if (!await downloadsDir.exists()) {
+                    // Fallback to external storage directory
+                    final externalDir = await getExternalStorageDirectory();
+                    if (externalDir != null) {
+                      downloadsDir = Directory('${externalDir.path}/Download');
+                      await downloadsDir.create(recursive: true);
+                    }
+                  }
+                } else {
+                  // For iOS and other platforms, use the documents directory
+                  final appDocDir = await getApplicationDocumentsDirectory();
+                  downloadsDir = appDocDir;
+                }
+                
+                if (downloadsDir == null) {
+                  throw Exception('Could not access Downloads directory');
+                }
+                
+                // Create a unique filename
+                final String safeFileName = policy.title.replaceAll(RegExp(r'[^\w\s.-]'), '_');
+                final String uniqueFileName = '${safeFileName}_${DateTime.now().millisecondsSinceEpoch}.pdf';
+                final filePath = '${downloadsDir.path}/$uniqueFileName';
+                
+                // Write to file
+                final file = File(filePath);
+                await file.writeAsBytes(lastFallbackResponse.bodyBytes);
+                
+                // Show success message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Document downloaded successfully!', 
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 4),
+                        Text('Saved to: ${file.path}'),
+                      ],
                     ),
-                    const SizedBox(height: 4),
-                    Text('Saved to: ${file.path}'),
-                  ],
-                ),
-                backgroundColor: Colors.green,
-                duration: const Duration(seconds: 5),
-              ),
-            );
-            
-            setState(() {
-              _isLoading = false;
-            });
-            return;
-          } else if (kDebugMode) {
-            print('Fallback URL also failed with status code: ${fallbackResponse.statusCode}');
-            print('Fallback response body: ${fallbackResponse.body}');
-            
-            // Try one more fallback with documentUrl if available
-            if (policy.documentUrl != null && policy.documentUrl!.isNotEmpty) {
-              final String documentPath = policy.documentUrl!.startsWith('/') 
-                  ? policy.documentUrl! 
-                  : '/${policy.documentUrl!}';
-              final lastFallbackUri = Uri.parse('${AppConstants.baseUrl}${documentPath}');
-              
-              print('Trying last fallback with documentUrl: $lastFallbackUri');
-              
-              try {
-                final lastFallbackResponse = await http.get(
-                  lastFallbackUri,
-                  headers: {'Authorization': 'Bearer $token'},
+                    backgroundColor: Colors.green,
+                    duration: const Duration(seconds: 5),
+                    action: SnackBarAction(
+                      label: 'VIEW',
+                      textColor: Colors.white,
+                      onPressed: () async {
+                        // Open the file
+                        await _openFile(file);
+                      },
+                    ),
+                  ),
                 );
                 
-                if (lastFallbackResponse.statusCode == 200) {
-                  // Success with last fallback URL
-                  print('Last fallback URL succeeded with status code: ${lastFallbackResponse.statusCode}');
-                  
-                  // Get temporary directory to save the file
-                  final directory = await getApplicationDocumentsDirectory();
-                  final filePath = '${directory.path}/${policy.title.replaceAll(' ', '_')}_policy.pdf';
-                  
-                  // Write to file
-                  final file = File(filePath);
-                  await file.writeAsBytes(lastFallbackResponse.bodyBytes);
-                  
-                  // Show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Document downloaded successfully!', 
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 4),
-                          Text('Saved to: ${file.path}'),
-                        ],
-                      ),
-                      backgroundColor: Colors.green,
-                      duration: const Duration(seconds: 5),
-                    ),
-                  );
-                  
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  return;
-      } else {
-                  print('Last fallback URL also failed with status code: ${lastFallbackResponse.statusCode}');
-                }
-              } catch (e) {
-                print('Error with last fallback attempt: $e');
+                setState(() {
+                  _isLoading = false;
+                });
+                return;
+              } else {
+                print('Last fallback URL also failed with status code: ${lastFallbackResponse.statusCode}');
               }
+            } catch (e) {
+              print('Error with last fallback attempt: $e');
             }
           }
         }
-        
-        throw Exception('Failed to download document: HTTP ${response.statusCode}');
       }
       
-      // Get temporary directory to save the file
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/${policy.title.replaceAll(' ', '_')}_policy.pdf';
-      
-      // Write to file
-      final file = File(filePath);
-      await file.writeAsBytes(response.bodyBytes);
-      
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Document downloaded successfully!', 
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
-              Text('Saved to: ${file.path}'),
-            ],
-          ),
-          backgroundColor: Colors.green,
-          duration: const Duration(seconds: 5),
-        ),
-      );
-      
+      throw Exception('Failed to download document: HTTP ${response.statusCode}');
     } catch (e) {
       print('Error downloading policy document: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -934,5 +1110,53 @@ class _PolicyScreenState extends State<PolicyScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _openFile(File file) async {
+    try {
+      if (Platform.isAndroid) {
+        // Use open_file package which handles FileProvider internally
+        final result = await OpenFile.open(file.path);
+        if (result.type != 'done') {
+          // If open_file fails, try sharing the file instead
+          await Share.shareXFiles([XFile(file.path)], text: 'Share PDF document');
+        }
+      } else {
+        // For iOS and other platforms
+        final result = await url_launcher.canLaunchUrl(Uri.file(file.path));
+        if (result) {
+          await url_launcher.launchUrl(Uri.file(file.path));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Could not open file: ${file.path}'),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error opening file: $e');
+      // If all else fails, show a message with the file path
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Could not open file automatically.', 
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text('File saved to: ${file.path}'),
+              const SizedBox(height: 4),
+              const Text('Please open it manually using a file manager.'),
+            ],
+          ),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 8),
+        ),
+      );
+    }
   }
 } 

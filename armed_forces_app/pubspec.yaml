@@ -75,6 +75,9 @@ dependencies:
   connectivity_plus: ^5.0.2
   logger: ^2.0.2+1
   mongo_dart: ^0.10.0
+  app_settings: ^5.1.1
+  open_file: ^3.3.2
+  share_plus: ^7.2.2
   
   # Email
   mailer: ^6.0.1
