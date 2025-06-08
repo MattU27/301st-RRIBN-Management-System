@@ -578,7 +578,16 @@ export default function TrainingsPage() {
     if (!dateString) return '';
     
     try {
-      return new Date(dateString).toISOString().slice(0, 16);
+      const date = new Date(dateString);
+      // Make sure timezone doesn't affect the displayed date/time by handling it explicitly
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      // Format as YYYY-MM-DDThh:mm
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
     } catch (error) {
       console.error('Error formatting date for input:', error);
       return '';
@@ -2359,14 +2368,24 @@ export default function TrainingsPage() {
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(newTraining.startDate)}
                           onChange={(e) => {
-                            const selectedDate = new Date(e.target.value);
-                            console.log('Selected start date:', selectedDate, 'Original input:', e.target.value);
-                            setNewTraining({...newTraining, startDate: selectedDate.toISOString()});
+                            // Parse input value directly using the input format
+                            const inputValue = e.target.value; // Format: YYYY-MM-DDThh:mm
+                            console.log('Original input:', inputValue);
+                            
+                            if (inputValue) {
+                              // Split the input string to get the date and time parts
+                              const [datePart, timePart] = inputValue.split('T');
+                              const [year, month, day] = datePart.split('-').map(Number);
+                              const [hours, minutes] = timePart.split(':').map(Number);
+                              
+                              // Create a date object with the exact time specified (using local timezone)
+                              const selectedDate = new Date(year, month - 1, day, hours, minutes);
+                              console.log('Selected start date with explicit components:', selectedDate);
+                              
+                              setNewTraining({...newTraining, startDate: selectedDate.toISOString()});
+                            }
                           }}
                         />
-                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
-                          Selected: {newTraining.startDate ? formatDateForDisplay(newTraining.startDate) : 'No date selected'}
-                        </div>
                       </div>
                     </div>
                     
@@ -2380,14 +2399,24 @@ export default function TrainingsPage() {
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(newTraining.endDate)}
                           onChange={(e) => {
-                            const selectedDate = new Date(e.target.value);
-                            console.log('Selected end date:', selectedDate, 'Original input:', e.target.value);
-                            setNewTraining({...newTraining, endDate: selectedDate.toISOString()});
+                            // Parse input value directly using the input format
+                            const inputValue = e.target.value; // Format: YYYY-MM-DDThh:mm
+                            console.log('Original input:', inputValue);
+                            
+                            if (inputValue) {
+                              // Split the input string to get the date and time parts
+                              const [datePart, timePart] = inputValue.split('T');
+                              const [year, month, day] = datePart.split('-').map(Number);
+                              const [hours, minutes] = timePart.split(':').map(Number);
+                              
+                              // Create a date object with the exact time specified (using local timezone)
+                              const selectedDate = new Date(year, month - 1, day, hours, minutes);
+                              console.log('Selected end date with explicit components:', selectedDate);
+                              
+                              setNewTraining({...newTraining, endDate: selectedDate.toISOString()});
+                            }
                           }}
                         />
-                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
-                          Selected: {newTraining.endDate ? formatDateForDisplay(newTraining.endDate) : 'No date selected'}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -2597,14 +2626,24 @@ export default function TrainingsPage() {
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(editTraining.startDate)}
                           onChange={(e) => {
-                            const selectedDate = new Date(e.target.value);
-                            console.log('Selected edit start date:', selectedDate, 'Original input:', e.target.value);
-                            setEditTraining({...editTraining, startDate: selectedDate.toISOString()});
+                            // Parse input value directly using the input format
+                            const inputValue = e.target.value; // Format: YYYY-MM-DDThh:mm
+                            console.log('Original edit start input:', inputValue);
+                            
+                            if (inputValue) {
+                              // Split the input string to get the date and time parts
+                              const [datePart, timePart] = inputValue.split('T');
+                              const [year, month, day] = datePart.split('-').map(Number);
+                              const [hours, minutes] = timePart.split(':').map(Number);
+                              
+                              // Create a date object with the exact time specified (using local timezone)
+                              const selectedDate = new Date(year, month - 1, day, hours, minutes);
+                              console.log('Selected edit start date with explicit components:', selectedDate);
+                              
+                              setEditTraining({...editTraining, startDate: selectedDate.toISOString()});
+                            }
                           }}
                         />
-                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
-                          Selected: {editTraining.startDate ? formatDateForDisplay(editTraining.startDate) : 'No date selected'}
-                        </div>
                       </div>
                     </div>
                     
@@ -2618,14 +2657,24 @@ export default function TrainingsPage() {
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(editTraining.endDate)}
                           onChange={(e) => {
-                            const selectedDate = new Date(e.target.value);
-                            console.log('Selected edit end date:', selectedDate, 'Original input:', e.target.value);
-                            setEditTraining({...editTraining, endDate: selectedDate.toISOString()});
+                            // Parse input value directly using the input format
+                            const inputValue = e.target.value; // Format: YYYY-MM-DDThh:mm
+                            console.log('Original edit end input:', inputValue);
+                            
+                            if (inputValue) {
+                              // Split the input string to get the date and time parts
+                              const [datePart, timePart] = inputValue.split('T');
+                              const [year, month, day] = datePart.split('-').map(Number);
+                              const [hours, minutes] = timePart.split(':').map(Number);
+                              
+                              // Create a date object with the exact time specified (using local timezone)
+                              const selectedDate = new Date(year, month - 1, day, hours, minutes);
+                              console.log('Selected edit end date with explicit components:', selectedDate);
+                              
+                              setEditTraining({...editTraining, endDate: selectedDate.toISOString()});
+                            }
                           }}
                         />
-                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
-                          Selected: {editTraining.endDate ? formatDateForDisplay(editTraining.endDate) : 'No date selected'}
-                        </div>
                       </div>
                     </div>
                   </div>

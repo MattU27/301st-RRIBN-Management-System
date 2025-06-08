@@ -680,20 +680,54 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
         }
         
         // Filter out past trainings
-        final upcomingTrainings = allTrainings
+        var upcomingTrainings = allTrainings
             .where((t) => t.endDate.isAfter(now) && t.status.toLowerCase() != 'completed')
             .toList();
+            
+        // If in list mode with a selected day, filter to only show trainings for that day
+        if (_selectedDay != null && _calendarFormat == CalendarFormat.twoWeeks) {
+          final selectedDate = DateTime(_selectedDay!.year, _selectedDay!.month, _selectedDay!.day);
+          upcomingTrainings = upcomingTrainings.where((training) {
+            final trainingDate = DateTime(training.startDate.year, training.startDate.month, training.startDate.day);
+            return trainingDate.isAtSameMomentAs(selectedDate);
+          }).toList();
+        }
         
         // Sort by date
         upcomingTrainings.sort((a, b) => a.startDate.compareTo(b.startDate));
         
         if (upcomingTrainings.isEmpty) {
-          return const Center(
-            child: EmptyWidget(
-              message: 'No upcoming trainings found',
-              icon: Icons.event_busy,
-            ),
-          );
+          // In list mode with a selected day, show a specific message for that day
+          if (_selectedDay != null && _calendarFormat == CalendarFormat.twoWeeks) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.event_busy,
+                    size: 64,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No trainings scheduled for\n${DateFormat('MMM d, yyyy').format(_selectedDay!)}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const Center(
+              child: EmptyWidget(
+                message: 'No upcoming trainings found',
+                icon: Icons.event_busy,
+              ),
+            );
+          }
         }
         
         return FutureBuilder<Map<String, bool>>(
@@ -1265,13 +1299,14 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
 
   String _formatDateRange(DateTime start, DateTime end) {
     final DateFormat dateFormat = DateFormat('MMM d, yyyy');
+    final DateFormat timeFormat = DateFormat('h:mma'); // Remove space between time and AM/PM
     
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
-      return '${dateFormat.format(start)} (1 day)';
+      return '${dateFormat.format(start)} (${timeFormat.format(start)} - ${timeFormat.format(end)})';
     } else {
       final Duration duration = end.difference(start);
       final int days = duration.inDays + 1;
-      return '${dateFormat.format(start)} - ${dateFormat.format(end)} ($days days)';
+      return '${dateFormat.format(start)} ${timeFormat.format(start)} - ${dateFormat.format(end)} ${timeFormat.format(end)} ($days days)';
     }
   }
 
@@ -1702,20 +1737,21 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: _getCategoryColor(training.category).withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      DateFormat('HH:mm').format(training.startDate),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: _getCategoryColor(training.category),
+                                      Container(
+                      width: 70,
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: _getCategoryColor(training.category).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
+                                          child: Text(
+                        DateFormat('h:mma').format(training.startDate),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: _getCategoryColor(training.category),
+                        ),
+                      ),
                   ),
                   if (training.endDate.day == training.startDate.day) ...[
                     Container(
@@ -1724,15 +1760,16 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                       color: Colors.grey[300],
                     ),
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      width: 70,
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
-                        shape: BoxShape.circle,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        DateFormat('HH:mm').format(training.endDate),
+                        DateFormat('h:mma').format(training.endDate),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: Colors.grey[600],
                         ),
                       ),
@@ -1817,24 +1854,47 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                       ],
                     ),
                     
-                    // Multi-day indicator if applicable
-                    if (training.endDate.difference(training.startDate).inDays > 0) ...[
-                      const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          '${training.endDate.difference(training.startDate).inDays + 1} day event',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.orange.shade800,
+                    // Time range and multi-day indicator
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          constraints: const BoxConstraints(minWidth: 80),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            DateFormat('h:mma').format(training.startDate) + 
+                            (training.endDate.day == training.startDate.day ? 
+                              ' - ' + DateFormat('h:mma').format(training.endDate) : ''),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.blue.shade800,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        
+                        if (training.endDate.difference(training.startDate).inDays > 0) ...[
+                          const SizedBox(width: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '${training.endDate.difference(training.startDate).inDays + 1} day event',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.orange.shade800,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),

@@ -696,13 +696,14 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
   
   String _formatDateRange(DateTime start, DateTime end) {
     final DateFormat dateFormat = DateFormat('MMM d, yyyy');
+    final DateFormat timeFormat = DateFormat('h:mma'); // Remove space between time and AM/PM
     
     if (start.year == end.year && start.month == end.month && start.day == end.day) {
-      return '${dateFormat.format(start)} (1 day)';
+      return '${dateFormat.format(start)} (${timeFormat.format(start)} - ${timeFormat.format(end)})';
     } else {
       final Duration duration = end.difference(start);
       final int days = duration.inDays + 1;
-      return '${dateFormat.format(start)} - ${dateFormat.format(end)} ($days days)';
+      return '${dateFormat.format(start)} ${timeFormat.format(start)} - ${dateFormat.format(end)} ${timeFormat.format(end)} ($days days)';
     }
   }
   
