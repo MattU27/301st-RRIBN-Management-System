@@ -2361,10 +2361,10 @@ export default function TrainingsPage() {
                     <div>
                       <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">Start Date</label>
                       <div className="relative">
-                        <input
-                          type="datetime-local"
-                          id="startDate"
-                          name="startDate"
+                      <input
+                        type="datetime-local"
+                        id="startDate"
+                        name="startDate"
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(newTraining.startDate)}
                           onChange={(e) => {
@@ -2385,17 +2385,17 @@ export default function TrainingsPage() {
                               setNewTraining({...newTraining, startDate: selectedDate.toISOString()});
                             }
                           }}
-                        />
+                      />
                       </div>
                     </div>
                     
                     <div>
                       <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">End Date</label>
                       <div className="relative">
-                        <input
-                          type="datetime-local"
-                          id="endDate"
-                          name="endDate"
+                      <input
+                        type="datetime-local"
+                        id="endDate"
+                        name="endDate"
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(newTraining.endDate)}
                           onChange={(e) => {
@@ -2416,7 +2416,7 @@ export default function TrainingsPage() {
                               setNewTraining({...newTraining, endDate: selectedDate.toISOString()});
                             }
                           }}
-                        />
+                      />
                       </div>
                     </div>
                   </div>
@@ -2619,10 +2619,10 @@ export default function TrainingsPage() {
                     <div>
                       <label htmlFor="editStartDate" className="block text-sm font-medium text-gray-700">Start Date</label>
                       <div className="relative">
-                        <input
-                          type="datetime-local"
-                          id="editStartDate"
-                          name="editStartDate"
+                      <input
+                        type="datetime-local"
+                        id="editStartDate"
+                        name="editStartDate"
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(editTraining.startDate)}
                           onChange={(e) => {
@@ -2643,17 +2643,17 @@ export default function TrainingsPage() {
                               setEditTraining({...editTraining, startDate: selectedDate.toISOString()});
                             }
                           }}
-                        />
+                      />
                       </div>
                     </div>
                     
                     <div>
                       <label htmlFor="editEndDate" className="block text-sm font-medium text-gray-700">End Date</label>
                       <div className="relative">
-                        <input
-                          type="datetime-local"
-                          id="editEndDate"
-                          name="editEndDate"
+                      <input
+                        type="datetime-local"
+                        id="editEndDate"
+                        name="editEndDate"
                           className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           value={formatDateForInput(editTraining.endDate)}
                           onChange={(e) => {
@@ -2674,7 +2674,7 @@ export default function TrainingsPage() {
                               setEditTraining({...editTraining, endDate: selectedDate.toISOString()});
                             }
                           }}
-                        />
+                      />
                       </div>
                     </div>
                   </div>

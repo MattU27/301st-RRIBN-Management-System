@@ -876,10 +876,10 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
               );
             }
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(16),
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
               itemCount: availableTrainings.length,
-              itemBuilder: (context, index) {
+          itemBuilder: (context, index) {
                 final training = availableTrainings[index];
                 return _buildTrainingCard(training, isRegistered: false);
               },
@@ -986,18 +986,18 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
               }).toList();
               
               if (verifiedTrainings.isEmpty) {
-                return const EmptyWidget(
-                  message: 'You haven\'t registered for any current trainings',
-                  icon: Icons.school,
-                );
-              }
+            return const EmptyWidget(
+              message: 'You haven\'t registered for any current trainings',
+              icon: Icons.school,
+            );
+          }
 
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
                 itemCount: verifiedTrainings.length,
-                itemBuilder: (context, index) {
+            itemBuilder: (context, index) {
                   final training = verifiedTrainings[index];
-                  return _buildTrainingCard(training, isRegistered: true);
+              return _buildTrainingCard(training, isRegistered: true);
                 },
               );
             },

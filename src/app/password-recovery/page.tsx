@@ -311,8 +311,18 @@ export default function PasswordRecoveryPage() {
                     />
                   </div>
                   <p className="mt-2 text-sm text-gray-500">
-                    We'll send a password reset link to your mil.ph email address
+                    We'll send a password reset link to this email address
                   </p>
+                  
+                  {/* Allowed email domains for military email */}
+                  <div className="mt-4">
+                    <p className="mb-2 text-sm font-medium text-gray-700">Accepted email provider:</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 text-xs font-medium text-red-700 rounded-full bg-red-50">
+                        mil.ph
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between">
@@ -390,8 +400,14 @@ export default function PasswordRecoveryPage() {
                   <div className="mt-4">
                     <p className="mb-2 text-sm font-medium text-gray-700">Accepted email provider:</p>
                     <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 text-xs font-medium text-red-700 rounded-full bg-red-50">
-                        mil.ph
+                      <span className="px-3 py-1 text-xs font-medium text-blue-700 rounded-full bg-blue-50">
+                        Gmail
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium text-purple-700 rounded-full bg-purple-50">
+                        Yahoo
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium text-green-700 rounded-full bg-green-50">
+                        Outlook
                       </span>
                     </div>
                   </div>

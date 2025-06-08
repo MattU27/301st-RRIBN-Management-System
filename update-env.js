@@ -15,7 +15,7 @@ JWT_SECRET=use-a-strong-secret-key-here-for-jwt-signing
 NODE_ENV=production
 
 # Port Configuration
-PORT=10000
+PORT=3000
 
 # -----------------------------------------------
 # EMAIL CONFIGURATION FOR PRODUCTION
@@ -28,7 +28,7 @@ EMAIL_PASS=
 EMAIL_FROM=301st RRIBN <noreply@armed-forces.com>
 
 # The base URL for links in emails
-NEXT_PUBLIC_BASE_URL=http://localhost:10000
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 `;
 
 try {

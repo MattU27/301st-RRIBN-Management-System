@@ -193,389 +193,389 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
       );
     }
     
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Training header card
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title and badge row
-                      Row(
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Training header card
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
+                          // Title and badge row
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
                               displayTraining.title,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12, 
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(displayTraining.status).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              _formatStatus(displayTraining.status),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: _getStatusColor(displayTraining.status),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 12),
-                      
-                      // Category
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8, 
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getCategoryColor(displayTraining.category).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          displayTraining.category.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: _getCategoryColor(displayTraining.category),
-                          ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      // Date and time
-                      _buildInfoRow(
-                        Icons.calendar_today,
-                        'Date & Time',
-                        _formatDateRange(displayTraining.startDate, displayTraining.endDate),
-                        Colors.blue,
-                      ),
-                      
-                      const SizedBox(height: 12),
-                      
-                      // Location
-                      _buildInfoRow(
-                        Icons.location_on,
-                        'Location',
-                        displayTraining.location,
-                        Colors.orange,
-                      ),
-                      
-                      // Instructor
-                      if (displayTraining.instructorName != null) ...[
-                        const SizedBox(height: 12),
-                        _buildInfoRow(
-                          Icons.person,
-                          'Instructor',
-                          displayTraining.instructorName!,
-                          Colors.purple,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              // Capacity section
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Capacity',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      // Capacity bar
-                      Row(
-                        children: [
-                          Text(
-                            '${displayTraining.registered}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: LinearProgressIndicator(
-                                  value: displayTraining.registered / displayTraining.capacity,
-                                  backgroundColor: Colors.grey.shade200,
-                                  color: _getCapacityColor(displayTraining.registered, displayTraining.capacity),
-                                  minHeight: 12,
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Text(
-                            '${displayTraining.capacity}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 12),
-                      
-                      // Availability info
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Currently registered: ${displayTraining.registered}',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            displayTraining.isFull 
-                              ? 'No spots left' 
-                              : '${displayTraining.capacity - displayTraining.registered} spots left',
-                            style: TextStyle(
-                              color: displayTraining.isFull ? Colors.red : Colors.green[700],
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      
-                      if (displayTraining.isRequired) ...[
-                        const SizedBox(height: 16),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade50,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.red.shade200),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.priority_high,
-                                color: Colors.red.shade700,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Mandatory Training',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red.shade700,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'This training is required for your current position.',
-                                      style: TextStyle(
-                                        color: Colors.red.shade700,
-                                      ),
-                                    ),
-                                  ],
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, 
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                              color: _getStatusColor(displayTraining.status).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                              _formatStatus(displayTraining.status),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                color: _getStatusColor(displayTraining.status),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              // Description section
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Description',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 16),
-                      
-                      Text(
-                        displayTraining.description,
-                        style: TextStyle(
-                          fontSize: 16,
-                          height: 1.5,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              
-              const SizedBox(height: 32),
-              
-              // Registration button - only show for upcoming trainings
-              SizedBox(
-                width: double.infinity,
-                child: isPastTraining || displayTraining.isCompleted 
-                  ? Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey[300]!),
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.event_busy,
-                            size: 28,
-                            color: Colors.grey[600],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'This training has ended',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[700],
+                          
+                          const SizedBox(height: 12),
+                          
+                          // Category
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8, 
+                              vertical: 4,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                      if (_isRegistered) ...[
-                            const SizedBox(height: 8),
-                            Text(
-                              'You were registered for this training',
+                            decoration: BoxDecoration(
+                          color: _getCategoryColor(displayTraining.category).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                          displayTraining.category.toUpperCase(),
                               style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[600],
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                            color: _getCategoryColor(displayTraining.category),
                               ),
-                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 16),
+                          
+                          // Date and time
+                          _buildInfoRow(
+                            Icons.calendar_today,
+                            'Date & Time',
+                        _formatDateRange(displayTraining.startDate, displayTraining.endDate),
+                            Colors.blue,
+                          ),
+                          
+                          const SizedBox(height: 12),
+                          
+                          // Location
+                          _buildInfoRow(
+                            Icons.location_on,
+                            'Location',
+                        displayTraining.location,
+                            Colors.orange,
+                          ),
+                          
+                          // Instructor
+                      if (displayTraining.instructorName != null) ...[
+                            const SizedBox(height: 12),
+                            _buildInfoRow(
+                              Icons.person,
+                              'Instructor',
+                          displayTraining.instructorName!,
+                              Colors.purple,
                             ),
                           ],
                         ],
                       ),
-                    )
-              : _isRegistered
-                    ? ElevatedButton(
-                        onPressed: () => _cancelRegistration(displayTraining),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 20),
+                  
+                  // Capacity section
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Capacity',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'Cancel Registration',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          
+                          const SizedBox(height: 16),
+                          
+                          // Capacity bar
+                          Row(
+                            children: [
+                              Text(
+                            '${displayTraining.registered}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: LinearProgressIndicator(
+                                  value: displayTraining.registered / displayTraining.capacity,
+                                      backgroundColor: Colors.grey.shade200,
+                                  color: _getCapacityColor(displayTraining.registered, displayTraining.capacity),
+                                      minHeight: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                            '${displayTraining.capacity}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      )
-                    : ElevatedButton(
-                        onPressed: displayTraining.isFull ? null : () => _registerForTraining(displayTraining),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primaryColor,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                          
+                          const SizedBox(height: 12),
+                          
+                          // Availability info
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                            'Currently registered: ${displayTraining.registered}',
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                            displayTraining.isFull 
+                                  ? 'No spots left' 
+                              : '${displayTraining.capacity - displayTraining.registered} spots left',
+                                style: TextStyle(
+                              color: displayTraining.isFull ? Colors.red : Colors.green[700],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Text(
-                          displayTraining.isFull ? 'Training Full' : 'Register Now',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                          
+                      if (displayTraining.isRequired) ...[
+                            const SizedBox(height: 16),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.red.shade200),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.priority_high,
+                                    color: Colors.red.shade700,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Mandatory Training',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red.shade700,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'This training is required for your current position.',
+                                          style: TextStyle(
+                                            color: Colors.red.shade700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
-              ),
-              
-              // Add padding at the bottom to ensure no content is hidden by the status bar
-              const SizedBox(height: 80),
-            ],
-          ),
-        ),
-        
-        // Success message (shows temporarily)
-        if (_showSuccessMessage)
-          Positioned(
-            bottom: 0, // Always at the bottom
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.green,
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              child: Text(
-                _successMessage,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 20),
+                  
+                  // Description section
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Description',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 16),
+                          
+                          Text(
+                        displayTraining.description,
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 32),
+                  
+                  // Registration button - only show for upcoming trainings
+                  SizedBox(
+                    width: double.infinity,
+                child: isPastTraining || displayTraining.isCompleted 
+                      ? Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey[300]!),
+                          ),
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.event_busy,
+                                size: 28,
+                                color: Colors.grey[600],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'This training has ended',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[700],
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                          if (_isRegistered) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  'You were registered for this training',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ],
+                          ),
+                        )
+                  : _isRegistered
+                        ? ElevatedButton(
+                        onPressed: () => _cancelRegistration(displayTraining),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: const Text(
+                              'Cancel Registration',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : ElevatedButton(
+                        onPressed: displayTraining.isFull ? null : () => _registerForTraining(displayTraining),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryColor,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                          displayTraining.isFull ? 'Training Full' : 'Register Now',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                  ),
+                  
+                  // Add padding at the bottom to ensure no content is hidden by the status bar
+                  const SizedBox(height: 80),
+                ],
                 ),
               ),
-            ),
-          ),
-      ],
+            
+            // Success message (shows temporarily)
+            if (_showSuccessMessage)
+              Positioned(
+                bottom: 0, // Always at the bottom
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: Colors.green,
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  child: Text(
+                    _successMessage,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+          ],
     );
   }
   
@@ -753,10 +753,10 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
         // Show success message for a brief moment before closing
         await Future.delayed(const Duration(seconds: 2));
         
-        if (mounted) {
+          if (mounted) {
           // Return to trainings screen and navigate to My Trainings tab
           Navigator.of(context).pop({'switchToMyTrainings': true});
-        }
+          }
       } else if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
