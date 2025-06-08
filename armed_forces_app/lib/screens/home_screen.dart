@@ -1367,14 +1367,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final dateFormat = DateFormat('MMM d, yyyy');
     final timeFormat = DateFormat('h:mm a');
     
-    if (startDate.year == endDate.year && 
-        startDate.month == endDate.month && 
-        startDate.day == endDate.day) {
+    // Convert to Philippine time (UTC+8)
+    final phtOffset = const Duration(hours: 8);
+    final phtStart = startDate.toUtc().add(phtOffset);
+    final phtEnd = endDate.toUtc().add(phtOffset);
+    
+    if (phtStart.year == phtEnd.year && 
+        phtStart.month == phtEnd.month && 
+        phtStart.day == phtEnd.day) {
       // Same day event
-      return '${dateFormat.format(startDate)} at ${timeFormat.format(startDate)}';
+      return '${dateFormat.format(phtStart)} at ${timeFormat.format(phtStart)}';
     } else {
       // Multi-day event
-      return '${dateFormat.format(startDate)} - ${dateFormat.format(endDate)}';
+      return '${dateFormat.format(phtStart)} - ${dateFormat.format(phtEnd)}';
     }
   }
 
