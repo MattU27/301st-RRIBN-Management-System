@@ -37,7 +37,7 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your-gmail-address@gmail.com
 EMAIL_PASS=your-16-character-app-password
-EMAIL_FROM=301st RRIBN <your-gmail-address@gmail.com>
+EMAIL_FROM=301st READY RESERVE <your-gmail-address@gmail.com>
 ```
 
 ### Option 2: Update Environment Variables in Deployment
@@ -51,7 +51,7 @@ If you're using a deployment platform like Vercel, Netlify, or Railway:
    - `EMAIL_PORT`: 587
    - `EMAIL_USER`: your-gmail-address@gmail.com
    - `EMAIL_PASS`: your-16-character-app-password
-   - `EMAIL_FROM`: 301st RRIBN <your-gmail-address@gmail.com>
+   - `EMAIL_FROM`: 301st READY RESERVE <your-gmail-address@gmail.com>
 
 ## Testing Your Configuration
 
