@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../core/theme/app_theme.dart';
 import '../core/services/auth_service.dart';
@@ -26,12 +27,19 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
   late Future<User?> _userFuture;
   bool _isLoading = true;
   String? _userId;
+  
+  // Calendar variables
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  late Map<DateTime, List<Training>> _events;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this); // Added one more tab for calendar
     _tabController.addListener(_handleTabChange);
+    _events = {};
     _loadUserData();
   }
 
@@ -77,6 +85,9 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
       if (_userId != null) {
         await trainingService.getUserTrainings(_userId!);
       }
+      
+      // Load events for calendar
+      _loadCalendarEvents();
     } catch (e) {
       print('Error loading user data: $e');
     } finally {
@@ -106,6 +117,9 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
       
       // Force a check of all trainings to ensure they're in the right categories
       _updateTrainingsCategories(trainingService);
+      
+      // Refresh calendar events
+      _loadCalendarEvents();
     } catch (e) {
       print('Error refreshing trainings: $e');
     } finally {
@@ -145,6 +159,81 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
     // Make sure our modifications are visible
     trainingService.notifyListeners();
   }
+  
+  // Load events for calendar view
+  void _loadCalendarEvents() {
+    final trainingService = Provider.of<TrainingService>(context, listen: false);
+    final allTrainings = [...trainingService.upcomingTrainings];
+    
+    // Add user trainings if available
+    if (_userId != null) {
+      final userTrainings = trainingService.getUserTrainingsCached(_userId!);
+      if (userTrainings != null) {
+        allTrainings.addAll(userTrainings);
+      }
+    }
+    
+    // Group trainings by date for calendar
+    final Map<DateTime, List<Training>> eventMap = {};
+    
+    for (final training in allTrainings) {
+      // Create normalized date (without time) for grouping
+      final dateKey = DateTime(
+        training.startDate.year,
+        training.startDate.month,
+        training.startDate.day,
+      );
+      
+      if (!eventMap.containsKey(dateKey)) {
+        eventMap[dateKey] = [];
+      }
+      
+      // Only add if not already in the list
+      if (!eventMap[dateKey]!.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
+        eventMap[dateKey]!.add(training);
+      }
+      
+      // If training spans multiple days, add for each day in the range
+      if (training.endDate.difference(training.startDate).inDays > 0) {
+        final days = training.endDate.difference(training.startDate).inDays;
+        for (var i = 1; i <= days; i++) {
+          final date = training.startDate.add(Duration(days: i));
+          final dayKey = DateTime(date.year, date.month, date.day);
+          
+          if (!eventMap.containsKey(dayKey)) {
+            eventMap[dayKey] = [];
+          }
+          
+          if (!eventMap[dayKey]!.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
+            eventMap[dayKey]!.add(training);
+          }
+        }
+      }
+    }
+    
+    setState(() {
+      _events = eventMap;
+      // Select today or the nearest day with events
+      _selectedDay = _focusedDay;
+      
+      // If no events today, find the next day with events
+      if (_events[_selectedDay] == null || _events[_selectedDay]!.isEmpty) {
+        final sortedDates = eventMap.keys.toList()
+          ..sort((a, b) => a.compareTo(b));
+        
+        // Find the next date with events after today
+        final nextEventDate = sortedDates.firstWhere(
+          (date) => date.isAfter(_focusedDay) || date.isAtSameMomentAs(_focusedDay),
+          orElse: () => _focusedDay,
+        );
+        
+        if (nextEventDate != _focusedDay) {
+          _selectedDay = nextEventDate;
+          _focusedDay = nextEventDate;
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,10 +245,12 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
           indicatorColor: Colors.white,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
+          isScrollable: true,
           tabs: const [
             Tab(text: 'Available'),
             Tab(text: 'My Trainings'),
             Tab(text: 'Past'),
+            Tab(icon: Icon(Icons.calendar_month), text: 'Calendar'),
           ],
         ),
         actions: [
@@ -181,10 +272,498 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                   _buildAvailableTrainingsTab(),
                   _buildMyTrainingsTab(),
                   _buildPastTrainingsTab(),
+                  _buildCalendarTab(),
                 ],
               ),
             ),
     );
+  }
+
+  // New method to build the calendar tab
+  Widget _buildCalendarTab() {
+    return Column(
+      children: [
+        // Calendar header with view toggle
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: Row(
+            children: [
+              const Text(
+                'Training Schedule',
+                style: TextStyle(
+                  fontSize: 18, 
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              // Toggle view mode
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildViewToggleButton(
+                      icon: Icons.calendar_month,
+                      label: 'Calendar',
+                      isSelected: _calendarFormat != CalendarFormat.twoWeeks,
+                      onTap: () => setState(() {
+                        _calendarFormat = CalendarFormat.month;
+                      }),
+                    ),
+                    _buildViewToggleButton(
+                      icon: Icons.list,
+                      label: 'List',
+                      isSelected: _calendarFormat == CalendarFormat.twoWeeks,
+                      onTap: () => setState(() {
+                        _calendarFormat = CalendarFormat.twoWeeks;
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        const SizedBox(height: 8),
+        
+        // Calendar view
+        TableCalendar(
+          firstDay: DateTime.now().subtract(const Duration(days: 365)),
+          lastDay: DateTime.now().add(const Duration(days: 365)),
+          focusedDay: _focusedDay,
+          calendarFormat: _calendarFormat,
+          selectedDayPredicate: (day) {
+            return isSameDay(_selectedDay, day);
+          },
+          eventLoader: (day) {
+            // Find events for this day
+            final normalizedDay = DateTime(day.year, day.month, day.day);
+            return _events[normalizedDay] ?? [];
+          },
+          onDaySelected: (selectedDay, focusedDay) {
+            setState(() {
+              _selectedDay = selectedDay;
+              _focusedDay = focusedDay;
+            });
+          },
+          onFormatChanged: (format) {
+            setState(() {
+              _calendarFormat = format;
+            });
+          },
+          onPageChanged: (focusedDay) {
+            _focusedDay = focusedDay;
+          },
+          calendarStyle: CalendarStyle(
+            markersMaxCount: 3,
+            markerDecoration: const BoxDecoration(
+              color: AppTheme.primaryColor,
+              shape: BoxShape.circle,
+            ),
+            todayDecoration: BoxDecoration(
+              color: AppTheme.primaryColor.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+            selectedDecoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              shape: BoxShape.circle,
+            ),
+            weekendTextStyle: const TextStyle(color: Colors.red),
+            outsideDaysVisible: false,
+          ),
+          headerStyle: HeaderStyle(
+            formatButtonVisible: false, // We're using our own toggle
+            titleCentered: true,
+            headerPadding: const EdgeInsets.symmetric(vertical: 8),
+            leftChevronIcon: const Icon(Icons.chevron_left, color: AppTheme.primaryColor),
+            rightChevronIcon: const Icon(Icons.chevron_right, color: AppTheme.primaryColor),
+          ),
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, date, events) {
+              if (events.isEmpty) return null;
+              
+              return Positioned(
+                bottom: 1,
+                child: Container(
+                  width: events.length > 2 ? 16 : (events.length * 6),
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: _getMarkerColor(events),
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        
+        // Date selector for list view mode (only shown in list mode)
+        if (_calendarFormat == CalendarFormat.twoWeeks)
+          _buildDateSelector(),
+        
+        // Divider between calendar and events
+        const Divider(height: 1),
+        
+        // Header for events section
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: Row(
+            children: [
+              Text(
+                _selectedDay != null 
+                  ? 'Trainings on ${DateFormat('MMM d, yyyy').format(_selectedDay!)}'
+                  : 'No date selected',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                _getEventCount(),
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        // Events list
+        Expanded(
+          child: _buildEventsForSelectedDay(),
+        ),
+      ],
+    );
+  }
+  
+  // Widget for date selector in list view mode
+  Widget _buildDateSelector() {
+    return Container(
+      height: 80,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 14, // Show 2 weeks
+        itemBuilder: (context, index) {
+          final date = DateTime.now().add(Duration(days: index));
+          final isSelected = _selectedDay != null && 
+                            date.year == _selectedDay!.year &&
+                            date.month == _selectedDay!.month &&
+                            date.day == _selectedDay!.day;
+          
+          final hasEvents = _events[DateTime(date.year, date.month, date.day)]?.isNotEmpty ?? false;
+          
+          return InkWell(
+            onTap: () {
+              setState(() {
+                _selectedDay = date;
+                _focusedDay = date;
+              });
+            },
+            child: Container(
+              width: 60,
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              decoration: BoxDecoration(
+                color: isSelected ? AppTheme.primaryColor : (hasEvents ? AppTheme.primaryColor.withOpacity(0.1) : Colors.transparent),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: isSelected ? AppTheme.primaryColor : Colors.grey.shade300,
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat('E').format(date).substring(0, 3),
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : Colors.grey[600],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    DateFormat('d').format(date),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isSelected ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  if (hasEvents) ...[
+                    const SizedBox(height: 4),
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.white : AppTheme.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+  
+  // Widget for calendar/list view toggle button
+  Widget _buildViewToggleButton({
+    required IconData icon,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? AppTheme.primaryColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: isSelected ? Colors.white : Colors.grey[600],
+            ),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: isSelected ? Colors.white : Colors.grey[600],
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  // Helper method to get event count text
+  String _getEventCount() {
+    if (_selectedDay == null) return '';
+    
+    final normalizedDay = DateTime(_selectedDay!.year, _selectedDay!.month, _selectedDay!.day);
+    final events = _events[normalizedDay] ?? [];
+    
+    return events.isEmpty ? 'No trainings' : 
+           events.length == 1 ? '1 training' : 
+           '${events.length} trainings';
+  }
+  
+  // Helper method to get marker color based on event type
+  Color _getMarkerColor(List<dynamic> events) {
+    // If any training is required/mandatory, use red
+    if (events.any((event) => event is Training && event.isRequired)) {
+      return Colors.red;
+    }
+    
+    // If any training is in progress, use green
+    if (events.any((event) => event is Training && event.status.toLowerCase() == 'ongoing')) {
+      return Colors.green;
+    }
+    
+    // Default color
+    return AppTheme.primaryColor;
+  }
+  
+  // Build events list for the selected day in calendar
+  Widget _buildEventsForSelectedDay() {
+    // If in List mode (two weeks), show a unified list of upcoming trainings
+    if (_calendarFormat == CalendarFormat.twoWeeks) {
+      return _buildUpcomingTrainingsList();
+    }
+    
+    // Calendar mode - show trainings for selected day
+    if (_selectedDay == null) {
+      return const Center(
+        child: Text('Select a day to view trainings'),
+      );
+    }
+
+    final normalizedDay = DateTime(_selectedDay!.year, _selectedDay!.month, _selectedDay!.day);
+    final events = _events[normalizedDay] ?? [];
+    
+    if (events.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.event_busy,
+              size: 64,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No trainings scheduled for\n${DateFormat('MMM d, yyyy').format(_selectedDay!)}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    
+    return Consumer<TrainingService>(
+      builder: (context, trainingService, child) {
+        return FutureBuilder<Map<String, bool>>(
+          future: _loadRegistrationStatuses(events),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+            final registrationMap = snapshot.data ?? {};
+            
+            // Sort events by start time
+            final sortedEvents = List<Training>.from(events)
+              ..sort((a, b) => a.startDate.compareTo(b.startDate));
+            
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: sortedEvents.length,
+              itemBuilder: (context, index) {
+                final training = sortedEvents[index];
+                final isRegistered = registrationMap[training.id?.toHexString()] ?? false;
+                
+                // Use compact card for calendar view
+                return _buildCompactTrainingCard(
+                  training, 
+                  isRegistered: isRegistered,
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+  
+  // List view of upcoming trainings (used in list mode)
+  Widget _buildUpcomingTrainingsList() {
+    return Consumer<TrainingService>(
+      builder: (context, trainingService, child) {
+        final now = DateTime.now();
+        // Get all upcoming trainings
+        final allTrainings = [...trainingService.upcomingTrainings];
+        
+        // Add user registered trainings if available
+        if (_userId != null) {
+          final userTrainings = trainingService.getUserTrainingsCached(_userId!);
+          if (userTrainings != null) {
+            // Only add trainings that aren't already in the list
+            for (final training in userTrainings) {
+              if (!allTrainings.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
+                allTrainings.add(training);
+              }
+            }
+          }
+        }
+        
+        // Filter out past trainings
+        final upcomingTrainings = allTrainings
+            .where((t) => t.endDate.isAfter(now) && t.status.toLowerCase() != 'completed')
+            .toList();
+        
+        // Sort by date
+        upcomingTrainings.sort((a, b) => a.startDate.compareTo(b.startDate));
+        
+        if (upcomingTrainings.isEmpty) {
+          return const Center(
+            child: EmptyWidget(
+              message: 'No upcoming trainings found',
+              icon: Icons.event_busy,
+            ),
+          );
+        }
+        
+        return FutureBuilder<Map<String, bool>>(
+          future: _loadRegistrationStatuses(upcomingTrainings),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+            final registrationMap = snapshot.data ?? {};
+            
+            // Group trainings by month for better organization
+            final groupedTrainings = _groupTrainingsByMonth(upcomingTrainings);
+            
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: groupedTrainings.length,
+              itemBuilder: (context, index) {
+                final monthKey = groupedTrainings.keys.elementAt(index);
+                final trainingsInMonth = groupedTrainings[monthKey]!;
+                
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Month header
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 16, bottom: 8),
+                      child: Text(
+                        monthKey,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primaryColor,
+                        ),
+                      ),
+                    ),
+                    // Trainings in this month
+                    ...trainingsInMonth.map((training) {
+                      final isRegistered = registrationMap[training.id?.toHexString()] ?? false;
+                      return _buildTrainingCard(
+                        training, 
+                        isRegistered: isRegistered,
+                        isPast: false,
+                      );
+                    }).toList(),
+                  ],
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+  
+  // Helper to group trainings by month
+  Map<String, List<Training>> _groupTrainingsByMonth(List<Training> trainings) {
+    final Map<String, List<Training>> result = {};
+    
+    for (final training in trainings) {
+      final monthKey = DateFormat('MMMM yyyy').format(training.startDate);
+      
+      if (!result.containsKey(monthKey)) {
+        result[monthKey] = [];
+      }
+      
+      result[monthKey]!.add(training);
+    }
+    
+    return result;
   }
 
   Widget _buildAvailableTrainingsTab() {
@@ -219,14 +798,26 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
             }
             
             final registrationMap = snapshot.data ?? {};
+            
+            // Filter out trainings that the user is already registered for
+            final availableTrainings = trainings.where((training) {
+              final trainingId = training.id?.toHexString();
+              return trainingId != null && !(registrationMap[trainingId] ?? false);
+            }).toList();
+            
+            if (availableTrainings.isEmpty) {
+              return const EmptyWidget(
+                message: 'No available trainings found',
+                icon: Icons.school,
+              );
+            }
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: trainings.length,
-          itemBuilder: (context, index) {
-            final training = trainings[index];
-                final isRegistered = registrationMap[training.id?.toHexString()] ?? false;
-                return _buildTrainingCard(training, isRegistered: isRegistered);
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: availableTrainings.length,
+              itemBuilder: (context, index) {
+                final training = availableTrainings[index];
+                return _buildTrainingCard(training, isRegistered: false);
               },
             );
           }
@@ -846,6 +1437,14 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
           }
         });
         
+        // Force refresh the user's trainings list to update the My Trainings tab
+        if (_userId != null) {
+          await trainingService.getUserTrainings(_userId!, forceRefresh: true);
+        }
+        
+        // Switch to My Trainings tab to show the newly registered training
+        _tabController.animateTo(1);
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Successfully registered for ${training.title}'),
@@ -1066,7 +1665,183 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
           'trainingId': training.id?.toHexString(),
           'training': training,
         },
-      );
+      ).then((result) {
+        // Handle navigation result
+        if (result != null && result is Map<String, dynamic>) {
+          // Check if we should switch to My Trainings tab
+          if (result['switchToMyTrainings'] == true) {
+            _tabController.animateTo(1); // Index 1 is My Trainings tab
+          }
+        }
+      });
     }
+  }
+
+  // Build compact training card for calendar view
+  Widget _buildCompactTrainingCard(Training training, {required bool isRegistered}) {
+    final isPast = training.isCompleted || training.endDate.isBefore(DateTime.now());
+    
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: training.isRequired 
+            ? BorderSide(color: Colors.red.shade200, width: 1.5)
+            : BorderSide.none,
+      ),
+      child: InkWell(
+        onTap: () => _showTrainingDetails(training, isRegistered: isRegistered, isPast: isPast),
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Time indicator
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: _getCategoryColor(training.category).withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      DateFormat('HH:mm').format(training.startDate),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _getCategoryColor(training.category),
+                      ),
+                    ),
+                  ),
+                  if (training.endDate.day == training.startDate.day) ...[
+                    Container(
+                      width: 1,
+                      height: 20,
+                      color: Colors.grey[300],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        DateFormat('HH:mm').format(training.endDate),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              
+              const SizedBox(width: 12),
+              
+              // Training details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title and status
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            training.title,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (isRegistered)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade100,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Registered',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green.shade800,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    
+                    const SizedBox(height: 4),
+                    
+                    // Category
+                    Text(
+                      training.category,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _getCategoryColor(training.category),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 8),
+                    
+                    // Location
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 12,
+                          color: Colors.grey[600],
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            training.location,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    // Multi-day indicator if applicable
+                    if (training.endDate.difference(training.startDate).inDays > 0) ...[
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.shade50,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          '${training.endDate.difference(training.startDate).inDays + 1} day event',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.orange.shade800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 } 

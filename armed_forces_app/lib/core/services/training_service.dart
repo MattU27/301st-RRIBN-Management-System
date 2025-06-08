@@ -227,14 +227,14 @@ class TrainingService extends ChangeNotifier {
   }
   
   // Get user's registered trainings
-  Future<List<Training>> getUserTrainings(String userId) async {
+  Future<List<Training>> getUserTrainings(String userId, {bool forceRefresh = false}) async {
     try {
       await _ensureDbConnected();
       
       final cleanUserId = _cleanObjectIdString(userId);
       
       // Check cache first - if we already have trainings for this user, return them
-      if (_userTrainings.containsKey(cleanUserId) && _userTrainings[cleanUserId] != null) {
+      if (!forceRefresh && _userTrainings.containsKey(cleanUserId) && _userTrainings[cleanUserId] != null) {
         print('DEBUG: Using cached user trainings for userId: $cleanUserId');
         
         // Filter out past trainings - only return current and upcoming
@@ -412,7 +412,36 @@ class TrainingService extends ChangeNotifier {
         },
       );
       
-      // Update cache
+      // Update registration cache immediately to show as registered
+      final cacheKey = '${cleanUserId}_${cleanTrainingId}';
+      _registrationStatusCache[cacheKey] = true;
+      _registrationCacheTimestamps[cacheKey] = now;
+      
+      // If this training is in user's cache, make sure it's in their trainings
+      if (_userTrainings.containsKey(cleanUserId)) {
+        final userTrainingList = _userTrainings[cleanUserId] ?? [];
+        
+        // Find the training in upcoming list
+        final trainingToAdd = _upcomingTrainings.firstWhere(
+          (t) => t.id?.toHexString() == cleanTrainingId,
+          orElse: () => training,
+        );
+        
+        // Check if it's already in user's list
+        final alreadyInList = userTrainingList.any((t) => 
+          t.id?.toHexString() == cleanTrainingId
+        );
+        
+        // Add to user's trainings if not already there
+        if (!alreadyInList) {
+          _userTrainings[cleanUserId] = [
+            ...userTrainingList,
+            trainingToAdd,
+          ];
+        }
+      }
+      
+      // Update cache and notify listeners
       await _refreshCaches(cleanUserId);
       
       // Explicitly refresh upcoming trainings to get the latest count

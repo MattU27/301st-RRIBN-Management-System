@@ -550,11 +550,55 @@ export default function TrainingsPage() {
     return filtered.slice(startIndex, endIndex);
   };
 
+  // Add date format helper functions
+  const formatDateForDisplay = (dateString: string | undefined) => {
+    if (!dateString) return '';
+    
+    try {
+      const date = new Date(dateString);
+      // Format: MM/DD/YYYY hh:mm AM/PM (Filipino-friendly format)
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const year = date.getFullYear();
+      
+      let hours = date.getHours();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // Convert 0 to 12
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      return `${month}/${day}/${year} ${hours}:${minutes} ${ampm}`;
+    } catch (error) {
+      console.error('Error formatting date for display:', error);
+      return '';
+    }
+  };
+  
+  const formatDateForInput = (dateString: string | undefined) => {
+    if (!dateString) return '';
+    
+    try {
+      return new Date(dateString).toISOString().slice(0, 16);
+    } catch (error) {
+      console.error('Error formatting date for input:', error);
+      return '';
+    }
+  };
+
+  // Format dates in a readable way for display in the UI
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return 'Date not specified';
     
     try {
-      const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      // Use Filipino-friendly date format (Month Day, Year at h:mm AM/PM)
+      const options: Intl.DateTimeFormatOptions = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true // Use 12-hour format with AM/PM
+      };
       return new Date(dateString).toLocaleDateString(undefined, options);
     } catch (error) {
       console.error('Error formatting date:', error);
@@ -1498,8 +1542,8 @@ export default function TrainingsPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-t-2 border-b-2 border-indigo-500 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -1527,8 +1571,8 @@ export default function TrainingsPage() {
 
     return (
       <div className="flex flex-col items-center justify-center py-10">
-        <AcademicCapIcon className="mx-auto h-12 w-12 text-gray-400" />
-        <div className="text-center mb-4">
+        <AcademicCapIcon className="w-12 h-12 mx-auto text-gray-400" />
+        <div className="mb-4 text-center">
           <h3 className="mt-2 text-sm font-medium text-gray-900">No trainings found</h3>
           <p className="mt-1 text-sm text-gray-500">{getMessage()}</p>
         </div>
@@ -1538,13 +1582,13 @@ export default function TrainingsPage() {
          (['administrator', 'admin', 'director'].includes(user.role as string)) && 
          (activeTab === 'all' || activeTab === 'upcoming') && 
          trainings.length === 0 && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
-            <h4 className="text-lg font-medium text-blue-800 mb-2">Administrator Options</h4>
-            <p className="text-sm text-blue-600 mb-4">No training data found in the system. As an administrator, you can seed some sample training data for testing.</p>
+          <div className="p-4 mt-6 border border-blue-200 rounded-md bg-blue-50">
+            <h4 className="mb-2 text-lg font-medium text-blue-800">Administrator Options</h4>
+            <p className="mb-4 text-sm text-blue-600">No training data found in the system. As an administrator, you can seed some sample training data for testing.</p>
             <button
               onClick={seedTrainings}
               disabled={isSeeding}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
             >
               {isSeeding ? 'Seeding Trainings...' : 'Seed Training Data'}
             </button>
@@ -1555,10 +1599,10 @@ export default function TrainingsPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+    <div className="container px-4 py-8 mx-auto">
+      <div className="flex flex-col items-center justify-between mb-6 md:flex-row">
         <div className="flex items-center mb-4 md:mb-0">
-          <AcademicCapIcon className="h-10 w-10 text-indigo-600 mr-3" />
+          <AcademicCapIcon className="w-10 h-10 mr-3 text-indigo-600" />
           <h1 className="text-2xl font-bold text-gray-900">Trainings & Seminars</h1>
         </div>
         
@@ -1566,20 +1610,20 @@ export default function TrainingsPage() {
         {user && user.role === 'staff' && (
           <Button
             onClick={handleCreateTrainingClick}
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-md flex items-center shadow-md transition-all duration-200 transform hover:scale-105"
+            className="flex items-center px-6 py-3 font-bold text-white transition-all duration-200 transform bg-green-600 rounded-md shadow-md hover:bg-green-700 hover:scale-105"
             aria-label="Create Training"
           >
-            <AcademicCapIcon className="h-6 w-6 mr-2" />
+            <AcademicCapIcon className="w-6 h-6 mr-2" />
             <span className="text-base font-semibold">Create Training</span>
           </Button>
         )}
       </div>
 
       <div className="space-y-6">
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="p-6 bg-white rounded-lg shadow">
           <div className="flex items-center">
-            <div className="bg-indigo-100 rounded-full p-3">
-              <AcademicCapIcon className="h-8 w-8 text-indigo-600" />
+            <div className="p-3 bg-indigo-100 rounded-full">
+              <AcademicCapIcon className="w-8 h-8 text-indigo-600" />
             </div>
             <div className="ml-4">
               <h2 className="text-lg font-medium text-gray-900">Trainings & Seminars</h2>
@@ -1592,7 +1636,7 @@ export default function TrainingsPage() {
 
         <Card>
           <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
+            <nav className="flex -mb-px space-x-8">
               <button
                 className={`${
                   activeTab === 'all'
@@ -1640,15 +1684,15 @@ export default function TrainingsPage() {
             {filteredTrainings().length === 0 ? (
               renderNoTrainingsFound()
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+              <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
                 {filteredTrainings().map((training) => (
-                  <div key={training.id} className="bg-white overflow-hidden shadow rounded-lg flex flex-col h-full">
-                    <div className="px-4 py-5 sm:p-6 flex-grow">
+                  <div key={training.id} className="flex flex-col h-full overflow-hidden bg-white rounded-lg shadow">
+                    <div className="flex-grow px-4 py-5 sm:p-6">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                          <AcademicCapIcon className="h-6 w-6 text-indigo-600" />
+                        <div className="flex-shrink-0 p-3 bg-indigo-100 rounded-md">
+                          <AcademicCapIcon className="w-6 h-6 text-indigo-600" />
                         </div>
-                        <div className="ml-5 w-0 flex-1">
+                        <div className="flex-1 w-0 ml-5">
                           <dl>
                             <dt className="text-sm font-medium text-gray-500 truncate">{training.category}</dt>
                             <dd>
@@ -1680,13 +1724,13 @@ export default function TrainingsPage() {
                       </div>
                       
                       {/* Standardized button layout with consistent grid */}
-                      <div className="mt-5 grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-2 mt-5">
                         <div>
                           <Button 
                             variant="secondary" 
                             size="sm" 
                             fullWidth
-                            className="bg-blue-100 text-blue-800 border border-blue-300 rounded-md h-10 w-full flex items-center justify-center hover:bg-blue-200 transition-colors font-medium"
+                            className="flex items-center justify-center w-full h-10 font-medium text-blue-800 transition-colors bg-blue-100 border border-blue-300 rounded-md hover:bg-blue-200"
                             onClick={() => handleViewDetails(training)}
                           >
                             View Details
@@ -1713,7 +1757,7 @@ export default function TrainingsPage() {
                               variant="primary" 
                               size="sm" 
                               fullWidth
-                              className="bg-green-600 text-white border border-green-700 rounded-md h-10 w-full flex items-center justify-center hover:bg-green-700 transition-colors font-medium"
+                              className="flex items-center justify-center w-full h-10 font-medium text-white transition-colors bg-green-600 border border-green-700 rounded-md hover:bg-green-700"
                               onClick={() => handleRegister(training.id || '')}
                               disabled={training.registered >= training.capacity}
                             >
@@ -1724,7 +1768,7 @@ export default function TrainingsPage() {
                               variant="secondary"
                               size="sm"
                               fullWidth
-                              className="bg-gray-100 text-gray-600 border border-gray-300 rounded-md h-10 w-full flex items-center justify-center font-medium"
+                              className="flex items-center justify-center w-full h-10 font-medium text-gray-600 bg-gray-100 border border-gray-300 rounded-md"
                               disabled={true}
                             >
                               Past Training
@@ -1734,7 +1778,7 @@ export default function TrainingsPage() {
                               variant="secondary"
                               size="sm"
                               fullWidth
-                              className="bg-blue-100 text-blue-800 border border-blue-300 rounded-md h-10 w-full flex items-center justify-center font-medium"
+                              className="flex items-center justify-center w-full h-10 font-medium text-blue-800 bg-blue-100 border border-blue-300 rounded-md"
                               disabled={true}
                             >
                               Completed
@@ -1756,7 +1800,7 @@ export default function TrainingsPage() {
       
       {/* Pagination controls */}
       {trainings.length > 0 && (
-        <div className="flex justify-center items-center mt-8 space-x-2">
+        <div className="flex items-center justify-center mt-8 space-x-2">
           <button
             onClick={() => goToPage(1)}
             disabled={currentPage === 1}
@@ -1768,7 +1812,7 @@ export default function TrainingsPage() {
             aria-label="Go to first page"
           >
             <span className="sr-only">First</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
               <path fillRule="evenodd" d="M7.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L3.414 10l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
@@ -1785,7 +1829,7 @@ export default function TrainingsPage() {
             aria-label="Go to previous page"
           >
             <span className="sr-only">Previous</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
           </button>
@@ -1819,7 +1863,7 @@ export default function TrainingsPage() {
             aria-label="Go to next page"
           >
             <span className="sr-only">Next</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
             </svg>
           </button>
@@ -1835,7 +1879,7 @@ export default function TrainingsPage() {
             aria-label="Go to last page"
           >
             <span className="sr-only">Last</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M4.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L8.586 10 4.293 14.293a1 1 0 000 1.414z" clipRule="evenodd" />
               <path fillRule="evenodd" d="M12.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L16.586 10l-4.293 4.293a1 1 0 000 1.414z" clipRule="evenodd" />
             </svg>
@@ -1845,19 +1889,19 @@ export default function TrainingsPage() {
 
       {/* Training Details Modal */}
       {showDetailsModal && selectedTraining && (
-        <div className="fixed inset-0 overflow-y-auto z-50">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 transition-opacity" aria-hidden="true">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+            <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
               {/* Header Section with Title */}
-              <div className="bg-white px-6 py-4 border-b border-gray-200">
+              <div className="px-6 py-4 bg-white border-b border-gray-200">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 mr-4">
-                    <div className="h-12 w-12 rounded-lg bg-indigo-100 flex items-center justify-center">
-                      <AcademicCapIcon className="h-6 w-6 text-indigo-600" />
+                    <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg">
+                      <AcademicCapIcon className="w-6 h-6 text-indigo-600" />
                     </div>
                   </div>
                   <div>
@@ -1868,13 +1912,13 @@ export default function TrainingsPage() {
                   </div>
                   <div className="ml-auto">
                     {selectedTraining.registrationStatus === 'registered' ? (
-                      <div className="bg-green-100 text-green-800 text-xs font-medium rounded-full px-3 py-1 flex items-center">
-                        <CheckCircleIcon className="h-4 w-4 mr-1" />
+                      <div className="flex items-center px-3 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                        <CheckCircleIcon className="w-4 h-4 mr-1" />
                         Registered
                       </div>
                     ) : (
-                      <div className="bg-gray-100 text-gray-600 text-xs font-medium rounded-full px-3 py-1 flex items-center">
-                        <XCircleIcon className="h-4 w-4 mr-1" />
+                      <div className="flex items-center px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+                        <XCircleIcon className="w-4 h-4 mr-1" />
                         Not Registered
                       </div>
                     )}
@@ -1885,9 +1929,9 @@ export default function TrainingsPage() {
               {/* Main Content Area with Tabs */}
               <div className="bg-white">
                 <div className="border-b border-gray-200">
-                  <nav className="-mb-px flex space-x-8 px-6">
+                  <nav className="flex px-6 -mb-px space-x-8">
                     <button
-                      className="py-4 px-1 border-b-2 border-indigo-500 font-medium text-sm text-indigo-600"
+                      className="px-1 py-4 text-sm font-medium text-indigo-600 border-b-2 border-indigo-500"
                       aria-current="page"
                     >
                       DESCRIPTION
@@ -1904,9 +1948,9 @@ export default function TrainingsPage() {
 
                     {/* Capacity Section */}
                     <div className="mb-4">
-                      <h3 className="text-sm font-medium text-gray-700 uppercase mb-2">CAPACITY</h3>
-                      <div className="bg-gray-50 rounded-md p-4">
-                        <div className="text-xs font-semibold text-indigo-600 mb-2">
+                      <h3 className="mb-2 text-sm font-medium text-gray-700 uppercase">CAPACITY</h3>
+                      <div className="p-4 rounded-md bg-gray-50">
+                        <div className="mb-2 text-xs font-semibold text-indigo-600">
                           {Math.round((selectedTraining.registered / selectedTraining.capacity) * 100)}% Full • {selectedTraining.registered}/{selectedTraining.capacity} Slots
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -1920,35 +1964,35 @@ export default function TrainingsPage() {
 
                     {/* Training Details Section (shown in same tab for simplicity) */}
                     <div className="mb-4">
-                      <h3 className="text-sm font-medium text-gray-700 uppercase mb-2">TRAINING DETAILS</h3>
+                      <h3 className="mb-2 text-sm font-medium text-gray-700 uppercase">TRAINING DETAILS</h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <div className="bg-gray-50 rounded-md p-3">
-                            <div className="text-xs font-medium text-gray-500 mb-1">Location</div>
+                          <div className="p-3 rounded-md bg-gray-50">
+                            <div className="mb-1 text-xs font-medium text-gray-500">Location</div>
                             <div className="text-sm text-gray-900">{selectedTraining.locationDisplay}</div>
                           </div>
                         </div>
                         <div>
-                          <div className="bg-gray-50 rounded-md p-3">
-                            <div className="text-xs font-medium text-gray-500 mb-1">Instructor</div>
+                          <div className="p-3 rounded-md bg-gray-50">
+                            <div className="mb-1 text-xs font-medium text-gray-500">Instructor</div>
                             <div className="text-sm text-gray-900">{selectedTraining.instructorDisplay}</div>
                           </div>
                         </div>
                         <div>
-                          <div className="bg-gray-50 rounded-md p-3">
-                            <div className="text-xs font-medium text-gray-500 mb-1">Start Date</div>
+                          <div className="p-3 rounded-md bg-gray-50">
+                            <div className="mb-1 text-xs font-medium text-gray-500">Start Date</div>
                             <div className="text-sm text-gray-900">{formatDate(selectedTraining.startDate)}</div>
                           </div>
                         </div>
                         <div>
-                          <div className="bg-gray-50 rounded-md p-3">
-                            <div className="text-xs font-medium text-gray-500 mb-1">End Date</div>
+                          <div className="p-3 rounded-md bg-gray-50">
+                            <div className="mb-1 text-xs font-medium text-gray-500">End Date</div>
                             <div className="text-sm text-gray-900">{formatDate(selectedTraining.endDate)}</div>
                           </div>
                         </div>
                         <div>
-                          <div className="bg-gray-50 rounded-md p-3">
-                            <div className="text-xs font-medium text-gray-500 mb-1">Status</div>
+                          <div className="p-3 rounded-md bg-gray-50">
+                            <div className="mb-1 text-xs font-medium text-gray-500">Status</div>
                             <div className="text-sm text-gray-900 capitalize">{selectedTraining.status}</div>
                           </div>
                         </div>
@@ -1957,16 +2001,16 @@ export default function TrainingsPage() {
 
                     {/* Registered Personnel Section */}
                     <div>
-                      <h3 className="text-sm font-medium text-gray-700 uppercase mb-2">REGISTERED PERSONNEL</h3>
-                      <div className="bg-white border border-gray-200 rounded-md overflow-hidden" style={{ maxHeight: "250px", overflowY: "auto" }}>
+                      <h3 className="mb-2 text-sm font-medium text-gray-700 uppercase">REGISTERED PERSONNEL</h3>
+                      <div className="overflow-hidden bg-white border border-gray-200 rounded-md" style={{ maxHeight: "250px", overflowY: "auto" }}>
                         <table className="min-w-full divide-y divide-gray-200">
-                          <thead className="bg-gray-50 sticky top-0">
+                          <thead className="sticky top-0 bg-gray-50">
                             <tr>
-                              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service ID</th>
-                              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                              <th scope="col" className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Rank</th>
+                              <th scope="col" className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Name</th>
+                              <th scope="col" className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Service ID</th>
+                              <th scope="col" className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Company</th>
+                              <th scope="col" className="px-3 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Status</th>
                             </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
@@ -2088,11 +2132,11 @@ export default function TrainingsPage() {
                                   
                                   return (
                                     <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">{rank}</td>
-                                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">{fullName}</td>
-                                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">{serviceId}</td>
-                                      <td className="px-3 py-2 whitespace-nowrap text-xs text-gray-900">{company}</td>
-                                      <td className="px-3 py-2 whitespace-nowrap text-xs">
+                                      <td className="px-3 py-2 text-xs text-gray-900 whitespace-nowrap">{rank}</td>
+                                      <td className="px-3 py-2 text-xs text-gray-900 whitespace-nowrap">{fullName}</td>
+                                      <td className="px-3 py-2 text-xs text-gray-900 whitespace-nowrap">{serviceId}</td>
+                                      <td className="px-3 py-2 text-xs text-gray-900 whitespace-nowrap">{company}</td>
+                                      <td className="px-3 py-2 text-xs whitespace-nowrap">
                                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
                                           ${status === 'registered' ? 'bg-green-100 text-green-800' : 
                                             status === 'completed' ? 'bg-blue-100 text-blue-800' : 
@@ -2107,7 +2151,7 @@ export default function TrainingsPage() {
                                 })
                             ) : (
                               <tr>
-                                <td colSpan={5} className="px-3 py-4 text-sm text-gray-500 text-center">
+                                <td colSpan={5} className="px-3 py-4 text-sm text-center text-gray-500">
                                   {selectedTraining.registered > 0 
                                     ? "Mobile app registrations exist but detailed information is not available" 
                                     : "No personnel registered yet."}
@@ -2123,11 +2167,11 @@ export default function TrainingsPage() {
               </div>
 
               {/* Footer with Actions */}
-              <div className="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+              <div className="flex items-center justify-between px-6 py-3 border-t border-gray-200 bg-gray-50">
                 <div className="flex items-center space-x-3">
                   <Button
                     variant="secondary"
-                    className="bg-white text-gray-700 border border-gray-300 rounded-md px-4 h-9 flex items-center justify-center hover:bg-gray-50 transition-colors font-medium"
+                    className="flex items-center justify-center px-4 font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-md h-9 hover:bg-gray-50"
                     onClick={() => setShowDetailsModal(false)}
                   >
                     Close
@@ -2137,10 +2181,10 @@ export default function TrainingsPage() {
                   {user && user.role && (String(user.role).toLowerCase() === 'staff') && (
                     <Button
                       variant="secondary"
-                      className="bg-white text-gray-700 border border-gray-300 rounded-md px-4 h-9 flex items-center justify-center hover:bg-gray-50 transition-colors font-medium"
+                      className="flex items-center justify-center px-4 font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-md h-9 hover:bg-gray-50"
                       onClick={() => handleEditTrainingClick(selectedTraining)}
                     >
-                      <PencilIcon className="h-4 w-4 mr-2" />
+                      <PencilIcon className="w-4 h-4 mr-2" />
                       Edit
                     </Button>
                   )}
@@ -2149,14 +2193,14 @@ export default function TrainingsPage() {
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="flex items-center space-x-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-2 h-9 rounded-md"
+                      className="flex items-center px-2 space-x-1 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 h-9"
                       onClick={() => exportToCSV(selectedTraining)}
                       disabled={exportingCSV}
                     >
                       {exportingCSV ? (
-                        <div className="h-4 w-4 border-t-2 border-b-2 border-gray-500 rounded-full animate-spin"></div>
+                        <div className="w-4 h-4 border-t-2 border-b-2 border-gray-500 rounded-full animate-spin"></div>
                       ) : (
-                        <ArrowDownTrayIcon className="h-4 w-4" />
+                        <ArrowDownTrayIcon className="w-4 h-4" />
                       )}
                       <span className="text-xs">CSV</span>
                     </Button>
@@ -2164,14 +2208,14 @@ export default function TrainingsPage() {
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="flex items-center space-x-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-2 h-9 rounded-md"
+                      className="flex items-center px-2 space-x-1 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 h-9"
                       onClick={() => exportToPDF(selectedTraining)}
                       disabled={exportingPDF}
                     >
                       {exportingPDF ? (
-                        <div className="h-4 w-4 border-t-2 border-b-2 border-gray-500 rounded-full animate-spin"></div>
+                        <div className="w-4 h-4 border-t-2 border-b-2 border-gray-500 rounded-full animate-spin"></div>
                       ) : (
-                        <DocumentTextIcon className="h-4 w-4" />
+                        <DocumentTextIcon className="w-4 h-4" />
                       )}
                       <span className="text-xs">PDF</span>
                     </Button>
@@ -2183,7 +2227,7 @@ export default function TrainingsPage() {
                     selectedTraining.registrationStatus === 'registered' ? (
                       <Button
                         variant="danger"
-                        className="bg-red-600 text-white border-0 rounded-md px-4 h-9 flex items-center justify-center hover:bg-red-700 transition-colors font-medium"
+                        className="flex items-center justify-center px-4 font-medium text-white transition-colors bg-red-600 border-0 rounded-md h-9 hover:bg-red-700"
                         onClick={() => {
                           setTrainingToCancel(selectedTraining.id || '');
                           setShowCancelConfirmation(true);
@@ -2195,7 +2239,7 @@ export default function TrainingsPage() {
                     ) : (
                       <Button
                         variant="primary"
-                        className="bg-green-600 text-white border border-green-700 rounded-md px-4 h-9 flex items-center justify-center hover:bg-green-700 transition-colors font-medium"
+                        className="flex items-center justify-center px-4 font-medium text-white transition-colors bg-green-600 border border-green-700 rounded-md h-9 hover:bg-green-700"
                         onClick={() => handleRegister(selectedTraining.id || '')}
                         disabled={selectedTraining.registered >= selectedTraining.capacity}
                       >
@@ -2229,17 +2273,17 @@ export default function TrainingsPage() {
 
       {/* Add the Create Training Modal */}
       {showCreateTrainingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Create New Training</h2>
                 <button
                   onClick={() => setShowCreateTrainingModal(false)}
                   className="text-gray-500 hover:text-gray-700"
                   aria-label="Close"
                 >
-                  <XCircleIcon className="h-6 w-6" />
+                  <XCircleIcon className="w-6 h-6" />
                 </button>
               </div>
               
@@ -2251,7 +2295,7 @@ export default function TrainingsPage() {
                       type="text"
                       id="title"
                       name="title"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       required
                       value={newTraining.title}
                       onChange={(e) => setNewTraining({...newTraining, title: e.target.value})}
@@ -2264,19 +2308,19 @@ export default function TrainingsPage() {
                       id="description"
                       name="description"
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       value={newTraining.description}
                       onChange={(e) => setNewTraining({...newTraining, description: e.target.value})}
                     ></textarea>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label htmlFor="type" className="block text-sm font-medium text-gray-700">Type</label>
                       <select
                         id="type"
                         name="type"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={newTraining.type || ''}
                         onChange={(e) => setNewTraining({...newTraining, type: e.target.value})}
                       >
@@ -2297,48 +2341,66 @@ export default function TrainingsPage() {
                         id="capacity"
                         name="capacity"
                         min="1"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={newTraining.capacity}
                         onChange={(e) => setNewTraining({...newTraining, capacity: parseInt(e.target.value, 10)})}
                       />
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">Start Date</label>
-                      <input
-                        type="datetime-local"
-                        id="startDate"
-                        name="startDate"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value={new Date(newTraining.startDate || new Date()).toISOString().slice(0, 16)}
-                        onChange={(e) => setNewTraining({...newTraining, startDate: new Date(e.target.value).toISOString()})}
-                      />
+                      <div className="relative">
+                        <input
+                          type="datetime-local"
+                          id="startDate"
+                          name="startDate"
+                          className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          value={formatDateForInput(newTraining.startDate)}
+                          onChange={(e) => {
+                            const selectedDate = new Date(e.target.value);
+                            console.log('Selected start date:', selectedDate, 'Original input:', e.target.value);
+                            setNewTraining({...newTraining, startDate: selectedDate.toISOString()});
+                          }}
+                        />
+                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
+                          Selected: {newTraining.startDate ? formatDateForDisplay(newTraining.startDate) : 'No date selected'}
+                        </div>
+                      </div>
                     </div>
                     
                     <div>
                       <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">End Date</label>
-                      <input
-                        type="datetime-local"
-                        id="endDate"
-                        name="endDate"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value={new Date(newTraining.endDate || new Date()).toISOString().slice(0, 16)}
-                        onChange={(e) => setNewTraining({...newTraining, endDate: new Date(e.target.value).toISOString()})}
-                      />
+                      <div className="relative">
+                        <input
+                          type="datetime-local"
+                          id="endDate"
+                          name="endDate"
+                          className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          value={formatDateForInput(newTraining.endDate)}
+                          onChange={(e) => {
+                            const selectedDate = new Date(e.target.value);
+                            console.log('Selected end date:', selectedDate, 'Original input:', e.target.value);
+                            setNewTraining({...newTraining, endDate: selectedDate.toISOString()});
+                          }}
+                        />
+                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
+                          Selected: {newTraining.endDate ? formatDateForDisplay(newTraining.endDate) : 'No date selected'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
                   <div>
                     <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+                    <div className="grid grid-cols-1 gap-4 mt-1 md:grid-cols-2">
                       <input
                         type="text"
                         id="locationName"
                         name="locationName"
                         placeholder="Location Name"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof newTraining.location === 'object' ? newTraining.location.name || '' : ''}
                         onChange={(e) => setNewTraining({
                           ...newTraining, 
@@ -2352,7 +2414,7 @@ export default function TrainingsPage() {
                         id="locationAddress"
                         name="locationAddress"
                         placeholder="Location Address"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof newTraining.location === 'object' ? newTraining.location.address || '' : ''}
                         onChange={(e) => setNewTraining({
                           ...newTraining, 
@@ -2366,13 +2428,13 @@ export default function TrainingsPage() {
                   
                   <div>
                     <label htmlFor="instructor" className="block text-sm font-medium text-gray-700">Instructor</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+                    <div className="grid grid-cols-1 gap-4 mt-1 md:grid-cols-2">
                       <input
                         type="text"
                         id="instructorName"
                         name="instructorName"
                         placeholder="Instructor Name"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof newTraining.instructor === 'object' ? newTraining.instructor.name || '' : ''}
                         onChange={(e) => setNewTraining({
                           ...newTraining, 
@@ -2386,7 +2448,7 @@ export default function TrainingsPage() {
                         id="instructorRank"
                         name="instructorRank"
                         placeholder="Instructor Rank"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof newTraining.instructor === 'object' ? newTraining.instructor.rank || '' : ''}
                         onChange={(e) => setNewTraining({
                           ...newTraining, 
@@ -2403,11 +2465,11 @@ export default function TrainingsPage() {
                       type="checkbox"
                       id="mandatory"
                       name="mandatory"
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                       checked={newTraining.mandatory}
                       onChange={(e) => setNewTraining({...newTraining, mandatory: e.target.checked})}
                     />
-                    <label htmlFor="mandatory" className="ml-2 block text-sm text-gray-900">Mandatory Training</label>
+                    <label htmlFor="mandatory" className="block ml-2 text-sm text-gray-900">Mandatory Training</label>
                   </div>
                   
                   <div>
@@ -2416,25 +2478,25 @@ export default function TrainingsPage() {
                       type="text"
                       id="tags"
                       name="tags"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       value={newTraining.tags?.join(', ') || ''}
                       onChange={(e) => setNewTraining({...newTraining, tags: e.target.value.split(',').map(tag => tag.trim())})}
                     />
                   </div>
                 </div>
                 
-                <div className="mt-6 flex justify-end space-x-3">
+                <div className="flex justify-end mt-6 space-x-3">
                   <Button
                     type="button"
                     onClick={() => setShowCreateTrainingModal(false)}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-800"
+                    className="text-gray-800 bg-gray-200 hover:bg-gray-300"
                     aria-label="Cancel"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    className="text-white bg-blue-600 hover:bg-blue-700"
                     disabled={loading}
                     aria-label="Create Training"
                   >
@@ -2449,17 +2511,17 @@ export default function TrainingsPage() {
 
       {/* Add the Edit Training Modal */}
       {showEditTrainingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Edit Training</h2>
                 <button
                   onClick={() => setShowEditTrainingModal(false)}
                   className="text-gray-500 hover:text-gray-700"
                   aria-label="Close"
                 >
-                  <XCircleIcon className="h-6 w-6" />
+                  <XCircleIcon className="w-6 h-6" />
                 </button>
               </div>
               
@@ -2471,7 +2533,7 @@ export default function TrainingsPage() {
                       type="text"
                       id="editTitle"
                       name="editTitle"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       required
                       value={editTraining.title}
                       onChange={(e) => setEditTraining({...editTraining, title: e.target.value})}
@@ -2484,19 +2546,19 @@ export default function TrainingsPage() {
                       id="editDescription"
                       name="editDescription"
                       rows={3}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       value={editTraining.description}
                       onChange={(e) => setEditTraining({...editTraining, description: e.target.value})}
                     ></textarea>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label htmlFor="editType" className="block text-sm font-medium text-gray-700">Type</label>
                       <select
                         id="editType"
                         name="editType"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={editTraining.type || ''}
                         onChange={(e) => setEditTraining({...editTraining, type: e.target.value})}
                       >
@@ -2517,48 +2579,66 @@ export default function TrainingsPage() {
                         id="editCapacity"
                         name="editCapacity"
                         min="1"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={editTraining.capacity}
                         onChange={(e) => setEditTraining({...editTraining, capacity: parseInt(e.target.value, 10)})}
                       />
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <label htmlFor="editStartDate" className="block text-sm font-medium text-gray-700">Start Date</label>
-                      <input
-                        type="datetime-local"
-                        id="editStartDate"
-                        name="editStartDate"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value={new Date(editTraining.startDate || new Date()).toISOString().slice(0, 16)}
-                        onChange={(e) => setEditTraining({...editTraining, startDate: new Date(e.target.value).toISOString()})}
-                      />
+                      <div className="relative">
+                        <input
+                          type="datetime-local"
+                          id="editStartDate"
+                          name="editStartDate"
+                          className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          value={formatDateForInput(editTraining.startDate)}
+                          onChange={(e) => {
+                            const selectedDate = new Date(e.target.value);
+                            console.log('Selected edit start date:', selectedDate, 'Original input:', e.target.value);
+                            setEditTraining({...editTraining, startDate: selectedDate.toISOString()});
+                          }}
+                        />
+                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
+                          Selected: {editTraining.startDate ? formatDateForDisplay(editTraining.startDate) : 'No date selected'}
+                        </div>
+                      </div>
                     </div>
                     
                     <div>
                       <label htmlFor="editEndDate" className="block text-sm font-medium text-gray-700">End Date</label>
-                      <input
-                        type="datetime-local"
-                        id="editEndDate"
-                        name="editEndDate"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value={new Date(editTraining.endDate || new Date()).toISOString().slice(0, 16)}
-                        onChange={(e) => setEditTraining({...editTraining, endDate: new Date(e.target.value).toISOString()})}
-                      />
+                      <div className="relative">
+                        <input
+                          type="datetime-local"
+                          id="editEndDate"
+                          name="editEndDate"
+                          className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          value={formatDateForInput(editTraining.endDate)}
+                          onChange={(e) => {
+                            const selectedDate = new Date(e.target.value);
+                            console.log('Selected edit end date:', selectedDate, 'Original input:', e.target.value);
+                            setEditTraining({...editTraining, endDate: selectedDate.toISOString()});
+                          }}
+                        />
+                        <div className="p-2 mt-1 text-sm font-medium text-blue-800 border border-blue-100 rounded-md bg-blue-50">
+                          Selected: {editTraining.endDate ? formatDateForDisplay(editTraining.endDate) : 'No date selected'}
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
                   <div>
                     <label htmlFor="editLocation" className="block text-sm font-medium text-gray-700">Location</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+                    <div className="grid grid-cols-1 gap-4 mt-1 md:grid-cols-2">
                       <input
                         type="text"
                         id="editLocationName"
                         name="editLocationName"
                         placeholder="Location Name"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof editTraining.location === 'object' ? editTraining.location.name || '' : ''}
                         onChange={(e) => setEditTraining({
                           ...editTraining, 
@@ -2572,7 +2652,7 @@ export default function TrainingsPage() {
                         id="editLocationAddress"
                         name="editLocationAddress"
                         placeholder="Address (Optional)"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof editTraining.location === 'object' ? editTraining.location.address || '' : ''}
                         onChange={(e) => setEditTraining({
                           ...editTraining, 
@@ -2586,13 +2666,13 @@ export default function TrainingsPage() {
                   
                   <div>
                     <label htmlFor="editInstructor" className="block text-sm font-medium text-gray-700">Instructor</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+                    <div className="grid grid-cols-1 gap-4 mt-1 md:grid-cols-2">
                       <input
                         type="text"
                         id="editInstructorName"
                         name="editInstructorName"
                         placeholder="Instructor Name"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof editTraining.instructor === 'object' ? editTraining.instructor.name || '' : ''}
                         onChange={(e) => setEditTraining({
                           ...editTraining, 
@@ -2606,7 +2686,7 @@ export default function TrainingsPage() {
                         id="editInstructorRank"
                         name="editInstructorRank"
                         placeholder="Rank (Optional)"
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value={typeof editTraining.instructor === 'object' ? editTraining.instructor.rank || '' : ''}
                         onChange={(e) => setEditTraining({
                           ...editTraining, 
@@ -2623,19 +2703,19 @@ export default function TrainingsPage() {
                       id="editMandatory"
                       name="editMandatory"
                       type="checkbox"
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                       checked={editTraining.mandatory || false}
                       onChange={(e) => setEditTraining({...editTraining, mandatory: e.target.checked})}
                     />
-                    <label htmlFor="editMandatory" className="ml-2 block text-sm text-gray-900">Mandatory training</label>
+                    <label htmlFor="editMandatory" className="block ml-2 text-sm text-gray-900">Mandatory training</label>
                   </div>
                 </div>
                 
-                <div className="mt-6 flex justify-end space-x-3">
+                <div className="flex justify-end mt-6 space-x-3">
                   <Button
                     variant="secondary"
                     type="button"
-                    className="bg-white text-gray-700 border border-gray-300 rounded-md px-4 h-10 flex items-center justify-center hover:bg-gray-50 transition-colors font-medium"
+                    className="flex items-center justify-center h-10 px-4 font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                     onClick={() => setShowEditTrainingModal(false)}
                   >
                     Cancel
@@ -2643,11 +2723,11 @@ export default function TrainingsPage() {
                   <Button
                     variant="primary"
                     type="submit"
-                    className="bg-indigo-600 text-white border border-indigo-700 rounded-md px-4 h-10 flex items-center justify-center hover:bg-indigo-700 transition-colors font-medium"
+                    className="flex items-center justify-center h-10 px-4 font-medium text-white transition-colors bg-indigo-600 border border-indigo-700 rounded-md hover:bg-indigo-700"
                     disabled={loading}
                   >
                     {loading ? (
-                      <div className="h-5 w-5 border-t-2 border-b-2 border-white rounded-full animate-spin mr-2"></div>
+                      <div className="w-5 h-5 mr-2 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
                     ) : null}
                     Update Training
                   </Button>
