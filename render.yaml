@@ -24,18 +24,17 @@ services:
     name: 301st-rribn-mobile-app
     env: static
     buildCommand: |
-      # Install required dependencies
-      apt-get update && apt-get install -y curl xz-utils git && \
-      # Download and install Flutter
-      curl -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.3-stable.tar.xz -o flutter.tar.xz && \
-      tar xf flutter.tar.xz && \
+      # Download Flutter SDK directly
+      mkdir -p flutter-sdk && cd flutter-sdk && \
+      wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.3-stable.tar.xz && \
+      tar xf flutter_linux_3.19.3-stable.tar.xz && \
       export PATH="$PATH:`pwd`/flutter/bin" && \
-      flutter precache && \
-      flutter doctor && \
+      cd .. && \
       # Build the web app
       cd armed_forces_app && \
-      flutter pub get && \
-      flutter build web
+      ../flutter-sdk/flutter/bin/flutter doctor && \
+      ../flutter-sdk/flutter/bin/flutter pub get && \
+      ../flutter-sdk/flutter/bin/flutter build web
     startCommand: cd armed_forces_app/build/web && python3 -m http.server $PORT
     staticPublishPath: ./armed_forces_app/build/web
     routes:
