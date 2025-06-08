@@ -218,6 +218,11 @@ export async function GET(request: NextRequest) {
 
     // Set appropriate headers based on whether it's a download or inline view
     const disposition = download ? 'attachment' : 'inline';
+    
+    // Ensure content type is application/pdf for PDF files
+    if (fileName && fileName.toLowerCase().endsWith('.pdf')) {
+      contentType = 'application/pdf';
+    }
 
     return new Response(new Uint8Array(fileBuffer!), {
       headers: {
