@@ -20,6 +20,15 @@ const hasValidEmailConfig = process.env.EMAIL_HOST &&
                            process.env.EMAIL_PASS &&
                            process.env.EMAIL_USER !== 'your-email@example.com';
 
+console.log('Email Configuration:');
+console.log(`- Environment: ${process.env.NODE_ENV}`);
+console.log(`- Host: ${EMAIL_HOST}`);
+console.log(`- Port: ${EMAIL_PORT}`);
+console.log(`- User: ${EMAIL_USER.substring(0, 3)}***${EMAIL_USER.includes('@') ? EMAIL_USER.substring(EMAIL_USER.indexOf('@')) : ''}`);
+console.log(`- Has Password: ${!!EMAIL_PASS}`);
+console.log(`- From: ${EMAIL_FROM}`);
+console.log(`- Valid Config: ${hasValidEmailConfig}`);
+
 // Create a nodemailer transporter with better error handling
 let transporter: any;
 
@@ -37,6 +46,15 @@ try {
       },
       // Add debug option for development
       ...(process.env.NODE_ENV !== 'production' && { debug: true }),
+    });
+    
+    // Verify transporter
+    transporter.verify((error: any, success: boolean) => {
+      if (error) {
+        console.error('Transporter verification failed:', error);
+      } else {
+        console.log('Server is ready to take our messages');
+      }
     });
   } else if (process.env.NODE_ENV !== 'production') {
     console.log('Using ethereal.email test account for development');
@@ -62,6 +80,25 @@ try {
     }
   } else {
     console.warn('Email service not properly configured. Emails will not be sent.');
+    
+    // For production, if no valid email config, try to use Gmail as fallback
+    console.log('Attempting to use Gmail as fallback in production...');
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASS,
+      }
+    });
+    
+    // Verify transporter
+    transporter.verify((error: any, success: boolean) => {
+      if (error) {
+        console.error('Fallback Gmail transporter verification failed:', error);
+      } else {
+        console.log('Fallback Gmail transporter is ready');
+      }
+    });
   }
 } catch (error) {
   console.error('Error creating nodemailer transporter:', error);
@@ -96,7 +133,8 @@ export async function sendEmail({ to, subject, html }: EmailOptions): Promise<bo
       html,
     });
 
-    console.log(`Email sent: ${info.messageId}`);
+    console.log(`Email sent successfully: ${info.messageId}`);
+    console.log(`Email response:`, info);
     
     // If using Ethereal, log the preview URL
     if (info.messageId && info.messageId.includes('ethereal')) {
@@ -106,6 +144,35 @@ export async function sendEmail({ to, subject, html }: EmailOptions): Promise<bo
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
+    
+    // Try using Gmail API as last resort
+    if (process.env.NODE_ENV === 'production') {
+      try {
+        console.log('Attempting to send via Gmail API as last resort...');
+        const gmailTransport = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: EMAIL_USER,
+            pass: EMAIL_PASS
+          }
+        });
+        
+        const fallbackInfo = await gmailTransport.sendMail({
+          from: EMAIL_FROM,
+          to,
+          subject: subject + ' (Retry)',
+          html,
+        });
+        
+        console.log(`Fallback email sent: ${fallbackInfo.messageId}`);
+        return true;
+      } catch (fallbackError) {
+        console.error('Fallback email attempt also failed:', fallbackError);
+        return false;
+      }
+    }
+    
     return false;
   }
 }
@@ -358,6 +425,8 @@ export async function sendRegistrationConfirmationEmail(
   firstName: string,
   lastName: string
 ): Promise<boolean> {
+  console.log(`Preparing registration confirmation email for ${email}`);
+  
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -439,6 +508,19 @@ export async function sendRegistrationConfirmationEmail(
           margin-bottom: 20px;
         }
         
+        .info-box {
+          background-color: #f5f7fa;
+          border-left: 4px solid #4a6fa5;
+          padding: 15px;
+          margin: 20px 0;
+          border-radius: 4px;
+        }
+        
+        .info-box h4 {
+          margin-top: 0;
+          color: #4a6fa5;
+        }
+        
         .footer {
           padding: 20px;
           text-align: center;
@@ -470,7 +552,17 @@ export async function sendRegistrationConfirmationEmail(
             
             <p>Once your account is approved, you will receive another email notification with instructions on how to access the system.</p>
             
-            <p>If you have any questions or need further assistance, please contact your unit administrator.</p>
+            <div class="info-box">
+              <h4>Registration Details</h4>
+              <p><strong>Name:</strong> ${firstName} ${lastName}<br>
+              <strong>Email:</strong> ${email}<br>
+              <strong>Date:</strong> ${new Date().toLocaleString()}<br>
+              <strong>Status:</strong> Pending Admin Approval</p>
+              
+              <p>Please keep this information for your records.</p>
+            </div>
+            
+            <p>If you have any questions or need further assistance, please contact your unit administrator at <a href="mailto:admin@301strribn.ph">admin@301strribn.ph</a>.</p>
             
             <p>
               Regards,<br>
@@ -489,9 +581,17 @@ export async function sendRegistrationConfirmationEmail(
     </html>
   `;
 
-  return sendEmail({
-    to: email,
-    subject: '301st RRIBN - Registration Confirmation',
-    html
-  });
+  try {
+    const result = await sendEmail({
+      to: email,
+      subject: '301st RRIBN - Registration Confirmation',
+      html
+    });
+    
+    console.log(`Registration confirmation email ${result ? 'sent successfully' : 'failed to send'} to ${email}`);
+    return result;
+  } catch (error) {
+    console.error(`Failed to send registration confirmation email to ${email}:`, error);
+    return false;
+  }
 } 
