@@ -23,7 +23,11 @@ services:
   - type: web
     name: 301st-rribn-mobile-app
     env: static
-    buildCommand: cd armed_forces_app && flutter pub get && flutter build web
+    buildCommand: |
+      git clone https://github.com/flutter/flutter.git -b stable
+      export PATH="$PATH:`pwd`/flutter/bin"
+      flutter doctor
+      cd armed_forces_app && flutter pub get && flutter build web
     staticPublishPath: ./armed_forces_app/build/web
     routes:
       - type: rewrite
