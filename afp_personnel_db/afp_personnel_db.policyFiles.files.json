@@ -17,4 +17,24 @@
       "originalFilename": "eo_212_1939.pdf"
     }
   }
+},
+{
+  "_id": {
+    "$oid": "6845aec6e6fbe13e96c08889"
+  },
+  "length": 3957758,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2025-06-08T15:39:50.968Z"
+  },
+  "filename": "1749397190935_w37am3a8nc.pdf",
+  "metadata": {
+    "contentType": "application/pdf",
+    "metadata": {
+      "title": "Recruitment and Enlistment Policies for Reservists",
+      "category": "General",
+      "uploadedBy": "67f89d274ba8bbe8d094b0be",
+      "originalFilename": "ADWEBL Midterm Exam Coverage and Review Guide.pdf"
+    }
+  }
 }]

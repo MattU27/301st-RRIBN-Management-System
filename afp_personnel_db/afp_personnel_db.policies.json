@@ -25,4 +25,31 @@
     "$oid": "684585ae97ac6d37908a050a"
   },
   "documentUrl": "/uploads/policies/policy_684585ae97ac6d37908a050c.pdf"
+},
+{
+  "_id": {
+    "$oid": "6845aec6e6fbe13e96c0889a"
+  },
+  "title": "Recruitment and Enlistment Policies for Reservists",
+  "description": "This policy outlines the standardized recruitment and enlistment procedures for the 301st RRIBn, ensuring that all applicants meet the physical, moral, and educational requirements. It supports inclusive practices while maintaining high standards of military readiness and character.",
+  "content": "This policy was uploaded as a file. Please refer to the attached document.",
+  "category": "General",
+  "version": "1.0",
+  "status": "published",
+  "effectiveDate": {
+    "$date": "2025-06-09T00:00:00.000Z"
+  },
+  "fileId": {
+    "$oid": "6845aec6e6fbe13e96c08889"
+  },
+  "createdBy": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "createdAt": {
+    "$date": "2025-06-08T15:39:50.974Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-08T15:39:50.974Z"
+  },
+  "__v": 0
 }]
