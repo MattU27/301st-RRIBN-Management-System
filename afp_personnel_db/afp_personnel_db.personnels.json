@@ -23,10 +23,10 @@
   "updatedAt": "2025-04-21T13:21:46.698Z",
   "__v": 0,
   "lastUpdated": "2025-04-21T13:01:26.715Z",
-  "resetPasswordExpiry": "2025-05-07T11:45:14.433311",
-  "resetPasswordToken": "reset-token-1746585914433",
-  "resetVerificationCode": "114433",
-  "resetVerificationExpiry": "2025-05-07T11:00:14.433913"
+  "resetPasswordExpiry": "2025-06-07T20:56:07.031600",
+  "resetPasswordToken": "reset-token-1749297367031",
+  "resetVerificationCode": "767031",
+  "resetVerificationExpiry": "2025-06-07T20:11:07.032035"
 },
 {
   "_id": {

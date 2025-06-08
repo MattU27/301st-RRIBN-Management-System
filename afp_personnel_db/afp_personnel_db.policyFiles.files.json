@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "684585ae97ac6d37908a050a"
+  },
+  "length": 143606,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2025-06-08T12:44:30.577Z"
+  },
+  "filename": "1749386670570_8ptqbsqued5.pdf",
+  "metadata": {
+    "contentType": "application/pdf",
+    "metadata": {
+      "title": "Promotion and Advancement Policies for Reservists",
+      "category": "Promotions",
+      "uploadedBy": "67f89d274ba8bbe8d094b0be",
+      "originalFilename": "eo_212_1939.pdf"
+    }
+  }
+}]

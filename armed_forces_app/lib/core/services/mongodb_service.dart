@@ -955,4 +955,102 @@ class MongoDBService {
       return [];
     }
   }
+  
+  // Get policy file from GridFS
+  Future<List<int>?> getPolicyFile(String policyId, String fileId) async {
+    try {
+      await connect();
+      if (!_isConnected) {
+        throw Exception('Database connection failed');
+      }
+      
+      if (kDebugMode) {
+        print('Attempting to download policy file directly from MongoDB');
+        print('Policy ID: $policyId');
+        print('File ID: $fileId');
+      }
+      
+      // Try to get the policy to check its document URL
+      final policy = await getPolicyById(policyId);
+      if (policy == null) {
+        if (kDebugMode) {
+          print('Policy not found with ID: $policyId');
+        }
+        return null;
+      }
+      
+      if (kDebugMode) {
+        print('Found policy: ${policy.title}');
+        print('Document URL: ${policy.documentUrl}');
+        print('File ID: ${policy.fileId}');
+      }
+      
+      // Try to find the file in GridFS
+      try {
+        // Parse the fileId string to an ObjectId
+        final objectId = ObjectId.parse(fileId.replaceAll('ObjectId("', '').replaceAll('")', ''));
+        
+        if (kDebugMode) {
+          print('Looking for file with ObjectId: $objectId');
+        }
+        
+        // Get a reference to the GridFS bucket
+        final bucket = GridFS(_db!, 'policyFiles');
+        
+        // Find the file using its ObjectId
+        final fileInfo = await bucket.files.findOne(where.eq('_id', objectId));
+        
+        if (fileInfo != null) {
+          if (kDebugMode) {
+            print('Found file in GridFS: ${fileInfo['filename']}');
+            print('File length: ${fileInfo['length']}');
+          }
+          
+          // Get the file data by reading chunks
+          final chunksCollection = _db!.collection('policyFiles.chunks');
+          final chunks = await chunksCollection.find(where.eq('files_id', objectId))
+              .map((doc) => doc)
+              .toList();
+          
+          if (kDebugMode) {
+            print('Found ${chunks.length} chunks for file');
+          }
+          
+          // Sort chunks by n (order)
+          chunks.sort((a, b) => (a['n'] as int).compareTo(b['n'] as int));
+          
+          // Combine all chunks into a single byte array
+          final fileBytes = <int>[];
+          for (final chunk in chunks) {
+            final data = chunk['data'];
+            if (data is BsonBinary) {
+              fileBytes.addAll(data.byteList);
+            }
+          }
+          
+          if (kDebugMode) {
+            print('Successfully assembled file: ${fileBytes.length} bytes');
+          }
+          
+          return fileBytes;
+        } else {
+          if (kDebugMode) {
+            print('File not found in GridFS with ID: $objectId');
+          }
+          return null;
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error accessing GridFS: $e');
+        }
+        return null;
+      }
+    } catch (e) {
+      _logger.e('Error downloading policy file: $e');
+      if (kDebugMode) {
+        print('Error downloading policy file from MongoDB: $e');
+      }
+      return null;
+    }
+  }
 } 

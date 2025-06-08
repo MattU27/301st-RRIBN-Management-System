@@ -11,7 +11,8 @@
     "populate-db": "node scripts/create-personnel-records.js",
     "cleanup-db": "node scripts/cleanup-db.js",
     "update-archived": "node scripts/update-archived-status.js",
-    "seed:policies": "node scripts/seedPolicies.js"
+    "seed:policies": "node scripts/seedPolicies.js",
+    "update-policy-file": "node update-policy-file-link.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",

@@ -173,7 +173,7 @@ export default function UploadPolicyPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -182,7 +182,7 @@ export default function UploadPolicyPage() {
               onClick={() => router.push('/policies')}
               className="mr-4"
             >
-              <ArrowLeftIcon className="h-5 w-5 mr-2" />
+              <ArrowLeftIcon className="w-5 h-5 mr-2" />
               Back to Policies
             </Button>
             <h1 className="text-xl font-bold text-gray-900">Upload Policy</h1>
@@ -191,33 +191,33 @@ export default function UploadPolicyPage() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
           {/* Left side - File upload */}
           <div className="lg:col-span-2">
             <Card>
               <div className="p-4">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Policy Document</h2>
+                <h2 className="mb-4 text-lg font-medium text-gray-900">Policy Document</h2>
                 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
                     Upload Policy File* (PDF only)
                   </label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md h-60">
-                    <div className="space-y-1 text-center flex flex-col items-center justify-center">
+                  <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md h-60">
+                    <div className="flex flex-col items-center justify-center space-y-1 text-center">
                       {file ? (
                         <>
-                          <DocumentTextIcon className="mx-auto h-12 w-12 text-indigo-600" />
+                          <DocumentTextIcon className="w-12 h-12 mx-auto text-indigo-600" />
                           <p className="text-sm text-gray-600 break-all">{file.name}</p>
                           <p className="text-xs text-gray-500">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
-                          <div className="flex space-x-2 mt-2">
+                          <div className="flex mt-2 space-x-2">
                             <button
                               type="button"
                               onClick={handlePreview}
-                              className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
+                              className="flex items-center text-xs text-blue-600 hover:text-blue-800"
                             >
-                              <EyeIcon className="h-4 w-4 mr-1" />
+                              <EyeIcon className="w-4 h-4 mr-1" />
                               Preview
                             </button>
                             <button
@@ -235,7 +235,7 @@ export default function UploadPolicyPage() {
                         </>
                       ) : (
                         <>
-                          <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-400" />
+                          <CloudArrowUpIcon className="w-12 h-12 mx-auto text-gray-400" />
                           <p className="text-sm text-gray-600">
                             <span className="inline-block">
                               Drag and drop your PDF file here, or
@@ -243,7 +243,7 @@ export default function UploadPolicyPage() {
                           </p>
                           <label
                             htmlFor="file-upload"
-                            className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                            className="relative font-medium text-indigo-600 bg-white rounded-md cursor-pointer hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
                             <span>Browse files</span>
                             <input
@@ -272,7 +272,7 @@ export default function UploadPolicyPage() {
           <div className="lg:col-span-3">
             <Card>
               <div className="p-4">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Policy Details</h2>
+                <h2 className="mb-4 text-lg font-medium text-gray-900">Policy Details</h2>
                 
                 <div className="grid grid-cols-1 gap-y-4 gap-x-6 sm:grid-cols-2">
                   <div className="sm:col-span-2">
@@ -286,7 +286,7 @@ export default function UploadPolicyPage() {
                       value={policyData.title}
                       onChange={handleInputChange}
                       required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
 
@@ -300,7 +300,7 @@ export default function UploadPolicyPage() {
                       value={policyData.category}
                       onChange={handleInputChange}
                       required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                       {Object.values(PolicyCategory).map((category) => (
                         <option key={category} value={category}>
@@ -323,7 +323,7 @@ export default function UploadPolicyPage() {
                         onChange={handleInputChange}
                         required={showCustomCategory}
                         placeholder="Enter custom category"
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
                   )}
@@ -339,7 +339,7 @@ export default function UploadPolicyPage() {
                       value={policyData.effectiveDate}
                       onChange={handleInputChange}
                       required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
 
@@ -353,7 +353,7 @@ export default function UploadPolicyPage() {
                       id="expirationDate"
                       value={policyData.expirationDate}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
 
@@ -368,7 +368,7 @@ export default function UploadPolicyPage() {
                       value={policyData.description}
                       onChange={handleInputChange}
                       required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -378,7 +378,7 @@ export default function UploadPolicyPage() {
         </div>
 
         {/* Bottom action buttons */}
-        <div className="mt-6 flex justify-end space-x-3">
+        <div className="flex justify-end mt-6 space-x-3">
           <Button
             type="button"
             variant="secondary"
@@ -395,7 +395,7 @@ export default function UploadPolicyPage() {
           >
             {loading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 mr-2 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -403,7 +403,7 @@ export default function UploadPolicyPage() {
               </>
             ) : (
               <>
-                <PaperClipIcon className="h-5 w-5 mr-2" />
+                <PaperClipIcon className="w-5 h-5 mr-2" />
                 Upload Policy
               </>
             )}
@@ -413,17 +413,17 @@ export default function UploadPolicyPage() {
 
       {/* PDF Preview Modal */}
       {showPreview && previewUrl && (
-        <div className="fixed inset-0 z-50 overflow-hidden bg-black bg-opacity-80 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black bg-opacity-80">
           <div className="relative bg-white rounded-lg shadow-xl w-[98%] h-[95vh] max-w-7xl flex flex-col">
-            <div className="flex justify-between items-center px-4 py-2 bg-gray-100 border-b">
+            <div className="flex items-center justify-between px-4 py-2 bg-gray-100 border-b">
               <h3 className="text-lg font-semibold text-black">PDF Preview</h3>
               <button
                 type="button"
                 onClick={closePreview}
-                className="text-gray-500 hover:text-gray-700 p-1 rounded hover:bg-gray-200"
+                className="p-1 text-gray-500 rounded hover:text-gray-700 hover:bg-gray-200"
               >
                 <span className="sr-only">Close</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -434,21 +434,21 @@ export default function UploadPolicyPage() {
                 type="application/pdf"
                 className="w-full h-full"
               >
-                <div className="flex items-center justify-center h-full flex-col">
-                  <p className="text-red-500 mb-2">Unable to display PDF. Browser may be blocking it.</p>
+                <div className="flex flex-col items-center justify-center h-full">
+                  <p className="mb-2 text-red-500">Unable to display PDF. Browser may be blocking it.</p>
                   <a 
                     href={previewUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
                   >
                     Open PDF in New Tab
                   </a>
                 </div>
               </object>
             </div>
-            <div className="p-3 border-t bg-gray-100">
-              <div className="text-sm text-gray-600 text-center">
+            <div className="p-3 bg-gray-100 border-t">
+              <div className="text-sm text-center text-gray-600">
                 <span>Note: If preview is blocked, use the "Open PDF in New Tab" option</span>
               </div>
             </div>

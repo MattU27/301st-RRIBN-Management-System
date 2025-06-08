@@ -96,9 +96,9 @@ class AppConstants {
   static const String trainingsEndpoint = '$baseUrl/api/trainings';
   
   // Policy Endpoints - Updated to match Next.js backend
-  static const String policiesEndpoint = '$baseUrl/api/policies';
-  static const String policyUploadEndpoint = '$baseUrl/api/policies/upload';
-  static const String policyDocumentEndpoint = '$baseUrl/api/policies/document';
+  static const String policiesEndpoint = '$baseUrl/api/v1/policies';
+  static const String policyUploadEndpoint = '$baseUrl/api/v1/policies/upload';
+  static const String policyDocumentEndpoint = '$baseUrl/api/v1/policies/document';
   
   // Announcement Endpoints
   static const String announcementsEndpoint = '$baseUrl/api/announcements';

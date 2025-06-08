@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { validateToken } from '@/lib/auth';
 import { ObjectId } from 'mongodb';
 import { getFileFromGridFS, getFileMetadata } from '@/lib/gridfs';
+import Policy from '@/models/Policy';
 import { connectToDatabase } from '@/lib/mongodb';
 
 export const dynamic = 'force-dynamic';
@@ -35,33 +36,38 @@ export async function GET(
 
     await connectToDatabase();
 
-    // Get the file ID from the URL params
-    const fileId = params.id;
-    if (!fileId) {
+    // Get the policy ID from the URL params
+    const policyId = params.id;
+    if (!policyId) {
       return NextResponse.json(
-        { error: 'File ID is required' },
+        { error: 'Policy ID is required' },
         { status: 400 }
       );
     }
 
-    console.log(`Retrieving file with ID: ${fileId}`);
+    // Lookup the policy to get the fileId
+    const policy = await Policy.findById(policyId);
+    if (!policy) {
+      return NextResponse.json(
+        { error: 'Policy not found' },
+        { status: 404 }
+      );
+    }
+
+    // If policy has no fileId, return an error
+    if (!policy.fileId) {
+      return NextResponse.json(
+        { error: 'No document associated with this policy' },
+        { status: 404 }
+      );
+    }
 
     try {
       // Get file metadata first to get content type
-      const fileMetadata = await getFileMetadata(new ObjectId(fileId));
-      
-      if (!fileMetadata) {
-        console.error(`File metadata not found for ID: ${fileId}`);
-        return NextResponse.json(
-          { error: 'File not found' },
-          { status: 404 }
-        );
-      }
-      
-      console.log(`Found file metadata: ${fileMetadata.filename}, contentType: ${fileMetadata.contentType}`);
+      const fileMetadata = await getFileMetadata(new ObjectId(policy.fileId.toString()));
       
       // Get the file from GridFS
-      const fileBuffer = await getFileFromGridFS(new ObjectId(fileId));
+      const fileBuffer = await getFileFromGridFS(new ObjectId(policy.fileId.toString()));
 
       // Determine if the request asks for download or inline display
       const searchParams = new URL(request.url).searchParams;
@@ -73,7 +79,7 @@ export async function GET(
         headers: {
           'Content-Type': fileMetadata.contentType || 'application/pdf',
           'Content-Disposition': isDownload 
-            ? `attachment; filename="${fileMetadata.filename}"` 
+            ? `attachment; filename="${policy.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf"` 
             : 'inline',
           'Cache-Control': 'public, max-age=86400'
         }
@@ -83,15 +89,15 @@ export async function GET(
     } catch (error) {
       console.error('Error retrieving file from GridFS:', error);
       return NextResponse.json(
-        { error: 'Error retrieving document', details: error instanceof Error ? error.message : String(error) },
+        { error: 'Error retrieving document' },
         { status: 500 }
       );
     }
   } catch (error: any) {
-    console.error('Error in file retrieval:', error);
+    console.error('Error in policy document retrieval:', error);
     
     return NextResponse.json(
-      { error: 'Failed to retrieve file', details: error.message || String(error) },
+      { error: 'Failed to retrieve policy document' },
       { status: 500 }
     );
   }

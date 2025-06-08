@@ -16,10 +16,10 @@
     "$date": "2025-04-04T17:08:05.926Z"
   },
   "updatedAt": {
-    "$date": "2025-05-28T08:14:48.967Z"
+    "$date": "2025-06-07T10:06:13.690Z"
   },
   "lastLogin": {
-    "$date": "2025-05-28T08:14:48.965Z"
+    "$date": "2025-06-07T10:06:13.685Z"
   },
   "serviceId": "2024-SD004",
   "isArchived": false,
@@ -72,11 +72,11 @@
     "$date": "2025-04-11T04:40:07.328Z"
   },
   "updatedAt": {
-    "$date": "2025-06-07T08:58:33.947Z"
+    "$date": "2025-06-08T11:42:23.763Z"
   },
   "deactivationReason": null,
   "lastLogin": {
-    "$date": "2025-06-07T08:58:33.940Z"
+    "$date": "2025-06-08T11:42:23.760Z"
   },
   "isArchived": false,
   "canRegister": false,

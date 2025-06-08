@@ -13,6 +13,8 @@ class Policy {
   final DateTime lastUpdated;
   final DateTime createdAt;
   final String? documentUrl;
+  final String? fileId;
+  final DateTime updatedAt;
   final Map<String, dynamic>? createdBy;
 
   Policy({
@@ -28,8 +30,10 @@ class Policy {
     required this.lastUpdated,
     required this.createdAt,
     this.documentUrl,
+    this.fileId,
+    DateTime? updatedAt,
     this.createdBy,
-  });
+  }) : updatedAt = updatedAt ?? lastUpdated;
 
   factory Policy.fromJson(Map<String, dynamic> json) {
     // Debug logging
@@ -39,6 +43,9 @@ class Policy {
       print('  title: ${json['title']}');
       print('  effectiveDate: ${json['effectiveDate']}');
       print('  expirationDate: ${json['expirationDate']}');
+      // Added new debug logs for file fields
+      print('  fileId: ${json['fileId']}');
+      print('  documentUrl: ${json['documentUrl']}');
     }
     
     // Handle MongoDB ObjectId format
@@ -52,6 +59,27 @@ class Policy {
       
       // If _id is a string
       return json['_id'].toString();
+    }
+    
+    // Extract fileId with proper ObjectId handling
+    String? getFileId() {
+      if (json['fileId'] == null) return null;
+      
+      if (kDebugMode) {
+        print('  Processing fileId: ${json['fileId']} (${json['fileId'].runtimeType})');
+      }
+      
+      // If fileId is a map with $oid field (MongoDB extended JSON format)
+      if (json['fileId'] is Map && json['fileId'].containsKey('\$oid')) {
+        final oidString = json['fileId']['\$oid'] as String;
+        if (kDebugMode) {
+          print('  Extracted fileId from \$oid: $oidString');
+        }
+        return oidString;
+      }
+      
+      // If fileId is already a string
+      return json['fileId'].toString();
     }
     
     // Parse dates with better error handling
@@ -235,7 +263,7 @@ class Policy {
       return getCreatedAt();
     }
     
-    return Policy(
+    final policy = Policy(
       id: getId(),
       title: json['title'] ?? '',
       description: json['description'] ?? '',
@@ -248,10 +276,21 @@ class Policy {
       lastUpdated: getUpdatedAt(),
       createdAt: getCreatedAt(),
       documentUrl: json['documentUrl'] as String?,
+      fileId: getFileId(),
+      updatedAt: getUpdatedAt(),
       createdBy: json['createdBy'] is Map 
           ? Map<String, dynamic>.from(json['createdBy']) 
           : null,
     );
+    
+    if (kDebugMode) {
+      print('Processed policy: ${policy.title}');
+      print('  Effective Date: ${policy.effectiveDate}');
+      print('  Expiration Date: ${policy.expirationDate}');
+      print('  File ID: ${policy.fileId}');
+    }
+    
+    return policy;
   }
 
   Map<String, dynamic> toJson() {
@@ -265,9 +304,10 @@ class Policy {
       'status': status,
       'effectiveDate': effectiveDate.toIso8601String(),
       'expirationDate': expirationDate?.toIso8601String(),
-      'updatedAt': lastUpdated.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
       'createdAt': createdAt.toIso8601String(),
       'documentUrl': documentUrl,
+      'fileId': fileId,
       'createdBy': createdBy,
     };
   }

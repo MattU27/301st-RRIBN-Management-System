@@ -1,54 +1,28 @@
 [{
   "_id": {
-    "$oid": "683acd42069b9fced2b1e342"
+    "$oid": "684585ae97ac6d37908a050c"
   },
-  "title": "dsadasdsadasdsadasdsadasdsadas",
-  "description": "dsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadas",
+  "title": "Promotion and Advancement Policies for Reservists",
+  "description": "Aligned with Executive Order 212, this policy provides the promotion guidelines for reservists based on merit, time-in-grade, training completion, and unit performance. All promotions must be processed with valid orders and approved by higher headquarters.",
   "content": "This policy was uploaded as a file. Please refer to the attached document.",
-  "category": "dsaadaadwa",
+  "category": "Promotions",
   "version": "1.0",
   "status": "published",
   "effectiveDate": {
-    "$date": "2025-05-31T00:00:00.000Z"
-  },
-  "expirationDate": {
-    "$date": "2025-06-05T00:00:00.000Z"
+    "$date": "2025-06-09T00:00:00.000Z"
   },
   "createdBy": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
   "createdAt": {
-    "$date": "2025-05-31T09:34:58.632Z"
+    "$date": "2025-06-08T12:44:30.579Z"
   },
   "updatedAt": {
-    "$date": "2025-05-31T09:34:58.632Z"
+    "$date": "2025-06-08T13:16:13.116Z"
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "683ae27614988b2d3c0294dc"
+  "__v": 0,
+  "fileId": {
+    "$oid": "684585ae97ac6d37908a050a"
   },
-  "title": "DSADASDAS",
-  "description": "DSADASDAS",
-  "content": "This policy was uploaded as a file. Please refer to the attached document.",
-  "category": "DSADASDAW",
-  "version": "1.0",
-  "status": "published",
-  "effectiveDate": {
-    "$date": "2025-05-31T00:00:00.000Z"
-  },
-  "expirationDate": {
-    "$date": "2025-06-03T00:00:00.000Z"
-  },
-  "createdBy": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  },
-  "createdAt": {
-    "$date": "2025-05-31T11:05:26.454Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-31T11:05:26.454Z"
-  },
-  "__v": 0
+  "documentUrl": "/uploads/policies/policy_684585ae97ac6d37908a050c.pdf"
 }]

@@ -1,300 +1,234 @@
 [{
   "_id": {
-    "$oid": "680a845f9e771459635e342e"
+    "$oid": "68452820329892b6fec15104"
   },
-  "title": "MANDATORY: Annual Physical Fitness Test - June 2024",
-  "content": "All personnel of the 301st RRIBN are required to undergo the Annual Physical Fitness Test scheduled for June 15-16, 2024 at Camp General Lim, Calumpang, Imus, Cavite. The test will include a 2-mile run, push-ups, and sit-ups. Scoring will be based on the AFP standard Physical Fitness Test scoring table. Personnel must bring their complete Battle Dress Uniform (BDU), ID, and proper running shoes. Those with medical conditions that prevent participation must submit a medical certificate at least 5 days before the scheduled test. Contact your Company Commander for any clarifications.",
+  "title": "Immediate Base Lockdown",
+  "content": "Effective immediately, this base is under lockdown due to an unidentified breach. All personnel must report to their assigned secure zones. No movement is allowed without direct orders. Further updates will follow.",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "Col. Juan Santos (Battalion Commander)",
-  "status": "published",
-  "priority": "high",
-  "targetCompanies": null,
-  "targetRoles": null,
-  "publishDate": {
-    "$date": "2024-05-15T00:00:00.000Z"
-  },
-  "expiryDate": {
-    "$date": "2024-06-17T00:00:00.000Z"
-  },
-  "attachmentUrls": [],
-  "viewCount": 145,
-  "createdAt": {
-    "$date": "2024-05-15T08:30:00.000Z"
-  },
-  "updatedAt": {
-    "$date": "2024-05-15T08:30:00.000Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6811840e49d5087198c54b13"
-  },
-  "title": "URGENT: Typhoon Preparedness and Mobilization Notice",
-  "content": "Due to the approaching Typhoon Agaton expected to make landfall in 48 hours, all personnel of the 301st RRIBN are hereby placed on alert status. Company commanders must ensure 100% accountability of their personnel. Alpha and Bravo Companies are designated as first responders and must prepare for possible deployment for disaster response operations. All personnel must ensure their emergency kits and equipment are ready. Report to your respective company headquarters immediately upon receiving the deployment message. Monitor the battalion's official communication channels for updates. Stay safe and be prepared to assist our communities.",
-  "author": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  },
-  "authorName": "Maj. Carlos Reyes (Battalion S3)",
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
   "priority": "urgent",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-05-20T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
-  "expiryDate": {
-    "$date": "2024-05-25T00:00:00.000Z"
-  },
+  "expiryDate": null,
   "attachmentUrls": [],
-  "viewCount": 253,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-05-20T06:15:42.013Z"
+    "$date": "2025-06-08T06:05:20.689Z"
   },
   "updatedAt": {
-    "$date": "2024-05-20T06:15:42.013Z"
+    "$date": "2025-06-08T06:05:20.689Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "680a845f9e771459635e343f"
+    "$oid": "684528e9329892b6fec15146"
   },
-  "title": "Schedule: Battalion-wide Training on Combat First Aid",
-  "content": "A comprehensive Combat First Aid Training will be conducted for all personnel of the 301st RRIBN on July 8-9, 2024 at the Battalion Headquarters. The training will cover tactical combat casualty care, emergency response procedures, and basic life support techniques. This training is mandatory for all personnel regardless of previous medical training. Sessions will run from 0800H to 1700H. Attendees must bring their field medical kits if issued. Certification will be provided upon completion. For inquiries, contact the Battalion S1 office.",
+  "title": "Drill Operation “Iron Shield”",
+  "content": "Operation Iron Shield will commence at 0600H on 06/09/2025. All units must be combat-ready and present at the staging area. This is a full-scale preparedness drill—treat as live.\n\n",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "Capt. Maria Lim (Battalion Medical Officer)",
+  "authorName": "Gerimiah Almero (Staff)",
+  "status": "published",
+  "priority": "urgent",
+  "targetCompanies": null,
+  "targetRoles": null,
+  "publishDate": {
+    "$date": "2025-06-08T00:00:00.000Z"
+  },
+  "expiryDate": null,
+  "attachmentUrls": [],
+  "viewCount": 0,
+  "createdAt": {
+    "$date": "2025-06-08T06:08:41.234Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-08T06:08:41.234Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684528f7329892b6fec1514a"
+  },
+  "title": "Command Briefing Schedule",
+  "content": "A mandatory command briefing will take place in the main auditorium at 0800H on 06/09/2025. Unit leaders must be seated by 0745H. Topics include logistics updates and chain of command adjustments.",
+  "author": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
   "priority": "medium",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-06-10T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
-  "expiryDate": {
-    "$date": "2024-07-10T00:00:00.000Z"
-  },
+  "expiryDate": null,
   "attachmentUrls": [],
-  "viewCount": 98,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-06-10T10:15:22.786Z"
+    "$date": "2025-06-08T06:08:55.013Z"
   },
   "updatedAt": {
-    "$date": "2024-06-10T10:15:22.786Z"
+    "$date": "2025-06-08T06:08:55.013Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "680a845f9e771459635e344a"
+    "$oid": "68452908329892b6fec1514e"
   },
-  "title": "ID Renewal for All 301st RRIBN Personnel",
-  "content": "All 301st RRIBN personnel are required to renew their military IDs between August 1-15, 2024. The renewal process will take place at the Battalion S1 Office from 0900H to 1600H on weekdays. Requirements include: 1) Old military ID, 2) 2 pieces of 2x2 colored photos with white background in military uniform, 3) Updated Personal Data Sheet. Personnel must appear in person wearing the prescribed uniform. Company commanders are requested to prepare the schedule for their respective units to avoid overcrowding. For questions, contact the S1 office at extension 4567.",
+  "title": "Ammunition Requisition Deadline",
+  "content": "All ammunition requests for Q3 must be submitted by 1600H on 06/10/2025. Requisitions after this date will be denied. Coordinate with the Logistics Officer.",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "1Lt. Pedro Garcia (Battalion Adjutant)",
-  "status": "published",
-  "priority": "medium",
-  "targetCompanies": null,
-  "targetRoles": null,
-  "publishDate": {
-    "$date": "2024-07-15T00:00:00.000Z"
-  },
-  "expiryDate": {
-    "$date": "2024-08-16T00:00:00.000Z"
-  },
-  "attachmentUrls": [],
-  "viewCount": 187,
-  "createdAt": {
-    "$date": "2024-07-15T13:45:11.786Z"
-  },
-  "updatedAt": {
-    "$date": "2024-07-15T13:45:11.786Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "680a845f9e771459635e345b"
-  },
-  "title": "Call for Volunteers: Community Outreach Program",
-  "content": "The 301st RRIBN will conduct a community outreach program in Barangay San Jose on September 3, 2024. We are looking for volunteers to participate in various activities including medical mission, tree planting, and school facility improvement. Interested personnel should submit their names to their respective Company First Sergeants not later than August 25, 2024. Volunteers must be in good standing and available for the whole day. This is an excellent opportunity to strengthen our relationship with the local community. Your participation will be noted in your service record.",
-  "author": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  },
-  "authorName": "Maj. Elena Cruz (Civil-Military Operations Officer)",
-  "status": "published",
-  "priority": "normal",
-  "targetCompanies": null,
-  "targetRoles": null,
-  "publishDate": {
-    "$date": "2024-08-10T00:00:00.000Z"
-  },
-  "expiryDate": {
-    "$date": "2024-08-26T00:00:00.000Z"
-  },
-  "attachmentUrls": [],
-  "viewCount": 76,
-  "createdAt": {
-    "$date": "2024-08-10T09:30:00.786Z"
-  },
-  "updatedAt": {
-    "$date": "2024-08-10T09:30:00.786Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "680a845f9e771459635e346c"
-  },
-  "title": "Promotion Board Schedule for Q3 2024",
-  "content": "The 301st RRIBN Promotion Board will convene from September 10-12, 2024 to evaluate personnel eligible for promotion. Qualified candidates must submit their promotion packets to the S1 office no later than August 30, 2024. Required documents include: Updated 201 File, Last 3 Performance Evaluations, Military Education Certificates, Physical Fitness Test Results, and Recommendation Letter from immediate superior. Incomplete packets will not be accepted. The board will evaluate candidates based on leadership potential, job performance, military education, and physical fitness. Results will be announced by September 30, 2024.",
-  "author": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  },
-  "authorName": "LTC Roberto Mendoza (Battalion Executive Officer)",
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
   "priority": "high",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-08-15T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
   "expiryDate": {
-    "$date": "2024-08-31T00:00:00.000Z"
+    "$date": "2025-06-10T00:00:00.000Z"
   },
   "attachmentUrls": [],
-  "viewCount": 211,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-08-15T14:20:11.786Z"
+    "$date": "2025-06-08T06:09:12.114Z"
   },
   "updatedAt": {
-    "$date": "2024-08-15T14:20:11.786Z"
+    "$date": "2025-06-08T06:09:12.114Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "680a845f9e771459635e347d"
+    "$oid": "68452916329892b6fec15152"
   },
-  "title": "SCHEDULE: Annual Marksmanship Training and Qualification",
-  "content": "The 301st RRIBN will conduct its Annual Marksmanship Training and Qualification at the Regional Firing Range on October 5-7, 2024. All personnel are required to attend their assigned day based on company designation: Oct 5 - Alpha Company, Oct 6 - Bravo Company, Oct 7 - Charlie Company and HQ staff. Report time is 0600H. Personnel must bring their assigned firearms, issued ammunition, eye and ear protection, and military ID. This qualification is mandatory and will be recorded in your military record. Safety briefing will be conducted 30 minutes before the start of firing exercises. Transportation will be provided from the battalion headquarters.",
+  "title": "Night Patrol Adjustment",
+  "content": "Night patrols will now operate in two-hour shifts from 2000H to 0400H. Alpha and Bravo teams to report new rotations to Sgt. Mendoza before 1200H today.\n\n",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "Capt. Ronaldo Magsaysay (Battalion Training Officer)",
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
   "priority": "medium",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-09-10T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
   "expiryDate": {
-    "$date": "2024-10-08T00:00:00.000Z"
+    "$date": "2025-06-17T00:00:00.000Z"
   },
   "attachmentUrls": [],
-  "viewCount": 156,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-09-10T11:15:00.786Z"
+    "$date": "2025-06-08T06:09:26.777Z"
   },
   "updatedAt": {
-    "$date": "2024-09-10T11:15:00.786Z"
+    "$date": "2025-06-08T06:09:26.777Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "680a845f9e771459635e348e"
+    "$oid": "68452924329892b6fec15157"
   },
-  "title": "CHANGE IN POLICY: New Standard Operating Procedure for Leave Requests",
-  "content": "Effective October 1, 2024, a new Standard Operating Procedure (SOP) for leave requests will be implemented across the 301st RRIBN. All leave requests must be submitted at least 14 days (previously 7 days) in advance through the battalion management system. Emergency leave requests will continue to follow the existing protocol. Company commanders will have 3 working days to approve or deny requests, after which they will be escalated to the Battalion S1. Additionally, personnel are now required to complete all pending tasks and properly endorse ongoing responsibilities before proceeding on leave. The complete SOP document is available at the S1 office and has been distributed to all company headquarters.",
+  "title": "Medical Readiness Check",
+  "content": "All personnel are required to complete their annual physical and mental health evaluation by 06/09/2025. Report to Medbay in alphabetical order per your last name.",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "Col. Juan Santos (Battalion Commander)",
+  "authorName": "Gerimiah Almero (Staff)",
+  "status": "published",
+  "priority": "urgent",
+  "targetCompanies": null,
+  "targetRoles": null,
+  "publishDate": {
+    "$date": "2025-06-08T00:00:00.000Z"
+  },
+  "expiryDate": {
+    "$date": "2025-06-10T00:00:00.000Z"
+  },
+  "attachmentUrls": [],
+  "viewCount": 0,
+  "createdAt": {
+    "$date": "2025-06-08T06:09:40.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-08T06:09:40.994Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452933329892b6fec1515b"
+  },
+  "title": "Security Protocol Update",
+  "content": "Effective immediately, all ID badge scans will now require secondary biometric verification. Failure to comply will result in denied access and disciplinary action.",
+  "author": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
   "priority": "high",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-09-15T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
   "expiryDate": {
-    "$date": "2024-10-15T00:00:00.000Z"
+    "$date": "2025-06-11T00:00:00.000Z"
   },
   "attachmentUrls": [],
-  "viewCount": 230,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-09-15T08:45:11.786Z"
+    "$date": "2025-06-08T06:09:55.220Z"
   },
   "updatedAt": {
-    "$date": "2024-09-15T08:45:11.786Z"
+    "$date": "2025-06-08T06:09:55.220Z"
   },
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "680a845f9e771459635e349f"
+    "$oid": "68452a0e329892b6fec15166"
   },
-  "title": "301st RRIBN Anniversary Celebration - Save the Date",
-  "content": "The 301st Ready Reserve Infantry Battalion will celebrate its 15th Founding Anniversary on November 15, 2024. A formal ceremony will be held at the Battalion Headquarters starting at 0900H followed by a fellowship lunch. All current and former members of the battalion are invited to attend. The event will include an awards ceremony recognizing outstanding personnel, a static display of equipment, and cultural presentations. Attendance is mandatory for all active personnel. Retirees and former members wishing to attend should confirm their participation with the Anniversary Committee not later than November 5, 2024. Military attire is required (Class A uniform for active personnel).",
+  "title": "Morale Event: “Unit Resilience Day”",
+  "content": "On 06/10/2025, we will conduct a morale-building event starting at 1500H in the rec zone. Attendance is encouraged but optional. Refreshments will be provided.",
   "author": {
     "$oid": "67f89d274ba8bbe8d094b0be"
   },
-  "authorName": "Maj. Carlos Reyes (Anniversary Committee Chair)",
+  "authorName": "Gerimiah Almero (Staff)",
   "status": "published",
-  "priority": "medium",
+  "priority": "low",
   "targetCompanies": null,
   "targetRoles": null,
   "publishDate": {
-    "$date": "2024-10-01T00:00:00.000Z"
+    "$date": "2025-06-08T00:00:00.000Z"
   },
   "expiryDate": {
-    "$date": "2024-11-16T00:00:00.000Z"
+    "$date": "2025-06-10T00:00:00.000Z"
   },
   "attachmentUrls": [],
-  "viewCount": 122,
+  "viewCount": 0,
   "createdAt": {
-    "$date": "2024-10-01T09:30:11.786Z"
+    "$date": "2025-06-08T06:13:34.979Z"
   },
   "updatedAt": {
-    "$date": "2024-10-01T09:30:11.786Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "680a845f9e771459635e350a"
-  },
-  "title": "MEMORANDUM: Updated Contact Information Requirement",
-  "content": "All personnel of the 301st RRIBN are directed to update their contact information in the personnel database immediately. Recent emergency mobilization exercises revealed that many contact details are outdated, hampering rapid deployment capability. Required information includes: primary and secondary phone numbers, current residential address, emergency contact person details, and active email address. Updates must be submitted through your Company Admin Officer no later than October 30, 2024. Personnel who fail to update their information may face administrative sanctions. This update is crucial for ensuring the battalion's operational readiness and emergency response capabilities.",
-  "author": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  },
-  "authorName": "1Lt. Pedro Garcia (Battalion Adjutant)",
-  "status": "published",
-  "priority": "high",
-  "targetCompanies": null,
-  "targetRoles": null,
-  "publishDate": {
-    "$date": "2024-10-10T00:00:00.000Z"
-  },
-  "expiryDate": {
-    "$date": "2024-10-31T00:00:00.000Z"
-  },
-  "attachmentUrls": [],
-  "viewCount": 175,
-  "createdAt": {
-    "$date": "2024-10-10T14:20:11.786Z"
-  },
-  "updatedAt": {
-    "$date": "2024-10-10T14:20:11.786Z"
+    "$date": "2025-06-08T06:13:34.979Z"
   },
   "__v": 0
 }]

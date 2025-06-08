@@ -19562,4 +19562,1334 @@
   "ipAddress": "::1",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68440a929eadcbf4cf56aa47"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T09:46:58.621Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68440ccc9eadcbf4cf56aa85"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T09:56:28.036Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68440f15ecb8e92e14d7f0aa"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T10:06:13.698Z"
+  },
+  "userId": {
+    "$oid": "67f011f547a45741ecca05d9"
+  },
+  "userName": "Super Director",
+  "userRole": "director",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68440f25ecb8e92e14d7f0ec"
+  },
+  "timestamp": {
+    "$date": "2025-06-07T10:06:29.297Z"
+  },
+  "userId": "67f011f547a45741ecca05d9",
+  "userName": "Super Director",
+  "userRole": "director",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f011f547a45741ecca05d9",
+  "details": "Colonel Super Director (Headquarters) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684526ff329892b6fec1508d"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:00:31.250Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452dd7329892b6fec1517c"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:29:43.906Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452e1e329892b6fec15184"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:30:54.070Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452e1e329892b6fec15182"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452e1e329892b6fec15189"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:30:54.990Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68452e1e329892b6fec15182",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452e21329892b6fec1518c"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:30:57.995Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452ec6329892b6fec15197"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:33:42.008Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452ec6329892b6fec15195"
+  },
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452ec6329892b6fec1519c"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:33:42.066Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68452ec6329892b6fec15195",
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452ec8329892b6fec1519f"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:33:44.671Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452f4b329892b6fec151b2"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:35:55.977Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452f4b329892b6fec151b0"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452f4c329892b6fec151b7"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:35:56.817Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68452f4b329892b6fec151b0",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452f50329892b6fec151bb"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:36:00.171Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fad329892b6fec151c6"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:37:33.082Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fda329892b6fec151cf"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:18.478Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452fda329892b6fec151cd"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fda329892b6fec151d4"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:18.523Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68452fda329892b6fec151cd",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fdc329892b6fec151d7"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:20.075Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fe5329892b6fec151e7"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:29.107Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "register",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452fda329892b6fec151cd"
+  },
+  "details": "registered for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fe8329892b6fec151ee"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:32.130Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68452fee329892b6fec151f9"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:38:38.604Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "cancel",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452fda329892b6fec151cd"
+  },
+  "details": "cancelled registration for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453069329892b6fec1520e"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:40:41.343Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684531c7329892b6fec1521f"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:46:31.340Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684531ce329892b6fec1522b"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:46:38.783Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "register",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68452fda329892b6fec151cd"
+  },
+  "details": "registered for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684531dc329892b6fec15232"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T06:46:52.566Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453af3329892b6fec15262"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:25:39.457Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68453af3329892b6fec15260"
+  },
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453af3329892b6fec15268"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:25:39.508Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68453af3329892b6fec15260",
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453af7329892b6fec1526b"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:25:43.815Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453dfc329892b6fec15282"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:38:36.332Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68453ecb329892b6fec152a5"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:42:03.897Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684540e4329892b6fec152bc"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:51:00.291Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684542ed329892b6fec152e0"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T07:59:41.031Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454308329892b6fec152e8"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:00:08.414Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454459329892b6fec15304"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:05:45.660Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454578329892b6fec1531f"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:10:32.634Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454579329892b6fec15324"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:10:33.537Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68454578329892b6fec1531d",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684547f8329892b6fec15339"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:21:12.215Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "register",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "registered for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684547fb329892b6fec15340"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:21:15.295Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "cancel",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "cancelled registration for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454934329892b6fec1534d"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:26:28.809Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "register",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "registered for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454943329892b6fec15354"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:26:43.733Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "cancel",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "cancelled registration for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454944329892b6fec1535d"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:26:44.417Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "register",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454578329892b6fec1531d"
+  },
+  "details": "registered for training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684549cb329892b6fec15363"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:28:59.181Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454a00329892b6fec1536b"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:29:52.002Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "684549ff329892b6fec15369"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454a00329892b6fec15370"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:29:52.062Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "684549ff329892b6fec15369",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454a10329892b6fec15374"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:30:08.671Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454a55329892b6fec1537e"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:31:17.005Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68454a55329892b6fec1537c"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454a55329892b6fec15383"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:31:17.064Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68454a55329892b6fec1537c",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68454b3e329892b6fec1538b"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:35:10.635Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68455047329892b6fec153a7"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:56:39.752Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845506c329892b6fec153b0"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:57:16.816Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "6845506c329892b6fec153ae"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845506c329892b6fec153b5"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:57:16.885Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "6845506c329892b6fec153ae",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684550dd329892b6fec153c0"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T08:59:09.735Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68455110329892b6fec153c9"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:00:00.468Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "68455110329892b6fec153c7"
+  },
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68455110329892b6fec153ce"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:00:00.556Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "68455110329892b6fec153c7",
+  "details": "Created new training: Cyber Warfare & Digital Defense",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68455337329892b6fec153d9"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:09:11.081Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68455480329892b6fec153e6"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:14:40.563Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684554a7329892b6fec15415"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:15:19.789Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684555b0329892b6fec15425"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:19:44.354Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684555d6329892b6fec1542a"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T09:20:22.383Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68456fa0f194d5f12fa3bc76"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:10:24.640Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68457393607cd53d5928166a"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:27:15.750Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845751297ac6d37908a0426"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:33:38.234Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845771f97ac6d37908a043b"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:42:23.771Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845772797ac6d37908a0469"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:42:31.156Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845789397ac6d37908a047c"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:48:35.057Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684578d997ac6d37908a0484"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:49:45.343Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "684578d997ac6d37908a0482"
+  },
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684578d997ac6d37908a0489"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:49:45.996Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "create",
+  "resource": "training",
+  "resourceId": "684578d997ac6d37908a0482",
+  "details": "Created new training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845794c97ac6d37908a0494"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:51:40.806Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "update",
+  "resource": "training",
+  "resourceId": {
+    "$oid": "684578d997ac6d37908a0482"
+  },
+  "details": "Updated training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845794d97ac6d37908a0499"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T11:51:41.500Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "update",
+  "resource": "training",
+  "resourceId": "684578d997ac6d37908a0482",
+  "details": "Updated training: Tactical Combat Training 101",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845858e97ac6d37908a0504"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T12:43:58.130Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68458a9797ac6d37908a053e"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T13:05:27.908Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68458d263d5784629785fb77"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T13:16:22.074Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
 }]

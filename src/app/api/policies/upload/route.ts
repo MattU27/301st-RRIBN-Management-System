@@ -3,8 +3,8 @@ import { validateToken } from '@/lib/auth';
 import Policy from '@/models/Policy';
 import { connectToDatabase } from '@/lib/mongodb';
 import mongoose from 'mongoose';
-import fs from 'fs';
-import path from 'path';
+import { ObjectId } from 'mongodb';
+import { storeFileInGridFS } from '@/lib/gridfs';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60; // Set maximum execution time to 60 seconds
@@ -63,20 +63,20 @@ export async function POST(request: NextRequest) {
     // Generate a unique filename for the uploaded file
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExtension}`;
-    const documentUrl = `/uploads/policies/${fileName}`;
     
-    // Create the uploads directory if it doesn't exist
-    const publicDir = path.join(process.cwd(), 'public');
-    const uploadsDir = path.join(publicDir, 'uploads', 'policies');
-    
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-    
-    // Save the file to the filesystem
-    const filePath = path.join(uploadsDir, fileName);
+    // Convert the file to a buffer
     const fileBuffer = Buffer.from(await file.arrayBuffer());
-    fs.writeFileSync(filePath, fileBuffer);
+    
+    // Store the file in GridFS
+    const fileId = await storeFileInGridFS(fileBuffer, fileName, {
+      contentType: 'application/pdf',
+      metadata: {
+        title,
+        category,
+        uploadedBy: decoded.userId,
+        originalFilename: file.name
+      }
+    });
     
     // Parse dates
     const parsedEffectiveDate = new Date(effectiveDate);
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       status: 'published', // Default to published
       effectiveDate: parsedEffectiveDate,
       expirationDate: parsedExpirationDate,
-      documentUrl,
+      fileId: new ObjectId(fileId),
       createdBy: new mongoose.Types.ObjectId(decoded.userId)
     });
     

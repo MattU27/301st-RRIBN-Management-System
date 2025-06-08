@@ -31,6 +31,8 @@ export interface IPolicy extends Document {
   status: PolicyStatus;
   effectiveDate: Date;
   expirationDate?: Date;
+  documentUrl?: string;
+  fileId?: mongoose.Types.ObjectId; // Store GridFS file ID
   createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -75,6 +77,14 @@ const PolicySchema = new Schema<IPolicy>(
     },
     expirationDate: {
       type: Date
+    },
+    documentUrl: {
+      type: String,
+      trim: true
+    },
+    fileId: {
+      type: Schema.Types.ObjectId,
+      ref: 'fs.files'
     },
     createdBy: {
       type: Schema.Types.ObjectId,
