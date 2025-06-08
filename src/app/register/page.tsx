@@ -247,6 +247,10 @@ export default function RegisterPage() {
                   Your registration has been submitted successfully. Your account is 
                   now pending approval from a super administrator.
                 </p>
+                <p className="text-gray-600 text-center mb-8">
+                  Confirmation emails have been sent to your registered email address{formData.alternativeEmail ? " and your alternative email address" : ""}. 
+                  Please check your inbox for further instructions.
+                </p>
                 <div className="flex justify-center">
                   <Link 
                     href="/login"

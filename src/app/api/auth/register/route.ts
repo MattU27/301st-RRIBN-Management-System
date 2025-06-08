@@ -3,6 +3,7 @@ import { dbConnect } from '@/utils/dbConnect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import { sendRegistrationConfirmationEmail } from '@/services/emailService';
 
 export async function POST(request: Request) {
   try {
@@ -78,6 +79,22 @@ export async function POST(request: Request) {
             
             if (!updateResult.acknowledged) {
               throw new Error('Failed to update user account');
+            }
+            
+            // Send confirmation emails
+            await sendRegistrationConfirmationEmail(
+              data.email.toLowerCase(),
+              data.firstName,
+              data.lastName
+            );
+            
+            // Send to alternative email if provided
+            if (data.alternativeEmail) {
+              await sendRegistrationConfirmationEmail(
+                data.alternativeEmail.toLowerCase(),
+                data.firstName,
+                data.lastName
+              );
             }
             
             // Return success response
@@ -190,10 +207,26 @@ export async function POST(request: Request) {
         throw new Error('Failed to insert user into database');
       }
       
+      // Send confirmation emails
+      await sendRegistrationConfirmationEmail(
+        userData.email,
+        userData.firstName,
+        userData.lastName
+      );
+      
+      // Send to alternative email if provided
+      if (userData.alternativeEmail) {
+        await sendRegistrationConfirmationEmail(
+          userData.alternativeEmail,
+          userData.firstName,
+          userData.lastName
+        );
+      }
+      
       // Return success response
       return NextResponse.json({
         success: true,
-        message: 'Registration successful',
+        message: 'Registration successful. Confirmation emails have been sent.',
         data: {
           email: userData.email,
           role: userData.role,

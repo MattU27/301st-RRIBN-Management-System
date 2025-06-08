@@ -348,4 +348,150 @@ export async function sendPasswordResetEmail(
     subject: 'Password Reset Request - 301st READY RESERVE',
     html,
   });
+}
+
+/**
+ * Send a registration confirmation email
+ */
+export async function sendRegistrationConfirmationEmail(
+  email: string,
+  firstName: string,
+  lastName: string
+): Promise<boolean> {
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Registration Confirmation</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body {
+          font-family: 'Roboto', Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          margin: 0;
+          padding: 0;
+          background-color: #f5f5f5;
+        }
+        
+        .email-container {
+          max-width: 600px;
+          margin: 0 auto;
+          background-color: #ffffff;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header {
+          background-color: #092140;
+          color: white;
+          padding: 24px 0;
+          text-align: center;
+          border-bottom: 4px solid #D1B000;
+        }
+        
+        .header h1 {
+          margin: 0;
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: 1px;
+        }
+        
+        .header p {
+          margin: 5px 0 0;
+          color: #D1B000;
+          font-weight: 500;
+          font-size: 16px;
+        }
+        
+        .content {
+          padding: 30px 40px;
+          background-color: #ffffff;
+        }
+        
+        .title {
+          color: #092140;
+          font-size: 22px;
+          margin-top: 0;
+          margin-bottom: 20px;
+          text-align: center;
+          font-weight: 600;
+        }
+        
+        .message p {
+          margin-bottom: 16px;
+          color: #444;
+          font-size: 16px;
+        }
+        
+        .status-badge {
+          display: inline-block;
+          background-color: #FFC107;
+          color: #333;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-weight: 600;
+          font-size: 14px;
+          margin-bottom: 20px;
+        }
+        
+        .footer {
+          padding: 20px;
+          text-align: center;
+          font-size: 14px;
+          color: #666;
+          background-color: #f5f5f5;
+          border-top: 1px solid #eeeeee;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="email-container">
+        <div class="header">
+          <h1>301st READY RESERVE</h1>
+          <p>INFANTRY BATTALION</p>
+        </div>
+        
+        <div class="content">
+          <h2 class="title">Registration Confirmation</h2>
+          
+          <div style="text-align: center;">
+            <span class="status-badge">PENDING APPROVAL</span>
+          </div>
+          
+          <div class="message">
+            <p>Dear ${firstName} ${lastName},</p>
+            
+            <p>Thank you for registering with the 301st Ready Reserve Infantry Battalion Personnel Management System. Your account has been created and is currently pending approval from an administrator.</p>
+            
+            <p>Once your account is approved, you will receive another email notification with instructions on how to access the system.</p>
+            
+            <p>If you have any questions or need further assistance, please contact your unit administrator.</p>
+            
+            <p>
+              Regards,<br>
+              301st Ready Reserve Infantry Battalion<br>
+              Personnel Management Team
+            </p>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <p>This is an automated message. Please do not reply to this email.</p>
+          <p>&copy; ${new Date().getFullYear()} Armed Forces of the Philippines</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to: email,
+    subject: '301st RRIBN - Registration Confirmation',
+    html
+  });
 } 
