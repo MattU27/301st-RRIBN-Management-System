@@ -19,12 +19,19 @@ services:
           property: host
       # Add other environment variables your app needs here
 
-    # Optional: Connect to a MongoDB database
-    # If you decide to use Render's database service
-    # - key: MONGODB_URI
-    #   fromDatabase:
-    #     name: afp-mongodb
-    #     property: connectionString
+  # Flutter mobile app as a web app
+  - type: web
+    name: 301st-rribn-mobile-app
+    env: static
+    buildCommand: bash ./flutter-build.sh
+    staticPublishPath: ./armed_forces_app/build/web
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: FLUTTER_BASE_HREF
+        value: /
 
 # Uncomment if you want to use Render's database service
 # databases:
