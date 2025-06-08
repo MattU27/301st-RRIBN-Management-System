@@ -12,7 +12,7 @@ const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT || '587');
 const EMAIL_USER = process.env.EMAIL_USER || 'your-email@example.com';
 const EMAIL_PASS = process.env.EMAIL_PASS || 'your-password';
-const EMAIL_FROM = process.env.EMAIL_FROM || 'AFP Password Recovery <noreply@afp.mil.ph>';
+const EMAIL_FROM = process.env.EMAIL_FROM || '301st RRIBN <noreply@afp.mil.ph>';
 
 // Flag to indicate if we're using a properly configured email service
 const hasValidEmailConfig = process.env.EMAIL_HOST && 
