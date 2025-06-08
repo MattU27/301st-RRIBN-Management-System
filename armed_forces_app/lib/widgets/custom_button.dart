@@ -48,6 +48,7 @@ class CustomButton extends StatelessWidget {
       backgroundColor: buttonBackgroundColor,
       foregroundColor: buttonTextColor,
       elevation: isOutlined ? 0 : elevation,
+      shadowColor: AppTheme.primaryColor.withOpacity(0.3),
       padding: padding ?? const EdgeInsets.symmetric(
         vertical: 16.0,
         horizontal: 24.0,
@@ -59,6 +60,14 @@ class CustomButton extends StatelessWidget {
             : BorderSide.none,
       ),
       minimumSize: Size(width ?? double.infinity, height ?? 52),
+    ).copyWith(
+      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed))
+            return buttonTextColor.withOpacity(0.1);
+          return null;
+        },
+      ),
     );
 
     if (isLoading) {
@@ -101,6 +110,7 @@ class CustomButton extends StatelessWidget {
           fontWeight: FontWeight.bold,
           letterSpacing: 0.5,
           color: buttonTextColor,
+          fontFamily: 'Poppins',
         ),
       ),
     );

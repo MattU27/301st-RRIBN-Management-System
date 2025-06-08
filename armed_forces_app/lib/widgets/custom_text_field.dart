@@ -68,48 +68,49 @@ class _CustomTextFieldState extends State<CustomTextField> {
       style: const TextStyle(
         fontSize: 16,
         color: AppTheme.textPrimaryColor,
+        fontFamily: 'Poppins',
       ),
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,
-        prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+        prefixIcon: widget.prefixIcon != null 
+            ? Icon(
+                widget.prefixIcon,
+                color: Colors.grey.shade600,
+                size: 22,
+              ) 
+            : null,
         suffixIcon: widget.suffix,
         filled: true,
-        fillColor: Colors.white.withOpacity(0.96),
+        fillColor: const Color(0xFFF2F5F9),
         contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(
           horizontal: AppConstants.defaultPadding,
-          vertical: AppConstants.smallPadding,
+          vertical: 16.0,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
-          borderSide: BorderSide(
-            color: Colors.grey.shade300,
-            width: 1.0,
-          ),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
-          borderSide: BorderSide(
-            color: Colors.grey.shade300,
-            width: 1.0,
-          ),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
+          borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppTheme.primaryColor,
             width: 2.0,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
+          borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppTheme.errorColor,
             width: 1.0,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
+          borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: AppTheme.errorColor,
             width: 2.0,
@@ -117,15 +118,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         labelStyle: const TextStyle(
           color: AppTheme.textSecondaryColor,
-          fontSize: 16,
+          fontSize: 15,
+          fontFamily: 'Poppins',
         ),
         hintStyle: TextStyle(
           color: AppTheme.textSecondaryColor.withOpacity(0.6),
           fontSize: 14,
+          fontFamily: 'Poppins',
         ),
         errorStyle: const TextStyle(
           color: AppTheme.errorColor,
           fontSize: 12,
+          fontFamily: 'Poppins',
         ),
       ),
     );

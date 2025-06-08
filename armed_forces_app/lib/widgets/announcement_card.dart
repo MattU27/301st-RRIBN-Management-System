@@ -20,13 +20,40 @@ class AnnouncementCard extends StatelessWidget {
     final dateFormat = DateFormat('MMM d, yyyy');
     final formattedDate = dateFormat.format(announcement.date);
     
+    // Determine colors based on priority
+    Color borderColor = Colors.transparent;
+    Color badgeColor = AppTheme.accentColor;
+    
+    if (announcement.priority != null) {
+      switch(announcement.priority) {
+        case 'urgent':
+          borderColor = Colors.red;
+          badgeColor = Colors.red;
+          break;
+        case 'high':
+          borderColor = Colors.orange;
+          badgeColor = Colors.orange;
+          break;
+        case 'medium':
+          borderColor = Colors.blue;
+          badgeColor = Colors.blue;
+          break;
+        default:
+          borderColor = announcement.isImportant ? AppTheme.accentColor : Colors.transparent;
+          badgeColor = AppTheme.accentColor;
+      }
+    } else if (announcement.isImportant) {
+      borderColor = AppTheme.accentColor;
+      badgeColor = AppTheme.accentColor;
+    }
+    
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: announcement.isImportant
-            ? BorderSide(color: AppTheme.accentColor, width: 1.5)
+        side: (announcement.isImportant || announcement.priority != null)
+            ? BorderSide(color: borderColor, width: 1.5)
             : BorderSide.none,
       ),
       child: InkWell(
@@ -79,10 +106,10 @@ class AnnouncementCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (announcement.isImportant)
+                      if (announcement.isImportant || announcement.priority != null)
                         Icon(
                           Icons.priority_high,
-                          color: AppTheme.accentColor,
+                          color: badgeColor,
                           size: 20,
                         ),
                     ],

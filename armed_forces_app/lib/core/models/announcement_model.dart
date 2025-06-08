@@ -4,6 +4,7 @@ class Announcement {
   final String content;
   final DateTime date;
   final bool isImportant;
+  final String? priority;
   final String? imageUrl;
   final String? documentUrl;
   final String? createdBy;
@@ -18,6 +19,7 @@ class Announcement {
     required this.content,
     required this.date,
     this.isImportant = false,
+    this.priority,
     this.imageUrl,
     this.documentUrl,
     this.createdBy,
@@ -62,6 +64,8 @@ class Announcement {
     try {
       if (json['date'] is DateTime) {
         date = json['date'] as DateTime;
+      } else if (json['publishDate'] != null) {
+        date = DateTime.parse(json['publishDate'].toString());
       } else if (json['date'] != null) {
         date = DateTime.parse(json['date'].toString());
       } else {
@@ -71,10 +75,28 @@ class Announcement {
       date = DateTime.now();
     }
     
-    // Handle boolean with safe default
+    // Handle priority field first
+    String? priority;
+    try {
+      priority = json['priority'] as String?;
+    } catch (e) {
+      priority = null;
+    }
+    
+    // Handle boolean with safe default and use priority for determining importance
     bool isImportant;
     try {
-      isImportant = json['isImportant'] as bool? ?? false;
+      // Check if directly marked as important
+      bool directlyMarked = json['isImportant'] as bool? ?? false;
+      
+      // Check if marked as urgent or high priority
+      bool urgentPriority = false;
+      if (priority != null) {
+        urgentPriority = priority.toLowerCase() == 'urgent' || priority.toLowerCase() == 'high';
+      }
+      
+      // Set as important if either condition is true
+      isImportant = directlyMarked || urgentPriority;
     } catch (e) {
       isImportant = false;
     }
@@ -84,6 +106,8 @@ class Announcement {
     try {
       if (json['createdBy'] != null) {
         createdBy = json['createdBy'].toString();
+      } else if (json['author'] != null) {
+        createdBy = json['author'].toString();
       }
     } catch (e) {
       createdBy = null;
@@ -147,6 +171,7 @@ class Announcement {
       content: content,
       date: date,
       isImportant: isImportant,
+      priority: priority,
       imageUrl: imageUrl,
       documentUrl: documentUrl,
       createdBy: createdBy,
@@ -164,6 +189,7 @@ class Announcement {
       'content': content,
       'date': date.toIso8601String(),
       'isImportant': isImportant,
+      'priority': priority,
       'imageUrl': imageUrl,
       'documentUrl': documentUrl,
       'createdBy': createdBy,

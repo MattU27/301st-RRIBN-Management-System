@@ -221,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           elevation: 0,
           height: 60,
           animationDuration: const Duration(milliseconds: 400),
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: [
             NavigationDestination(
               icon: const Icon(Icons.home_outlined),

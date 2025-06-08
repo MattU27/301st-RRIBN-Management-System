@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Title
                 Text(
                   'Account Not Verified',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.textPrimaryColor,
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Your account requires approval from an administrator before you can log in.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16,
                     color: AppTheme.textPrimaryColor,
                   ),
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'What to do next:',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                           color: AppTheme.textPrimaryColor,
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 8),
                       Text(
                         '1. You will receive an email notification once your account has been approved.',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 14,
                           color: AppTheme.textSecondaryColor,
                         ),
@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 4),
                       Text(
                         '2. If you don\'t receive an approval within 24 hours, please contact your unit administrator.',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 14,
                           color: AppTheme.textSecondaryColor,
                         ),
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'OK, I Understand',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -238,37 +238,31 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               // Top Hero Section
               Container(
-                height: size.height * 0.3,
-                decoration: const BoxDecoration(
+                height: size.height * 0.28,
+                decoration: BoxDecoration(
                   color: AppTheme.primaryColor,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.primaryColor.withOpacity(0.2),
+                      blurRadius: 15,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // Background pattern
-                    Positioned.fill(
-                      child: Opacity(
-                        opacity: 0.1,
-                        child: Image.asset(
-                          'assets/images/301st_logo.png',
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      ),
-                    ),
                     // Title and logo
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 80,
-                          height: 80,
+                          width: 90,
+                          height: 90,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
@@ -282,16 +276,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Center(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(40), // half of container width
+                              borderRadius: BorderRadius.circular(45), 
                               child: Image.asset(
-                                'assets/images/301st_logo.png',
+                                'assets/images/laang-kawal.png',
                                 width: 70,
                                 height: 70,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Text(
                                     "301st",
-                                    style: GoogleFonts.robotoCondensed(
+                                    style: GoogleFonts.poppins(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       color: AppTheme.primaryColor,
@@ -302,22 +296,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         Text(
                           "301st READY RESERVE INFANTRY BATTALION",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             letterSpacing: 1.2,
                           ),
                         ).animate().fade(duration: 500.ms),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
                         Text(
                           "Personnel Management System",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.poppins(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.8),
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white.withOpacity(0.9),
+                            letterSpacing: 0.5,
                           ),
                         ).animate().fade(delay: 300.ms, duration: 500.ms),
                       ],
@@ -327,8 +323,21 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               
               // Form Section
-              Padding(
-                padding: const EdgeInsets.all(24.0),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                padding: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -337,9 +346,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       // Welcome Text
                       Text(
                         "Welcome Back",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                           fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           color: AppTheme.textPrimaryColor,
                         ),
                       ).animate().fadeIn(duration: 600.ms).slideX(
@@ -351,35 +360,39 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 8),
                       Text(
                         "Sign in to continue",
-                        style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          color: AppTheme.textSecondaryColor,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey.shade600,
                         ),
                       ).animate().fadeIn(delay: 200.ms, duration: 600.ms),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
                       
                       // Error message if any
                       if (_errorMessage != null)
                         Container(
-                          padding: const EdgeInsets.all(AppConstants.smallPadding),
-                          margin: const EdgeInsets.only(bottom: AppConstants.defaultPadding),
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
-                            color: AppTheme.errorColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(AppConstants.buttonRadius),
-                            border: Border.all(color: AppTheme.errorColor),
+                            color: AppTheme.errorColor.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: AppTheme.errorColor.withOpacity(0.3)),
                           ),
                           child: Row(
                             children: [
                               const Icon(
                                 Icons.error_outline,
                                 color: AppTheme.errorColor,
-                                size: 20,
+                                size: 22,
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   _errorMessage!,
-                                  style: const TextStyle(color: AppTheme.errorColor),
+                                  style: GoogleFonts.poppins(
+                                    color: AppTheme.errorColor,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             ],
@@ -403,7 +416,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       
                       // Password field
                       CustomTextField(
@@ -414,7 +427,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         suffix: IconButton(
                           icon: Icon(
                             _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                            color: AppTheme.textSecondaryColor,
+                            color: Colors.grey.shade600,
+                            size: 22,
                           ),
                           onPressed: () {
                             setState(() {
@@ -430,7 +444,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ).animate().fadeIn(delay: 600.ms, duration: 600.ms),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 16),
                       
                       // Forgot password
                       Align(
@@ -444,34 +458,46 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           },
-                          child: const Text(
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppTheme.primaryColor,
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          ),
+                          child: Text(
                             'Forgot Password?',
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               color: AppTheme.primaryColor,
                               fontWeight: FontWeight.w500,
+                              fontSize: 14,
                             ),
                           ),
                         ),
                       ).animate().fadeIn(delay: 800.ms, duration: 600.ms),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
                       
                       // Login button
                       CustomButton(
                         text: 'Login',
                         isLoading: _isLoading,
                         onPressed: _login,
+                        elevation: 4,
                       ).animate().fadeIn(delay: 1000.ms, duration: 600.ms).scale(
                         begin: const Offset(0.95, 0.95),
                         end: const Offset(1, 1),
                         duration: 800.ms,
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
                       
                       // Register link
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Don\'t have an account?'),
+                          Text(
+                            'Don\'t have an account?',
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey.shade700,
+                              fontSize: 14,
+                            ),
+                          ),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -481,11 +507,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             },
-                            child: const Text(
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppTheme.primaryColor,
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            ),
+                            child: Text(
                               'Register',
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 color: AppTheme.primaryColor,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
                               ),
                             ),
                           ),

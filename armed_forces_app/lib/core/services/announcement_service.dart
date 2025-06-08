@@ -113,6 +113,7 @@ class AnnouncementService extends ChangeNotifier {
         'content': announcement.content,
         'date': announcement.date.toIso8601String(),
         'isImportant': announcement.isImportant,
+        'priority': announcement.priority,
         'targetType': announcement.targetType,
         'targetId': announcement.targetId,
         'createdBy': announcement.createdBy,
@@ -151,6 +152,7 @@ class AnnouncementService extends ChangeNotifier {
             'content': announcement.content,
             'date': announcement.date.toIso8601String(),
             'isImportant': announcement.isImportant,
+            'priority': announcement.priority,
             'targetType': announcement.targetType,
             'targetId': announcement.targetId,
             'createdBy': announcement.createdBy,
@@ -287,6 +289,9 @@ class AnnouncementService extends ChangeNotifier {
       final imageUrl = doc['imageUrl'] as String?;
       final documentUrl = doc['documentUrl'] as String?;
       
+      // Get priority field from MongoDB
+      final priority = doc['priority'] as String?;
+      
       // Handle createdBy, could be ObjectId or String
       String? createdBy;
       if (doc['createdBy'] != null) {
@@ -331,6 +336,7 @@ class AnnouncementService extends ChangeNotifier {
         content: content,
         date: date,
         isImportant: isImportant,
+        priority: priority,
         imageUrl: imageUrl,
         documentUrl: documentUrl,
         createdBy: createdBy,
@@ -350,6 +356,7 @@ class AnnouncementService extends ChangeNotifier {
         title: 'Error Loading Announcement',
         content: 'There was an error loading this announcement.',
         date: DateTime.now(),
+        priority: 'medium', // Default priority for error cases
       );
     }
   }
@@ -363,6 +370,7 @@ class AnnouncementService extends ChangeNotifier {
       content: 'The annual training schedule for 2024 has been released. Please check your training tab for details.',
       date: DateTime.now().subtract(const Duration(days: 2)),
       isImportant: true,
+      priority: 'high',
       targetType: 'training',
       targetId: '1',
     ),
@@ -372,6 +380,7 @@ class AnnouncementService extends ChangeNotifier {
       content: 'All personnel must upload updated medical certificates by the end of the month.',
       date: DateTime.now().subtract(const Duration(days: 5)),
       isImportant: false,
+      priority: 'medium',
       targetType: 'document',
       targetId: 'medical_certificates',
     ),
@@ -381,6 +390,7 @@ class AnnouncementService extends ChangeNotifier {
       content: 'The system will be undergoing maintenance this weekend. Some features may be unavailable.',
       date: DateTime.now().subtract(const Duration(days: 7)),
       isImportant: false,
+      priority: 'low',
       targetType: 'notification',
     ),
   ];
