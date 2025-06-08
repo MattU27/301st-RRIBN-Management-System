@@ -17,11 +17,16 @@ class TrainingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat('MMM d, yyyy');
-    final timeFormat = DateFormat('h:mm a');
+    final timeFormat = DateFormat('h:mma');
     
-    final startDate = dateFormat.format(training.startDate);
-    final endDate = dateFormat.format(training.endDate);
-    final startTime = timeFormat.format(training.startDate);
+    // Convert to Philippine time (UTC+8)
+    final phtOffset = const Duration(hours: 8);
+    final phtStart = training.startDate.toUtc().add(phtOffset);
+    final phtEnd = training.endDate.toUtc().add(phtOffset);
+    
+    final startDate = dateFormat.format(phtStart);
+    final endDate = dateFormat.format(phtEnd);
+    final startTime = timeFormat.format(phtStart);
     
     // Determine the status color
     Color statusColor;

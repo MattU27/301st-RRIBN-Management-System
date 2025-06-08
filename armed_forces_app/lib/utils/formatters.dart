@@ -3,37 +3,54 @@ import 'dart:math';
 
 /// Utility class containing methods for formatting various data types
 class Formatters {
+  /// Convert a DateTime to Philippine Time (UTC+8)
+  static DateTime toPHT(DateTime dateTime) {
+    // Convert to UTC first to ensure consistent base, then add +8 hours
+    return dateTime.toUtc().add(const Duration(hours: 8));
+  }
+
   /// Format a date range into a readable string
   static String formatDateRange(DateTime start, DateTime end) {
     final DateFormat dateFormat = DateFormat('MMM d, yyyy');
+    final DateFormat timeFormat = DateFormat('h:mma');
     
-    if (start.year == end.year && 
-        start.month == end.month && 
-        start.day == end.day) {
-      return '${dateFormat.format(start)} (1 day)';
+    // Convert to Philippine time (UTC+8)
+    final phtStart = toPHT(start);
+    final phtEnd = toPHT(end);
+    
+    if (phtStart.year == phtEnd.year && 
+        phtStart.month == phtEnd.month && 
+        phtStart.day == phtEnd.day) {
+      return '${dateFormat.format(phtStart)} (${timeFormat.format(phtStart)} - ${timeFormat.format(phtEnd)})';
     } else {
-      final Duration duration = end.difference(start);
+      final Duration duration = phtEnd.difference(phtStart);
       final int days = duration.inDays + 1;
-      return '${dateFormat.format(start)} - ${dateFormat.format(end)} ($days days)';
+      return '${dateFormat.format(phtStart)} ${timeFormat.format(phtStart)} - ${dateFormat.format(phtEnd)} ${timeFormat.format(phtEnd)} ($days days)';
     }
   }
 
   /// Format a date with time into a readable string
   static String formatDateTime(DateTime date) {
-    final DateFormat dateTimeFormat = DateFormat('MMM d, yyyy h:mm a');
-    return dateTimeFormat.format(date);
+    final DateFormat dateTimeFormat = DateFormat('MMM d, yyyy h:mma');
+    // Convert to Philippine time (UTC+8)
+    final phtDate = toPHT(date);
+    return dateTimeFormat.format(phtDate);
   }
 
   /// Format a date into a readable string
   static String formatDate(DateTime date) {
     final DateFormat dateFormat = DateFormat('MMM d, yyyy');
-    return dateFormat.format(date);
+    // Convert to Philippine time (UTC+8)
+    final phtDate = toPHT(date);
+    return dateFormat.format(phtDate);
   }
 
   /// Format a time into a readable string
   static String formatTime(DateTime time) {
-    final DateFormat timeFormat = DateFormat('h:mm a');
-    return timeFormat.format(time);
+    final DateFormat timeFormat = DateFormat('h:mma');
+    // Convert to Philippine time (UTC+8)
+    final phtTime = toPHT(time);
+    return timeFormat.format(phtTime);
   }
 
   /// Format a number as a currency

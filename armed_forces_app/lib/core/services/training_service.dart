@@ -59,10 +59,15 @@ class TrainingService extends ChangeNotifier {
       return null;
     }
     
+    // Filter to only include trainings that are:
+    // 1. Not past their end date
+    // 2. Not marked as completed
     final filtered = allUserTrainings.where((training) => 
       training.endDate.isAfter(now) && 
       training.status.toLowerCase() != 'completed'
     ).toList();
+    
+    print('DEBUG: Returning ${filtered.length} cached trainings for user $cleanUserId');
     
     return filtered;
   }
@@ -267,6 +272,8 @@ class TrainingService extends ChangeNotifier {
           .map((reg) => reg['trainingId'] as mongo.ObjectId)
           .toList();
       
+      print('DEBUG: User is registered for ${trainingIds.length} trainings');
+      
       // Get training details
       final results = await _databaseService.find(
         TRAININGS_COLLECTION,
@@ -277,7 +284,37 @@ class TrainingService extends ChangeNotifier {
         sort: {'startDate': 1},
       );
       
-      final trainings = results.map((doc) => Training.fromMap(doc)).toList();
+      // Convert to Training objects and verify user is in attendees list
+      final trainings = <Training>[];
+      for (final doc in results) {
+        final training = Training.fromMap(doc);
+        
+        // Double-check that the user is actually in the attendees list
+        bool isUserRegistered = false;
+        
+        if (doc.containsKey('attendees') && doc['attendees'] is List) {
+          final attendees = doc['attendees'] as List;
+          for (final attendee in attendees) {
+            if (attendee is Map && 
+                attendee.containsKey('userId') && 
+                attendee['status'] == 'registered') {
+              
+              final attendeeUserId = attendee['userId'];
+              if (attendeeUserId is mongo.ObjectId && 
+                  attendeeUserId.toHexString() == cleanUserId) {
+                isUserRegistered = true;
+                break;
+              }
+            }
+          }
+        }
+        
+        if (isUserRegistered) {
+          trainings.add(training);
+        } else {
+          print('DEBUG: User not found in attendees list for training: ${training.title}');
+        }
+      }
       
       // Filter out past trainings
       final now = DateTime.now();
@@ -298,7 +335,7 @@ class TrainingService extends ChangeNotifier {
       // Store all trainings in cache (both current and past)
       _userTrainings[cleanUserId] = trainings;
       notifyListeners();
-      print('DEBUG: Fetched ${trainings.length} trainings for user: $cleanUserId');
+      print('DEBUG: Fetched ${trainings.length} trainings that user is registered for: $cleanUserId');
       print('DEBUG: ${filteredTrainings.length} are current or upcoming');
       
       return filteredTrainings;
@@ -616,7 +653,49 @@ class TrainingService extends ChangeNotifier {
       final userObjectId = mongo.ObjectId.fromHexString(cleanUserId);
       final trainingObjectId = mongo.ObjectId.fromHexString(cleanTrainingId);
       
-      // First check registrations collection
+      // First check the training's attendees list (most reliable source)
+      final trainingDoc = await _databaseService.findById(
+        TRAININGS_COLLECTION,
+        cleanTrainingId,
+      );
+      
+      if (trainingDoc == null) {
+        print('DEBUG: Training document not found');
+        _registrationStatusCache[cacheKey] = false;
+        _registrationCacheTimestamps[cacheKey] = DateTime.now();
+        return false;
+      }
+      
+      print('DEBUG: Checking training: ${trainingDoc['title']}');
+      
+      // Check if user is in attendees list
+      if (trainingDoc.containsKey('attendees') && trainingDoc['attendees'] is List) {
+        final attendees = trainingDoc['attendees'] as List;
+        print('DEBUG: Number of attendees: ${attendees.length}');
+        
+        // Look for the user in attendees array
+        for (final attendee in attendees) {
+          if (attendee is Map && 
+              attendee.containsKey('userId') && 
+              attendee['status'] == 'registered') {
+            
+            final attendeeUserId = attendee['userId'];
+            
+            if (attendeeUserId is mongo.ObjectId) {
+              final attendeeIdStr = attendeeUserId.toHexString();
+              
+              if (attendeeIdStr == userObjectId.toHexString()) {
+                print('DEBUG: User found in attendees list with status: ${attendee['status']}');
+                _registrationStatusCache[cacheKey] = true;
+                _registrationCacheTimestamps[cacheKey] = DateTime.now();
+                return true;
+              }
+            }
+          }
+        }
+      }
+      
+      // If not found in attendees, check registrations collection as backup
       final registration = await _databaseService.findOne(
         REGISTRATIONS_COLLECTION,
         filter: {
@@ -632,50 +711,6 @@ class TrainingService extends ChangeNotifier {
         _registrationStatusCache[cacheKey] = true;
         _registrationCacheTimestamps[cacheKey] = DateTime.now();
         return true;
-      }
-      
-      // If not found in registrations, check the training's attendees list
-      final trainingDoc = await _databaseService.findById(
-        TRAININGS_COLLECTION,
-        cleanTrainingId,
-      );
-      
-      if (trainingDoc == null) {
-        print('DEBUG: Training document not found');
-        _registrationStatusCache[cacheKey] = false;
-        _registrationCacheTimestamps[cacheKey] = DateTime.now();
-        return false;
-      }
-      
-      print('DEBUG: Training doc: ${trainingDoc['title']}, has attendees: ${trainingDoc.containsKey('attendees')}');
-      
-      // Check if user is in attendees list
-      if (trainingDoc.containsKey('attendees') && trainingDoc['attendees'] is List) {
-        final attendees = trainingDoc['attendees'] as List;
-        print('DEBUG: Number of attendees: ${attendees.length}');
-        
-        // Look for the user in attendees array
-        for (final attendee in attendees) {
-          if (attendee is Map && 
-              attendee.containsKey('userId') && 
-              attendee['status'] == 'registered') {
-            
-            final attendeeUserId = attendee['userId'];
-            print('DEBUG: Checking attendee userId: $attendeeUserId');
-            
-            if (attendeeUserId is mongo.ObjectId) {
-              final attendeeIdStr = attendeeUserId.toHexString();
-              print('DEBUG: Comparing $attendeeIdStr with ${userObjectId.toHexString()}');
-              
-              if (attendeeIdStr == userObjectId.toHexString()) {
-                print('DEBUG: User found in attendees list with status: ${attendee['status']}');
-                _registrationStatusCache[cacheKey] = true;
-                _registrationCacheTimestamps[cacheKey] = DateTime.now();
-                return true;
-              }
-            }
-          }
-        }
       }
       
       print('DEBUG: User not registered for this training');

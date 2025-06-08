@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../utils/formatters.dart';
 
 import '../core/theme/app_theme.dart';
 import '../core/services/auth_service.dart';
@@ -165,14 +166,38 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
     final trainingService = Provider.of<TrainingService>(context, listen: false);
     final allTrainings = [...trainingService.upcomingTrainings];
     
-    // Add user trainings if available
+    // Add user trainings if available - only ones the user is actually registered for
     if (_userId != null) {
       final userTrainings = trainingService.getUserTrainingsCached(_userId!);
-      if (userTrainings != null) {
-        allTrainings.addAll(userTrainings);
+      if (userTrainings != null && userTrainings.isNotEmpty) {
+        // Instead of blindly adding all user trainings, we'll do a background
+        // verification of their registration status
+        trainingService.getUserTrainings(_userId!, forceRefresh: true)
+          .then((verifiedTrainings) {
+            if (verifiedTrainings.isNotEmpty) {
+              setState(() {
+                // Update the training list with verified trainings
+                for (final training in verifiedTrainings) {
+                  // Only add if not already in the list
+                  if (!allTrainings.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
+                    allTrainings.add(training);
+                  }
+                }
+                
+                // Rebuild events
+                _buildCalendarEvents(allTrainings);
+              });
+            }
+          });
       }
     }
     
+    // Initial build of events map without waiting for verification
+    _buildCalendarEvents(allTrainings);
+  }
+  
+  // Helper method to build calendar events from trainings
+  void _buildCalendarEvents(List<Training> allTrainings) {
     // Group trainings by date for calendar
     final Map<DateTime, List<Training>> eventMap = {};
     
@@ -666,21 +691,26 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
         // Get all upcoming trainings
         final allTrainings = [...trainingService.upcomingTrainings];
         
-        // Add user registered trainings if available
+        // Add user registered trainings if available - will verify registration status
+        List<Training> userTrainings = [];
         if (_userId != null) {
-          final userTrainings = trainingService.getUserTrainingsCached(_userId!);
-          if (userTrainings != null) {
-            // Only add trainings that aren't already in the list
-            for (final training in userTrainings) {
-              if (!allTrainings.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
-                allTrainings.add(training);
-              }
-            }
+          final cachedUserTrainings = trainingService.getUserTrainingsCached(_userId!);
+          if (cachedUserTrainings != null) {
+            userTrainings = cachedUserTrainings;
+          }
+        }
+        
+        // Create a list of all trainings to check
+        final combinedTrainings = <Training>[];
+        combinedTrainings.addAll(allTrainings);
+        for (final training in userTrainings) {
+          if (!combinedTrainings.any((t) => t.id?.toHexString() == training.id?.toHexString())) {
+            combinedTrainings.add(training);
           }
         }
         
         // Filter out past trainings
-        var upcomingTrainings = allTrainings
+        var upcomingTrainings = combinedTrainings
             .where((t) => t.endDate.isAfter(now) && t.status.toLowerCase() != 'completed')
             .toList();
             
@@ -940,12 +970,36 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
             );
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: userTrainings.length,
-            itemBuilder: (context, index) {
-              final training = userTrainings[index];
-              return _buildTrainingCard(training, isRegistered: true);
+          return FutureBuilder<Map<String, bool>>(
+            future: _loadRegistrationStatuses(userTrainings),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingWidget(message: 'Verifying registration status...');
+              }
+              
+              final registrationMap = snapshot.data ?? {};
+              
+              // Only show trainings the user is actually registered for
+              final verifiedTrainings = userTrainings.where((training) {
+                final trainingId = training.id?.toHexString();
+                return trainingId != null && (registrationMap[trainingId] ?? false);
+              }).toList();
+              
+              if (verifiedTrainings.isEmpty) {
+                return const EmptyWidget(
+                  message: 'You haven\'t registered for any current trainings',
+                  icon: Icons.school,
+                );
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: verifiedTrainings.length,
+                itemBuilder: (context, index) {
+                  final training = verifiedTrainings[index];
+                  return _buildTrainingCard(training, isRegistered: true);
+                },
+              );
             },
           );
         }
@@ -1298,16 +1352,8 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
   }
 
   String _formatDateRange(DateTime start, DateTime end) {
-    final DateFormat dateFormat = DateFormat('MMM d, yyyy');
-    final DateFormat timeFormat = DateFormat('h:mma'); // Remove space between time and AM/PM
-    
-    if (start.year == end.year && start.month == end.month && start.day == end.day) {
-      return '${dateFormat.format(start)} (${timeFormat.format(start)} - ${timeFormat.format(end)})';
-    } else {
-      final Duration duration = end.difference(start);
-      final int days = duration.inDays + 1;
-      return '${dateFormat.format(start)} ${timeFormat.format(start)} - ${dateFormat.format(end)} ${timeFormat.format(end)} ($days days)';
-    }
+    // Use the centralized formatter to ensure consistent display
+    return Formatters.formatDateRange(start, end);
   }
 
   Future<void> _showTrainingDetails(
@@ -1490,6 +1536,9 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
         // Refresh the training list after registration
         await _refreshTrainings();
         
+        // Reload calendar events
+        _loadCalendarEvents();
+        
         // Add this to force re-render
         if (mounted) {
           setState(() {});
@@ -1507,6 +1556,111 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to register: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _cancelRegistration(Training training) async {
+    // Add confirmation dialog
+    final bool confirmCancel = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cancel Registration'),
+          content: Text('Are you sure you want to cancel your registration for "${training.title}"?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Yes'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+            ),
+          ],
+        );
+      },
+    ) ?? false;
+    
+    if (!confirmCancel) return;
+    
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final user = await _userFuture;
+      if (user == null) {
+        return;
+      }
+
+      final trainingService = Provider.of<TrainingService>(context, listen: false);
+      final success = await trainingService.cancelRegistration(
+        user.id,
+        training.id!.toHexString(),
+      );
+
+      if (success && context.mounted) {
+        // Update UI immediately to reflect cancellation
+        setState(() {
+          // Update capacity in local UI
+          final index = trainingService.upcomingTrainings.indexWhere((t) => t.id == training.id);
+          if (index != -1 && trainingService.upcomingTrainings[index].registered > 0) {
+            // Create a new updated training with decreased capacity
+            final updatedTraining = trainingService.upcomingTrainings[index].copyWith(
+              registered: trainingService.upcomingTrainings[index].registered - 1
+            );
+            
+            // Update the list with the new training
+            trainingService.upcomingTrainings[index] = updatedTraining;
+          }
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration canceled for ${training.title}'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        
+        // Force refresh the user trainings list to ensure it's updated in the My Trainings tab
+        if (_userId != null) {
+          await trainingService.getUserTrainings(_userId!, forceRefresh: true);
+        }
+        
+        // Refresh the training list after canceling
+        await _refreshTrainings();
+        
+        // Reload calendar events
+        _loadCalendarEvents();
+        
+        // Force UI to update
+        if (mounted) {
+          setState(() {});
+        }
+      } else if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to cancel registration'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -1589,108 +1743,6 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
     );
   }
 
-  Future<void> _cancelRegistration(Training training) async {
-    // Add confirmation dialog
-    final bool confirmCancel = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Cancel Registration'),
-          content: Text('Are you sure you want to cancel your registration for "${training.title}"?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('No'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Yes'),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.red,
-              ),
-            ),
-          ],
-        );
-      },
-    ) ?? false;
-    
-    if (!confirmCancel) return;
-    
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-
-      final user = await _userFuture;
-      if (user == null) {
-        return;
-      }
-
-      final trainingService = Provider.of<TrainingService>(context, listen: false);
-      final success = await trainingService.cancelRegistration(
-        user.id,
-        training.id!.toHexString(),
-      );
-
-      if (success && context.mounted) {
-        // Update UI immediately to reflect cancellation
-        setState(() {
-          // Update capacity in local UI
-          final index = trainingService.upcomingTrainings.indexWhere((t) => t.id == training.id);
-          if (index != -1 && trainingService.upcomingTrainings[index].registered > 0) {
-            // Create a new updated training with decreased capacity
-            final updatedTraining = trainingService.upcomingTrainings[index].copyWith(
-              registered: trainingService.upcomingTrainings[index].registered - 1
-            );
-            
-            // Update the list with the new training
-            trainingService.upcomingTrainings[index] = updatedTraining;
-          }
-        });
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Registration canceled for ${training.title}'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        
-        // Force refresh the user trainings list to ensure it's updated in the My Trainings tab
-        if (_userId != null) {
-          await trainingService.getUserTrainings(_userId!);
-        }
-        
-        // Refresh the training list after canceling
-        await _refreshTrainings();
-        
-        // Force UI to update
-        if (mounted) {
-          setState(() {});
-        }
-      } else if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to cancel registration'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
   void _navigateToTrainingDetails(Training training) {
     if (training.id != null) {
       Navigator.pushNamed(
@@ -1745,7 +1797,7 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                         borderRadius: BorderRadius.circular(12),
                       ),
                                           child: Text(
-                        DateFormat('h:mma').format(training.startDate),
+                        Formatters.formatTime(training.startDate),
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -1767,7 +1819,7 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        DateFormat('h:mma').format(training.endDate),
+                        Formatters.formatTime(training.endDate),
                         style: TextStyle(
                           fontSize: 11,
                           color: Colors.grey[600],
@@ -1866,9 +1918,9 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            DateFormat('h:mma').format(training.startDate) + 
+                            Formatters.formatTime(training.startDate) + 
                             (training.endDate.day == training.startDate.day ? 
-                              ' - ' + DateFormat('h:mma').format(training.endDate) : ''),
+                              ' - ' + Formatters.formatTime(training.endDate) : ''),
                             style: TextStyle(
                               fontSize: 10,
                               color: Colors.blue.shade800,

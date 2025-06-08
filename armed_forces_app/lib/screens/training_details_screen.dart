@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'dart:math' as math;
+import '../utils/formatters.dart';
 
 import '../core/theme/app_theme.dart';
 import '../core/services/auth_service.dart';
@@ -695,16 +696,8 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
   }
   
   String _formatDateRange(DateTime start, DateTime end) {
-    final DateFormat dateFormat = DateFormat('MMM d, yyyy');
-    final DateFormat timeFormat = DateFormat('h:mma'); // Remove space between time and AM/PM
-    
-    if (start.year == end.year && start.month == end.month && start.day == end.day) {
-      return '${dateFormat.format(start)} (${timeFormat.format(start)} - ${timeFormat.format(end)})';
-    } else {
-      final Duration duration = end.difference(start);
-      final int days = duration.inDays + 1;
-      return '${dateFormat.format(start)} ${timeFormat.format(start)} - ${dateFormat.format(end)} ${timeFormat.format(end)} ($days days)';
-    }
+    // Use the centralized formatter to ensure consistent display
+    return Formatters.formatDateRange(start, end);
   }
   
   Future<void> _registerForTraining(Training training) async {
