@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:path_provider/path_provider.dart';
 import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
 import '../models/user_model.dart';
@@ -519,387 +520,212 @@ class DocumentService {
     }
   }
   
-  // Upload a document directly to MongoDB
-  Future<Document> uploadDocument({
+  // Upload document to MongoDB
+  Future<Map<String, dynamic>> uploadDocument({
     required String title,
     required String type,
-    required File file,
+    required String filePath,
     String? description,
   }) async {
     try {
-      // Add debug print to trace execution path
       print('Starting document upload process for: $title');
       
-      // Initialize user information variables that will be used throughout the method
-      String effectiveUserId = '';
-      String? firstName;
-      String? lastName;
-      String? serviceNumber;
-      String? company;
-      String? rank;
+      // Get authentication token
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString(AppConstants.authTokenKey);
+      print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
       
-      // Try API first
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        final token = prefs.getString(AppConstants.authTokenKey) ?? prefs.getString(AppConstants.tokenKey);
-        final userId = prefs.getString(AppConstants.userIdKey);
-        
-        print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
-        print('User ID from prefs: $userId');
-        
-        // If no userId is found in prefs, try to get it from the API
-        if (userId != null && userId.isNotEmpty) {
-          effectiveUserId = userId;
-        }
-        
-        if (effectiveUserId.isEmpty) {
-          // Try to get user info from API to get a valid ID
-          try {
-            final userResponse = await http.get(
-              Uri.parse(AppConstants.userProfileEndpoint),
-              headers: {
-                'Authorization': 'Bearer $token',
-              },
-            );
-            
-            if (userResponse.statusCode == 200) {
-              final userData = json.decode(userResponse.body);
-              if (userData['success'] && userData['data'] != null && userData['data']['user'] != null) {
-                final user = userData['data']['user'];
-                final apiUserId = user['_id'] ?? user['id'] ?? '';
-                
-                if (apiUserId.isNotEmpty) {
-                  effectiveUserId = apiUserId;
-                  // Save this ID for future use
-                  await prefs.setString(AppConstants.userIdKey, effectiveUserId);
-                }
-                
-                // Extract user information if available
-                firstName = user['firstName'];
-                lastName = user['lastName'];
-                serviceNumber = user['serviceNumber'] ?? user['serialNumber'];
-                company = user['company'] ?? user['unit'];
-                rank = user['rank'];
-              }
-            }
-          } catch (e) {
-            print('Error fetching user profile: $e');
-          }
-        }
-        
-        // If we still don't have user information, try to get it from storage
-        if (firstName == null || lastName == null) {
-          final userData = await _getCurrentUserData();
-          if (userData != null) {
-            firstName = userData['firstName'];
-            lastName = userData['lastName'];
-            serviceNumber = userData['serialNumber'] ?? userData['serviceNumber'];
-            company = userData['company'] ?? userData['unit'];
-            rank = userData['rank'];
-            
-            // If we got user data but still don't have an ID, use it from userData
-            if (effectiveUserId.isEmpty && userData['id'] != null) {
-              effectiveUserId = userData['id'];
-            }
-          }
-        }
-        
-        if (token != null) {
-          // Create multipart request
+      // Try to get user ID from secure storage first
+      String? userId = await _secureStorage.read(key: AppConstants.userIdKey);
+      print('User ID from prefs: $userId');
+      
+      // Get user data for uploader information
+      final userData = await _getCurrentUserData();
+      if (userData != null) {
+        print('Retrieved user data from secure storage: ${userData['firstName']} ${userData['lastName']}');
+      }
+      
+      // If we have a token, try to upload via API first
+      if (token != null && token.isNotEmpty) {
+        try {
+          print('Uploading document via API');
+          
+          // Create form data
           final request = http.MultipartRequest(
             'POST',
             Uri.parse(AppConstants.uploadDocumentEndpoint),
           );
           
-          // Add headers
-          request.headers.addAll({
-            'Authorization': 'Bearer $token',
-          });
-          
           // Add file
+          final file = File(filePath);
           final fileStream = http.ByteStream(file.openRead());
           final fileLength = await file.length();
-          final fileName = file.path.split('/').last;
           
           final multipartFile = http.MultipartFile(
             'file',
             fileStream,
             fileLength,
-            filename: fileName,
+            filename: file.path.split('/').last,
           );
           
           request.files.add(multipartFile);
           
-          // Add form fields
-          request.fields['name'] = title;
+          // Add other fields
+          request.fields['title'] = title;
           request.fields['type'] = type;
-          // Use the current user's ID
-          request.fields['userId'] = effectiveUserId;
-          
-          if (description != null && description.isNotEmpty) {
+          if (description != null) {
             request.fields['description'] = description;
           }
           
-          // Add user information fields to ensure proper uploader info
-          if (firstName != null && firstName.isNotEmpty) {
-            request.fields['firstName'] = firstName;
-          }
-          if (lastName != null && lastName.isNotEmpty) {
-            request.fields['lastName'] = lastName;
-          }
-          if (serviceNumber != null && serviceNumber.isNotEmpty) {
-            request.fields['serviceNumber'] = serviceNumber;
-          }
-          if (company != null && company.isNotEmpty) {
-            request.fields['company'] = company;
-          }
-          if (rank != null && rank.isNotEmpty) {
-            request.fields['rank'] = rank;
-          }
+          // Add auth token
+          request.headers['Authorization'] = 'Bearer $token';
           
-          // Send request
+          // Send the request
           final streamedResponse = await request.send();
           final response = await http.Response.fromStream(streamedResponse);
           
-          print('Document upload response status: ${response.statusCode}');
-          print('Document upload response body: ${response.body.substring(0, math.min(200, response.body.length))}...');
-          
           if (response.statusCode == 200 || response.statusCode == 201) {
-            final Map<String, dynamic> data = json.decode(response.body);
-            
-            if (data['success'] == true && data['data'] != null && data['data']['document'] != null) {
-              final document = Document.fromJson(data['data']['document']);
-              
-              // Notify web app via socket
-              try {
-                final socketService = SocketService();
-                await socketService.initSocket();
-                socketService.notifyDocumentUploaded(data['data']['document']);
-              } catch (socketError) {
-                print('Socket notification error: $socketError');
-                // Continue even if socket notification fails
-              }
-              
-              return document;
-            }
+            final responseData = json.decode(response.body);
+            print('Document uploaded successfully via API');
+            return responseData;
+          } else {
+            print('API upload failed with status ${response.statusCode}: ${response.body}');
+            // Fall back to direct MongoDB upload
           }
+        } catch (e) {
+          print('Error uploading via API: $e');
+          // Fall back to direct MongoDB upload
         }
-      } catch (e) {
-        print('API error: $e');
       }
       
-      // Fallback to direct MongoDB
+      // Fall back to direct MongoDB upload
       print('Uploading document directly to MongoDB');
+      
+      // Get user data for uploader information
+      final userInfo = await _getCurrentUserData();
+      if (userInfo != null) {
+        print('Retrieved user data from secure storage: ${userInfo['firstName']} ${userInfo['lastName']}');
+      }
+      
+      // Ensure we have a user ID
+      if (userId == null || userId.isEmpty) {
+        if (userInfo != null && userInfo['id'] != null) {
+          userId = userInfo['id'].toString();
+        } else {
+          // Use John Matthew Banto's ID as a fallback
+          userId = '68063c32bb93f9ffb2000000';
+        }
+      }
+      
+      // Connect to MongoDB
       await _initMongoDB();
       
       if (_documentsCollection == null) {
         throw Exception('Documents collection not initialized');
       }
       
-      // Get current user data - this is crucial for proper user identification
-      final userData = await _getCurrentUserData();
-      print('User data from storage: ${userData != null ? 'Found' : 'Not found'}');
+      print('User data from storage: ${userInfo != null ? 'Found' : 'Not found'}');
+      print('Using user ID from secure storage: $userId');
       
-      // Try to get the user ID from secure storage first
-      final storedUserId = await _secureStorage.read(key: AppConstants.userIdKey);
-      if (storedUserId != null && storedUserId.isNotEmpty) {
-        effectiveUserId = storedUserId;
-        print('Using user ID from secure storage: $effectiveUserId');
-      } else if (userData != null && userData['id'] != null) {
-        effectiveUserId = userData['id'];
-        print('Using user ID from user data: $effectiveUserId');
+      // Save file locally first
+      final fileName = filePath.split('/').last;
+      final appDir = await getApplicationDocumentsDirectory();
+      final documentsDir = Directory('${appDir.path}/documents');
+      
+      if (!await documentsDir.exists()) {
+        await documentsDir.create(recursive: true);
       }
       
-      // If we still don't have a user ID, try to find the user by other means
-      if (effectiveUserId.isEmpty && userData != null) {
-        final serviceNumber = userData['serviceNumber'] ?? userData['serialNumber'];
-        if (serviceNumber != null && serviceNumber.isNotEmpty) {
-          final userFromDb = await _findUserByServiceNumber(serviceNumber);
-          if (userFromDb != null && userFromDb['_id'] != null) {
-            effectiveUserId = userFromDb['_id'] is ObjectId 
-                ? userFromDb['_id'].toHexString() 
-                : userFromDb['_id'].toString();
-            print('Found user ID by service number: $effectiveUserId');
-            
-            // Save this ID for future use
-            await _secureStorage.write(key: AppConstants.userIdKey, value: effectiveUserId);
-          }
-        }
-      }
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final localFilePath = '${documentsDir.path}/${timestamp}_$fileName';
+      print('Saving file to: $localFilePath');
       
-      // Extract user information
-      if (userData != null) {
-        firstName = userData['firstName'];
-        lastName = userData['lastName'];
-        serviceNumber = userData['serviceNumber'] ?? userData['serialNumber'];
-        company = userData['company'] ?? userData['unit'];
-        rank = userData['rank'];
-      }
-      
-      // If we still don't have user info, use John Matthew Banto as last resort
-      if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
-        print('WARNING: Using default user information as fallback.');
-        effectiveUserId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's ID
-        firstName = 'John Matthew';
-        lastName = 'Banto';
-        serviceNumber = '2019-10180';
-        company = 'Alpha';
-        rank = 'Private';
-      }
-      
-      // Get file name and create a unique name to avoid conflicts
-      final String originalFileName = file.path.split('/').last;
-      final String uniqueFileName = '${DateTime.now().millisecondsSinceEpoch}_$originalFileName';
-      
-      // Save file locally to a more permanent location
-      Directory? appDir;
-      try {
-        // Try to use application documents directory
-        appDir = Directory.systemTemp;
-        // Create a documents subdirectory if it doesn't exist
-        final Directory docsDir = Directory('${appDir.path}/documents');
-        if (!await docsDir.exists()) {
-          await docsDir.create(recursive: true);
-        }
-        appDir = docsDir;
-      } catch (e) {
-        print('Error creating documents directory: $e');
-        // Fallback to system temp
-        appDir = Directory.systemTemp;
-      }
-      
-      final String savedFilePath = '${appDir.path}/$uniqueFileName';
-      print('Saving file to: $savedFilePath');
-      
-      // Copy the file to our storage location
-      final File savedFile = await file.copy(savedFilePath);
-      print('File saved locally to: $savedFilePath');
-      
-      // Verify the file was saved
-      if (!await savedFile.exists()) {
-        print('Warning: File was not saved properly');
-        throw Exception('Failed to save file locally');
-      }
+      // Copy the file to our app's documents directory
+      await File(filePath).copy(localFilePath);
+      print('File saved locally to: $localFilePath');
       
       // Get file size
-      final fileSize = await savedFile.length();
+      final file = File(localFilePath);
+      final fileSize = await file.length();
       print('File size: $fileSize bytes');
       
-      // Upload to GridFS if available
-      String fileUrl = 'file://$savedFilePath';
-      String? gridFSId;
+      // Upload to GridFS
+      print('Attempting to upload file to GridFS');
+      print('Note: Full GridFS implementation will be added in a future update');
+      print('Currently using file system storage with GridFS reference');
       
-      if (_gridFS != null) {
-        try {
-          print('Attempting to upload file to GridFS');
-          
-          // For now, we'll just store the file path in the document
-          // and implement full GridFS support in a future update
-          print('Note: Full GridFS implementation will be added in a future update');
-          print('Currently using file system storage with GridFS reference');
-          
-          // Generate a unique ID for GridFS reference
-          gridFSId = ObjectId().toHexString();
-          
-          // Update the file URL to reference GridFS (for future implementation)
-          fileUrl = 'gridfs://$gridFSId';
-          
-          print('File prepared for GridFS with ID: $gridFSId');
-        } catch (e) {
-          print('Error preparing for GridFS: $e');
-          print('Falling back to local file storage');
-          // Continue with local file if GridFS preparation fails
-        }
-      } else {
-        print('GridFS not available, using local file storage');
+      // Generate a unique GridFS ID
+      final gridFsId = ObjectId();
+      print('File prepared for GridFS with ID: $gridFsId');
+      
+      // Map the document type from the title if it's generic
+      String documentType = type;
+      if (type == 'other') {
+        documentType = _mapDocumentTypeFromTitle(title);
       }
       
-      // Create document object
-      final String documentId = ObjectId().toHexString();
-      final now = DateTime.now();
-      
-      // Create document data with proper field names for MongoDB
-      final Map<String, dynamic> documentData = {
-        '_id': documentId,
-        'userId': effectiveUserId,
+      // Create document record
+      final document = {
+        '_id': ObjectId(),
+        'userId': userId,
         'uploadedBy': {
-          '_id': effectiveUserId,
-          'firstName': firstName,
-          'lastName': lastName,
-          'serviceId': serviceNumber,
-          'company': company,
-          'rank': rank
+          '_id': userId,
+          'firstName': userInfo?['firstName'] ?? 'Unknown',
+          'lastName': userInfo?['lastName'] ?? 'User',
+          'serviceId': userInfo?['serviceNumber'] ?? '',
+          'company': userInfo?['company'] ?? '',
+          'rank': userInfo?['rank'] ?? ''
         },
         'title': title,
-        'type': _mapDocumentType(type),
+        'type': documentType,
         'description': description,
-        'fileUrl': fileUrl,
-        'fileName': originalFileName,
+        'fileUrl': 'gridfs://${gridFsId.toHexString()}',
+        'fileName': fileName,
         'fileSize': fileSize,
-        'mimeType': _getMimeType(file.path),
+        'mimeType': _getMimeType(fileName),
         'status': 'pending',
-        'uploadedAt': now,
-        'updatedAt': now,
+        'uploadedAt': DateTime.now(),
+        'updatedAt': DateTime.now(),
         'version': 1,
-        'localFilePath': savedFilePath,
+        'localFilePath': localFilePath,
+        'gridFSId': gridFsId.toHexString(),
       };
       
-      // Add GridFS ID if available
-      if (gridFSId != null) {
-        documentData['gridFSId'] = gridFSId;
-      }
-      
+      // Insert document into MongoDB
       print('Inserting document into MongoDB: $title');
+      final result = await _documentsCollection!.insert(document);
       
-      // Insert into MongoDB
-      await _documentsCollection!.insert(documentData);
-      print('Document saved to MongoDB with ID: $documentId');
-      
-      // Verify the document was saved
-      final savedDoc = await _documentsCollection!.findOne({'_id': documentId});
-      if (savedDoc == null) {
-        print('Warning: Document not found in MongoDB after saving');
+      // Verify document was saved
+      final savedDoc = await _documentsCollection!.findOne({'_id': document['_id']});
+      if (savedDoc != null) {
+        print('Document saved to MongoDB with ID: ${document['_id']}');
+        print('Document verified in MongoDB: $title');
       } else {
-        print('Document verified in MongoDB: ${savedDoc['title']}');
-        print('Saved document local file path: ${savedDoc['localFilePath']}');
-        
-        // Verify the file path is correct in the database
-        if (savedDoc['localFilePath'] != savedFilePath) {
-          print('Warning: File path mismatch in database. Updating...');
-          await _documentsCollection!.update(
-            {'_id': documentId},
-            {'\$set': {'localFilePath': savedFilePath}}
-          );
-        }
+        print('Error: Document not found in MongoDB after insertion');
       }
       
-      // Return document object
-      return Document(
-        id: documentId,
-        userId: effectiveUserId,
-        title: title,
-        type: _mapDocumentType(type),
-        description: description,
-        fileUrl: fileUrl,
-        fileName: originalFileName,
-        fileSize: fileSize,
-        mimeType: _getMimeType(file.path),
-        status: 'pending',
-        uploadedAt: now,
-        updatedAt: now,
-        version: 1,
-        uploadedBy: {
-          '_id': effectiveUserId,
-          'firstName': firstName ?? 'Unknown',
-          'lastName': lastName ?? 'Unknown',
-          'serviceId': serviceNumber ?? '',
-          'company': company ?? '',
-          'rank': rank ?? ''
-        },
-      );
+      print('Saved document local file path: $localFilePath');
+      print('Document uploaded successfully: $title');
+      
+      return {
+        'success': true,
+        'data': {
+          'documentId': document['_id'] is ObjectId 
+              ? (document['_id'] as ObjectId).toHexString() 
+              : document['_id'].toString(),
+          'title': title,
+          'type': documentType,
+          'fileUrl': document['fileUrl'],
+          'status': 'pending',
+          'localFilePath': localFilePath,
+        }
+      };
     } catch (e) {
       print('Error uploading document: $e');
-      throw Exception('Error uploading document: $e');
+      return {
+        'success': false,
+        'error': e.toString(),
+      };
     }
   }
   
@@ -1156,174 +982,42 @@ class DocumentService {
     return typeMapping[type] ?? 'other';
   }
 
-  // Create a new document in MongoDB
-  Future<Document> _createDocumentInMongoDB({
-    required String title,
-    required String type,
-    required String fileUrl,
-    required String fileName,
-    required int fileSize,
-    String? description,
-    String? userId,
-  }) async {
-    try {
-      await _initMongoDB();
-      
-      if (_documentsCollection == null) {
-        throw Exception('Documents collection not initialized');
-      }
-      
-      // Get current user data
-      Map<String, dynamic>? userData = await _getCurrentUserData();
-      print('User data from storage: ${userData != null ? 'Found' : 'Not found'}');
-      
-      // Initialize user information variables
-      String effectiveUserId = '';
-      String? firstName;
-      String? lastName;
-      String? serviceNumber;
-      String? company;
-      String? rank;
-      
-      // If userId is provided, use it
-      if (userId != null && userId.isNotEmpty) {
-        effectiveUserId = userId;
-      }
-      
-      // Try to get user info from userData
-      if (userData != null) {
-        // Extract user information from userData
-        if (effectiveUserId.isEmpty && userData['id'] != null) {
-          effectiveUserId = userData['id'];
-        }
-        firstName = userData['firstName'];
-        lastName = userData['lastName'];
-        serviceNumber = userData['serialNumber'] ?? userData['serviceNumber'];
-        company = userData['company'] ?? userData['unit'];
-        rank = userData['rank'];
-        
-        print('User info from storage:');
-        print('  ID: $effectiveUserId');
-        print('  Name: $firstName $lastName');
-        print('  Service Number: $serviceNumber');
-        print('  Company: $company');
-        print('  Rank: $rank');
-      }
-      
-      // If we don't have user data from storage, try to find by service number
-      if (effectiveUserId.isEmpty && serviceNumber != null && serviceNumber.isNotEmpty) {
-        final userFromDb = await _findUserByServiceNumber(serviceNumber);
-        if (userFromDb != null) {
-          effectiveUserId = userFromDb['_id'] is ObjectId ? 
-                         userFromDb['_id'].toHexString() : 
-                         userFromDb['_id'].toString();
-          firstName = userFromDb['firstName'];
-          lastName = userFromDb['lastName'];
-          company = userFromDb['company'];
-          rank = userFromDb['rank'];
-          
-          print('User info from database:');
-          print('  ID: $effectiveUserId');
-          print('  Name: $firstName $lastName');
-          print('  Service Number: $serviceNumber');
-          print('  Company: $company');
-          print('  Rank: $rank');
-        }
-      }
-      
-      // Only use John Matthew Banto's information if we have no user info at all
-      // This should rarely happen if the user is properly logged in
-      if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
-        print('WARNING: No valid user information found. Using emergency fallback.');
-        
-        // Try to get user ID from secure storage directly
-        final userId = await _secureStorage.read(key: AppConstants.userIdKey);
-        if (userId != null && userId.isNotEmpty) {
-          print('Found user ID in secure storage: $userId');
-          final userFromDb = await _findUserById(userId);
-          
-          if (userFromDb != null) {
-            effectiveUserId = userId;
-            firstName = userFromDb['firstName'];
-            lastName = userFromDb['lastName'];
-            serviceNumber = userFromDb['serviceNumber'];
-            company = userFromDb['company'];
-            rank = userFromDb['rank'];
-            
-            print('Found user info from ID in database:');
-            print('  Name: $firstName $lastName');
-            print('  Service Number: $serviceNumber');
-            print('  Company: $company');
-            print('  Rank: $rank');
-          }
-        }
-        
-        // If we still don't have user info, only then use John Matthew Banto as last resort
-        if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
-          print('CRITICAL: Using John Matthew Banto as fallback. This should not happen in normal operation.');
-          effectiveUserId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's correct ID
-          firstName = 'John Matthew';
-          lastName = 'Banto';
-          serviceNumber = '2019-10180';
-          company = 'Alpha';
-          rank = 'Private';
-        }
-      }
-      
-      // Generate a unique ID for the document
-      final ObjectId documentId = ObjectId();
-      final now = DateTime.now();
-      
-      // Create the document object
-      final Map<String, dynamic> documentData = {
-        '_id': documentId,
-        'title': title,
-        'type': type,
-        'description': description,
-        'fileUrl': fileUrl,
-        'fileName': fileName,
-        'fileSize': fileSize,
-        'mimeType': _getMimeType(fileName),
-        'userId': effectiveUserId,
-        'uploadedBy': {
-          '_id': effectiveUserId,
-          'firstName': firstName,
-          'lastName': lastName,
-          'serviceId': serviceNumber,
-          'company': company,
-          'rank': rank
-        },
-        'status': 'pending',
-        'version': 1,
-        'createdAt': now,
-        'updatedAt': now,
-        'uploadedAt': now,
-      };
-      
-      // Insert the document into MongoDB
-      await _documentsCollection!.insert(documentData);
-      
-      print('Document created in MongoDB: ${documentId.toHexString()}');
-      
-      // Convert the document data to a Document object
-      return Document.fromJson({
-        'id': documentId.toHexString(),
-        'userId': effectiveUserId,
-        'title': title,
-        'type': type,
-        'description': description,
-        'fileUrl': fileUrl,
-        'fileName': fileName,
-        'fileSize': fileSize,
-        'mimeType': _getMimeType(fileName),
-        'status': 'pending',
-        'uploadedAt': now,
-        'updatedAt': now,
-        'version': 1,
-      });
-    } catch (e) {
-      print('Error creating document in MongoDB: $e');
-      throw Exception('Failed to create document: $e');
+  // Map document title to appropriate document type
+  String _mapDocumentTypeFromTitle(String title) {
+    final String lowerTitle = title.toLowerCase();
+    
+    // Map document types based on title keywords
+    if (lowerTitle.contains('birth') || lowerTitle.contains('certificate of birth')) {
+      return 'birth_certificate';
+    } else if (lowerTitle.contains('id') || lowerTitle.contains('identification') || lowerTitle.contains('card')) {
+      return 'identification';
+    } else if (lowerTitle.contains('picture') || lowerTitle.contains('2x2') || lowerTitle.contains('photo')) {
+      return 'identification';
+    } else if (lowerTitle.contains('rotc') || lowerTitle.contains('3r rotc') || lowerTitle.contains('rotc certificate')) {
+      return 'rotc_certificate';
+    } else if (lowerTitle.contains('enlistment')) {
+      return 'enlistment_order';
+    } else if (lowerTitle.contains('promotion')) {
+      return 'promotion';
+    } else if (lowerTitle.contains('incorporation')) {
+      return 'order_of_incorporation';
+    } else if (lowerTitle.contains('schooling')) {
+      return 'training_certificate';
+    } else if (lowerTitle.contains('diploma') || lowerTitle.contains('college')) {
+      return 'training_certificate';
+    } else if (lowerTitle.contains('rids') || lowerTitle.contains('reservist information')) {
+      return 'rids';
+    } else if (lowerTitle.contains('medical') || lowerTitle.contains('health')) {
+      return 'medical_record';
+    } else if (lowerTitle.contains('training')) {
+      return 'training_certificate';
+    } else if (lowerTitle.contains('deployment')) {
+      return 'deployment_order';
+    } else if (lowerTitle.contains('commendation') || lowerTitle.contains('award') || lowerTitle.contains('recognition')) {
+      return 'commendation';
     }
+    
+    // Default to 'other' if no match
+    return 'other';
   }
 } 

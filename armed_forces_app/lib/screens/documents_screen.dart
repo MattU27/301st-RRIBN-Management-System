@@ -887,28 +887,32 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                       final file = File(path);
                       
                       // Upload the document using our service
-                      final document = await _documentService.uploadDocument(
+                      final response = await _documentService.uploadDocument(
                         title: titleController.text,
                         type: selectedDocumentType!,
-                        file: file,
+                        filePath: path,
                         description: descriptionController.text.isNotEmpty ? descriptionController.text : null,
                       );
                       
-                      print('Document uploaded successfully: ${document.title}');
-                      
-                      // Close the dialog first
-                      Navigator.pop(context);
-                      
-                      // Then fetch documents again to refresh the list
-                      await _fetchDocuments();
-                      
-                      // Show success message
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Document uploaded successfully'),
-                          backgroundColor: AppTheme.successColor,
-                        ),
-                  );
+                      if (response['success'] == true) {
+                        print('Document uploaded successfully: ${titleController.text}');
+                        
+                        // Close the dialog first
+                        Navigator.pop(context);
+                        
+                        // Then fetch documents again to refresh the list
+                        await _fetchDocuments();
+                        
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Document uploaded successfully'),
+                            backgroundColor: AppTheme.successColor,
+                          ),
+                        );
+                      } else {
+                        throw Exception(response['error'] ?? 'Unknown error occurred');
+                      }
                     } catch (e) {
                       print('Error uploading document: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -1538,7 +1542,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       'Birth Certificate': ['birth certificate'],
       'ID Card': ['id card', 'id', 'identification'],
       'Picture 2x2': ['picture 2x2', '2x2', 'picture', 'photo'],
-      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate'],
+      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate', '3r rotc certificate'],
       'Enlistment Order': ['enlistment', 'enlistment order'],
       'Promotion Order': ['promotion', 'promotion order'],
       'Order of Incorporation': ['incorporation', 'order of incorporation'],
@@ -1552,21 +1556,15 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       'Other': ['other']
     };
     
-    // Special case for Birth Certificate - exact title match only
-    if (documentType == 'Birth Certificate') {
+    // Special case for 3R ROTC Certificate
+    if (documentType == '3R ROTC Certificate') {
       final matchingDocs = _documents.where((doc) {
         final String docTitle = doc.title.toLowerCase();
-        return docTitle == 'birth certificate';
+        return docTitle.contains('rotc') || docTitle == '3r rotc certificate';
       }).toList();
       
       if (matchingDocs.isNotEmpty) {
-        // Print debug info
-        print('Birth Certificate - exact match found: ${matchingDocs.length}');
-        for (var doc in matchingDocs) {
-          print('  - ${doc.title} (${doc.type}): ${doc.status}');
-        }
-        
-        // If there are multiple documents of this type, get the one with the best status
+        // Return the document with the best status
         if (matchingDocs.any((doc) => doc.status == 'verified')) {
           return 'verified';
         } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
@@ -1575,31 +1573,25 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
           return 'rejected';
         }
       }
-      
-      // If no exact match, try a more lenient match
-      final lenientMatchingDocs = _documents.where((doc) {
+    }
+    
+    // Special case for Birth Certificate
+    if (documentType == 'Birth Certificate') {
+      final matchingDocs = _documents.where((doc) {
         final String docTitle = doc.title.toLowerCase();
-        return docTitle.contains('birth');
+        return docTitle == 'birth certificate';
       }).toList();
       
-      if (lenientMatchingDocs.isNotEmpty) {
-        // Print debug info
-        print('Birth Certificate - lenient match found: ${lenientMatchingDocs.length}');
-        for (var doc in lenientMatchingDocs) {
-          print('  - ${doc.title} (${doc.type}): ${doc.status}');
-        }
-        
-        // If there are multiple documents of this type, get the one with the best status
-        if (lenientMatchingDocs.any((doc) => doc.status == 'verified')) {
+      if (matchingDocs.isNotEmpty) {
+        // Return the document with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
           return 'verified';
-        } else if (lenientMatchingDocs.any((doc) => doc.status == 'pending')) {
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
           return 'pending';
         } else {
           return 'rejected';
         }
       }
-      
-      return 'missing';
     }
     
     // Special case for Schooling Certificate vs Training Certificate
@@ -1728,7 +1720,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       'Birth Certificate': ['birth certificate'],
       'ID Card': ['id card', 'id', 'identification'],
       'Picture 2x2': ['picture 2x2', '2x2', 'picture', 'photo'],
-      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate'],
+      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate', '3r rotc certificate'],
       'Enlistment Order': ['enlistment', 'enlistment order'],
       'Promotion Order': ['promotion', 'promotion order'],
       'Order of Incorporation': ['incorporation', 'order of incorporation'],
@@ -1741,6 +1733,25 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       'Commendation': ['commendation', 'award', 'recognition'],
       'Other': ['other']
     };
+    
+    // Special case for 3R ROTC Certificate
+    if (documentType == '3R ROTC Certificate') {
+      final matchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle.contains('rotc') || docTitle == '3r rotc certificate';
+      }).toList();
+      
+      if (matchingDocs.isNotEmpty) {
+        // Return the document with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'verified');
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'pending');
+        } else {
+          return matchingDocs.first;
+        }
+      }
+    }
     
     // Special case for Birth Certificate
     if (documentType == 'Birth Certificate') {
