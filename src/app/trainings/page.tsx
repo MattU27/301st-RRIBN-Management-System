@@ -1585,24 +1585,6 @@ export default function TrainingsPage() {
           <h3 className="mt-2 text-sm font-medium text-gray-900">No trainings found</h3>
           <p className="mt-1 text-sm text-gray-500">{getMessage()}</p>
         </div>
-        
-        {/* Admin seed option - only show for admins and only on the "all" or "upcoming" tabs */}
-        {user && 
-         (['administrator', 'admin', 'director'].includes(user.role as string)) && 
-         (activeTab === 'all' || activeTab === 'upcoming') && 
-         trainings.length === 0 && (
-          <div className="p-4 mt-6 border border-blue-200 rounded-md bg-blue-50">
-            <h4 className="mb-2 text-lg font-medium text-blue-800">Administrator Options</h4>
-            <p className="mb-4 text-sm text-blue-600">No training data found in the system. As an administrator, you can seed some sample training data for testing.</p>
-            <button
-              onClick={seedTrainings}
-              disabled={isSeeding}
-              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
-            >
-              {isSeeding ? 'Seeding Trainings...' : 'Seed Training Data'}
-            </button>
-          </div>
-        )}
       </div>
     );
   };
@@ -1803,9 +1785,6 @@ export default function TrainingsPage() {
           </div>
         </Card>
       </div>
-
-      {/* No trainings message */}
-      {filteredTrainings().length === 0 && renderNoTrainingsFound()}
       
       {/* Pagination controls */}
       {trainings.length > 0 && (

@@ -76,7 +76,7 @@ const PrescriptiveAnalytics = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [lastAnalysisDate, setLastAnalysisDate] = useState<string>("");
   const [isLoadingTrainings, setIsLoadingTrainings] = useState(false);
-  
+
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRank, setFilterRank] = useState('');
@@ -478,7 +478,7 @@ const PrescriptiveAnalytics = () => {
     setFilterScore('');
   };
 
-  return (
+    return (
     <div className="min-h-screen bg-white">
       <div className="flex flex-col h-screen">
         {/* Header - Reduced padding */}
@@ -491,7 +491,7 @@ const PrescriptiveAnalytics = () => {
               </h1>
               <p className="text-xs text-gray-600">AI-powered recommendations for strategic personnel advancement</p>
             </div>
-            <button
+              <button
               onClick={fetchAnalyticsData}
               disabled={isGenerating}
               className="flex items-center gap-1 px-4 py-2 text-sm text-white transition-colors bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 disabled:bg-blue-300"
@@ -507,7 +507,7 @@ const PrescriptiveAnalytics = () => {
                   Generate Promotion Eligibility
                 </>
               )}
-            </button>
+              </button>
           </div>
         </div>
 
@@ -521,21 +521,21 @@ const PrescriptiveAnalytics = () => {
               <div className="p-2 border border-blue-200 rounded-lg bg-blue-50">
                 <div className="flex items-center gap-2">
                   <Users className="w-4 h-4 text-blue-600" />
-                  <div>
+            <div>
                     <h3 className="text-xs font-semibold text-gray-900">Total Eligible Personnel</h3>
                     <p className="text-sm font-bold text-blue-600">{getEligiblePersonnelCount()}</p>
-                  </div>
-                </div>
+            </div>
+            </div>
               </div>
               <div className="p-2 border border-green-200 rounded-lg bg-green-50">
                 <div className="flex items-center gap-2">
                   <Target className="w-4 h-4 text-green-600" />
-                  <div>
+            <div>
                     <h3 className="text-xs font-semibold text-gray-900">Average Basis Score</h3>
                     <p className="text-sm font-bold text-green-600">{getAverageBasisScore()}%</p>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
+        </div>
               <div className="p-2 border rounded-lg border-amber-200 bg-amber-50">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-amber-600" />
@@ -544,30 +544,30 @@ const PrescriptiveAnalytics = () => {
                     <p className="text-sm font-bold text-amber-600">{getTotalCompletedTrainings()}</p>
                   </div>
                 </div>
-              </div>
+                  </div>
               <div className="p-2 border border-purple-200 rounded-lg bg-purple-50">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-purple-600" />
                   <div>
                     <h3 className="text-xs font-semibold text-gray-900">Last Analysis Update</h3>
                     <p className="text-xs text-gray-700">{lastAnalysisDate || "Not yet generated"}</p>
-                  </div>
+                </div>
                 </div>
               </div>
             </div>
-
+            
             {/* Filter Section */}
             <div className="p-3 mb-4 border border-gray-200 rounded-lg bg-gray-50">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="text-sm font-bold text-gray-900">Filter Personnel</h2>
-                <button 
+                    <button 
                   onClick={clearFilters}
                   className="text-xs text-blue-600 hover:text-blue-800"
-                >
+                    >
                   Clear Filters
-                </button>
-              </div>
-              
+                    </button>
+                  </div>
+                  
               {/* Search */}
               <div className="mb-2">
                 <div className="relative">
@@ -579,8 +579,8 @@ const PrescriptiveAnalytics = () => {
                     placeholder="Search by name or ID..."
                     className="w-full py-1 pr-2 text-xs border border-gray-300 rounded pl-7"
                   />
-                </div>
-              </div>
+                    </div>
+                      </div>
               
               {/* Rank Filter */}
               <div className="mb-2">
@@ -595,8 +595,8 @@ const PrescriptiveAnalytics = () => {
                     <option key={rank} value={rank}>{rank}</option>
                   ))}
                 </select>
-              </div>
-              
+                  </div>
+                  
               {/* Company Filter */}
               <div className="mb-2">
                 <label className="block mb-1 text-xs text-gray-700">Company</label>
@@ -610,8 +610,8 @@ const PrescriptiveAnalytics = () => {
                     <option key={company} value={company}>{company}</option>
                   ))}
                 </select>
-              </div>
-              
+        </div>
+
               {/* Score Filter */}
               <div>
                 <label className="block mb-1 text-xs text-gray-700">Score</label>
@@ -656,9 +656,9 @@ const PrescriptiveAnalytics = () => {
                     {error ? error : "Click 'Generate Promotion Eligibility' to view analysis"}
                   </p>
                 )}
-              </div>
-            </div>
-          </div>
+        </div>
+        </div>
+      </div>
 
           {/* Right Panel - Recommendations */}
           <div className="flex-1 p-3 overflow-hidden bg-gray-50">
@@ -670,7 +670,7 @@ const PrescriptiveAnalytics = () => {
                     Page {currentPage} of {totalPages}
                   </span>
                   <div className="flex space-x-2">
-                    <button 
+                          <button
                       onClick={handlePreviousPage} 
                       disabled={currentPage === 1}
                       className="flex items-center px-3 py-1 text-xs text-white bg-blue-600 border border-blue-700 rounded-md disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-500 hover:bg-blue-700"
@@ -679,8 +679,8 @@ const PrescriptiveAnalytics = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
                       Prev
-                    </button>
-                    <button 
+                          </button>
+                          <button
                       onClick={handleNextPage} 
                       disabled={currentPage === totalPages}
                       className="flex items-center px-3 py-1 text-xs text-white bg-blue-600 border border-blue-700 rounded-md disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-500 hover:bg-blue-700"
@@ -689,7 +689,7 @@ const PrescriptiveAnalytics = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </button>
+                          </button>
                   </div>
                 </div>
                 
@@ -700,7 +700,7 @@ const PrescriptiveAnalytics = () => {
                       <div className="py-1 pl-2 mb-2 border-l-4 border-green-500 rounded-r-lg bg-green-50">
                         <div className="flex items-start justify-between">
                           <h4 className="text-xs font-semibold text-gray-900">{person.name}</h4>
-                          <button 
+                          <button
                             onClick={() => generatePersonnelPDF(person)}
                             className="text-blue-600 hover:text-blue-800"
                             title="Download PDF Report"
@@ -710,27 +710,27 @@ const PrescriptiveAnalytics = () => {
                         </div>
                         <p className="text-xs text-gray-600">{person.currentRank} → {person.recommendedRank}</p>
                         <p className="text-xs text-gray-600">Score: {person.score}%</p>
-                      </div>
-                      
+                          </div>
+
                       <div className="space-y-1 text-xs">
                         <div className="flex">
                           <div className="w-1/3 font-semibold text-gray-700">Service ID:</div>
                           <div className="w-2/3 text-gray-900">{person.serviceId}</div>
-                        </div>
+                            </div>
                         <div className="flex">
                           <div className="w-1/3 font-semibold text-gray-700">Company:</div>
                           <div className="w-2/3 text-gray-900">{person.company}</div>
-                        </div>
+                                    </div>
                         <div className="flex">
                           <div className="w-1/3 font-semibold text-gray-700">Email:</div>
                           <div className="w-2/3 text-gray-900">{person.militaryEmail}</div>
-                        </div>
+                                  </div>
                         <div className="flex">
                           <div className="w-1/3 font-semibold text-gray-700">Eligible:</div>
                           <div className="w-2/3 text-gray-900">{person.eligibilityDate}</div>
-                        </div>
-                      </div>
-                      
+                            </div>
+                          </div>
+
                       {/* Training Completions Section */}
                       <div className="pt-2 mt-2 border-t border-gray-100">
                         <h5 className="mb-1 text-xs font-semibold text-gray-700">Completed Trainings:</h5>
@@ -738,19 +738,19 @@ const PrescriptiveAnalytics = () => {
                           <div className="flex items-center justify-center py-2">
                             <div className="w-3 h-3 mr-2 border-2 border-blue-600 rounded-full animate-spin border-t-transparent"></div>
                             <span className="text-xs text-gray-500">Loading trainings...</span>
-                          </div>
+                              </div>
                         ) : person.completedTrainings && person.completedTrainings.length > 0 ? (
                           <ul className="pl-4 text-xs text-gray-600 list-disc">
                             {person.completedTrainings.slice(0, 3).map((training, idx) => (
                               <li key={idx} className="mb-1">
                                 {training.title}
                                 <span className="text-xs text-gray-500"> ({training.completionDate})</span>
-                              </li>
-                            ))}
+                                    </li>
+                                  ))}
                             {person.completedTrainings.length > 3 && (
                               <li className="text-blue-600">+{person.completedTrainings.length - 3} more</li>
                             )}
-                          </ul>
+                                </ul>
                         ) : (
                           <p className="text-xs italic text-gray-500">No training records available</p>
                         )}
@@ -762,9 +762,9 @@ const PrescriptiveAnalytics = () => {
                            person.score >= 80 ? "Fast-track to promotion board" :
                            "Schedule for promotion review"}
                         </p>
-                      </div>
-                    </div>
-                  ))}
+                                      </div>
+                                    </div>
+                                  ))}
                   
                   {/* Empty state when no items on current page */}
                   {getCurrentPageItems().length === 0 && (
@@ -773,11 +773,11 @@ const PrescriptiveAnalytics = () => {
                         <Award className="w-10 h-10 mx-auto mb-2 text-gray-400" />
                         <h3 className="text-sm font-semibold text-gray-900">No promotion candidates found</h3>
                         <p className="mt-1 text-xs text-gray-500">Try adjusting your filters or generate new analysis</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              </div>
             ) : (
               <div className="flex items-center justify-center h-full">
                 <div className="max-w-md p-4 text-center bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -793,10 +793,10 @@ const PrescriptiveAnalytics = () => {
                     </p>
                   )}
                 </div>
-              </div>
-            )}
+                    </div>
+                  )}
+            </div>
           </div>
-        </div>
       </div>
     </div>
   );
