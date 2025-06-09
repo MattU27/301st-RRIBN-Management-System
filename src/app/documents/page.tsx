@@ -125,17 +125,23 @@ const refreshTokenIfNeeded = async () => {
 const convertToPhilippineTime = (dateString: string | Date) => {
   if (!dateString) return 'Unknown date';
   
-  const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
-  
-  // Philippine Time is UTC+8
-  return new Date(date.getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-PH', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
-  });
+  try {
+    const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
+    
+    // Create a formatter with Philippine timezone (Asia/Manila)
+    return new Intl.DateTimeFormat('en-PH', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Manila'
+    }).format(date);
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'Unknown date';
+  }
 };
 
 export default function DocumentsPage() {
@@ -202,12 +208,25 @@ export default function DocumentsPage() {
         prevDocs.filter((doc) => doc._id !== deletedDocId)
       );
     });
+    
+    // Listen for document rejection events (special case for mobile app)
+    socket.on('document:reject', (rejectedDoc) => {
+      console.log('Document rejected:', rejectedDoc);
+      
+      // Update the document status in the state
+      setDocuments((prevDocs) => 
+        prevDocs.map((doc) => 
+          doc._id === rejectedDoc._id ? { ...doc, status: 'rejected', comments: rejectedDoc.comments || 'Document rejected' } : doc
+        )
+      );
+    });
 
     return () => {
       // Clean up listeners
       socket.off('document:new');
       socket.off('document:update');
       socket.off('document:delete');
+      socket.off('document:reject');
     };
   }, [socket]);
 
@@ -445,7 +464,12 @@ export default function DocumentsPage() {
       });
       
       if (response.data.success) {
-        setDocuments(documents.filter(doc => doc._id !== documentToReject));
+        // Instead of filtering out the document, update its status to 'rejected'
+        setDocuments(prevDocs => 
+          prevDocs.map(doc => 
+            doc._id === documentToReject ? { ...doc, status: 'rejected', comments: 'Document rejected by staff' } : doc
+          )
+        );
         toast.success('Document rejected successfully');
       } else {
         throw new Error(response.data.error || 'Failed to reject document');
@@ -469,7 +493,18 @@ export default function DocumentsPage() {
   };
 
   const handleViewDocument = (document: Document) => {
-    setSelectedDocument(document);
+    console.log('Viewing document:', document);
+    console.log('Document verifiedBy:', document.verifiedBy);
+    
+    // Create a safe copy of the document to avoid passing complex objects
+    const safeDocument = {
+      ...document,
+      verifiedBy: typeof document.verifiedBy === 'object' ? 
+        `${document.verifiedBy.firstName || ''} ${document.verifiedBy.lastName || ''}` : 
+        document.verifiedBy || 'Staff Member'
+    };
+    
+    setSelectedDocument(safeDocument);
     setShowDocumentViewer(true);
   };
 
@@ -949,9 +984,9 @@ export default function DocumentsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">{document.uploadDate || document.createdAt || 'Unknown date'}</div>
-                          {document.status === 'verified' && document.verifiedDate && (
+                          {document.status === 'verified' && (
                             <div className="mt-1 text-xs text-green-600">
-                              Verified: {document.verifiedDate}
+                              {document.verifiedDate ? `Verified: ${document.verifiedDate}` : 'Verified'}
                               {document.verifiedBy && typeof document.verifiedBy === 'object' && (
                                 <span className="block">
                                   by: {document.verifiedBy.rank ? `${document.verifiedBy.rank} ` : ''}
@@ -1190,24 +1225,8 @@ export default function DocumentsPage() {
                     </h3>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Please verify or reject the document "{documentToVerify.name}"
+                        Are you sure you want to verify the document "{documentToVerify.name}"?
                       </p>
-                      
-                      <div className="mt-4 space-y-4">
-                        <div>
-                          <label htmlFor="rejectReason" className="block text-sm font-medium text-gray-700">
-                            Reason for rejection (optional)
-                          </label>
-                          <textarea
-                            id="rejectReason"
-                            placeholder="Enter reason for rejection"
-                            className="block w-full px-3 py-2 mt-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            rows={4}
-                            value={rejectReason}
-                            onChange={(e) => setRejectReason(e.target.value)}
-                          />
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -1221,15 +1240,6 @@ export default function DocumentsPage() {
                   className="w-full sm:w-auto sm:ml-3"
                 >
                   Verify
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleVerifyDocument(false)}
-                  disabled={isVerifying}
-                  isLoading={isVerifying}
-                  className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-3"
-                >
-                  Reject
                 </Button>
                 <Button
                   variant="secondary"

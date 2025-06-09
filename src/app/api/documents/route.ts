@@ -675,20 +675,33 @@ export async function DELETE(request: Request) {
     }
     
     // Check if user owns the document or is an admin
-    if (document.userId.toString() !== decoded.userId && 
+    // Safely handle userId comparison with proper null/undefined checks
+    const userIdMatch = document.userId ? 
+      (document.userId.toString() === decoded.userId) : 
+      false;
+      
+    if (!userIdMatch && 
         decoded.role !== 'admin' && 
-        decoded.role !== 'director') {
+        decoded.role !== 'director' &&
+        decoded.role !== 'staff') {
       return NextResponse.json(
         { success: false, error: 'Permission denied' },
         { status: 403 }
       );
     }
     
-    // Delete the document
-    await Document.findByIdAndDelete(id);
+    // Instead of deleting, update the document status to 'rejected'
+    const updateResult = await Document.findByIdAndUpdate(
+      id,
+      { 
+        status: 'rejected',
+        comments: 'Document rejected by staff'
+      },
+      { new: true }
+    );
     
-    // Emit socket event
-    emitSocketEvent('document:delete', id);
+    // Emit socket event for update instead of delete
+    emitSocketEvent('document:update', updateResult);
     
     return NextResponse.json({
       success: true,

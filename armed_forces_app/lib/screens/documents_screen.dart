@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart' as path;
+import 'package:open_file/open_file.dart';
 import 'dart:convert';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_constants.dart';
@@ -447,6 +448,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     Color statusColor;
     IconData statusIcon;
     String statusText;
+    String? statusAction;
     
     switch (document.status) {
       case 'verified':
@@ -463,6 +465,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
         statusColor = AppTheme.errorColor;
         statusIcon = Icons.cancel;
         statusText = 'Rejected';
+        statusAction = 'Tap to re-upload';
         break;
       default:
         statusColor = AppTheme.textSecondaryColor;
@@ -553,14 +556,28 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                     borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: statusColor),
                     ),
-                  child: Text(
-                          statusText,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        statusText,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: statusColor,
+                        ),
+                      ),
+                      if (statusAction != null)
+                        Text(
+                          statusAction,
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            fontStyle: FontStyle.italic,
                             color: statusColor,
                           ),
-                    ),
+                        ),
+                    ],
+                  ),
                   ),
                 ],
               ),
@@ -574,6 +591,27 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 ),
+            ],
+            
+            // For rejected documents, show a message
+            if (document.status == 'rejected') ...[
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(Icons.info_outline, size: 16, color: AppTheme.errorColor),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'This document was rejected. Please tap to re-upload.',
+                      style: TextStyle(
+                        color: AppTheme.errorColor,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
             
             // Upload date and uploader info
@@ -1530,7 +1568,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               ),
               const SizedBox(height: 8),
               Text(
-                documentStatus == 'missing' ? 'Tap to upload' : documentStatus == 'pending' ? 'Tap to view/delete' : 'Tap to view',
+                documentStatus == 'missing' ? 'Tap to upload' : 'Tap to view',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[600],
@@ -1868,6 +1906,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   // Method to view a document
   Future<void> _viewDocument(Document document) async {
     try {
+      // For rejected documents, show the upload dialog instead
+      if (document.status == 'rejected') {
+        _showUploadDocumentDialog(preselectedDocType: document.type);
+        return;
+      }
+      
       // Set loading state
       setState(() {
         _isLoading = true;
@@ -1917,11 +1961,24 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
       // Download the document
       final file = await _documentService.downloadDocument(document.id, document.fileName);
       
+      // No need to update document state, just use the file directly
+      
       // Get a user-friendly path to display
-      String displayPath = 'App Storage';
-      if (file.path.contains('documents')) {
+      String displayPath = file.path;
+      if (file.path.contains('/storage/emulated/0/Download')) {
+        displayPath = 'Downloads Folder';
+      } else if (file.path.contains('/storage/emulated/0/Downloads')) {
+        displayPath = 'Downloads Folder';
+      } else if (file.path.contains('/sdcard/Download')) {
+        displayPath = 'Downloads Folder';
+      } else if (file.path.contains('/sdcard/Downloads')) {
+        displayPath = 'Downloads Folder';
+      } else if (file.path.contains('documents')) {
         displayPath = 'App Documents Folder';
       }
+      
+      print('File downloaded to: ${file.path}');
+      print('Display path: $displayPath');
       
       // Show success message with file path
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1935,16 +1992,39 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               ),
               const SizedBox(height: 4),
               Text('Saved to: $displayPath'),
+              const SizedBox(height: 4),
+              Text('Full path: ${file.path}', style: TextStyle(fontSize: 12)),
             ],
           ),
           backgroundColor: AppTheme.successColor,
-          duration: const Duration(seconds: 5),
+          duration: const Duration(seconds: 8),
           action: SnackBarAction(
             label: 'VIEW',
             textColor: Colors.white,
             onPressed: () async {
-              // Show document viewer
-              _viewDocument(document);
+              try {
+                print('Attempting to open file: ${file.path}');
+                final result = await OpenFile.open(file.path);
+                print('Open file result: ${result.type} - ${result.message}');
+                
+                if (result.type != ResultType.done) {
+                  // If opening fails, show an error message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Could not open file: ${result.message}'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              } catch (e) {
+                print('Error opening file: $e');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error opening file: ${e.toString()}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             },
           ),
         ),
@@ -1968,121 +2048,164 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   void _showDocumentViewerDialog(Document document, {File? localFile}) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(document.title),
-        content: SizedBox(
-          width: double.maxFinite,
-          height: 400,
+      barrierDismissible: false,
+      builder: (BuildContext context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.9,
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
+          ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Document info
-              Text('Type: ${document.type}', style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text('Filename: ${document.fileName}'),
-              if (document.description != null && document.description!.isNotEmpty)
-                Text('Description: ${document.description}'),
-              
-              // Show status with color
+              // Header with document title and status
               Row(
                 children: [
-                  Text('Status: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: _getStatusColor(document.status).withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _getStatusColor(document.status)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          document.title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            _buildStatusBadge(document.status),
+                            const SizedBox(width: 8),
+                            Text(
+                              document.type,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      _capitalizeFirst(document.status),
-                      style: TextStyle(
-                        color: _getStatusColor(document.status),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
                   ),
                 ],
               ),
               
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               const Divider(),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
+              
+              // Document metadata
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Uploaded: ${DateFormat('MMM dd, yyyy').format(document.uploadedAt)}',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 8),
               
               // Document preview
               Expanded(
                 child: Container(
-                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey[300]!),
                   ),
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: _buildFilePreview(localFile, document),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: _buildFilePreview(document, localFile),
                   ),
                 ),
               ),
               
-              // File location info if available
-              if (localFile != null) ...[
-                const SizedBox(height: 12),
-                const Text('File Location:', style: TextStyle(fontWeight: FontWeight.bold)),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.grey[300]!),
+              // Action buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (localFile != null)
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        try {
+                          print('Attempting to open file: ${localFile.path}');
+                          final result = await OpenFile.open(localFile.path);
+                          print('Open file result: ${result.type} - ${result.message}');
+                          
+                          if (result.type != ResultType.done) {
+                            // If opening fails, show an error message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Could not open file: ${result.message}'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          print('Error opening file: $e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Error opening file: ${e.toString()}'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.open_in_new, size: 18),
+                      label: const Text('Open'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  const SizedBox(width: 8),
+                  // Only show delete button for verified documents
+                  if (document.status == 'verified')
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _showDeleteConfirmationDialog(document);
+                      },
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      label: const Text('Delete', style: TextStyle(color: Colors.red)),
+                    ),
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _downloadDocument(document);
+                    },
+                    icon: const Icon(Icons.download, size: 18),
+                    label: const Text('Download'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
-                  child: Text(
-                    localFile.path,
-                    style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-          // Show delete button only for pending documents
-          if (document.status == 'pending')
-            TextButton.icon(
-              onPressed: () {
-                // Close the viewer dialog
-                Navigator.pop(context);
-                // Show delete confirmation
-                _showDeleteDocumentConfirmation(document);
-              },
-              icon: const Icon(Icons.delete, color: AppTheme.errorColor),
-              label: const Text('Delete', style: TextStyle(color: AppTheme.errorColor)),
-            ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-              _downloadDocument(document);
-            },
-            icon: const Icon(Icons.download, size: 18),
-            label: const Text('Download'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryColor,
-              foregroundColor: Colors.white,
-            ),
-          ),
-        ],
       ),
     );
   }
   
   // Show delete confirmation dialog
-  void _showDeleteDocumentConfirmation(Document document) {
+  void _showDeleteConfirmationDialog(Document document) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -2216,17 +2339,17 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
   }
 
   // Build file preview based on file type
-  Widget _buildFilePreview(File? file, Document document) {
-    if (file == null) {
+  Widget _buildFilePreview(Document document, File? localFile) {
+    if (localFile == null) {
       return _buildPlaceholderPreview(document);
     }
     
-    final String fileName = file.path.toLowerCase();
+    final String fileName = localFile.path.toLowerCase();
     
     try {
       if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png')) {
         return Image.file(
-          file,
+          localFile,
           fit: BoxFit.contain,
           errorBuilder: (context, error, stackTrace) {
             print('Error loading image: $error');
@@ -2402,6 +2525,63 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               foregroundColor: Colors.white,
             ),
             child: const Text('Create'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Add the missing _buildStatusBadge method
+  Widget _buildStatusBadge(String status) {
+    Color badgeColor;
+    IconData badgeIcon;
+    String badgeText;
+    
+    switch (status) {
+      case 'verified':
+        badgeColor = AppTheme.successColor;
+        badgeIcon = Icons.check_circle;
+        badgeText = 'Verified';
+        break;
+      case 'pending':
+        badgeColor = AppTheme.warningColor;
+        badgeIcon = Icons.hourglass_empty;
+        badgeText = 'Pending';
+        break;
+      case 'rejected':
+        badgeColor = AppTheme.errorColor;
+        badgeIcon = Icons.cancel;
+        badgeText = 'Rejected';
+        break;
+      default:
+        badgeColor = Colors.grey;
+        badgeIcon = Icons.help;
+        badgeText = 'Unknown';
+    }
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: badgeColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: badgeColor),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            badgeIcon,
+            size: 12,
+            color: badgeColor,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            badgeText,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: badgeColor,
+            ),
           ),
         ],
       ),

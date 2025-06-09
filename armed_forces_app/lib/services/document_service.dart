@@ -7,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
 import '../models/user_model.dart';
@@ -1157,38 +1160,129 @@ class DocumentService {
   // Helper method to save file to Downloads directory
   Future<File> _saveToDownloads(String fileName, Uint8List fileData) async {
     try {
-      // For simplicity and to avoid permission issues, let's use the app's internal storage
-      Directory? directory;
-      
-      try {
-        // Use the app's documents directory which doesn't require special permissions
-        directory = Directory.systemTemp;
-        
-        // Create a documents subdirectory if it doesn't exist
-        final Directory docsDir = Directory('${directory.path}/documents');
-        if (!await docsDir.exists()) {
-          await docsDir.create(recursive: true);
+      // Request storage permissions for Android
+      if (Platform.isAndroid) {
+        if (kDebugMode) {
+          print('Requesting storage permission');
         }
-        directory = docsDir;
         
-        print('Using internal storage directory: ${directory.path}');
-      } catch (e) {
-        print('Error getting app directory: $e');
-        directory = Directory.systemTemp;
+        var status = await Permission.storage.status;
+        if (!status.isGranted) {
+          status = await Permission.storage.request();
+          if (!status.isGranted) {
+            throw Exception('Storage permission denied');
+          }
+        }
+        
+        // For Android 11+ we need to request manage external storage permission
+        var externalStatus = await Permission.manageExternalStorage.status;
+        if (!externalStatus.isGranted) {
+          print('Requesting manage external storage permission');
+          externalStatus = await Permission.manageExternalStorage.request();
+          if (!externalStatus.isGranted) {
+            print('Manage external storage permission denied, but continuing anyway');
+          }
+        }
+        
+        if (kDebugMode) {
+          print('Storage permission status: ${status.name}');
+          print('Manage external storage permission status: ${externalStatus.name}');
+        }
       }
       
-      // Ensure unique filename to avoid overwriting existing files
-      final String uniqueFileName = '${DateTime.now().millisecondsSinceEpoch}_$fileName';
-      final String filePath = '${directory.path}/$uniqueFileName';
+      // Get Downloads directory
+      Directory? downloadsDir;
+      
+      if (Platform.isAndroid) {
+        try {
+          // Try to use the external storage directory first (public Downloads folder)
+          // Common paths for the Downloads directory on Android
+          List<String> possiblePaths = [
+            '/storage/emulated/0/Download',
+            '/storage/emulated/0/Downloads',
+            '/sdcard/Download',
+            '/sdcard/Downloads'
+          ];
+          
+          // Try each path until we find one that exists
+          for (String path in possiblePaths) {
+            Directory dir = Directory(path);
+            print('Checking if Downloads directory exists: $path');
+            if (await dir.exists()) {
+              print('Found Downloads directory: $path');
+              downloadsDir = dir;
+              break;
+            }
+          }
+          
+          // If we couldn't find a standard Downloads directory, use the external storage directory
+          if (downloadsDir == null) {
+            final externalDir = await getExternalStorageDirectory();
+            if (externalDir != null) {
+              print('Using external storage directory: ${externalDir.path}');
+              downloadsDir = Directory('${externalDir.path}/Download');
+              if (!await downloadsDir.exists()) {
+                print('Creating Download directory in external storage');
+                await downloadsDir.create(recursive: true);
+              }
+            }
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('Error accessing external storage: $e');
+          }
+        }
+        
+        // If external storage is not available, use application documents directory
+        if (downloadsDir == null) {
+          final appDocDir = await getApplicationDocumentsDirectory();
+          print('Using app documents directory as fallback: ${appDocDir.path}');
+          downloadsDir = Directory('${appDocDir.path}/Download');
+          if (!await downloadsDir.exists()) {
+            print('Creating Download directory in app documents directory');
+            await downloadsDir.create(recursive: true);
+          }
+        }
+      } else {
+        // For iOS and other platforms, use the documents directory
+        final appDocDir = await getApplicationDocumentsDirectory();
+        print('Using app documents directory for iOS: ${appDocDir.path}');
+        downloadsDir = appDocDir;
+      }
+      
+      if (downloadsDir == null) {
+        throw Exception('Could not access Downloads directory');
+      }
+      
+      if (kDebugMode) {
+        print('Using downloads directory: ${downloadsDir.path}');
+      }
+      
+      // Create a unique filename
+      final String safeFileName = fileName.replaceAll(RegExp(r'[^\w\s.-]'), '_');
+      final String uniqueFileName = '${DateTime.now().millisecondsSinceEpoch}_$safeFileName';
+      final filePath = '${downloadsDir.path}/$uniqueFileName';
+      
+      print('Attempting to save file to: $filePath');
       
       // Create and write to the file
-      final File file = File(filePath);
+      final file = File(filePath);
       await file.writeAsBytes(fileData);
       
-      print('File saved to: $filePath');
+      // Verify the file was created
+      bool fileExists = await file.exists();
+      print('File created successfully: $fileExists');
+      print('File size: ${await file.length()} bytes');
+      
+      if (kDebugMode) {
+        print('File saved to: ${file.path}');
+      }
       return file;
     } catch (e) {
-      print('Error saving file: $e');
+      if (kDebugMode) {
+        print('Error saving file: $e');
+        print('Error stack trace: ${StackTrace.current}');
+      }
       throw Exception('Failed to save file: $e');
     }
   }

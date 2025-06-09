@@ -194,19 +194,30 @@ export async function GET(request: Request) {
     // Process documents to ensure consistent format and handle mobile uploads
     const processedDocuments = documents.map(doc => {
       try {
-        // Format dates
+        // Format dates - include all possible date fields
+        const dateOptions = {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true
+        };
+        
+        // Make sure we have an uploadDate
         if (doc.uploadDate) {
-          doc.uploadDate = new Date(doc.uploadDate).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          });
+          doc.uploadDate = new Date(doc.uploadDate).toLocaleString('en-US', dateOptions);
         } else if (doc.createdAt) {
-          doc.uploadDate = new Date(doc.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          });
+          doc.uploadDate = new Date(doc.createdAt).toLocaleString('en-US', dateOptions);
+        } else if (doc.uploadedAt) {
+          doc.uploadDate = new Date(doc.uploadedAt).toLocaleString('en-US', dateOptions);
+        } else {
+          doc.uploadDate = new Date().toLocaleString('en-US', dateOptions);
+        }
+        
+        // Format verification date if available
+        if (doc.verifiedDate) {
+          doc.verifiedDate = new Date(doc.verifiedDate).toLocaleString('en-US', dateOptions);
         }
         
         // Handle document name
