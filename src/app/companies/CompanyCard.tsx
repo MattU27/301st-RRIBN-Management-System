@@ -70,7 +70,8 @@ export default function CompanyCard({ company, onViewPersonnel, onViewReport }: 
     if (onViewReport) {
       onViewReport(company.name);
     } else {
-      router.push(`/reports/company/${formatCompanyName(company.name)}`);
+      // Direct to the reservist report by default
+      router.push(`/reports/company/${formatCompanyName(company.name)}/reservists`);
     }
   };
   
@@ -159,6 +160,7 @@ export default function CompanyCard({ company, onViewPersonnel, onViewReport }: 
             size="sm"
             onClick={handleViewReport}
             className="text-xs py-1 bg-yellow-400 hover:bg-yellow-500 text-gray-800 border-none flex-1"
+            title="Generate Reservist Report"
           >
             <ChartBarIcon className="h-4 w-4 mr-1" />
             Report

@@ -19,7 +19,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   LightBulbIcon,
-  EyeIcon
+  EyeIcon,
+  DocumentChartBarIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '@/contexts/AuthContext';
 import { navigationConfig, NavItem } from '@/config/navigation';
@@ -157,6 +158,8 @@ const Sidebar = () => {
         return <BuildingOfficeIcon className="h-6 w-6" aria-hidden="true" />;
       case 'Manage Accounts':
         return <Cog6ToothIcon className="h-6 w-6" aria-hidden="true" />;
+      case 'Generate Report':
+        return <DocumentChartBarIcon className="h-6 w-6" aria-hidden="true" />;
       default:
         return <HomeIcon className="h-6 w-6" aria-hidden="true" />;
     }

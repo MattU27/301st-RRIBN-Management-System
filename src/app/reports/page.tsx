@@ -11,9 +11,13 @@ import {
   ArrowDownTrayIcon,
   UserGroupIcon,
   AcademicCapIcon,
-  ClipboardDocumentCheckIcon
+  ClipboardDocumentCheckIcon,
+  UsersIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PrinterIcon
 } from '@heroicons/react/24/outline';
-import { exportToCSV, exportToExcel, exportToPDF } from '@/utils/exportUtils';
+import { exportToCSV, exportToExcel, exportToPDF, printReport } from '@/utils/exportUtils';
 import PermissionGuard from '@/components/PermissionGuard';
 
 // Report types
@@ -22,7 +26,8 @@ type ReportType =
   | 'training_completion'
   | 'document_status'
   | 'readiness_summary'
-  | 'audit_logs';
+  | 'audit_logs'
+  | 'reservist_listing';
 
 // Report formats
 type ExportFormat = 'csv' | 'excel' | 'pdf';
@@ -37,18 +42,79 @@ interface ReportDefinition {
 }
 
 export default function ReportsPage() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading, getToken } = useAuth();
   const router = useRouter();
   const [selectedReport, setSelectedReport] = useState<ReportType | null>(null);
   const [exportFormat, setExportFormat] = useState<ExportFormat>('pdf');
   const [isGenerating, setIsGenerating] = useState(false);
   const [previewData, setPreviewData] = useState<any[] | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allData, setAllData] = useState<any[] | null>(null);
+  const [filterValue, setFilterValue] = useState('');
+  const [filteredData, setFilteredData] = useState<any[] | null>(null);
+  const [companyFilter, setCompanyFilter] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [availableCompanies, setAvailableCompanies] = useState<string[]>([]);
+  const [availableStatuses, setAvailableStatuses] = useState<string[]>([]);
+  const rowsPerPage = 5; // Show 5 rows per page
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
     }
   }, [isLoading, isAuthenticated, router]);
+
+  // Extract unique companies and statuses when data changes
+  useEffect(() => {
+    if (!allData) return;
+    
+    // Extract unique companies
+    const companies = Array.from(new Set(allData.map(item => item.company))).filter(Boolean);
+    setAvailableCompanies(companies);
+    
+    // Extract unique statuses
+    const statuses = Array.from(new Set(allData.map(item => item.status))).filter(Boolean);
+    setAvailableStatuses(statuses);
+  }, [allData]);
+
+  // Apply filters when filter values or all data changes
+  useEffect(() => {
+    if (!allData) return;
+    
+    let filtered = [...allData];
+    
+    // Apply text search filter
+    if (filterValue.trim()) {
+      const lowerFilter = filterValue.toLowerCase();
+      filtered = filtered.filter(item => {
+        return Object.values(item).some(value => 
+          String(value).toLowerCase().includes(lowerFilter)
+        );
+      });
+    }
+    
+    // Apply company filter
+    if (companyFilter) {
+      filtered = filtered.filter(item => item.company === companyFilter);
+    }
+    
+    // Apply status filter
+    if (statusFilter) {
+      filtered = filtered.filter(item => item.status === statusFilter);
+    }
+    
+    setFilteredData(filtered);
+    setCurrentPage(1); // Reset to first page when filtering
+  }, [filterValue, companyFilter, statusFilter, allData]);
+
+  // Update preview data when filtered data or current page changes
+  useEffect(() => {
+    if (!filteredData) return;
+    
+    const startIdx = (currentPage - 1) * rowsPerPage;
+    const endIdx = startIdx + rowsPerPage;
+    setPreviewData(filteredData.slice(startIdx, endIdx));
+  }, [filteredData, currentPage, rowsPerPage]);
 
   // Mock data for reports
   const getMockPersonnelData = async () => {
@@ -101,13 +167,145 @@ export default function ReportsPage() {
     ];
   };
 
+  const getMockReservistListingData = async () => {
+    try {
+      // Get authentication token
+      const token = await getToken();
+      
+      if (!token) {
+        throw new Error('Authentication failed');
+      }
+      
+      // API endpoint to fetch reservist data - setting a large limit to get all records
+      const apiUrl = '/api/personnel?role=reservist&limit=1000';
+      
+      // Make the API request
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Cache-Control': 'no-cache'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch reservist data');
+      }
+      
+      const data = await response.json();
+      
+      // Debug the response structure
+      console.log('API Response structure:', JSON.stringify(data, null, 2).slice(0, 200) + '...');
+      console.log('Total records fetched:', data.data ? (Array.isArray(data.data) ? data.data.length : (data.data.personnel ? data.data.personnel.length : 'unknown')) : 'unknown');
+      
+      // Check for different response structures
+      if (data.success) {
+        // Handle case where data is in data.personnel (standard structure)
+        if (data.data && data.data.personnel && Array.isArray(data.data.personnel)) {
+          console.log('Using data.data.personnel structure');
+          return data.data.personnel.map((person: any) => ({
+            id: person._id,
+            serialNumber: person.serviceNumber || 'N/A',
+            name: person.name || `${person.firstName || ''} ${person.lastName || ''}`.trim() || 'N/A',
+            rank: person.rank || 'N/A',
+            company: typeof person.company === 'object' && person.company && person.company.name 
+              ? person.company.name 
+              : (person.companyName || person.company || 'N/A'),
+            contactNumber: person.contactNumber || person.phone || person.phoneNumber || 'N/A',
+            email: person.email || person.alternativeEmail || 'N/A',
+            status: person.status || 'N/A',
+            active: person.isActive ? 'Yes' : 'No',
+            verified: person.isVerified ? 'Yes' : 'No',
+            dateJoined: person.dateJoined ? new Date(person.dateJoined).toLocaleDateString() : 'N/A',
+            lastUpdated: person.lastUpdated ? new Date(person.lastUpdated).toLocaleDateString() : 'N/A'
+          }));
+        } 
+        // Handle case where data is directly in data (alternative structure)
+        else if (data.data && Array.isArray(data.data)) {
+          console.log('Using data.data array structure');
+          return data.data.map((person: any) => ({
+            id: person._id,
+            serialNumber: person.serviceNumber || 'N/A',
+            name: person.name || `${person.firstName || ''} ${person.lastName || ''}`.trim() || 'N/A',
+            rank: person.rank || 'N/A',
+            company: typeof person.company === 'object' && person.company && person.company.name 
+              ? person.company.name 
+              : (person.companyName || person.company || 'N/A'),
+            contactNumber: person.contactNumber || person.phone || person.phoneNumber || 'N/A',
+            email: person.email || person.alternativeEmail || 'N/A',
+            status: person.status || 'N/A',
+            active: person.isActive ? 'Yes' : 'No',
+            verified: person.isVerified ? 'Yes' : 'No',
+            dateJoined: person.dateJoined ? new Date(person.dateJoined).toLocaleDateString() : 'N/A',
+            lastUpdated: person.lastUpdated ? new Date(person.lastUpdated).toLocaleDateString() : 'N/A'
+          }));
+        }
+      }
+      
+      // If response format doesn't match expected structures
+      console.error('Failed to fetch reservist data: Invalid response format', data);
+      throw new Error('Invalid response format');
+    } catch (error) {
+      console.error('Error fetching reservist data:', error);
+      
+      // Use fallback sample data in development mode or for demo purposes
+      if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_USE_SAMPLE_DATA === 'true') {
+        console.log('Using fallback sample data for demonstration');
+        // Generate more sample data to demonstrate pagination
+        return Array(20).fill(0).map((_, index) => {
+          const companies = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'HQ', 'NERRSC (Signal Company)'];
+          const ranks = ['Private', 'Corporal', 'Sergeant', 'Staff Sergeant', 'Lieutenant', 'Captain', 'Major', 'Colonel', 'General'];
+          const statuses = ['Ready', 'Standby', 'On Leave', 'Training'];
+          
+          return {
+            id: `68064464c89aeb74f${457340 + index}`,
+            serialNumber: `${2018 + Math.floor(index/5)}-${10000 + index * 100}`,
+            name: [
+              'John Matthew Banto', 
+              'Camila Ramos', 
+              'Antonio Reyes', 
+              'Carmen Santos', 
+              'Isabella Torres', 
+              'Regina Gomez', 
+              'Andres Ramirez', 
+              'Gabriel Mercado', 
+              'Maria Lim', 
+              'Jose Rizal', 
+              'Elena Cruz', 
+              'Miguel Santos', 
+              'Roberto Aquino', 
+              'Javier Velasco',
+              'Juan Tolentino',
+              'Alberto Villanueva',
+              'Felipe Gomez',
+              'Ricardo Luna',
+              'Eduardo Santos',
+              'Rodrigo Duterte'
+            ][index % 20],
+            rank: ranks[index % ranks.length],
+            company: companies[index % companies.length],
+            contactNumber: `+63${9450000000 + index}`,
+            email: `${['banto', 'ramos', 'reyes', 'santos', 'torres', 'gomez', 'ramirez', 'mercado', 'lim', 'rizal'][index % 10]}@afpreserve.mil.ph`,
+            status: statuses[index % statuses.length],
+            active: index % 5 === 0 ? 'No' : 'Yes',
+            verified: 'Yes',
+            dateJoined: `202${index % 5 + 1}-${(index % 12) + 1}-${(index % 28) + 1}`,
+            lastUpdated: '2023-11-20'
+          };
+        });
+      }
+      
+      // Return empty array in case of error and no fallback
+      return [];
+    }
+  };
+
   // Define available reports
   const reports: ReportDefinition[] = [
     {
       id: 'personnel_roster',
       name: 'Personnel Roster',
       description: 'Complete list of all personnel with their basic information',
-      icon: <UserGroupIcon className="h-8 w-8 text-indigo-600" />,
+      icon: <UserGroupIcon className="w-8 h-8 text-indigo-600" />,
       requiredPermission: 'view_all_personnel',
       getData: getMockPersonnelData
     },
@@ -115,7 +313,7 @@ export default function ReportsPage() {
       id: 'training_completion',
       name: 'Training Completion',
       description: 'Summary of training completion rates and statistics',
-      icon: <AcademicCapIcon className="h-8 w-8 text-green-600" />,
+      icon: <AcademicCapIcon className="w-8 h-8 text-green-600" />,
       requiredPermission: 'view_trainings',
       getData: getMockTrainingData
     },
@@ -123,7 +321,7 @@ export default function ReportsPage() {
       id: 'document_status',
       name: 'Document Status',
       description: 'Status of all documents and verification information',
-      icon: <DocumentTextIcon className="h-8 w-8 text-blue-600" />,
+      icon: <DocumentTextIcon className="w-8 h-8 text-blue-600" />,
       requiredPermission: 'view_documents',
       getData: getMockDocumentData
     },
@@ -131,7 +329,7 @@ export default function ReportsPage() {
       id: 'readiness_summary',
       name: 'Readiness Summary',
       description: 'Overall readiness metrics by company and category',
-      icon: <ChartBarIcon className="h-8 w-8 text-purple-600" />,
+      icon: <ChartBarIcon className="w-8 h-8 text-purple-600" />,
       requiredPermission: 'view_analytics',
       getData: getMockReadinessData
     },
@@ -139,26 +337,77 @@ export default function ReportsPage() {
       id: 'audit_logs',
       name: 'Audit Logs',
       description: 'System audit logs showing user actions and events',
-      icon: <ClipboardDocumentCheckIcon className="h-8 w-8 text-red-600" />,
+      icon: <ClipboardDocumentCheckIcon className="w-8 h-8 text-red-600" />,
       requiredPermission: 'view_system_logs',
       getData: getMockAuditLogData
+    },
+    {
+      id: 'reservist_listing',
+      name: 'Reservist Listing',
+      description: 'Complete list of all reservists with contact information and status',
+      icon: <UsersIcon className="w-8 h-8 text-yellow-600" />,
+      requiredPermission: 'view_personnel', // Basic permission that all staff and above have
+      getData: getMockReservistListingData
     }
   ];
 
   const handleSelectReport = async (reportType: ReportType) => {
     setSelectedReport(reportType);
     setPreviewData(null);
+    setAllData(null);
+    setFilteredData(null);
+    setFilterValue('');
+    setCompanyFilter('');
+    setStatusFilter('');
+    setCurrentPage(1);
     
-    // Get preview data
+    // Get data
     const report = reports.find(r => r.id === reportType);
     if (report) {
       try {
         const data = await report.getData();
-        setPreviewData(data.slice(0, 3)); // Show only first 3 rows in preview
+        setAllData(data);
+        setFilteredData(data);
+        // Set the first page of data for preview
+        setPreviewData(data.slice(0, rowsPerPage));
       } catch (error) {
         console.error('Failed to get report data:', error);
       }
     }
+  };
+
+  const handlePrint = () => {
+    if (!selectedReport || !allData) return;
+    
+    // Get the report title
+    const reportTitle = reports.find(r => r.id === selectedReport)?.name || 'Report';
+    
+    // Use the printReport utility function
+    printReport(allData, reportTitle);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (!filteredData) return;
+    
+    setCurrentPage(newPage);
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValue(e.target.value);
+  };
+
+  const handleClearFilters = () => {
+    setFilterValue('');
+    setCompanyFilter('');
+    setStatusFilter('');
+  };
+
+  const handleCompanyFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCompanyFilter(e.target.value);
+  };
+
+  const handleStatusFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatusFilter(e.target.value);
   };
 
   const handleGenerateReport = async () => {
@@ -170,7 +419,9 @@ export default function ReportsPage() {
       const report = reports.find(r => r.id === selectedReport);
       if (!report) return;
       
-      const data = await report.getData();
+      // Use all data, not just the preview
+      const data = allData || await report.getData();
+      
       const filename = `${report.name.replace(/\s+/g, '_').toLowerCase()}_${new Date().toISOString().split('T')[0]}`;
       
       // Export based on selected format
@@ -179,9 +430,11 @@ export default function ReportsPage() {
           exportToCSV(data, filename);
           break;
         case 'excel':
-          exportToExcel(data, filename);
+          // Excel export is now async
+          await exportToExcel(data, filename);
           break;
         case 'pdf':
+          // For PDF, use the exportToPDF function which opens in a new tab
           exportToPDF(data, report.name, filename);
           break;
       }
@@ -190,8 +443,8 @@ export default function ReportsPage() {
       if (user) {
         const auditLog = {
           timestamp: new Date().toISOString(),
-          userId: user.id,
-          userName: user.name,
+          userId: user._id,
+          userName: `${user.firstName} ${user.lastName}`,
           userRole: user.role,
           action: 'export' as const,
           resource: 'report' as const,
@@ -214,163 +467,310 @@ export default function ReportsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-t-2 border-b-2 border-indigo-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
+  // Calculate total pages
+  const totalPages = filteredData ? Math.ceil(filteredData.length / rowsPerPage) : 0;
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <div className="flex items-center mb-4 md:mb-0">
-          <ChartBarIcon className="h-8 w-8 text-indigo-600 mr-2" />
-          <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-        </div>
+    <div className="container px-4 py-6 mx-auto">
+      <div className="flex items-center mb-4">
+        <ChartBarIcon className="mr-2 text-indigo-600 w-7 h-7" />
+        <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
-          <Card>
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Available Reports</h2>
-              <div className="space-y-4">
-                {reports.map((report) => (
-                  <PermissionGuard key={report.id} permission={report.requiredPermission}>
-                    <button
-                      className={`w-full text-left p-3 rounded-lg border ${
-                        selectedReport === report.id
-                          ? 'border-indigo-500 bg-indigo-50'
-                          : 'border-gray-200 hover:bg-gray-50'
-                      }`}
-                      onClick={() => handleSelectReport(report.id)}
-                    >
-                      <div className="flex items-start">
-                        <div className="flex-shrink-0">{report.icon}</div>
-                        <div className="ml-4">
-                          <h3 className="text-sm font-medium text-gray-900">{report.name}</h3>
-                          <p className="text-sm text-gray-500">{report.description}</p>
-                        </div>
+      {/* Top section with report selection and export options */}
+      <Card className="mb-6">
+        <div className="p-4">
+          <div className="flex flex-col items-start justify-between mb-4 md:flex-row md:items-center">
+            <h2 className="mb-2 text-lg font-semibold text-gray-900 md:mb-0">Available Reports</h2>
+          </div>
+          
+          <div className="flex flex-col justify-between mb-6 md:flex-row md:items-center">
+            <div className="grid grid-cols-1 gap-3 mb-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 md:mb-0">
+              {reports.map((report) => (
+                <PermissionGuard key={report.id} permission={report.requiredPermission}>
+                  <button
+                    className={`h-full w-full text-left p-3 rounded-lg border ${
+                      selectedReport === report.id
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-gray-200 hover:bg-gray-50'
+                    }`}
+                    onClick={() => handleSelectReport(report.id)}
+                  >
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <div className="flex-shrink-0 mb-2">{report.icon}</div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-900">{report.name}</h3>
+                        <p className="mt-1 text-xs text-gray-500">{report.description}</p>
                       </div>
-                    </button>
-                  </PermissionGuard>
-                ))}
-              </div>
+                    </div>
+                  </button>
+                </PermissionGuard>
+              ))}
             </div>
-          </Card>
-        </div>
-
-        <div className="md:col-span-2">
-          <Card>
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                {selectedReport 
-                  ? `Generate ${reports.find(r => r.id === selectedReport)?.name}` 
-                  : 'Select a Report'}
-              </h2>
-              
-              {selectedReport ? (
-                <div>
-                  <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Export Format</h3>
-                    <div className="flex space-x-4">
-                      <label className="inline-flex items-center">
-                        <input
-                          type="radio"
-                          className="form-radio h-4 w-4 text-indigo-600"
-                          name="exportFormat"
-                          value="pdf"
-                          checked={exportFormat === 'pdf'}
-                          onChange={() => setExportFormat('pdf')}
-                        />
-                        <span className="ml-2 text-sm text-gray-700">PDF</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="radio"
-                          className="form-radio h-4 w-4 text-indigo-600"
-                          name="exportFormat"
-                          value="excel"
-                          checked={exportFormat === 'excel'}
-                          onChange={() => setExportFormat('excel')}
-                        />
-                        <span className="ml-2 text-sm text-gray-700">Excel</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="radio"
-                          className="form-radio h-4 w-4 text-indigo-600"
-                          name="exportFormat"
-                          value="csv"
-                          checked={exportFormat === 'csv'}
-                          onChange={() => setExportFormat('csv')}
-                        />
-                        <span className="ml-2 text-sm text-gray-700">CSV</span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  {previewData && (
-                    <div className="mb-6">
-                      <h3 className="text-sm font-medium text-gray-700 mb-2">Preview (First 3 rows)</h3>
-                      <div className="bg-gray-50 p-4 rounded-lg overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              {Object.keys(previewData[0]).map((key) => (
-                                <th
-                                  key={key}
-                                  scope="col"
-                                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
-                                  {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim()}
-                                </th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody className="bg-white divide-y divide-gray-200">
-                            {previewData.map((row, rowIndex) => (
-                              <tr key={rowIndex}>
-                                {Object.values(row).map((value: any, valueIndex) => (
-                                  <td
-                                    key={valueIndex}
-                                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                  >
-                                    {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-                                  </td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="flex justify-end">
-                    <Button
-                      onClick={handleGenerateReport}
-                      disabled={isGenerating}
-                      className="flex items-center"
-                    >
-                      <ArrowDownTrayIcon className="h-5 w-5 mr-2" />
-                      {isGenerating ? 'Generating...' : `Export as ${exportFormat.toUpperCase()}`}
-                    </Button>
+            
+            {selectedReport && (
+              <div className="flex flex-wrap items-center gap-2 ml-0 md:ml-4">
+                <div className="flex items-center mr-2">
+                  <span className="mr-2 text-sm font-medium text-gray-700">Export as:</span>
+                  <div className="flex space-x-2">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="w-4 h-4 text-indigo-600 form-radio"
+                        name="exportFormat"
+                        value="pdf"
+                        checked={exportFormat === 'pdf'}
+                        onChange={() => setExportFormat('pdf')}
+                      />
+                      <span className="ml-1 text-sm text-gray-700">PDF</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="w-4 h-4 text-indigo-600 form-radio"
+                        name="exportFormat"
+                        value="excel"
+                        checked={exportFormat === 'excel'}
+                        onChange={() => setExportFormat('excel')}
+                      />
+                      <span className="ml-1 text-sm text-gray-700">Excel</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        className="w-4 h-4 text-indigo-600 form-radio"
+                        name="exportFormat"
+                        value="csv"
+                        checked={exportFormat === 'csv'}
+                        onChange={() => setExportFormat('csv')}
+                      />
+                      <span className="ml-1 text-sm text-gray-700">CSV</span>
+                    </label>
                   </div>
                 </div>
-              ) : (
-                <div className="text-center py-12">
-                  <DocumentTextIcon className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-sm font-medium text-gray-900">No report selected</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Select a report from the list to generate and export
-                  </p>
+                
+                {exportFormat === 'pdf' ? (
+                  <Button
+                    onClick={handleGenerateReport}
+                    disabled={isGenerating}
+                    className="flex items-center"
+                    size="sm"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4 mr-1" />
+                    {isGenerating ? 'Generating...' : `Export as PDF`}
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleGenerateReport}
+                    disabled={isGenerating}
+                    className="flex items-center"
+                    size="sm"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4 mr-1" />
+                    {isGenerating ? 'Generating...' : `Export as ${exportFormat.toUpperCase()}`}
+                  </Button>
+                )}
+                
+                <Button
+                  onClick={handlePrint}
+                  className="flex items-center"
+                  variant="secondary"
+                  size="sm"
+                >
+                  <PrinterIcon className="w-4 h-4 mr-1" />
+                  Print
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </Card>
+
+      {/* Preview section taking full width */}
+      {selectedReport ? (
+        <Card>
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Preview: {reports.find(r => r.id === selectedReport)?.name}
+              </h2>
+              {filteredData && (
+                <div className="text-sm text-gray-500">
+                  Showing {((currentPage - 1) * rowsPerPage) + 1} to {Math.min(currentPage * rowsPerPage, filteredData.length)} of {filteredData.length} records
                 </div>
               )}
             </div>
-          </Card>
-        </div>
-      </div>
+            
+            {/* Add search filter */}
+            <div className="mb-4">
+              <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
+                {/* Text search */}
+                <div className="relative w-full md:w-64">
+                  <input 
+                    type="text"
+                    className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Search records..."
+                    value={filterValue}
+                    onChange={handleFilterChange}
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Company filter */}
+                <div className="w-full md:w-auto">
+                  <select
+                    className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    value={companyFilter}
+                    onChange={handleCompanyFilterChange}
+                  >
+                    <option value="">All Companies</option>
+                    {availableCompanies.map(company => (
+                      <option key={company} value={company}>{company}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Status filter */}
+                <div className="w-full md:w-auto">
+                  <select
+                    className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    value={statusFilter}
+                    onChange={handleStatusFilterChange}
+                  >
+                    <option value="">All Statuses</option>
+                    {availableStatuses.map(status => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Clear filters button */}
+                <div className="w-full md:w-auto">
+                  <button
+                    onClick={handleClearFilters}
+                    className="w-full px-4 py-2 text-sm text-gray-600 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            {previewData ? (
+              <>
+                <div className="w-full overflow-x-auto bg-white rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        {Object.keys(previewData[0]).map((key) => (
+                          <th
+                            key={key}
+                            scope="col"
+                            className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                          >
+                            {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim()}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {previewData.map((row, rowIndex) => (
+                        <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                          {Object.values(row).map((value: any, valueIndex) => (
+                            <td
+                              key={valueIndex}
+                              className="px-4 py-3 text-sm text-gray-500 truncate"
+                            >
+                              {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Pagination */}
+                {totalPages > 0 && (
+                  <div className="flex items-center justify-center mt-6 print:hidden">
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        variant="secondary"
+                        size="sm"
+                        className="flex items-center"
+                      >
+                        <ChevronLeftIcon className="w-4 h-4 mr-1" />
+                        Previous
+                      </Button>
+                      
+                      <div className="flex items-center">
+                        <span className="px-3 py-1 text-sm text-gray-700">
+                          Page {currentPage} of {totalPages} ({filteredData?.length || 0} total records)
+                        </span>
+                      </div>
+                      
+                      <Button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        variant="secondary" 
+                        size="sm"
+                        className="flex items-center"
+                      >
+                        Next
+                        <ChevronRightIcon className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="py-8 text-center">
+                <DocumentTextIcon className="w-12 h-12 mx-auto text-gray-400" />
+                <h3 className="mt-2 text-sm font-medium text-gray-900">Loading preview data...</h3>
+              </div>
+            )}
+          </div>
+        </Card>
+      ) : (
+        <Card>
+          <div className="py-12 text-center">
+            <DocumentTextIcon className="w-12 h-12 mx-auto text-gray-400" />
+            <h3 className="mt-2 text-sm font-medium text-gray-900">No report selected</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Select a report from the list above to generate and export
+            </p>
+          </div>
+        </Card>
+      )}
+      
+      {/* Print-specific styles */}
+      <style jsx global>{`
+        @media print {
+          nav, button, select, .print-hide {
+            display: none !important;
+          }
+          body {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          .print-full-width {
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 } 

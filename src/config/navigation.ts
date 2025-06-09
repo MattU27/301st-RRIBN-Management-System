@@ -5,6 +5,7 @@ export interface NavItem {
   href: string;
   roles: UserRole[];
   children?: NavItem[];
+  icon?: string;
 }
 
 export const navigationConfig: NavItem[] = [
@@ -47,6 +48,12 @@ export const navigationConfig: NavItem[] = [
     label: 'Announcements',
     href: '/announcements',
     roles: [UserRole.STAFF], // Only Staff can access announcements
+  },
+  {
+    label: 'Generate Report',
+    href: '/reports',
+    roles: [UserRole.STAFF, UserRole.ADMIN, UserRole.DIRECTOR], // All staff levels can generate reports
+    icon: 'DocumentChartBarIcon',
   },
   {
     label: 'Analytics',

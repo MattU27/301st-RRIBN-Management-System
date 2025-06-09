@@ -11,12 +11,31 @@ import {
   ChevronDownIcon,
   ServerStackIcon,
   ChartBarIcon,
-  MegaphoneIcon
+  MegaphoneIcon,
+  DocumentChartBarIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '@/contexts/AuthContext';
 import ConfirmationDialog from './ConfirmationDialog';
 import { navigationConfig, NavItem } from '@/config/navigation';
 import { UserRole } from '@/types/auth';
+
+// Helper function to get the icon component based on icon name
+const getNavIcon = (iconName?: string) => {
+  if (!iconName) return null;
+  
+  switch (iconName) {
+    case 'ChartBarIcon':
+      return <ChartBarIcon className="h-5 w-5 mr-2" />;
+    case 'ServerStackIcon':
+      return <ServerStackIcon className="h-5 w-5 mr-2" />;
+    case 'MegaphoneIcon':
+      return <MegaphoneIcon className="h-5 w-5 mr-2" />;
+    case 'DocumentChartBarIcon':
+      return <DocumentChartBarIcon className="h-5 w-5 mr-2" />;
+    default:
+      return null;
+  }
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -174,6 +193,7 @@ const Navbar = () => {
           aria-expanded={openDropdown === item.label}
           aria-haspopup="true"
         >
+          {item.icon && getNavIcon(item.icon)}
           {item.label}
           <ChevronDownIcon className="ml-1 h-4 w-4" aria-hidden="true" />
         </button>
@@ -197,6 +217,7 @@ const Navbar = () => {
                 role="menuitem"
                 onClick={() => setOpenDropdown(null)}
               >
+                {child.icon && getNavIcon(child.icon)}
                 {child.label}
               </Link>
             ))}
@@ -234,6 +255,7 @@ const Navbar = () => {
                       } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-md`}
                       aria-current={pathname === item.href ? 'page' : undefined}
                     >
+                      {item.icon && getNavIcon(item.icon)}
                       {item.label}
                     </Link>
                   )
@@ -302,7 +324,10 @@ const Navbar = () => {
                     aria-controls={`${item.label}-mobile-dropdown`}
                     role="menuitem"
                   >
-                    {item.label}
+                    <span className="flex items-center">
+                      {item.icon && getNavIcon(item.icon)}
+                      {item.label}
+                    </span>
                     <ChevronDownIcon className={`h-5 w-5 transition-transform ${openDropdown === item.label ? 'rotate-180' : ''}`} aria-hidden="true" />
                   </button>
                   
@@ -319,10 +344,11 @@ const Navbar = () => {
                             pathname === child.href
                               ? 'bg-black/70 text-[#FFBF00]'
                               : 'text-gray-300 hover:bg-black/50 hover:text-white'
-                          } block rounded-md px-3 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black`}
+                          } flex items-center rounded-md px-3 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black`}
                           onClick={() => setIsOpen(false)}
                           role="menuitem"
                         >
+                          {child.icon && getNavIcon(child.icon)}
                           {child.label}
                         </Link>
                       ))}
@@ -336,11 +362,12 @@ const Navbar = () => {
                     pathname === item.href
                       ? 'bg-black/70 text-[#FFBF00]'
                       : 'text-gray-300 hover:bg-black/50 hover:text-white'
-                  } block rounded-md px-3 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black`}
+                  } flex items-center rounded-md px-3 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black`}
                   aria-current={pathname === item.href ? 'page' : undefined}
                   onClick={() => setIsOpen(false)}
                   role="menuitem"
                 >
+                  {item.icon && getNavIcon(item.icon)}
                   {item.label}
                 </Link>
               )}
