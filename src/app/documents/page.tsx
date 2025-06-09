@@ -60,13 +60,21 @@ interface Document {
   type: string;
   uploadDate: string;
   status: DocumentStatus;
-  verifiedBy?: string;
+  verifiedBy?: string | {
+    _id: string;
+    firstName?: string;
+    lastName?: string;
+    serviceId?: string;
+    rank?: string;
+    name?: string;
+  };
   verifiedDate?: string;
   comments?: string;
   fileUrl: string;
   expirationDate?: string;
   userId?: string;
   createdAt?: string;
+  uploadedAt?: string | Date;
   uploadedBy?: {
     _id: string;
     firstName: string;
@@ -113,13 +121,30 @@ const refreshTokenIfNeeded = async () => {
   }
 };
 
+// Add this helper function for Philippine time conversion
+const convertToPhilippineTime = (dateString: string | Date) => {
+  if (!dateString) return 'Unknown date';
+  
+  const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
+  
+  // Philippine Time is UTC+8
+  return new Date(date.getTime() + (8 * 60 * 60 * 1000)).toLocaleString('en-PH', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+};
+
 export default function DocumentsPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [activeTab, setActiveTab] = useState<'all' | 'verified' | 'pending' | 'rejected'>('all');
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
+  const [showRejectConfirmation, setShowRejectConfirmation] = useState(false);
+  const [documentToReject, setDocumentToReject] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showDocumentViewer, setShowDocumentViewer] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
@@ -127,6 +152,11 @@ export default function DocumentsPage() {
   const [documentToVerify, setDocumentToVerify] = useState<Document | null>(null);
   const [rejectReason, setRejectReason] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  
+  // Add pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
   
   // Add filter states
   const [filterServiceId, setFilterServiceId] = useState('');
@@ -199,6 +229,15 @@ export default function DocumentsPage() {
         
         // Process documents to ensure they have all required fields
         const processedDocs = docs.map((doc: Document) => {
+          // Debug date fields
+          console.log('Document date fields:', {
+            id: doc._id,
+            uploadDate: doc.uploadDate,
+            createdAt: doc.createdAt,
+            uploadedAt: (doc as any).uploadedAt,
+            title: doc.title
+          });
+          
           // Ensure document has a name
           if (!doc.name && doc.title) {
             doc.name = doc.title;
@@ -211,9 +250,22 @@ export default function DocumentsPage() {
             doc.type = 'other';
           }
           
-          // Ensure document has an upload date
-          if (!doc.uploadDate) {
-            doc.uploadDate = doc.createdAt || new Date().toLocaleDateString();
+          // Convert upload date to Philippine time
+          if (doc.uploadDate) {
+            doc.uploadDate = convertToPhilippineTime(doc.uploadDate);
+          } else if (doc.createdAt) {
+            doc.uploadDate = convertToPhilippineTime(doc.createdAt);
+          } else if ((doc as any).uploadedAt) {
+            // Some documents might have uploadedAt instead of uploadDate or createdAt
+            doc.uploadDate = convertToPhilippineTime((doc as any).uploadedAt);
+          } else {
+            // If no date is available, use current date
+            doc.uploadDate = convertToPhilippineTime(new Date());
+          }
+          
+          // Convert verification date to Philippine time if available
+          if (doc.verifiedDate) {
+            doc.verifiedDate = convertToPhilippineTime(doc.verifiedDate);
           }
           
           // Enhanced uploader info handling
@@ -267,6 +319,43 @@ export default function DocumentsPage() {
             if (!uploader.serviceId) uploader.serviceId = 'N/A';
           }
           
+          // Process verifiedBy information if available
+          if (doc.status === 'verified' && doc.verifiedBy) {
+            // If verifiedBy is a string (ObjectId), use placeholder staff information
+            if (typeof doc.verifiedBy === 'string') {
+              // Use @ts-ignore to bypass TypeScript type checking
+              // @ts-ignore
+              doc.verifiedBy = {
+                _id: doc.verifiedBy,
+                firstName: 'Staff',
+                lastName: 'Member',
+                rank: '',
+              };
+            } 
+            // If verifiedBy is an object, ensure it has the necessary fields
+            else if (typeof doc.verifiedBy === 'object') {
+              const verifier = doc.verifiedBy;
+              
+              // If we have a name field but no firstName
+              if (verifier.name && !verifier.firstName) {
+                const fullName = verifier.name.split(' ');
+                if (fullName.length > 1) {
+                  verifier.firstName = fullName[0];
+                  verifier.lastName = fullName.slice(1).join(' ');
+                } else {
+                  verifier.firstName = fullName[0];
+                  verifier.lastName = '';
+                }
+              }
+              
+              // Ensure we have at least placeholder values
+              if (!verifier.firstName && !verifier.lastName) {
+                verifier.firstName = 'Staff';
+                verifier.lastName = 'Member';
+              }
+            }
+          }
+
           return doc;
         });
         
@@ -332,13 +421,13 @@ export default function DocumentsPage() {
     }
   }, [isLoading, isAuthenticated, router]);
 
-  const handleDeleteDocumentClick = (id: string) => {
-    setDocumentToDelete(id);
-    setShowDeleteConfirmation(true);
+  const handleRejectDocumentClick = (id: string) => {
+    setDocumentToReject(id);
+    setShowRejectConfirmation(true);
   };
 
-  const handleDeleteDocument = async () => {
-    if (!documentToDelete) return;
+  const handleRejectDocument = async () => {
+    if (!documentToReject) return;
     
     try {
       // Try to refresh the token if needed
@@ -349,20 +438,20 @@ export default function DocumentsPage() {
         return;
       }
       
-      const response = await axios.delete(`/api/documents?id=${documentToDelete}`, {
+      const response = await axios.delete(`/api/documents?id=${documentToReject}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       
       if (response.data.success) {
-        setDocuments(documents.filter(doc => doc._id !== documentToDelete));
-        toast.success('Document deleted successfully');
+        setDocuments(documents.filter(doc => doc._id !== documentToReject));
+        toast.success('Document rejected successfully');
       } else {
-        throw new Error(response.data.error || 'Failed to delete document');
+        throw new Error(response.data.error || 'Failed to reject document');
       }
     } catch (error: any) {
-      console.error('Delete error:', error);
+      console.error('Reject error:', error);
       
       // Check for authentication errors
       if (error.response && error.response.status === 401) {
@@ -372,10 +461,10 @@ export default function DocumentsPage() {
         return;
       }
       
-      toast.error(error.message || 'Failed to delete document');
+      toast.error(error.message || 'Failed to reject document');
     } finally {
-      setDocumentToDelete(null);
-      setShowDeleteConfirmation(false);
+      setDocumentToReject(null);
+      setShowRejectConfirmation(false);
     }
   };
 
@@ -414,10 +503,35 @@ export default function DocumentsPage() {
       });
       
       if (response.data.success) {
-        // Update document in the list
+        // Update document in the list with the updated document data
+        // This ensures we have the verifiedBy and other fields
+        const updatedDoc = response.data.data.document;
+        
+        // Convert dates to Philippine time
+        if (updatedDoc.uploadDate) {
+          updatedDoc.uploadDate = convertToPhilippineTime(updatedDoc.uploadDate);
+        }
+        if (updatedDoc.verifiedDate) {
+          updatedDoc.verifiedDate = convertToPhilippineTime(updatedDoc.verifiedDate);
+        }
+        
+        // Process verifiedBy information if available
+        if (updatedDoc.status === 'verified' && updatedDoc.verifiedBy) {
+          // If verifiedBy is a string (ObjectId), use current user's information
+          if (typeof updatedDoc.verifiedBy === 'string' && user) {
+            // @ts-ignore - We know this is correct for our usage
+            updatedDoc.verifiedBy = {
+              _id: updatedDoc.verifiedBy,
+              firstName: user.firstName || 'Staff',
+              lastName: user.lastName || 'Member',
+              rank: user.role || '',
+            };
+          }
+        }
+        
         setDocuments(prevDocs => 
           prevDocs.map(doc => 
-            doc._id === documentToVerify._id ? response.data.data.document : doc
+            doc._id === documentToVerify._id ? updatedDoc : doc
           )
         );
         
@@ -465,8 +579,44 @@ export default function DocumentsPage() {
       }
     }
     
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const matchesName = doc.name?.toLowerCase().includes(query);
+      const matchesTitle = doc.title?.toLowerCase().includes(query);
+      const matchesType = doc.type?.toLowerCase().includes(query);
+      const matchesUploader = doc.uploadedBy?.firstName?.toLowerCase().includes(query) || 
+                             doc.uploadedBy?.lastName?.toLowerCase().includes(query) ||
+                             doc.uploadedBy?.serviceId?.toLowerCase().includes(query);
+      
+      if (!(matchesName || matchesTitle || matchesType || matchesUploader)) {
+        return false;
+      }
+    }
+    
     return true;
   });
+
+  // Calculate pagination
+  const totalPages = Math.ceil(finalFilteredDocuments.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = finalFilteredDocuments.slice(indexOfFirstItem, indexOfLastItem);
+  
+  // Generate page numbers array
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+  
+  // Handle page change
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  
+  // Handle items per page change
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
 
   const getStatusBadge = (status: DocumentStatus) => {
     switch (status) {
@@ -678,7 +828,7 @@ export default function DocumentsPage() {
           {/* Filter section */}
           {showFilters && (
             <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
                   <label htmlFor="serviceId" className="block mb-1 text-sm font-medium text-gray-700">
                     Service ID
@@ -710,12 +860,30 @@ export default function DocumentsPage() {
                     ))}
                   </select>
                 </div>
+                <div>
+                  <label htmlFor="search" className="block mb-1 text-sm font-medium text-gray-700">
+                    Search
+                  </label>
+                  <input
+                    type="text"
+                    id="search"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(1); // Reset to first page when searching
+                    }}
+                    placeholder="Search documents..."
+                    className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
               </div>
               <div className="flex justify-end mt-4">
                 <button
                   onClick={() => {
                     setFilterServiceId('');
                     setFilterCompany('');
+                    setSearchQuery('');
+                    setCurrentPage(1);
                   }}
                   className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
@@ -762,7 +930,7 @@ export default function DocumentsPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {finalFilteredDocuments.map((document) => (
+                    {currentItems.map((document) => (
                       <tr key={document._id} className={document.status === 'pending' ? 'bg-yellow-50' : ''}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -781,6 +949,17 @@ export default function DocumentsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">{document.uploadDate || document.createdAt || 'Unknown date'}</div>
+                          {document.status === 'verified' && document.verifiedDate && (
+                            <div className="mt-1 text-xs text-green-600">
+                              Verified: {document.verifiedDate}
+                              {document.verifiedBy && typeof document.verifiedBy === 'object' && (
+                                <span className="block">
+                                  by: {document.verifiedBy.rank ? `${document.verifiedBy.rank} ` : ''}
+                                  {document.verifiedBy.firstName || ''} {document.verifiedBy.lastName || ''}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {document.uploadedBy ? (
@@ -803,30 +982,27 @@ export default function DocumentsPage() {
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
                           <div className="flex space-x-2">
                             <button 
-                              className="text-indigo-600 hover:text-indigo-900 tooltip"
+                              className="px-2 py-1 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700"
                               onClick={() => handleViewDocument(document)}
                             >
-                              <DocumentMagnifyingGlassIcon className="w-5 h-5" />
-                              <span className="tooltiptext">View</span>
+                              View
                             </button>
                             
                             {canVerifyDocuments && document.status === 'pending' && (
                               <button 
-                                className="text-green-600 hover:text-green-900 tooltip"
+                                className="px-2 py-1 text-xs font-medium text-white bg-green-600 rounded hover:bg-green-700"
                                 onClick={() => handleVerifyDocumentClick(document)}
                               >
-                                <DocumentCheckIcon className="w-5 h-5" />
-                                <span className="tooltiptext">Verify</span>
+                                Verify
                               </button>
                             )}
 
-                            {canVerifyDocuments && (
+                            {canVerifyDocuments && document.status !== 'verified' && (
                               <button 
-                                className="text-red-600 hover:text-red-900 tooltip"
-                                onClick={() => handleDeleteDocumentClick(document._id)}
+                                className="px-2 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700"
+                                onClick={() => handleRejectDocumentClick(document._id)}
                               >
-                                <TrashIcon className="w-5 h-5" />
-                                <span className="tooltiptext">Delete</span>
+                                Reject
                               </button>
                             )}
                           </div>
@@ -835,6 +1011,151 @@ export default function DocumentsPage() {
                     ))}
                   </tbody>
                 </table>
+                
+                {/* Pagination controls */}
+                <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-700">
+                      Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
+                      <span className="font-medium">
+                        {indexOfLastItem > finalFilteredDocuments.length
+                          ? finalFilteredDocuments.length
+                          : indexOfLastItem}
+                      </span>{' '}
+                      of <span className="font-medium">{finalFilteredDocuments.length}</span> results
+                    </span>
+                    
+                    <div className="ml-4">
+                      <select
+                        value={itemsPerPage}
+                        onChange={handleItemsPerPageChange}
+                        className="block py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      >
+                        <option value={5}>5 per page</option>
+                        <option value={10}>10 per page</option>
+                        <option value={20}>20 per page</option>
+                        <option value={50}>50 per page</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between sm:justify-end">
+                    <nav className="inline-flex -space-x-px rounded-md shadow-sm isolate" aria-label="Pagination">
+                      <button
+                        onClick={() => paginate(Math.max(1, currentPage - 1))}
+                        disabled={currentPage === 1}
+                        className={`relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md ${
+                          currentPage === 1
+                            ? 'cursor-not-allowed'
+                            : 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                        }`}
+                      >
+                        <span className="sr-only">Previous</span>
+                        <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      
+                      {/* Page numbers */}
+                      {pageNumbers.length <= 6 ? (
+                        // Show all page numbers if there are 6 or fewer
+                        pageNumbers.map((number) => (
+                          <button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                              currentPage === number
+                                ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                            }`}
+                          >
+                            {number}
+                          </button>
+                        ))
+                      ) : (
+                        // Show limited page numbers with ellipsis for more than 6 pages
+                        <>
+                          {/* Always show first page */}
+                          <button
+                            onClick={() => paginate(1)}
+                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                              currentPage === 1
+                                ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                            }`}
+                          >
+                            1
+                          </button>
+                          
+                          {/* Show ellipsis if current page is > 3 */}
+                          {currentPage > 3 && (
+                            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300">
+                              ...
+                            </span>
+                          )}
+                          
+                          {/* Show current page and adjacent pages */}
+                          {pageNumbers
+                            .filter(
+                              (number) => 
+                                number !== 1 && 
+                                number !== totalPages && 
+                                (Math.abs(number - currentPage) <= 1)
+                            )
+                            .map((number) => (
+                              <button
+                                key={number}
+                                onClick={() => paginate(number)}
+                                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                                  currentPage === number
+                                    ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                    : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                                }`}
+                              >
+                                {number}
+                              </button>
+                            ))}
+                          
+                          {/* Show ellipsis if current page is < totalPages - 2 */}
+                          {currentPage < totalPages - 2 && (
+                            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300">
+                              ...
+                            </span>
+                          )}
+                          
+                          {/* Always show last page */}
+                          {totalPages > 1 && (
+                            <button
+                              onClick={() => paginate(totalPages)}
+                              className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                                currentPage === totalPages
+                                  ? 'z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                  : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                              }`}
+                            >
+                              {totalPages}
+                            </button>
+                          )}
+                        </>
+                      )}
+                      
+                      <button
+                        onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                        disabled={currentPage === totalPages}
+                        className={`relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md ${
+                          currentPage === totalPages
+                            ? 'cursor-not-allowed'
+                            : 'hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                        }`}
+                      >
+                        <span className="sr-only">Next</span>
+                        <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </nav>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -928,14 +1249,14 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      {/* Delete Confirmation Dialog */}
+      {/* Reject Confirmation Dialog */}
       <ConfirmationDialog
-        isOpen={showDeleteConfirmation}
-        onClose={() => setShowDeleteConfirmation(false)}
-        onConfirm={handleDeleteDocument}
-        title="Delete Document"
-        message="Are you sure you want to delete this document? This action cannot be undone."
-        confirmText="Delete"
+        isOpen={showRejectConfirmation}
+        onClose={() => setShowRejectConfirmation(false)}
+        onConfirm={handleRejectDocument}
+        title="Reject Document"
+        message="Are you sure you want to reject this document? This action cannot be undone."
+        confirmText="Reject"
         cancelText="Cancel"
         type="danger"
       />

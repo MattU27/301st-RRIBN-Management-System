@@ -531,17 +531,17 @@ class DocumentService {
       print('Starting document upload process for: $title');
       
       // Get authentication token
-      final prefs = await SharedPreferences.getInstance();
+        final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(AppConstants.authTokenKey);
-      print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
+        print('Uploading document with token: ${token != null ? 'Available' : 'Not available'}');
       
       // Try to get user ID from secure storage first
       String? userId = await _secureStorage.read(key: AppConstants.userIdKey);
-      print('User ID from prefs: $userId');
-      
+        print('User ID from prefs: $userId');
+        
       // Get user data for uploader information
-      final userData = await _getCurrentUserData();
-      if (userData != null) {
+          final userData = await _getCurrentUserData();
+          if (userData != null) {
         print('Retrieved user data from secure storage: ${userData['firstName']} ${userData['lastName']}');
       }
       
@@ -634,7 +634,7 @@ class DocumentService {
       
       if (!await documentsDir.exists()) {
         await documentsDir.create(recursive: true);
-      }
+          }
       
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       final localFilePath = '${documentsDir.path}/${timestamp}_$fileName';
@@ -651,12 +651,67 @@ class DocumentService {
       
       // Upload to GridFS
       print('Attempting to upload file to GridFS');
-      print('Note: Full GridFS implementation will be added in a future update');
-      print('Currently using file system storage with GridFS reference');
       
       // Generate a unique GridFS ID
       final gridFsId = ObjectId();
       print('File prepared for GridFS with ID: $gridFsId');
+      
+      // Initialize GridFS if not already done
+      if (_gridFS == null) {
+        _gridFS = GridFS(_db!, 'fs');
+        print('GridFS initialized for document upload');
+      }
+      
+      // Try to upload file to GridFS
+      try {
+        final fileBytes = await file.readAsBytes();
+      
+        // Save to fs.files collection
+        final fsFile = {
+          '_id': gridFsId,
+          'filename': fileName,
+          'contentType': _getMimeType(fileName),
+          'length': fileSize,
+          'chunkSize': 261120, // 255KB chunks
+          'uploadDate': DateTime.now(),
+          'metadata': {
+            'title': title,
+            'userId': userId,
+            'description': description,
+            'documentType': type
+          }
+        };
+        
+        await _db!.collection('fs.files').insert(fsFile);
+        print('File metadata saved to fs.files');
+      
+        // Split file into chunks and save to fs.chunks
+        const int chunkSize = 261120; // 255KB chunks
+        int chunksCount = (fileSize / chunkSize).ceil();
+        print('Splitting file into $chunksCount chunks');
+        
+        for (int i = 0; i < chunksCount; i++) {
+          int start = i * chunkSize;
+          int end = (i + 1) * chunkSize;
+          if (end > fileBytes.length) end = fileBytes.length;
+          
+          final chunk = fileBytes.sublist(start, end);
+          
+          final chunkDoc = {
+            'files_id': gridFsId,
+            'n': i,
+            'data': BsonBinary.from(chunk)
+          };
+          
+          await _db!.collection('fs.chunks').insert(chunkDoc);
+          print('Saved chunk $i of $chunksCount');
+        }
+        
+        print('All chunks saved to GridFS');
+        } catch (e) {
+        print('Error uploading to GridFS: $e');
+        // Continue with the regular document creation
+      }
       
       // Map the document type from the title if it's generic
       String documentType = type;
@@ -718,6 +773,7 @@ class DocumentService {
           'fileUrl': document['fileUrl'],
           'status': 'pending',
           'localFilePath': localFilePath,
+          'gridFSId': gridFsId.toHexString(),
         }
       };
     } catch (e) {
@@ -752,6 +808,8 @@ class DocumentService {
   // Delete a document
   Future<bool> deleteDocument(String documentId) async {
     try {
+      print('Attempting to delete document: $documentId');
+      
       // Try API first
       try {
         final prefs = await SharedPreferences.getInstance();
@@ -778,6 +836,7 @@ class DocumentService {
                 print('Socket notification error: $socketError');
                 // Continue even if socket notification fails
               }
+              print('Document deleted successfully via API');
               return true;
             }
           }
@@ -793,20 +852,91 @@ class DocumentService {
         throw Exception('Documents collection not initialized');
       }
       
-      // Find document to get file path
-      final document = await _documentsCollection!.findOne({'_id': documentId});
+      // Try to find document by string ID first
+      print('Looking for document in MongoDB with ID: $documentId');
+      var document = await _documentsCollection!.findOne({'_id': documentId});
       
-      // Delete from MongoDB
-      await _documentsCollection!.remove({'_id': documentId});
-      
-      // Delete local file if it exists
-      if (document != null && document['localFilePath'] != null) {
-        final File localFile = File(document['localFilePath']);
-        if (await localFile.exists()) {
-          await localFile.delete();
+      // If not found, try with ObjectId
+      if (document == null) {
+        try {
+          ObjectId objId = ObjectId.fromHexString(documentId);
+          document = await _documentsCollection!.findOne({'_id': objId});
+          print('Found document using ObjectId: $objId');
+        } catch (e) {
+          print('Error converting to ObjectId: $e');
         }
       }
       
+      // If still not found, try searching by gridFSId
+      if (document == null) {
+        try {
+          document = await _documentsCollection!.findOne({'gridFSId': documentId});
+          print('Found document by gridFSId: $documentId');
+        } catch (e) {
+          print('Error finding by gridFSId: $e');
+        }
+      }
+      
+      if (document == null) {
+        print('Document not found in MongoDB');
+        return false;
+      }
+      
+      print('Document found in MongoDB: ${document['title']}');
+      
+      // Check if document uses GridFS and delete the GridFS file if it exists
+      if (document['gridFSId'] != null) {
+        final String gridFSId = document['gridFSId'];
+        print('Document references GridFS with ID: $gridFSId');
+        
+        try {
+          // Initialize GridFS if not already done
+          if (_gridFS == null) {
+            _gridFS = GridFS(_db!, 'fs');
+            print('GridFS initialized for document deletion');
+          }
+          
+          // Try to delete the file from GridFS
+          ObjectId objId;
+          try {
+            objId = ObjectId.fromHexString(gridFSId);
+            
+            // Delete chunks first
+            await _db!.collection('fs.chunks').remove({'files_id': objId});
+            print('Deleted GridFS chunks for file: $gridFSId');
+            
+            // Then delete the file metadata
+            await _db!.collection('fs.files').remove({'_id': objId});
+            print('Deleted GridFS file metadata for file: $gridFSId');
+          } catch (e) {
+            print('Error deleting GridFS file: $e');
+          }
+        } catch (e) {
+          print('Error with GridFS operations: $e');
+        }
+      }
+      
+      // Delete local file if it exists
+      if (document['localFilePath'] != null) {
+        try {
+        final File localFile = File(document['localFilePath']);
+        if (await localFile.exists()) {
+          await localFile.delete();
+            print('Deleted local file: ${document['localFilePath']}');
+          }
+        } catch (e) {
+          print('Error deleting local file: $e');
+        }
+      }
+      
+      // Delete from MongoDB
+      if (document['_id'] is ObjectId) {
+        await _documentsCollection!.remove({'_id': document['_id']});
+      } else {
+        await _documentsCollection!.remove({'_id': documentId});
+      }
+      
+      print('Document deleted from MongoDB');
       return true;
     } catch (e) {
       print('Error deleting document: $e');
@@ -850,28 +980,132 @@ class DocumentService {
         throw Exception('Documents collection not initialized');
       }
       
-      // Find document
+      // Try to find document by string ID first
       print('Looking for document in MongoDB with ID: $documentId');
-      final document = await _documentsCollection!.findOne({'_id': documentId});
+      var document = await _documentsCollection!.findOne({'_id': documentId});
+      
+      // If not found, try with ObjectId
+      if (document == null) {
+        try {
+          ObjectId objId = ObjectId.fromHexString(documentId);
+          document = await _documentsCollection!.findOne({'_id': objId});
+          print('Found document using ObjectId: $objId');
+        } catch (e) {
+          print('Error converting to ObjectId: $e');
+        }
+      }
+      
+      // If still not found, try searching by gridFSId
+      if (document == null) {
+        try {
+          document = await _documentsCollection!.findOne({'gridFSId': documentId});
+          print('Found document by gridFSId: $documentId');
+        } catch (e) {
+          print('Error finding by gridFSId: $e');
+        }
+      }
       
       if (document == null) {
         print('Document not found in MongoDB');
+        
+        // Try to find in fs.files collection directly
+        try {
+          final db = getNativeDb();
+          if (db != null) {
+            final fsFile = await db.collection('fs.files').findOne({
+              '_id': ObjectId.fromHexString(documentId)
+            });
+            
+            if (fsFile != null) {
+              print('Found file in fs.files: $fsFile');
+              
+              // Create a placeholder document
+              document = {
+                '_id': documentId,
+                'title': fileName,
+                'fileName': fileName,
+                'gridFSId': documentId,
+                'fileSize': fsFile['length'] ?? 0,
+                'mimeType': fsFile['contentType'] ?? 'application/octet-stream',
+              };
+            }
+          }
+        } catch (e) {
+          print('Error checking fs.files: $e');
+        }
+        
+        if (document == null) {
         throw Exception('Document not found in database');
+        }
       }
       
       print('Document found in MongoDB: ${document['title']}');
       
       // Check if document uses GridFS
-      if (document['gridFSId'] != null && _gridFS != null) {
+      if (document['gridFSId'] != null) {
         final String gridFSId = document['gridFSId'];
         print('Document references GridFS with ID: $gridFSId');
         
-        // For now, we'll fall back to the local file path
-        // Full GridFS implementation will be added in a future update
-        print('Note: Full GridFS implementation will be added in a future update');
-        print('Currently using file system storage with GridFS reference');
+        try {
+          // Initialize GridFS if not already done
+          if (_gridFS == null) {
+            _gridFS = GridFS(_db!, 'fs');
+            print('GridFS initialized for document download');
+          }
+          
+          // Try to get the file from GridFS
+          ObjectId objId;
+          try {
+            objId = ObjectId.fromHexString(gridFSId);
+          } catch (e) {
+            print('Invalid GridFS ID format, trying as string: $e');
+            objId = ObjectId.fromHexString(documentId);
+          }
+          
+          // Check if file exists in GridFS
+          final db = getNativeDb();
+          if (db != null) {
+            final fsFile = await db.collection('fs.files').findOne({
+              '_id': objId
+            });
+            
+            if (fsFile != null) {
+              print('Found file in GridFS: ${fsFile['filename']}');
+              
+              // Get chunks from fs.chunks
+              final chunks = await db.collection('fs.chunks').find({
+                'files_id': objId
+              }).toList();
+              
+              if (chunks.isNotEmpty) {
+                print('Found ${chunks.length} chunks for file');
+                
+                // Combine chunks into a single file
+                final List<int> fileData = [];
+                chunks.sort((a, b) => a['n'] - b['n']); // Sort by chunk number
+                
+                for (var chunk in chunks) {
+                  if (chunk['data'] is BsonBinary) {
+                    fileData.addAll((chunk['data'] as BsonBinary).byteList);
+                  }
+                }
+                
+                if (fileData.isNotEmpty) {
+                  print('Combined ${fileData.length} bytes from chunks');
+                  final downloadFile = await _saveToDownloads(fileName, Uint8List.fromList(fileData));
+                  print('File saved from GridFS chunks: ${downloadFile.path}');
+                  return downloadFile;
+                }
+              } else {
+                print('No chunks found for file');
+              }
+            }
+          }
+        } catch (e) {
+          print('Error retrieving from GridFS: $e');
+        }
         
-        // Try to get the local file path
+        // Try to get the local file path as fallback
         String? localFilePath = document['localFilePath'];
         if (localFilePath != null) {
           final File localFile = File(localFilePath);
@@ -880,8 +1114,6 @@ class DocumentService {
             return localFile;
           }
         }
-        
-        // If local file not found, continue with the regular download process
       }
       
       // If we still don't have a file, create a placeholder file with some content
@@ -902,13 +1134,17 @@ class DocumentService {
       final downloadFile = await _saveToDownloads(fileName, utf8.encode(placeholderContent));
       
       // Update document with new localFilePath
+      try {
       await _documentsCollection!.update(
-        {'_id': documentId},
+          {'_id': document['_id']},
         {'\$set': {
           'localFilePath': downloadFile.path,
           'fileUrl': 'file://${downloadFile.path}'
         }}
       );
+      } catch (e) {
+        print('Error updating document with local file path: $e');
+      }
       
       print('Created placeholder file at: ${downloadFile.path}');
       return downloadFile;
@@ -1015,9 +1251,93 @@ class DocumentService {
       return 'deployment_order';
     } else if (lowerTitle.contains('commendation') || lowerTitle.contains('award') || lowerTitle.contains('recognition')) {
       return 'commendation';
-    }
-    
+      }
+      
     // Default to 'other' if no match
     return 'other';
+  }
+
+  // Helper method to get native MongoDB database
+  dynamic getNativeDb() {
+    if (_db != null && _db!.isConnected) {
+      return _db; // Return the Db instance directly
+    }
+    return null;
+  }
+
+  // Create a sample document in GridFS for testing
+  Future<Map<String, dynamic>> createSampleDocument() async {
+    try {
+      await _initMongoDB();
+          
+      if (_db == null) {
+        throw Exception('Database not initialized');
+      }
+      
+      // Create a sample PDF content
+      final String sampleContent = '''
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 612 792] /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Font << /F1 5 0 R >> >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Length 44 >>
+stream
+BT /F1 24 Tf 100 700 Td (Sample Document) Tj ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000115 00000 n
+0000000210 00000 n
+0000000257 00000 n
+0000000325 00000 n
+trailer << /Size 7 /Root 1 0 R >>
+startxref
+420
+%%EOF
+''';
+      
+      // Save sample content to a temporary file
+      final tempDir = await getTemporaryDirectory();
+      final tempFile = File('${tempDir.path}/sample_document.pdf');
+      await tempFile.writeAsBytes(utf8.encode(sampleContent));
+      
+      print('Created sample PDF at: ${tempFile.path}');
+      
+      // Upload the sample document
+      final result = await uploadDocument(
+        title: 'Sample Document',
+        type: 'other',
+        filePath: tempFile.path,
+        description: 'This is a sample document for testing',
+      );
+      
+      // Delete the temporary file
+      await tempFile.delete();
+      
+      return result;
+    } catch (e) {
+      print('Error creating sample document: $e');
+      return {
+        'success': false,
+        'error': e.toString(),
+      };
+    }
   }
 } 

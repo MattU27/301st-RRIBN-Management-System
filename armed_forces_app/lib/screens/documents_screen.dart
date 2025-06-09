@@ -147,6 +147,15 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               _fetchDocuments();
             },
           ),
+          // Add test document button (only in debug mode)
+          if (const bool.fromEnvironment('dart.vm.product') == false)
+            IconButton(
+              icon: const Icon(Icons.add_circle),
+              onPressed: () async {
+                _showCreateSampleDocumentDialog();
+              },
+              tooltip: 'Create Sample Document',
+            ),
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
@@ -1521,7 +1530,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               ),
               const SizedBox(height: 8),
               Text(
-                documentStatus == 'missing' ? 'Tap to upload' : 'Tap to view',
+                documentStatus == 'missing' ? 'Tap to upload' : documentStatus == 'pending' ? 'Tap to view/delete' : 'Tap to view',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey[600],
@@ -1972,6 +1981,29 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
               Text('Filename: ${document.fileName}'),
               if (document.description != null && document.description!.isNotEmpty)
                 Text('Description: ${document.description}'),
+              
+              // Show status with color
+              Row(
+                children: [
+                  Text('Status: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: _getStatusColor(document.status).withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: _getStatusColor(document.status)),
+                    ),
+                    child: Text(
+                      _capitalizeFirst(document.status),
+                      style: TextStyle(
+                        color: _getStatusColor(document.status),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              
               const SizedBox(height: 12),
               const Divider(),
               const SizedBox(height: 12),
@@ -2020,6 +2052,18 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
             onPressed: () => Navigator.pop(context),
             child: const Text('Close'),
           ),
+          // Show delete button only for pending documents
+          if (document.status == 'pending')
+            TextButton.icon(
+              onPressed: () {
+                // Close the viewer dialog
+                Navigator.pop(context);
+                // Show delete confirmation
+                _showDeleteDocumentConfirmation(document);
+              },
+              icon: const Icon(Icons.delete, color: AppTheme.errorColor),
+              label: const Text('Delete', style: TextStyle(color: AppTheme.errorColor)),
+            ),
           ElevatedButton.icon(
             onPressed: () {
               Navigator.pop(context);
@@ -2037,6 +2081,140 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     );
   }
   
+  // Show delete confirmation dialog
+  void _showDeleteDocumentConfirmation(Document document) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Document'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Are you sure you want to delete this document?',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'This action cannot be undone. The document will be permanently removed from the system.',
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    _getDocumentTypeIcon(document.type),
+                    color: _getDocumentTypeColor(document.type),
+                    size: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          document.title,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          document.fileName,
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () async {
+              Navigator.pop(context);
+              
+              // Show loading indicator
+              setState(() {
+                _isLoading = true;
+              });
+              
+              try {
+                final result = await _documentService.deleteDocument(document.id);
+                
+                if (result) {
+                  // Show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Document deleted successfully'),
+                      backgroundColor: AppTheme.successColor,
+                    ),
+                  );
+                  
+                  // Refresh documents list
+                  await _fetchDocuments();
+                } else {
+                  throw Exception('Failed to delete document');
+                }
+              } catch (e) {
+                print('Error deleting document: $e');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error deleting document: ${e.toString()}'),
+                    backgroundColor: AppTheme.errorColor,
+                  ),
+                );
+              } finally {
+                setState(() {
+                  _isLoading = false;
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.errorColor,
+              foregroundColor: Colors.white,
+            ),
+            icon: const Icon(Icons.delete),
+            label: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to get status color
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'verified':
+        return AppTheme.successColor;
+      case 'pending':
+        return AppTheme.warningColor;
+      case 'rejected':
+        return AppTheme.errorColor;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  // Helper method to capitalize first letter
+  String _capitalizeFirst(String text) {
+    if (text.isEmpty) return '';
+    return text[0].toUpperCase() + text.substring(1);
+  }
+
   // Build file preview based on file type
   Widget _buildFilePreview(File? file, Document document) {
     if (file == null) {
@@ -2162,5 +2340,71 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     } catch (e) {
       print('Error updating documents with uploader info: $e');
     }
+  }
+
+  // Show dialog to create a sample document
+  void _showCreateSampleDocumentDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Create Sample Document'),
+        content: const Text(
+          'This will create a sample document in the database for testing purposes. '
+          'It will be visible in your documents list and can be used to test the download functionality.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              
+              // Show loading indicator
+              setState(() {
+                _isLoading = true;
+              });
+              
+              try {
+                final result = await _documentService.createSampleDocument();
+                
+                if (result['success'] == true) {
+                  // Show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Sample document created successfully. Document ID: ${result['data']['documentId']}'),
+                      backgroundColor: AppTheme.successColor,
+                    ),
+                  );
+                  
+                  // Refresh documents list
+                  await _fetchDocuments();
+                } else {
+                  throw Exception(result['error'] ?? 'Failed to create sample document');
+                }
+              } catch (e) {
+                print('Error creating sample document: $e');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error creating sample document: ${e.toString()}'),
+                    backgroundColor: AppTheme.errorColor,
+                  ),
+                );
+              } finally {
+                setState(() {
+                  _isLoading = false;
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryColor,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Create'),
+          ),
+        ],
+      ),
+    );
   }
 } 

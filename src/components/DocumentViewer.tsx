@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Document as DocumentType, DocumentVersion } from '@/types/personnel';
+import { DocumentVersion } from '@/types/personnel';
 import { 
   DocumentTextIcon, 
   ArrowDownTrayIcon, 
@@ -17,7 +17,7 @@ import {
 import Button from './Button';
 import DocumentVersionHistory from './DocumentVersionHistory';
 import ConfirmationDialog from './ConfirmationDialog';
-import { Document, DocumentTypeLabels, DocumentType as DocType } from '@/types/document';
+import { DocumentTypeLabels, DocumentType as DocType } from '@/types/document';
 
 type DocumentStatus = 'verified' | 'pending' | 'rejected';
 
@@ -27,11 +27,27 @@ interface Document {
   type: string;
   uploadDate: string;
   status: DocumentStatus;
-  verifiedBy?: string;
+  verifiedBy?: string | {
+    _id: string;
+    firstName?: string;
+    lastName?: string;
+    serviceId?: string;
+    rank?: string;
+    name?: string;
+  };
   verifiedDate?: string;
   comments?: string;
   fileUrl: string;
   expirationDate?: string;
+  uploadedBy?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    serviceId?: string;
+    serviceNumber?: string;
+    company?: string;
+    rank?: string;
+  };
 }
 
 interface DocumentViewerProps {
@@ -177,11 +193,16 @@ export default function DocumentViewer({ document, onClose }: DocumentViewerProp
                       'Unknown'}
                   </p>
                 </div>
-                {document.status === 'verified' && document.verifiedBy && (
+                {document.status === 'verified' && (
                   <>
                     <div>
                       <h4 className="text-sm font-medium text-gray-500">Verified By</h4>
-                      <p className="mt-1 text-sm text-gray-900">{document.verifiedBy}</p>
+                      <p className="mt-1 text-sm text-gray-900">
+                        {document.verifiedBy ? (
+                          typeof document.verifiedBy === 'string' ? document.verifiedBy : 
+                            `${document.verifiedBy.firstName || ''} ${document.verifiedBy.lastName || ''}`
+                        ) : 'Staff Member'}
+                      </p>
                     </div>
                     <div>
                       <h4 className="text-sm font-medium text-gray-500">Verified Date</h4>
