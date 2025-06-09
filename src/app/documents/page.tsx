@@ -23,13 +23,40 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import DocumentViewer from '@/components/DocumentViewer';
 import { useSocket } from '@/contexts/SocketContext';
-import { DocumentTypeLabels, DocumentType } from '@/types/document';
+
+// Define document types and labels directly in this file
+enum DocumentType {
+  BIRTH_CERTIFICATE = 'birth_certificate',
+  PICTURE_2X2 = 'picture_2x2',
+  ROTC_CERTIFICATE = 'rotc_certificate',
+  ENLISTMENT_ORDER = 'enlistment_order',
+  PROMOTION_ORDER = 'promotion_order',
+  ORDER_OF_INCORPORATION = 'order_of_incorporation',
+  SCHOOLING_CERTIFICATE = 'schooling_certificate',
+  COLLEGE_DIPLOMA = 'college_diploma',
+  RIDS = 'rids',
+  OTHER = 'other'
+}
+
+const DocumentTypeLabels: Record<DocumentType, string> = {
+  [DocumentType.BIRTH_CERTIFICATE]: 'Birth Certificate',
+  [DocumentType.PICTURE_2X2]: 'Picture 2x2',
+  [DocumentType.ROTC_CERTIFICATE]: '3R ROTC Certificate',
+  [DocumentType.ENLISTMENT_ORDER]: 'Enlistment Order',
+  [DocumentType.PROMOTION_ORDER]: 'Promotion Order',
+  [DocumentType.ORDER_OF_INCORPORATION]: 'Order of Incorporation',
+  [DocumentType.SCHOOLING_CERTIFICATE]: 'Schooling Certificate',
+  [DocumentType.COLLEGE_DIPLOMA]: 'College Diploma',
+  [DocumentType.RIDS]: 'RIDS',
+  [DocumentType.OTHER]: 'Other Document'
+}
 
 type DocumentStatus = 'verified' | 'pending' | 'rejected';
 
 interface Document {
   _id: string;
   name: string;
+  title?: string;
   type: string;
   uploadDate: string;
   status: DocumentStatus;
@@ -39,12 +66,15 @@ interface Document {
   fileUrl: string;
   expirationDate?: string;
   userId?: string;
+  createdAt?: string;
   uploadedBy?: {
     _id: string;
     firstName: string;
     lastName: string;
-    serviceId: string;
+    serviceId?: string;
+    serviceNumber?: string;
     company?: string;
+    rank?: string;
   };
 }
 
@@ -167,12 +197,85 @@ export default function DocumentsPage() {
         console.log('Documents received:', docs.length);
         console.log('Sample document:', docs.length > 0 ? docs[0] : 'No documents');
         
-        setDocuments(docs);
+        // Process documents to ensure they have all required fields
+        const processedDocs = docs.map((doc: Document) => {
+          // Ensure document has a name
+          if (!doc.name && doc.title) {
+            doc.name = doc.title;
+          } else if (!doc.name) {
+            doc.name = 'Unnamed Document';
+          }
+          
+          // Ensure document has a type
+          if (!doc.type) {
+            doc.type = 'other';
+          }
+          
+          // Ensure document has an upload date
+          if (!doc.uploadDate) {
+            doc.uploadDate = doc.createdAt || new Date().toLocaleDateString();
+          }
+          
+          // Enhanced uploader info handling
+          if (!doc.uploadedBy) {
+            doc.uploadedBy = {
+              _id: 'unknown',
+              firstName: 'Unknown',
+              lastName: 'User',
+              serviceId: 'N/A',
+              rank: ''
+            };
+          } else {
+            // Handle case where uploadedBy might have different field names (from mobile app)
+            const uploader = doc.uploadedBy;
+            
+            // If we have a title field in uploadedBy (from mobile app), use it to populate firstName
+            if ((uploader as any).title && !uploader.firstName) {
+              uploader.firstName = (uploader as any).title;
+            }
+            
+            // If we have a name field but no firstName (from mobile app), use it
+            if ((uploader as any).name && !uploader.firstName) {
+              const fullName = (uploader as any).name.split(' ');
+              if (fullName.length > 1) {
+                uploader.firstName = fullName[0];
+                uploader.lastName = fullName.slice(1).join(' ');
+              } else {
+                uploader.firstName = fullName[0];
+                uploader.lastName = '';
+              }
+            }
+            
+            // If we have a serviceNumber but no serviceId, use it
+            if ((uploader as any).serviceNumber && !uploader.serviceId) {
+              uploader.serviceId = (uploader as any).serviceNumber;
+            }
+            
+            // If we have an id field but no _id, use it
+            if ((uploader as any).id && !uploader._id) {
+              uploader._id = (uploader as any).id;
+            }
+            
+            // Ensure rank is available
+            if (!uploader.rank) {
+              uploader.rank = '';
+            }
+            
+            // Ensure we have at least placeholder values
+            if (!uploader.firstName) uploader.firstName = 'Unknown';
+            if (!uploader.lastName) uploader.lastName = 'User';
+            if (!uploader.serviceId) uploader.serviceId = 'N/A';
+          }
+          
+          return doc;
+        });
+        
+        setDocuments(processedDocs);
         
         // Extract unique companies for the filter dropdown
         const uniqueCompanies = Array.from(
           new Set(
-            docs
+            processedDocs
               .filter((doc: Document) => doc.uploadedBy?.company)
               .map((doc: Document) => doc.uploadedBy?.company)
           )
@@ -411,10 +514,11 @@ export default function DocumentsPage() {
       'identification': 'Identification',
       'promotion': 'Promotion Order',
       'commendation': 'Commendation',
-      'other': 'Other Document'
+      'other': 'Other Document',
+      'birth_certificate': 'Birth Certificate'
     };
     
-    return typeMapping[type] || type;
+    return typeMapping[type] || type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, ' ');
   };
 
   if (isLoading) {
@@ -663,7 +767,7 @@ export default function DocumentsPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <DocumentTextIcon className="w-5 h-5 mr-3 text-gray-400" />
-                            <div className="text-sm font-medium text-gray-900">{document.name}</div>
+                            <div className="text-sm font-medium text-gray-900">{document.name || document.title || 'Unnamed Document'}</div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -676,21 +780,24 @@ export default function DocumentsPage() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">{document.uploadDate}</div>
+                          <div className="text-sm text-gray-500">{document.uploadDate || document.createdAt || 'Unknown date'}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {document.uploadedBy ? (
                             <div className="text-sm text-gray-900">
-                              <div>{document.uploadedBy.firstName} {document.uploadedBy.lastName}</div>
+                              <div>
+                                {document.uploadedBy.rank ? `${document.uploadedBy.rank} ` : ''}
+                                {document.uploadedBy.firstName || 'Unknown'} {document.uploadedBy.lastName || 'User'}
+                              </div>
                               <div className="text-xs text-gray-500">
-                                {document.uploadedBy.serviceId}
+                                {document.uploadedBy.serviceId || document.uploadedBy.serviceNumber || 'N/A'}
                                 {document.uploadedBy.company && (
                                   <span className="ml-1">| {document.uploadedBy.company}</span>
                                 )}
                               </div>
                             </div>
                           ) : (
-                            <div className="text-sm text-gray-500">Unknown</div>
+                            <div className="text-sm text-gray-500">Unknown User</div>
                           )}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
