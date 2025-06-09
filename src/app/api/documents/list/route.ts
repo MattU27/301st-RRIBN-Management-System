@@ -149,21 +149,44 @@ export async function GET(request: Request) {
               
               // Update the document with user data if found
               if (userData) {
+                console.log('User data found:', {
+                  id: userData._id,
+                  firstName: userData.firstName,
+                  lastName: userData.lastName,
+                  serviceNumber: userData.serviceNumber,
+                  serviceId: userData.serviceId
+                });
+                
+                // Log all keys in userData to see what fields are actually available
+                console.log('All userData keys:', Object.keys(userData));
+                
+                // Extract serviceNumber from userData with fallbacks
+                let serviceNumberValue = '';
+                if (userData.serviceNumber) {
+                  serviceNumberValue = userData.serviceNumber;
+                  console.log('Using serviceNumber:', serviceNumberValue);
+                } else if (userData.serviceId) {
+                  serviceNumberValue = userData.serviceId;
+                  console.log('Using serviceId as fallback:', serviceNumberValue);
+                }
+                
                 doc.uploadedBy = {
                   _id: uploaderId,
                   firstName: userData.firstName || 'Unknown',
                   lastName: userData.lastName || 'User',
-                  serviceId: userData.serviceNumber || userData.serviceId || 'N/A',
+                  serviceNumber: serviceNumberValue,
                   company: userData.company || '',
                   rank: userData.rank || ''
                 };
+                
+                console.log('Document uploadedBy after mapping:', doc.uploadedBy);
               } else {
                 // Default values if user not found
                 doc.uploadedBy = {
                   _id: uploaderId,
                   firstName: 'Unknown',
                   lastName: 'User',
-                  serviceId: 'N/A',
+                  serviceNumber: '',
                   company: '',
                   rank: ''
                 };
@@ -176,7 +199,7 @@ export async function GET(request: Request) {
               _id: uploaderId,
               firstName: 'Unknown',
               lastName: 'User',
-              serviceId: 'N/A',
+              serviceNumber: '',
               company: '',
               rank: ''
             };
@@ -195,7 +218,7 @@ export async function GET(request: Request) {
     const processedDocuments = documents.map(doc => {
       try {
         // Format dates - include all possible date fields
-        const dateOptions = {
+        const dateOptions: Intl.DateTimeFormatOptions = {
           year: 'numeric',
           month: 'numeric',
           day: 'numeric',
@@ -229,6 +252,13 @@ export async function GET(request: Request) {
         if (doc.uploadedBy) {
           const uploader = doc.uploadedBy;
           
+          console.log('Processing uploader info:', {
+            id: doc._id,
+            uploadedBy: uploader,
+            hasServiceNumber: 'serviceNumber' in uploader,
+            serviceNumber: uploader.serviceNumber
+          });
+          
           // For mobile uploads, title might be used instead of firstName
           if ((uploader as any).title && !(uploader as any).firstName) {
             (uploader as any).firstName = (uploader as any).title;
@@ -246,9 +276,9 @@ export async function GET(request: Request) {
             }
           }
           
-          // If we have a serviceNumber but no serviceId, use it
-          if ((uploader as any).serviceNumber && !(uploader as any).serviceId) {
-            (uploader as any).serviceId = (uploader as any).serviceNumber;
+          // Make sure serviceNumber is properly set
+          if (!(uploader as any).serviceNumber) {
+            (uploader as any).serviceNumber = '';
           }
           
           // Make sure rank is included
@@ -264,13 +294,12 @@ export async function GET(request: Request) {
           // Ensure we have at least placeholder values for required fields
           if (!(uploader as any).firstName) (uploader as any).firstName = 'Unknown';
           if (!(uploader as any).lastName) (uploader as any).lastName = 'User';
-          if (!(uploader as any).serviceId) (uploader as any).serviceId = 'N/A';
         } else {
           // Provide default uploader info if missing
           doc.uploadedBy = {
             firstName: 'Unknown',
             lastName: 'User',
-            serviceId: 'N/A',
+            serviceNumber: '',
             company: '',
             rank: ''
           };

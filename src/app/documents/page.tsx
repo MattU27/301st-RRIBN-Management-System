@@ -64,7 +64,7 @@ interface Document {
     _id: string;
     firstName?: string;
     lastName?: string;
-    serviceId?: string;
+    serviceNumber?: string;
     rank?: string;
     name?: string;
   };
@@ -79,7 +79,6 @@ interface Document {
     _id: string;
     firstName: string;
     lastName: string;
-    serviceId?: string;
     serviceNumber?: string;
     company?: string;
     rank?: string;
@@ -165,7 +164,7 @@ export default function DocumentsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   
   // Add filter states
-  const [filterServiceId, setFilterServiceId] = useState('');
+  const [filterServiceNumber, setFilterServiceNumber] = useState('');
   const [filterCompany, setFilterCompany] = useState('');
   const [companies, setCompanies] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
@@ -257,6 +256,14 @@ export default function DocumentsPage() {
             title: doc.title
           });
           
+          // Debug uploader info
+          console.log('Document uploader info:', {
+            id: doc._id,
+            uploadedBy: doc.uploadedBy,
+            serviceNumber: doc.uploadedBy?.serviceNumber,
+            hasServiceNumber: doc.uploadedBy && 'serviceNumber' in doc.uploadedBy
+          });
+          
           // Ensure document has a name
           if (!doc.name && doc.title) {
             doc.name = doc.title;
@@ -293,7 +300,7 @@ export default function DocumentsPage() {
               _id: 'unknown',
               firstName: 'Unknown',
               lastName: 'User',
-              serviceId: 'N/A',
+              serviceNumber: '',
               rank: ''
             };
           } else {
@@ -317,9 +324,12 @@ export default function DocumentsPage() {
               }
             }
             
-            // If we have a serviceNumber but no serviceId, use it
-            if ((uploader as any).serviceNumber && !uploader.serviceId) {
-              uploader.serviceId = (uploader as any).serviceNumber;
+            // Make sure serviceNumber is set properly
+            if ((uploader as any).serviceNumber && !uploader.serviceNumber) {
+              uploader.serviceNumber = (uploader as any).serviceNumber;
+            } else if ((uploader as any).serial_number && !uploader.serviceNumber) {
+              // Some systems might use serial_number instead
+              uploader.serviceNumber = (uploader as any).serial_number;
             }
             
             // If we have an id field but no _id, use it
@@ -335,7 +345,7 @@ export default function DocumentsPage() {
             // Ensure we have at least placeholder values
             if (!uploader.firstName) uploader.firstName = 'Unknown';
             if (!uploader.lastName) uploader.lastName = 'User';
-            if (!uploader.serviceId) uploader.serviceId = 'N/A';
+            if (!uploader.serviceNumber) uploader.serviceNumber = '';
           }
           
           // Process verifiedBy information if available
@@ -492,17 +502,26 @@ export default function DocumentsPage() {
     }
   };
 
+  // Handle viewing a document
   const handleViewDocument = (document: Document) => {
     console.log('Viewing document:', document);
-    console.log('Document verifiedBy:', document.verifiedBy);
     
     // Create a safe copy of the document to avoid passing complex objects
-    const safeDocument = {
+    const safeDocument: any = {
       ...document,
       verifiedBy: typeof document.verifiedBy === 'object' ? 
         `${document.verifiedBy.firstName || ''} ${document.verifiedBy.lastName || ''}` : 
         document.verifiedBy || 'Staff Member'
     };
+    
+    // If the document has a fileUrl that starts with gridfs://, convert it to our API endpoint
+    if (safeDocument.fileUrl && safeDocument.fileUrl.startsWith('gridfs://')) {
+      const gridFsId = safeDocument.fileUrl.replace('gridfs://', '');
+      console.log('Converting gridfs URL to API endpoint, ID:', gridFsId);
+      
+      // Update the fileUrl to use our API endpoint
+      safeDocument.fileUrl = `/api/documents/document?id=${gridFsId}`;
+    }
     
     setSelectedDocument(safeDocument);
     setShowDocumentViewer(true);
@@ -598,11 +617,11 @@ export default function DocumentsPage() {
     ? documents 
     : documents.filter(doc => doc.status === activeTab);
   
-  // Apply additional filters (service ID and company)
+  // Apply additional filters (service number and company)
   const finalFilteredDocuments = filteredDocuments.filter((doc: Document) => {
-    // Filter by service ID if provided
-    if (filterServiceId && doc.uploadedBy?.serviceId) {
-      if (!doc.uploadedBy.serviceId.toLowerCase().includes(filterServiceId.toLowerCase())) {
+    // Filter by service number if provided
+    if (filterServiceNumber && doc.uploadedBy?.serviceNumber) {
+      if (!doc.uploadedBy.serviceNumber.toLowerCase().includes(filterServiceNumber.toLowerCase())) {
         return false;
       }
     }
@@ -622,7 +641,7 @@ export default function DocumentsPage() {
       const matchesType = doc.type?.toLowerCase().includes(query);
       const matchesUploader = doc.uploadedBy?.firstName?.toLowerCase().includes(query) || 
                              doc.uploadedBy?.lastName?.toLowerCase().includes(query) ||
-                             doc.uploadedBy?.serviceId?.toLowerCase().includes(query);
+                             doc.uploadedBy?.serviceNumber?.toLowerCase().includes(query);
       
       if (!(matchesName || matchesTitle || matchesType || matchesUploader)) {
         return false;
@@ -865,15 +884,15 @@ export default function DocumentsPage() {
             <div className="p-4 border-b border-gray-200 bg-gray-50">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
-                  <label htmlFor="serviceId" className="block mb-1 text-sm font-medium text-gray-700">
-                    Service ID
+                  <label htmlFor="serviceNumber" className="block mb-1 text-sm font-medium text-gray-700">
+                    Service Number
                   </label>
                   <input
                     type="text"
-                    id="serviceId"
-                    value={filterServiceId}
-                    onChange={(e) => setFilterServiceId(e.target.value)}
-                    placeholder="Filter by Service ID"
+                    id="serviceNumber"
+                    value={filterServiceNumber}
+                    onChange={(e) => setFilterServiceNumber(e.target.value)}
+                    placeholder="Filter by Service Number"
                     className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -915,7 +934,7 @@ export default function DocumentsPage() {
               <div className="flex justify-end mt-4">
                 <button
                   onClick={() => {
-                    setFilterServiceId('');
+                    setFilterServiceNumber('');
                     setFilterCompany('');
                     setSearchQuery('');
                     setCurrentPage(1);
@@ -1004,8 +1023,15 @@ export default function DocumentsPage() {
                                 {document.uploadedBy.firstName || 'Unknown'} {document.uploadedBy.lastName || 'User'}
                               </div>
                               <div className="text-xs text-gray-500">
-                                {document.uploadedBy.serviceId || document.uploadedBy.serviceNumber || 'N/A'}
-                                {document.uploadedBy.company && (
+                                {(() => {
+                                  console.log('Rendering service number:', {
+                                    id: document._id,
+                                    serviceNumber: document.uploadedBy?.serviceNumber,
+                                    hasServiceNumber: document.uploadedBy && 'serviceNumber' in document.uploadedBy
+                                  });
+                                  return document.uploadedBy?.serviceNumber || '';
+                                })()}
+                                {document.uploadedBy?.company && (
                                   <span className="ml-1">| {document.uploadedBy.company}</span>
                                 )}
                               </div>

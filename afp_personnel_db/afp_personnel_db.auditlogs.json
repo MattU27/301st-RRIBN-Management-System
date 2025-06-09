@@ -20892,4 +20892,203 @@
   "ipAddress": "::1",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6845ae6ce6fbe13e96c08874"
+  },
+  "timestamp": {
+    "$date": "2025-06-08T15:38:20.919Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68463e12f43d8a58a007e50f"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T01:51:14.572Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68464ca73eff3cb8b7413442"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T02:53:27.121Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f89d274ba8bbe8d094b0be",
+  "details": "Captain Gerimiah Almero (NERRSC (NERR-Signal Company)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68464cb13eff3cb8b7413450"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T02:53:37.234Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68464cca3eff3cb8b7413484"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T02:54:02.257Z"
+  },
+  "userId": "67f8a0ea4ba8bbe8d094b0dd",
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68464cd53eff3cb8b741348f"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T02:54:13.202Z"
+  },
+  "userId": "67f8a0ea4ba8bbe8d094b0dd",
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "logout",
+  "resource": "user",
+  "resourceId": "67f8a0ea4ba8bbe8d094b0dd",
+  "details": "Lieutenant General John Matthew Banto (NERRFAB (NERR-Field Artillery Battery)) logged out",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68464ce83eff3cb8b7413495"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T02:54:32.222Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684659c05cffdd9cd08f6339"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T03:49:20.803Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684659f760b0c7fd3786e980"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T03:50:15.646Z"
+  },
+  "userId": "67f89d274ba8bbe8d094b0be",
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "view",
+  "resource": "system",
+  "details": "Viewed page: /trainings",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68465bb0b899bd21ac14e96e"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T03:57:36.197Z"
+  },
+  "userId": {
+    "$oid": "67f89d274ba8bbe8d094b0be"
+  },
+  "userName": "Gerimiah Almero",
+  "userRole": "staff",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68466a9f2152c86282439070"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T05:01:19.284Z"
+  },
+  "userId": {
+    "$oid": "67f8a0ea4ba8bbe8d094b0dd"
+  },
+  "userName": "John Matthew Banto",
+  "userRole": "administrator",
+  "action": "login",
+  "resource": "user",
+  "details": "User login successful",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0",
+  "__v": 0
 }]

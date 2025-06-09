@@ -46,7 +46,7 @@ function getRedactedConnectionString(uri: string): string {
  */
 export async function dbConnect(): Promise<typeof mongoose> {
   // If we already have a connection, return it
-  if (cachedConnection.conn) {
+  if (cachedConnection.conn && cachedConnection.nativeDb) {
     console.log('Using existing MongoDB connection');
     return cachedConnection.conn;
   }
@@ -56,6 +56,15 @@ export async function dbConnect(): Promise<typeof mongoose> {
     console.log('Waiting for existing MongoDB connection attempt to complete');
     try {
       cachedConnection.conn = await cachedConnection.promise;
+      
+      // Ensure we have the native DB instance
+      if (mongoose.connection && mongoose.connection.readyState === 1) {
+        cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
+        console.log(`Cached native DB instance: ${cachedConnection.nativeDb.databaseName}`);
+      } else {
+        console.warn('Mongoose connection exists but native DB is not available');
+      }
+      
       return cachedConnection.conn;
     } catch (error) {
       // If connection fails, reset the promise so we can try again
@@ -83,6 +92,9 @@ export async function dbConnect(): Promise<typeof mongoose> {
       
       // Store native MongoDB driver connection for GridFS operations
       cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
+    } else {
+      console.error('MongoDB connection succeeded but database object is null');
+      throw new Error('MongoDB connection succeeded but database object is null');
     }
     console.log(`Connection state: ${mongoose.connection.readyState}`);
     return mongoose;
@@ -105,10 +117,18 @@ export async function dbConnect(): Promise<typeof mongoose> {
   try {
     // Wait for the connection to be established
     cachedConnection.conn = await cachedConnection.promise;
+    
+    // Double-check that we have the native DB
+    if (!cachedConnection.nativeDb && mongoose.connection && mongoose.connection.db) {
+      cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
+      console.log(`Set native DB instance: ${cachedConnection.nativeDb.databaseName}`);
+    }
+    
     return cachedConnection.conn;
   } catch (error) {
     // If connection fails, reset the promise so we can try again
     cachedConnection.promise = null;
+    cachedConnection.nativeDb = null;
     throw error;
   }
 }
@@ -118,16 +138,53 @@ export async function dbConnect(): Promise<typeof mongoose> {
  * Useful for GridFS operations
  */
 export function getNativeDb(): Db | null {
+  // If we already have a cached native DB, return it
   if (cachedConnection.nativeDb) {
     return cachedConnection.nativeDb;
   }
   
-  if (cachedConnection.conn && mongoose.connection && mongoose.connection.db) {
-    cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
-    return cachedConnection.nativeDb;
+  // If mongoose is connected, try to get the DB
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    if (mongoose.connection.db) {
+      cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
+      console.log(`Retrieved native DB instance: ${cachedConnection.nativeDb.databaseName}`);
+      return cachedConnection.nativeDb;
+    } else {
+      console.error('Mongoose is connected but db property is undefined');
+    }
+  } else {
+    console.error('Mongoose is not connected, readyState:', mongoose.connection?.readyState);
   }
   
   return null;
+}
+
+/**
+ * Get the native MongoDB driver Db instance with automatic connection
+ * This will attempt to connect if not already connected
+ */
+export async function ensureDbConnection(): Promise<Db | null> {
+  // If we already have a cached native DB, return it
+  if (cachedConnection.nativeDb) {
+    return cachedConnection.nativeDb;
+  }
+  
+  try {
+    // Try to connect
+    await dbConnect();
+    
+    // Get the native DB
+    const db = getNativeDb();
+    if (!db) {
+      console.error('Failed to get native DB after connection');
+      return null;
+    }
+    
+    return db;
+  } catch (error) {
+    console.error('Error ensuring DB connection:', error);
+    return null;
+  }
 }
 
 /**

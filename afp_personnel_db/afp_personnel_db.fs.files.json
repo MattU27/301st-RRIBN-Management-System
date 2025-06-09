@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "6846740a94e1668424000000"
+  },
+  "filename": "Get_Started_With_Smallpdf.pdf",
+  "contentType": "application/pdf",
+  "length": 69173,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2025-06-09T05:41:30.773Z"
+  },
+  "metadata": {
+    "title": "Birth Certificate",
+    "userId": "ObjectId(\"68063c32bb93f9ffb2000000\")",
+    "description": null,
+    "documentType": "Birth Certificate"
+  }
+}]

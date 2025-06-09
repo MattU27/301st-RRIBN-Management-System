@@ -1227,7 +1227,7 @@ class DocumentService {
               }
             }
           }
-        } catch (e) {
+      } catch (e) {
           if (kDebugMode) {
             print('Error accessing external storage: $e');
           }
@@ -1280,7 +1280,7 @@ class DocumentService {
       return file;
     } catch (e) {
       if (kDebugMode) {
-        print('Error saving file: $e');
+      print('Error saving file: $e');
         print('Error stack trace: ${StackTrace.current}');
       }
       throw Exception('Failed to save file: $e');

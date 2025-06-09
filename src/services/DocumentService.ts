@@ -20,6 +20,19 @@ export class DocumentService {
         }
       });
       
+      // Debug response
+      console.log('DocumentService API raw response:', response.data);
+      
+      // Check for serviceNumber in the first document if available
+      if (response.data.success && response.data.data.documents.length > 0) {
+        const firstDoc = response.data.data.documents[0];
+        console.log('First document uploader:', {
+          uploadedBy: firstDoc.uploadedBy,
+          serviceNumber: firstDoc.uploadedBy?.serviceNumber,
+          hasServiceNumber: firstDoc.uploadedBy && 'serviceNumber' in firstDoc.uploadedBy
+        });
+      }
+      
       return response.data;
     } catch (error) {
       console.error('Error fetching documents:', error);

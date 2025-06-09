@@ -1,28 +1,62 @@
 [{
-  "_id": "68404e0b80de3ce4b5000000",
+  "_id": {
+    "$oid": "6846728794e1658424000000"
+  },
   "userId": "ObjectId(\"68063c32bb93f9ffb2000000\")",
   "uploadedBy": {
     "_id": "ObjectId(\"68063c32bb93f9ffb2000000\")",
     "firstName": "John Matthew",
     "lastName": "Banto",
-    "serviceId": "2019-10180",
+    "serviceId": "",
     "company": "Alpha",
     "rank": "Private"
   },
-  "title": "Schooling Certificate",
-  "type": "training_certificate",
-  "description": "dwasdaw",
-  "fileUrl": "file:///data/user/0/com.example.armed_forces_app/code_cache/documents/1749359003842_file-example_PDF_1MB.pdf",
-  "fileName": "file-example_PDF_1MB.pdf",
-  "fileSize": 1042157,
+  "title": "Birth Certificate",
+  "type": "Birth Certificate",
+  "description": null,
+  "fileUrl": "gridfs://6846728794e1638424000000",
+  "fileName": "Get_Started_With_Smallpdf.pdf",
+  "fileSize": 69173,
   "mimeType": "application/pdf",
   "status": "pending",
   "uploadedAt": {
-    "$date": "2025-06-04T13:45:47.710Z"
+    "$date": "2025-06-09T05:35:03.669Z"
   },
   "updatedAt": {
-    "$date": "2025-06-04T13:45:47.710Z"
+    "$date": "2025-06-09T05:35:03.669Z"
   },
   "version": 1,
-  "localFilePath": "/data/user/0/com.example.armed_forces_app/code_cache/documents/1749359003842_file-example_PDF_1MB.pdf"
+  "localFilePath": "/data/user/0/com.example.armed_forces_app/app_flutter/documents/1749447303587_Get_Started_With_Smallpdf.pdf",
+  "gridFSId": "6846728794e1638424000000"
+},
+{
+  "_id": {
+    "$oid": "6846740a94e1688424000000"
+  },
+  "userId": "ObjectId(\"68063c32bb93f9ffb2000000\")",
+  "uploadedBy": {
+    "_id": "ObjectId(\"68063c32bb93f9ffb2000000\")",
+    "firstName": "John Matthew",
+    "lastName": "Banto",
+    "serviceId": "",
+    "company": "Alpha",
+    "rank": "Private"
+  },
+  "title": "Birth Certificate",
+  "type": "Birth Certificate",
+  "description": null,
+  "fileUrl": "gridfs://6846740a94e1668424000000",
+  "fileName": "Get_Started_With_Smallpdf.pdf",
+  "fileSize": 69173,
+  "mimeType": "application/pdf",
+  "status": "pending",
+  "uploadedAt": {
+    "$date": "2025-06-09T05:41:30.832Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T05:41:30.832Z"
+  },
+  "version": 1,
+  "localFilePath": "/data/user/0/com.example.armed_forces_app/app_flutter/documents/1749447690741_Get_Started_With_Smallpdf.pdf",
+  "gridFSId": "6846740a94e1668424000000"
 }]
