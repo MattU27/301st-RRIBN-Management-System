@@ -157,8 +157,45 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
       }
     }
     
+    // Check if user is registered for any past trainings and mark them as completed
+    if (_userId != null) {
+      _markPastTrainingsAsCompleted(trainingService, pastList);
+    }
+    
     // Make sure our modifications are visible
     trainingService.notifyListeners();
+  }
+  
+  // Helper method to mark past trainings as completed
+  void _markPastTrainingsAsCompleted(TrainingService trainingService, List<Training> pastTrainings) async {
+    if (_userId == null) return;
+    
+    final now = DateTime.now();
+    
+    for (final training in pastTrainings) {
+      try {
+        // Check if this is a past training that the user was registered for
+        if (training.endDate.isBefore(now)) {
+          // Check if user is registered for this training
+          final trainingIdStr = training.id?.toHexString() ?? '';
+          if (trainingIdStr.isNotEmpty) {
+            final isRegistered = await trainingService.isUserRegistered(_userId!, trainingIdStr);
+            
+            if (isRegistered) {
+              print('DEBUG: Marking past training as completed: ${training.title}');
+              // Mark as completed
+              await trainingService.markTrainingAsCompleted(
+                _userId!,
+                trainingIdStr,
+                score: 100.0, // Default score
+              );
+            }
+          }
+        }
+      } catch (e) {
+        print('Error marking training as completed: $e');
+      }
+    }
   }
   
   // Load events for calendar view
