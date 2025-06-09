@@ -1,49 +1,4073 @@
 [{
   "_id": {
-    "$oid": "684578d997ac6d37908a0482"
+    "$oid": "684702081c237ca071691f72"
   },
-  "title": "Tactical Combat Training 101",
-  "description": "Foundational course on ground-level tactics, movement formations, and situational awareness in urban and rural environments.",
-  "type": "field_exercise",
+  "title": "Basic Combat Training",
+  "description": "Foundational training for all military personnel covering basic combat skills",
+  "type": "Course",
   "startDate": {
-    "$date": "2025-06-09T00:00:00.000Z"
+    "$date": "2024-03-09T16:00:00.000Z"
   },
   "endDate": {
-    "$date": "2025-06-09T03:00:00.000Z"
+    "$date": "2024-03-19T16:00:00.000Z"
   },
   "location": {
-    "name": "Camp Sentinel",
-    "address": "Training Field Alpha"
+    "name": "Camp Aguinaldo",
+    "address": "EDSA, Quezon City",
+    "coordinates": {
+      "lat": 14.6042,
+      "lng": 121.0448
+    }
   },
   "instructor": {
-    "name": "Sgt. Valdez",
-    "rank": "Master Trainer"
+    "name": "Col. Juan Dela Cruz",
+    "rank": "Colonel",
+    "specialization": "Infantry"
   },
-  "status": "upcoming",
-  "capacity": 20,
-  "registered": 0,
+  "status": "completed",
+  "capacity": 50,
+  "registered": 45,
+  "eligibleRanks": [
+    "Private",
+    "Private First Class",
+    "Corporal"
+  ],
+  "eligibleCompanies": [],
+  "mandatory": true,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457346"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457349"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457353"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457360"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457361"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405926"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405929"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405930"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405932"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405933"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405934"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405936"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405939"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405942"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405943"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405944"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405946"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680647891cc7701e76000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f68"
+  },
+  "tags": [
+    "combat",
+    "basic training"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Combat Manual",
+    "Field Guide"
+  ],
+  "createdAt": {
+    "$date": "2024-01-31T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-20T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "title": "Advanced Leadership Development",
+  "description": "Training for officers to develop leadership skills in combat and administrative scenarios",
+  "type": "Seminar",
+  "startDate": {
+    "$date": "2024-04-14T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-04-16T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Fort Bonifacio",
+    "address": "Taguig City",
+    "coordinates": {
+      "lat": 14.5176,
+      "lng": 121.0509
+    }
+  },
+  "instructor": {
+    "name": "Gen. Maria Santos",
+    "rank": "General",
+    "specialization": "Leadership"
+  },
+  "status": "completed",
+  "capacity": 30,
+  "registered": 28,
+  "eligibleRanks": [
+    "Lieutenant",
+    "Captain",
+    "Major"
+  ],
+  "eligibleCompanies": [],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457354"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457355"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457356"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405921"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405932"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405933"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405936"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405938"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405940"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405942"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405944"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f69"
+  },
+  "tags": [
+    "leadership",
+    "officer training"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Leadership Manual",
+    "Case Studies"
+  ],
+  "createdAt": {
+    "$date": "2024-02-29T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-17T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "title": "Tactical Communications",
+  "description": "Training on military communications protocols and equipment operation",
+  "type": "Workshop",
+  "startDate": {
+    "$date": "2024-05-04T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-05-06T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Camp Lapu-Lapu",
+    "address": "Cebu City",
+    "coordinates": {
+      "lat": 10.3157,
+      "lng": 123.8854
+    }
+  },
+  "instructor": {
+    "name": "Maj. Roberto Reyes",
+    "rank": "Major",
+    "specialization": "Communications"
+  },
+  "status": "completed",
+  "capacity": 25,
+  "registered": 22,
+  "eligibleRanks": [],
+  "eligibleCompanies": [
+    "Alpha",
+    "Bravo"
+  ],
+  "mandatory": true,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "68063c32bb93f9ffb2000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457356"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457361"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405925"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405930"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405934"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405945"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f6a"
+  },
+  "tags": [
+    "communications",
+    "tactical"
+  ],
+  "certificationOffered": false,
+  "materials": [
+    "Communications Field Manual",
+    "Equipment Guides"
+  ],
+  "createdAt": {
+    "$date": "2024-03-31T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-07T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "title": "Urban Warfare Tactics",
+  "description": "Specialized training for combat operations in urban environments",
+  "type": "Course",
+  "startDate": {
+    "$date": "2025-06-06T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-06-13T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Subic Bay",
+    "address": "Zambales",
+    "coordinates": {
+      "lat": 14.7924,
+      "lng": 120.2816
+    }
+  },
+  "instructor": {
+    "name": "Lt. Col. Antonio Mendoza",
+    "rank": "Lieutenant Colonel",
+    "specialization": "Urban Warfare"
+  },
+  "status": "ongoing",
+  "capacity": 40,
+  "registered": 35,
+  "eligibleRanks": [],
+  "eligibleCompanies": [
+    "Charlie",
+    "Delta"
+  ],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457347"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457355"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457356"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457360"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405922"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405925"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405926"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405927"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405929"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405933"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405934"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405935"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405938"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405939"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405940"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405944"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405945"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f6b"
+  },
+  "tags": [
+    "urban warfare",
+    "tactical"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Urban Combat Manual",
+    "City Maps"
+  ],
+  "createdAt": {
+    "$date": "2025-05-14T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T16:13:15.850Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "title": "Field Medical Response",
+  "description": "Training on emergency medical procedures in combat situations",
+  "type": "Workshop",
+  "startDate": {
+    "$date": "2025-06-07T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-06-10T16:00:00.000Z"
+  },
+  "location": {
+    "name": "V. Luna Medical Center",
+    "address": "Quezon City",
+    "coordinates": {
+      "lat": 14.6346,
+      "lng": 121.0591
+    }
+  },
+  "instructor": {
+    "name": "Capt. Elena Cruz",
+    "rank": "Captain",
+    "specialization": "Combat Medicine"
+  },
+  "status": "ongoing",
+  "capacity": 30,
+  "registered": 28,
   "eligibleRanks": [],
   "eligibleCompanies": [],
   "mandatory": true,
-  "attendees": [],
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457347"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457350"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457352"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457354"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457359"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405921"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405927"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405936"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680647891cc7701e76000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    }
+  ],
   "createdBy": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
+    "$oid": "684702081c237ca071691f6c"
   },
   "tags": [
-    "tactics",
-    "field ops",
-    "squad movement"
+    "medical",
+    "emergency response"
   ],
-  "certificationOffered": false,
-  "materials": [],
+  "certificationOffered": true,
+  "materials": [
+    "Field Medical Manual",
+    "First Aid Kits"
+  ],
   "createdAt": {
-    "$date": "2025-06-08T11:49:45.340Z"
+    "$date": "2025-05-09T16:00:00.000Z"
   },
   "updatedAt": {
-    "$date": "2025-06-08T11:51:40.803Z"
+    "$date": "2025-06-07T16:00:00.000Z"
   },
-  "__v": 0,
-  "updatedBy": {
-    "$oid": "67f89d274ba8bbe8d094b0be"
-  }
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "title": "Cyber Defense Operations",
+  "description": "Training on cybersecurity and defense against digital threats",
+  "type": "Course",
+  "startDate": {
+    "$date": "2025-06-18T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-06-23T16:00:00.000Z"
+  },
+  "location": {
+    "name": "AFP Cyber Defense HQ",
+    "address": "Manila",
+    "coordinates": {
+      "lat": 14.5995,
+      "lng": 120.9842
+    }
+  },
+  "instructor": {
+    "name": "Maj. Teresa Lim",
+    "rank": "Major",
+    "specialization": "Cyber Security"
+  },
+  "status": "upcoming",
+  "capacity": 20,
+  "registered": 15,
+  "eligibleRanks": [],
+  "eligibleCompanies": [
+    "Echo",
+    "Foxtrot"
+  ],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457347"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457349"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457353"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457360"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457361"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405921"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405926"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405927"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405929"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405932"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405934"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405935"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405940"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405944"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680647891cc7701e76000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f6d"
+  },
+  "tags": [
+    "cyber",
+    "security",
+    "technology"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Cyber Defense Manual",
+    "Software Tools"
+  ],
+  "createdAt": {
+    "$date": "2025-04-30T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-04-30T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "title": "Amphibious Landing Operations",
+  "description": "Training for beach and coastal military operations",
+  "type": "Exercise",
+  "startDate": {
+    "$date": "2025-06-28T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-07-03T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Naval Base Cavite",
+    "address": "Cavite",
+    "coordinates": {
+      "lat": 14.4791,
+      "lng": 120.897
+    }
+  },
+  "instructor": {
+    "name": "Cmdr. Rafael Marquez",
+    "rank": "Commander",
+    "specialization": "Naval Operations"
+  },
+  "status": "upcoming",
+  "capacity": 60,
+  "registered": 45,
+  "eligibleRanks": [
+    "Private",
+    "Private First Class",
+    "Corporal",
+    "Sergeant"
+  ],
+  "eligibleCompanies": [],
+  "mandatory": true,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457346"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457350"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457352"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457353"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457354"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457356"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405921"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405925"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405935"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405938"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405939"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405942"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f6e"
+  },
+  "tags": [
+    "naval",
+    "amphibious",
+    "coastal"
+  ],
+  "certificationOffered": false,
+  "materials": [
+    "Naval Operations Manual",
+    "Coastal Maps"
+  ],
+  "createdAt": {
+    "$date": "2025-05-04T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "title": "Drone Reconnaissance",
+  "description": "Training on unmanned aerial vehicle operations for surveillance",
+  "type": "Workshop",
+  "startDate": {
+    "$date": "2025-07-04T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-07-07T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Clark Air Base",
+    "address": "Pampanga",
+    "coordinates": {
+      "lat": 15.1869,
+      "lng": 120.5508
+    }
+  },
+  "instructor": {
+    "name": "Lt. Sofia Reyes",
+    "rank": "Lieutenant",
+    "specialization": "UAV Operations"
+  },
+  "status": "upcoming",
+  "capacity": 25,
+  "registered": 20,
+  "eligibleRanks": [],
+  "eligibleCompanies": [
+    "Golf",
+    "Hotel"
+  ],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457346"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457347"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457349"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457350"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457354"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457361"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405922"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405923"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405930"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405931"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405934"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405936"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405937"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405938"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405943"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f6f"
+  },
+  "tags": [
+    "drone",
+    "reconnaissance",
+    "surveillance"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Drone Operations Manual",
+    "Flight Charts"
+  ],
+  "createdAt": {
+    "$date": "2025-05-14T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-14T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "title": "Mountain Warfare Training",
+  "description": "Specialized training for combat operations in mountainous terrain",
+  "type": "Course",
+  "startDate": {
+    "$date": "2025-07-14T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-07-24T16:00:00.000Z"
+  },
+  "location": {
+    "name": "Cordillera Training Camp",
+    "address": "Benguet",
+    "coordinates": {
+      "lat": 16.4023,
+      "lng": 120.596
+    }
+  },
+  "instructor": {
+    "name": "Col. Eduardo Santos",
+    "rank": "Colonel",
+    "specialization": "Mountain Warfare"
+  },
+  "status": "upcoming",
+  "capacity": 35,
+  "registered": 25,
+  "eligibleRanks": [
+    "Private First Class",
+    "Corporal",
+    "Sergeant",
+    "Staff Sergeant"
+  ],
+  "eligibleCompanies": [],
+  "mandatory": false,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457348"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457351"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457355"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457358"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457359"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45735e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457360"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405921"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405922"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405924"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405925"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405926"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405928"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592b"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405932"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405939"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593c"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405942"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405943"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405946"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680647891cc7701e76000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f70"
+  },
+  "tags": [
+    "mountain",
+    "terrain",
+    "survival"
+  ],
+  "certificationOffered": true,
+  "materials": [
+    "Mountain Warfare Manual",
+    "Topographic Maps"
+  ],
+  "createdAt": {
+    "$date": "2025-05-19T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-19T16:00:00.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "title": "Joint Forces Command Exercise",
+  "description": "Large-scale exercise involving multiple military branches",
+  "type": "Exercise",
+  "startDate": {
+    "$date": "2025-07-31T16:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-08-09T16:00:00.000Z"
+  },
+  "location": {
+    "name": "AFP Joint Command Center",
+    "address": "Manila",
+    "coordinates": {
+      "lat": 14.5869,
+      "lng": 121.0378
+    }
+  },
+  "instructor": {
+    "name": "Gen. Ricardo Tan",
+    "rank": "General",
+    "specialization": "Joint Operations"
+  },
+  "status": "upcoming",
+  "capacity": 100,
+  "registered": 80,
+  "eligibleRanks": [
+    "Lieutenant",
+    "Captain",
+    "Major",
+    "Lieutenant Colonel",
+    "Colonel"
+  ],
+  "eligibleCompanies": [],
+  "mandatory": true,
+  "attendees": [
+    {
+      "userId": {
+        "$oid": "68063c32bb93f9ffb2000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f45734e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457350"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457352"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457353"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457357"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457359"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644b64c09aeb74f457360"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405926"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405929"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640592e"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405930"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405933"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405935"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405938"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405939"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593a"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593d"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a1640593f"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405941"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405942"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405944"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405945"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680644e406bb3a2a16405946"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-04-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-05-08T16:00:00.000Z"
+      }
+    },
+    {
+      "userId": {
+        "$oid": "680647891cc7701e76000000"
+      },
+      "status": "completed",
+      "registrationDate": {
+        "$date": "2025-02-08T16:00:00.000Z"
+      },
+      "completionDate": {
+        "$date": "2025-03-08T16:00:00.000Z"
+      }
+    }
+  ],
+  "createdBy": {
+    "$oid": "684702081c237ca071691f71"
+  },
+  "tags": [
+    "joint forces",
+    "command",
+    "large-scale"
+  ],
+  "certificationOffered": false,
+  "materials": [
+    "Joint Operations Manual",
+    "Command Structure Diagrams"
+  ],
+  "createdAt": {
+    "$date": "2025-05-31T16:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-31T16:00:00.000Z"
+  },
+  "__v": 0
 }]

@@ -744,9 +744,9 @@ const PrescriptiveAnalytics = () => {
                               <li key={idx} className="mb-1">
                                 {training.title}
                                 <span className="text-xs text-gray-500"> ({training.completionDate})</span>
-                              </li>
-                            ))}
-                          </ul>
+                                    </li>
+                                  ))}
+                                </ul>
                         ) : (
                           <p className="text-xs italic text-gray-500">No training records available</p>
                         )}

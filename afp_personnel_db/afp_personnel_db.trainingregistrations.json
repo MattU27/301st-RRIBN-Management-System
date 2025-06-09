@@ -1,1 +1,7300 @@
-[]
+[{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb31b"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb31c"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb31d"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb31e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb31f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb320"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457346"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb321"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb322"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb323"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb324"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457347"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb325"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb326"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb327"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 89,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb328"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb329"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457348"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457349"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457349"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457349"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 70,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb32f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb330"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb331"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb332"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb333"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb334"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb335"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb336"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb337"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb338"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb339"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb33f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb340"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb341"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb342"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb343"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb344"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb345"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45734f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb346"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb347"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb348"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb349"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457350"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb34f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457351"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb350"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb351"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb352"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457352"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb353"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457353"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb354"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457353"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb355"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457353"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb356"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457353"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 89,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb357"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457354"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb358"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457354"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb359"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457354"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 70,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457354"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457355"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457355"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457355"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457356"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb35f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457356"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb360"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457356"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb361"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457356"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb362"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb363"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb364"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb365"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb366"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb367"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457357"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb368"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb369"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457358"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb36f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb370"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457359"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb371"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb372"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb373"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb374"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb375"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb376"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb377"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb378"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb379"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb37f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb380"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb381"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb382"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb383"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb384"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb385"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb386"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb387"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb388"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb389"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38a"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38b"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38c"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38d"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f45735f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38e"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb38f"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb390"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb391"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb392"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457360"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb393"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb394"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb395"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb396"
+  },
+  "userId": {
+    "$oid": "680644b64c09aeb74f457361"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb397"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb398"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb399"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39a"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 70,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39b"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405921"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39c"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39d"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39e"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405922"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb39f"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405923"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 89,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3a9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3aa"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405924"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ab"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405925"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ac"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405925"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ad"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405925"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ae"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405925"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3af"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405926"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405926"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405926"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405926"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405926"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405927"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405927"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405927"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3b9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ba"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3bb"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3bc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405928"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3bd"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405929"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3be"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405929"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3bf"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405929"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405929"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3c9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ca"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3cb"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3cc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3cd"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ce"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3cf"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 72,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640592f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405930"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405930"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3d9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405930"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3da"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405930"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3db"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3dc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3dd"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3de"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3df"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405931"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405932"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405932"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405932"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405932"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405933"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3e9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ea"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 77,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3eb"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ec"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ed"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405934"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 95,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ee"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405935"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ef"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405935"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f0"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405935"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f1"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405935"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f2"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405936"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 85,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f3"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405936"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f4"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405936"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f5"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405936"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 99,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f6"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f7"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f8"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3f9"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3fa"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3fb"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405937"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3fc"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3fd"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3fe"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb3ff"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb400"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405938"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb401"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 79,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb402"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb403"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb404"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb405"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405939"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb406"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb407"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb408"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 94,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb409"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40a"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593a"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40b"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 89,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40c"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40d"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593b"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40e"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb40f"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb410"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb411"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593c"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb412"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 70,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb413"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb414"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593d"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb415"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb416"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 98,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb417"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb418"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb419"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593e"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 75,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41a"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41b"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 73,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41c"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41d"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a1640593f"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 78,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41e"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405940"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb41f"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405940"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 100,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb420"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405940"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb421"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb422"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb423"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb424"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 83,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb425"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb426"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405941"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb427"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 89,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb428"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb429"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 92,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42a"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 90,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42b"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405942"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f78"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42c"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405943"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42d"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405943"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f79"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42e"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405943"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 82,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb42f"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405944"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb430"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405944"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb431"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405944"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f73"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 97,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb432"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405944"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 86,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb433"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405944"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb434"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405945"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 91,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb435"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405945"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f74"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 96,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb436"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405945"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f75"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 87,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb437"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 76,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb438"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 74,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb439"
+  },
+  "userId": {
+    "$oid": "680644e406bb3a2a16405946"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "performanceScore": 88,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb43a"
+  },
+  "userId": {
+    "$oid": "680647891cc7701e76000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f76"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 93,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb43b"
+  },
+  "userId": {
+    "$oid": "680647891cc7701e76000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7b"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 81,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb43c"
+  },
+  "userId": {
+    "$oid": "680647891cc7701e76000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f7a"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 84,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb43d"
+  },
+  "userId": {
+    "$oid": "680647891cc7701e76000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f77"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-02-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-03-08T16:00:00.000Z"
+  },
+  "performanceScore": 80,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6847021396f7e3477abdb43e"
+  },
+  "userId": {
+    "$oid": "680647891cc7701e76000000"
+  },
+  "trainingId": {
+    "$oid": "684702081c237ca071691f72"
+  },
+  "status": "completed",
+  "registrationDate": {
+    "$date": "2025-04-08T16:00:00.000Z"
+  },
+  "completionDate": {
+    "$date": "2025-05-08T16:00:00.000Z"
+  },
+  "performanceScore": 71,
+  "createdAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:47:31.588Z"
+  }
+}]

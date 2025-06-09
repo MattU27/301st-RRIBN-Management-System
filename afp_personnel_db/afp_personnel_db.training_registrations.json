@@ -1,1 +1,27 @@
-[]
+[{
+  "_id": {
+    "$oid": "6846fd1a2bab489394000000"
+  },
+  "trainingId": {
+    "$oid": "6846fd0e6ffb54c84a0a8fee"
+  },
+  "userId": {
+    "$oid": "68063c32bb93f9ffb2000000"
+  },
+  "status": "registered",
+  "registrationDate": {
+    "$date": "2025-06-09T15:26:18.636Z"
+  },
+  "attendanceDate": null,
+  "completionDate": null,
+  "score": null,
+  "feedback": null,
+  "certificate": null,
+  "additionalInfo": null,
+  "createdAt": {
+    "$date": "2025-06-09T15:26:18.636Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-09T15:26:18.636Z"
+  }
+}]
