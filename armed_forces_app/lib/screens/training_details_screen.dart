@@ -83,6 +83,40 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
     }
   }
 
+  // Helper method to check if a training is past and should be marked as completed
+  void _checkAndMarkCompleted(Training training) async {
+    if (_userId == null) return;
+    
+    final now = DateTime.now();
+    final isPastTraining = training.endDate.isBefore(now);
+    final isRegistered = _isRegistered;
+    
+    // If training is past, user is registered, and status isn't already completed
+    if (isPastTraining && isRegistered && training.status.toLowerCase() != 'completed') {
+      try {
+        final trainingService = Provider.of<TrainingService>(context, listen: false);
+        
+        // Get valid hex string for training ID
+        final trainingIdStr = _getValidHexString(training.id);
+        
+        // Mark the training as completed
+        await trainingService.markTrainingAsCompleted(
+          _userId!,
+          trainingIdStr,
+          // Optional: Add a score if available
+          score: 100.0, // Default score, could be based on performance
+        );
+        
+        print('DEBUG: Successfully marked training ${training.title} as completed');
+        
+        // Refresh data after marking as completed
+        _loadData();
+      } catch (e) {
+        print('Error marking training as completed: $e');
+      }
+    }
+  }
+
   Future<void> _loadData() async {
     setState(() {
       _isLoading = true;
@@ -121,6 +155,9 @@ class _TrainingDetailsScreenState extends State<TrainingDetailsScreen> {
           );
           _isRegistered = await _isRegisteredFuture;
           print('DEBUG: User registration status: $_isRegistered');
+          
+          // Check if training is past and should be marked as completed
+          _checkAndMarkCompleted(training);
         } catch (e) {
           print('Error checking registration status: $e');
           _isRegisteredFuture = Future.value(false);

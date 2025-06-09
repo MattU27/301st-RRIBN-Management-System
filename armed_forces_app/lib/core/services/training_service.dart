@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:flutter/foundation.dart';
 import 'dart:math' as math;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import './database_service.dart';
 import '../models/training_model.dart';
@@ -9,6 +11,7 @@ import '../models/training_registration_model.dart';
 import '../models/user_model.dart';
 import '../models/registered_personnel_model.dart';
 import '../config/mongodb_config.dart';
+import '../services/auth_service.dart';
 
 class TrainingService extends ChangeNotifier {
   static const String TRAININGS_COLLECTION = 'trainings';
@@ -23,7 +26,11 @@ class TrainingService extends ChangeNotifier {
   
   TrainingService._internal();
   
+  // Base URL for API calls
+  final String baseUrl = MongoDBConfig.apiBaseUrl;
+  
   final DatabaseService _databaseService = DatabaseService();
+  final AuthService _authService = AuthService();
   
   // Cache for trainings
   List<Training> _upcomingTrainings = [];
@@ -954,12 +961,11 @@ class TrainingService extends ChangeNotifier {
   // Refresh caches after data changes
   Future<void> _refreshCaches(String userId) async {
     // Clear registration cache for this user
-    final userPrefix = '${_cleanObjectIdString(userId)}_';
-    _registrationStatusCache.removeWhere((key, value) => key.startsWith(userPrefix));
-    _registrationCacheTimestamps.removeWhere((key, value) => key.startsWith(userPrefix));
+    final cleanUserId = _cleanObjectIdString(userId);
+    _registrationStatusCache.removeWhere((key, _) => key.startsWith(cleanUserId));
+    _registrationCacheTimestamps.removeWhere((key, _) => key.startsWith(cleanUserId));
     
     // Force refresh of the user's trainings - clear the cache entry to ensure a fresh reload
-    final cleanUserId = _cleanObjectIdString(userId);
     _userTrainings.remove(cleanUserId);
     
     await Future.wait([
@@ -995,5 +1001,68 @@ class TrainingService extends ChangeNotifier {
     // User trainings will refresh on next access
     _userTrainings.clear();
     notifyListeners();
+  }
+
+  // Helper method to clear user trainings cache
+  void _clearUserTrainingsCache(String userId) {
+    final cleanUserId = _cleanObjectIdString(userId);
+    _userTrainings.remove(cleanUserId);
+    
+    // Clear registration status cache for this user
+    final userPrefix = '${cleanUserId}_';
+    _registrationStatusCache.removeWhere((key, _) => key.startsWith(userPrefix));
+    _registrationCacheTimestamps.removeWhere((key, _) => key.startsWith(userPrefix));
+    
+    notifyListeners();
+  }
+
+  // Method to mark a training as completed for a user
+  Future<bool> markTrainingAsCompleted(String userId, String trainingId, {double? score}) async {
+    try {
+      final token = await _authService.getToken();
+      if (token == null) {
+        throw Exception('Authentication token not available');
+      }
+
+      final url = Uri.parse('$baseUrl/api/trainings/complete');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'userId': userId,
+          'trainingId': trainingId,
+          'score': score,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success'] == true) {
+          // Clear cache to force refresh on next fetch
+          _clearUserTrainingsCache(userId);
+          
+          // Return success
+          return true;
+        }
+      }
+      
+      // Parse error message if available
+      if (response.statusCode >= 400) {
+        try {
+          final jsonResponse = jsonDecode(response.body);
+          throw Exception(jsonResponse['error'] ?? 'Failed to mark training as completed');
+        } catch (e) {
+          throw Exception('Failed to mark training as completed: ${response.statusCode}');
+        }
+      }
+      
+      return false;
+    } catch (e) {
+      print('Error marking training as completed: $e');
+      rethrow;
+    }
   }
 } 

@@ -1038,12 +1038,15 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
             }
             
             final registrationMap = snapshot.data ?? {};
+            
+            // Check for past trainings that need to be marked as completed
+            _checkAndMarkCompletedTrainings(trainings, registrationMap);
 
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: trainings.length,
-          itemBuilder: (context, index) {
-            final training = trainings[index];
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: trainings.length,
+              itemBuilder: (context, index) {
+                final training = trainings[index];
                 final isRegistered = registrationMap[training.id?.toHexString()] ?? false;
                 return _buildTrainingCard(training, isRegistered: isRegistered, isPast: true);
               },
@@ -1052,6 +1055,38 @@ class _TrainingsScreenState extends State<TrainingsScreen> with SingleTickerProv
         );
       },
     );
+  }
+  
+  // Helper method to check and mark completed trainings
+  void _checkAndMarkCompletedTrainings(List<Training> pastTrainings, Map<String, bool> registrationMap) async {
+    if (_userId == null) return;
+    
+    final trainingService = Provider.of<TrainingService>(context, listen: false);
+    
+    for (final training in pastTrainings) {
+      final trainingId = training.id?.toHexString();
+      if (trainingId == null) continue;
+      
+      // Check if user was registered for this training
+      final wasRegistered = registrationMap[trainingId] ?? false;
+      
+      // If user was registered and training is not already marked as completed
+      if (wasRegistered && training.status.toLowerCase() != 'completed') {
+        try {
+          // Mark the training as completed for this user
+          await trainingService.markTrainingAsCompleted(
+            _userId!,
+            trainingId,
+            // Optional: Add a score if available
+            score: 100.0, // Default score
+          );
+          
+          print('DEBUG: Marked training ${training.title} as completed for user $_userId');
+        } catch (e) {
+          print('Error marking training as completed: $e');
+        }
+      }
+    }
   }
   
   // Helper method to load all registration statuses at once

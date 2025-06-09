@@ -4,6 +4,9 @@ class MongoDBConfig {
   static const String iosSimulatorConnectionString = 'mongodb://localhost:27017';
   static const String localConnectionString = 'mongodb://localhost:27017';
   
+  // API base URL for HTTP requests
+  static const String apiBaseUrl = 'http://localhost:3000';
+  
   // Database name and collection names
   static const String databaseName = 'afp_personnel_db';
   static const String trainingCollection = 'trainings';
