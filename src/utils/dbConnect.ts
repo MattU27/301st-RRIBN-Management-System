@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
+import { Db } from 'mongodb';
 
 // Get MongoDB connection string from environment variables or use default
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/afp_personnel_db';
@@ -13,13 +14,15 @@ interface MongooseConnection {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
   useLocalFallback: boolean;
+  nativeDb: Db | null;
 }
 
 // Global cached connection
 let cachedConnection: MongooseConnection = {
   conn: null,
   promise: null,
-  useLocalFallback: false
+  useLocalFallback: false,
+  nativeDb: null
 };
 
 // Display connection string (hiding credentials for security)
@@ -64,7 +67,7 @@ export async function dbConnect(): Promise<typeof mongoose> {
 
   console.log(`Connecting to MongoDB: ${getRedactedConnectionString(MONGODB_URI)}`);
 
-    // Create a new connection promise
+  // Create a new connection promise
   cachedConnection.promise = mongoose.connect(MONGODB_URI, {
     bufferCommands: false,
     maxPoolSize: 10, // Maintain up to 10 socket connections
@@ -77,16 +80,19 @@ export async function dbConnect(): Promise<typeof mongoose> {
     // Check if connection and db exist before accessing properties
     if (mongoose.connection && mongoose.connection.db) {
       console.log(`Database name: ${mongoose.connection.db.databaseName}`);
+      
+      // Store native MongoDB driver connection for GridFS operations
+      cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
     }
     console.log(`Connection state: ${mongoose.connection.readyState}`);
-        return mongoose;
-      })
+    return mongoose;
+  })
   .catch(error => {
-        console.error('MongoDB connection error:', error);
-        
+    console.error('MongoDB connection error:', error);
+    
     // Set fallback flag if MongoDB connection fails
     cachedConnection.useLocalFallback = true;
-        
+    
     // Handle different types of connection errors
     if (error.name === 'MongoNetworkError' || error.name === 'MongoServerSelectionError') {
       console.warn('Failed to connect to MongoDB. Check your connection string and network connectivity.');
@@ -94,7 +100,7 @@ export async function dbConnect(): Promise<typeof mongoose> {
     
     // Re-throw the error
     throw error;
-      });
+  });
 
   try {
     // Wait for the connection to be established
@@ -105,6 +111,23 @@ export async function dbConnect(): Promise<typeof mongoose> {
     cachedConnection.promise = null;
     throw error;
   }
+}
+
+/**
+ * Get the native MongoDB driver Db instance
+ * Useful for GridFS operations
+ */
+export function getNativeDb(): Db | null {
+  if (cachedConnection.nativeDb) {
+    return cachedConnection.nativeDb;
+  }
+  
+  if (cachedConnection.conn && mongoose.connection && mongoose.connection.db) {
+    cachedConnection.nativeDb = mongoose.connection.db as unknown as Db;
+    return cachedConnection.nativeDb;
+  }
+  
+  return null;
 }
 
 /**

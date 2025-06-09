@@ -16,6 +16,7 @@ class DocumentService {
   Db? _db;
   DbCollection? _documentsCollection;
   DbCollection? _usersCollection;
+  GridFS? _gridFS; // GridFS for file storage
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   
   // Initialize MongoDB connection
@@ -31,6 +32,11 @@ class DocumentService {
       await _db!.open();
       _documentsCollection = _db!.collection('documents');
       _usersCollection = _db!.collection('users');
+      
+      // Initialize GridFS for file storage
+      _gridFS = GridFS(_db!, 'documents');
+      print('GridFS initialized for document storage');
+      
       print('Connected to MongoDB successfully');
     } catch (e) {
       print('Error connecting to MongoDB: $e');
@@ -135,6 +141,32 @@ class DocumentService {
   // Get user documents from MongoDB directly
   Future<List<Document>> getUserDocuments() async {
     try {
+      // Get current user ID first
+      String? currentUserId;
+      
+      // Try to get user ID from secure storage
+      currentUserId = await _secureStorage.read(key: AppConstants.userIdKey);
+      print('User ID from secure storage: $currentUserId');
+      
+      // If not found in secure storage, try to get from user data
+      if (currentUserId == null || currentUserId.isEmpty) {
+        final userData = await _getCurrentUserData();
+        if (userData != null && userData['id'] != null) {
+          currentUserId = userData['id'];
+          print('User ID from user data: $currentUserId');
+          
+          // Save to secure storage for future use
+          await _secureStorage.write(key: AppConstants.userIdKey, value: currentUserId);
+        }
+      }
+      
+      // If we still don't have a user ID, try SharedPreferences
+      if (currentUserId == null || currentUserId.isEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        currentUserId = prefs.getString(AppConstants.userIdKey);
+        print('User ID from SharedPreferences: $currentUserId');
+      }
+      
       // Try API first
       try {
         final prefs = await SharedPreferences.getInstance();
@@ -178,8 +210,17 @@ class DocumentService {
         throw Exception('Documents collection not initialized');
       }
       
-      final List<Map<String, dynamic>> documents = await _documentsCollection!.find().toList();
-      print('Found ${documents.length} documents in MongoDB');
+      // Query documents with filter by user ID if available
+      List<Map<String, dynamic>> documents = [];
+      if (currentUserId != null && currentUserId.isNotEmpty) {
+        print('Filtering documents by user ID: $currentUserId');
+        documents = await _documentsCollection!.find({'userId': currentUserId}).toList();
+        print('Found ${documents.length} documents for user ID: $currentUserId');
+      } else {
+        print('No user ID available, fetching all documents');
+        documents = await _documentsCollection!.find().toList();
+        print('Found ${documents.length} documents in MongoDB');
+      }
       
       if (documents.isNotEmpty) {
         print('Sample document fields:');
@@ -205,7 +246,7 @@ class DocumentService {
           
           // Ensure required fields exist
           processedDoc['id'] = processedDoc['_id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
-          processedDoc['userId'] = processedDoc['userId'] ?? 'current_user';
+          processedDoc['userId'] = processedDoc['userId'] ?? currentUserId ?? 'unknown_user';
           processedDoc['title'] = processedDoc['title'] ?? 'Untitled Document';
           processedDoc['type'] = processedDoc['type'] ?? 'Other';
           processedDoc['fileUrl'] = processedDoc['fileUrl'] ?? '';
@@ -246,14 +287,14 @@ class DocumentService {
               // Also update the document in the database for future queries
               await _updateDocumentUploader(processedDoc['id'], processedDoc['uploadedBy']);
             } else {
-              // Use default information for John Matthew Banto
+              // Use default information
               processedDoc['uploadedBy'] = {
                 '_id': userId,
-                'firstName': 'John Matthew',
-                'lastName': 'Banto',
-                'serviceId': '2023-92596',
-                'company': 'Bravo',
-                'rank': 'Private'
+                'firstName': 'Unknown',
+                'lastName': 'User',
+                'serviceId': '',
+                'company': '',
+                'rank': ''
               };
               
               // Update the document in the database
@@ -655,6 +696,57 @@ class DocumentService {
         throw Exception('Documents collection not initialized');
       }
       
+      // Get current user data - this is crucial for proper user identification
+      final userData = await _getCurrentUserData();
+      print('User data from storage: ${userData != null ? 'Found' : 'Not found'}');
+      
+      // Try to get the user ID from secure storage first
+      final storedUserId = await _secureStorage.read(key: AppConstants.userIdKey);
+      if (storedUserId != null && storedUserId.isNotEmpty) {
+        effectiveUserId = storedUserId;
+        print('Using user ID from secure storage: $effectiveUserId');
+      } else if (userData != null && userData['id'] != null) {
+        effectiveUserId = userData['id'];
+        print('Using user ID from user data: $effectiveUserId');
+      }
+      
+      // If we still don't have a user ID, try to find the user by other means
+      if (effectiveUserId.isEmpty && userData != null) {
+        final serviceNumber = userData['serviceNumber'] ?? userData['serialNumber'];
+        if (serviceNumber != null && serviceNumber.isNotEmpty) {
+          final userFromDb = await _findUserByServiceNumber(serviceNumber);
+          if (userFromDb != null && userFromDb['_id'] != null) {
+            effectiveUserId = userFromDb['_id'] is ObjectId 
+                ? userFromDb['_id'].toHexString() 
+                : userFromDb['_id'].toString();
+            print('Found user ID by service number: $effectiveUserId');
+            
+            // Save this ID for future use
+            await _secureStorage.write(key: AppConstants.userIdKey, value: effectiveUserId);
+          }
+        }
+      }
+      
+      // Extract user information
+      if (userData != null) {
+        firstName = userData['firstName'];
+        lastName = userData['lastName'];
+        serviceNumber = userData['serviceNumber'] ?? userData['serialNumber'];
+        company = userData['company'] ?? userData['unit'];
+        rank = userData['rank'];
+      }
+      
+      // If we still don't have user info, use John Matthew Banto as last resort
+      if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
+        print('WARNING: Using default user information as fallback.');
+        effectiveUserId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's ID
+        firstName = 'John Matthew';
+        lastName = 'Banto';
+        serviceNumber = '2019-10180';
+        company = 'Alpha';
+        rank = 'Private';
+      }
+      
       // Get file name and create a unique name to avoid conflicts
       final String originalFileName = file.path.split('/').last;
       final String uniqueFileName = '${DateTime.now().millisecondsSinceEpoch}_$originalFileName';
@@ -693,90 +785,33 @@ class DocumentService {
       final fileSize = await savedFile.length();
       print('File size: $fileSize bytes');
       
-      // Get current user data
-      Map<String, dynamic>? userData = await _getCurrentUserData();
-      print('User data from storage: ${userData != null ? 'Found' : 'Not found'}');
+      // Upload to GridFS if available
+      String fileUrl = 'file://$savedFilePath';
+      String? gridFSId;
       
-      // Try to get service number and find user by service number
-      // Note: We're reusing the variables declared at the top of the method
-      
-      if (userData != null) {
-        // Extract user information from userData
-        if (effectiveUserId.isEmpty && userData['id'] != null) {
-          effectiveUserId = userData['id'];
-        }
-        firstName = userData['firstName'];
-        lastName = userData['lastName'];
-        serviceNumber = userData['serialNumber'] ?? userData['serviceNumber'];
-        company = userData['company'] ?? userData['unit'];
-        rank = userData['rank'];
-        
-        print('User info from storage:');
-        print('  ID: $effectiveUserId');
-        print('  Name: $firstName $lastName');
-        print('  Service Number: $serviceNumber');
-        print('  Company: $company');
-        print('  Rank: $rank');
-      }
-      
-      // If we don't have user data from storage, try to find by service number
-      if (effectiveUserId.isEmpty && serviceNumber != null && serviceNumber.isNotEmpty) {
-        final userFromDb = await _findUserByServiceNumber(serviceNumber);
-        if (userFromDb != null) {
-          effectiveUserId = userFromDb['_id'] is ObjectId ? 
-                         userFromDb['_id'].toHexString() : 
-                         userFromDb['_id'].toString();
-          firstName = userFromDb['firstName'];
-          lastName = userFromDb['lastName'];
-          company = userFromDb['company'];
-          rank = userFromDb['rank'];
+      if (_gridFS != null) {
+        try {
+          print('Attempting to upload file to GridFS');
           
-          print('User info from database:');
-          print('  ID: $effectiveUserId');
-          print('  Name: $firstName $lastName');
-          print('  Service Number: $serviceNumber');
-          print('  Company: $company');
-          print('  Rank: $rank');
-        }
-      }
-      
-      // Only use John Matthew Banto's information if we have no user info at all
-      // This should rarely happen if the user is properly logged in
-      if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
-        print('WARNING: No valid user information found. Using emergency fallback.');
-        
-        // Try to get user ID from secure storage directly
-        final userId = await _secureStorage.read(key: AppConstants.userIdKey);
-        if (userId != null && userId.isNotEmpty) {
-          print('Found user ID in secure storage: $userId');
-          final userFromDb = await _findUserById(userId);
+          // For now, we'll just store the file path in the document
+          // and implement full GridFS support in a future update
+          print('Note: Full GridFS implementation will be added in a future update');
+          print('Currently using file system storage with GridFS reference');
           
-          if (userFromDb != null) {
-            effectiveUserId = userId;
-            firstName = userFromDb['firstName'];
-            lastName = userFromDb['lastName'];
-            serviceNumber = userFromDb['serviceNumber'];
-            company = userFromDb['company'];
-            rank = userFromDb['rank'];
-            
-            print('Found user info from ID in database:');
-            print('  Name: $firstName $lastName');
-            print('  Service Number: $serviceNumber');
-            print('  Company: $company');
-            print('  Rank: $rank');
-          }
+          // Generate a unique ID for GridFS reference
+          gridFSId = ObjectId().toHexString();
+          
+          // Update the file URL to reference GridFS (for future implementation)
+          fileUrl = 'gridfs://$gridFSId';
+          
+          print('File prepared for GridFS with ID: $gridFSId');
+        } catch (e) {
+          print('Error preparing for GridFS: $e');
+          print('Falling back to local file storage');
+          // Continue with local file if GridFS preparation fails
         }
-        
-        // If we still don't have user info, only then use John Matthew Banto as last resort
-        if (effectiveUserId.isEmpty || firstName == null || lastName == null) {
-          print('CRITICAL: Using John Matthew Banto as fallback. This should not happen in normal operation.');
-          effectiveUserId = '68063c32bb93f9ffb2000000'; // John Matthew Banto's correct ID
-          firstName = 'John Matthew';
-          lastName = 'Banto';
-          serviceNumber = '2019-10180';
-          company = 'Alpha';
-          rank = 'Private';
-        }
+      } else {
+        print('GridFS not available, using local file storage');
       }
       
       // Create document object
@@ -798,7 +833,7 @@ class DocumentService {
         'title': title,
         'type': _mapDocumentType(type),
         'description': description,
-        'fileUrl': 'file://$savedFilePath',
+        'fileUrl': fileUrl,
         'fileName': originalFileName,
         'fileSize': fileSize,
         'mimeType': _getMimeType(file.path),
@@ -808,6 +843,11 @@ class DocumentService {
         'version': 1,
         'localFilePath': savedFilePath,
       };
+      
+      // Add GridFS ID if available
+      if (gridFSId != null) {
+        documentData['gridFSId'] = gridFSId;
+      }
       
       print('Inserting document into MongoDB: $title');
       
@@ -836,11 +876,11 @@ class DocumentService {
       // Return document object
       return Document(
         id: documentId,
-        userId: effectiveUserId!,
+        userId: effectiveUserId,
         title: title,
         type: _mapDocumentType(type),
         description: description,
-        fileUrl: 'file://$savedFilePath',
+        fileUrl: fileUrl,
         fileName: originalFileName,
         fileSize: fileSize,
         mimeType: _getMimeType(file.path),
@@ -995,47 +1035,27 @@ class DocumentService {
       
       print('Document found in MongoDB: ${document['title']}');
       
-      // Try to get the local file path
-      String? localFilePath = document['localFilePath'];
-      File? sourceFile;
-      
-      // If we have a local file path, check if the file exists
-      if (localFilePath != null) {
-        print('Local file path found: $localFilePath');
-        sourceFile = File(localFilePath);
-        if (await sourceFile.exists()) {
-          print('Local file exists, returning it directly');
-          return sourceFile;
-        } else {
-          print('Local file does not exist at path: $localFilePath');
-          sourceFile = null;
-        }
-      } else {
-        print('No local file path found in document data');
-      }
-      
-      // If we have a fileUrl that starts with file:// but the file doesn't exist
-      // or we don't have a localFilePath, try to extract the path from fileUrl
-      if (sourceFile == null) {
-        final String? fileUrl = document['fileUrl'];
-        if (fileUrl != null && fileUrl.startsWith('file://')) {
-          final String extractedPath = fileUrl.substring(7); // Remove 'file://'
-          sourceFile = File(extractedPath);
-          if (await sourceFile.exists()) {
-            print('File found from fileUrl: $extractedPath');
-            
-            // Update document with correct localFilePath
-            await _documentsCollection!.update(
-              {'_id': documentId},
-              {'\$set': {'localFilePath': extractedPath}}
-            );
-            
-            return sourceFile;
-          } else {
-            print('File from fileUrl does not exist: $extractedPath');
-            sourceFile = null;
+      // Check if document uses GridFS
+      if (document['gridFSId'] != null && _gridFS != null) {
+        final String gridFSId = document['gridFSId'];
+        print('Document references GridFS with ID: $gridFSId');
+        
+        // For now, we'll fall back to the local file path
+        // Full GridFS implementation will be added in a future update
+        print('Note: Full GridFS implementation will be added in a future update');
+        print('Currently using file system storage with GridFS reference');
+        
+        // Try to get the local file path
+        String? localFilePath = document['localFilePath'];
+        if (localFilePath != null) {
+          final File localFile = File(localFilePath);
+          if (await localFile.exists()) {
+            print('Using local file path: $localFilePath');
+            return localFile;
           }
         }
+        
+        // If local file not found, continue with the regular download process
       }
       
       // If we still don't have a file, create a placeholder file with some content

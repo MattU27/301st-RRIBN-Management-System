@@ -9,9 +9,11 @@ import 'dart:convert';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_constants.dart';
 import '../models/document_model.dart';
+import '../models/user_model.dart';  // Import user model
 import '../screens/home_screen.dart'; // Import for NotificationState
 import '../services/document_service.dart'; // Import the document service
 import '../services/socket_service.dart'; // Import the socket service
+import '../services/auth_service.dart';  // Import auth service
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({Key? key}) : super(key: key);
@@ -21,19 +23,65 @@ class DocumentsScreen extends StatefulWidget {
 }
 
 class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
   bool _isLoading = true;
   List<Document> _documents = [];
   final DocumentService _documentService = DocumentService();
   final SocketService _socketService = SocketService();
+  final AuthService _authService = AuthService();  // Add auth service
+  
+  // User information
+  String _userName = '';
+  
+  // Filter state
+  String _selectedFilter = 'All';
+  final List<String> _filterOptions = ['All', 'Missing', 'Pending', 'Verified', 'Rejected'];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
     _initializeSocket();
+    _loadUserInfo();
     _updateDocumentsWithUploaderInfo();
     _fetchDocuments();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  // Load current user information
+  Future<void> _loadUserInfo() async {
+    try {
+      final userData = await _authService.getCurrentUser();
+      if (userData != null) {
+        setState(() {
+          _userName = '${userData.firstName} ${userData.lastName}';
+        });
+      } else {
+        // Try to get from SharedPreferences as fallback
+        final prefs = await SharedPreferences.getInstance();
+        final userDataStr = prefs.getString(AppConstants.userDataKey);
+        if (userDataStr != null) {
+          final userMap = json.decode(userDataStr);
+          setState(() {
+            _userName = '${userMap['firstName'] ?? ''} ${userMap['lastName'] ?? ''}';
+          });
+        }
+      }
+      
+      // If still empty, use a default
+      if (_userName.trim().isEmpty) {
+        setState(() {
+          _userName = 'My Documents';
+        });
+      }
+    } catch (e) {
+      print('Error loading user info: $e');
+      setState(() {
+        _userName = 'My Documents';
+      });
+    }
   }
 
   Future<void> _initializeSocket() async {
@@ -43,12 +91,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     } catch (e) {
       print('Error initializing socket: $e');
     }
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   Future<void> _fetchDocuments() async {
@@ -85,6 +127,13 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    // Filter options
+    String selectedFilter = 'All';
+    List<String> filterOptions = ['All', 'Missing', 'Pending', 'Verified', 'Rejected'];
+    
+    // Filter documents based on selected filter
+    List<String> filteredDocTypes = AppConstants.documentTypes;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Documents'),
@@ -101,7 +150,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
-              _showRequiredDocumentsInfo(context);
+              _showDocumentInfoDialog(context);
             },
           ),
           // Notification bell with badge
@@ -143,41 +192,186 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
           ),
           const SizedBox(width: 8),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(text: 'All'),
-            Tab(text: 'Verified'),
-            Tab(text: 'Pending'),
-          ],
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildDocumentsList(_documents),
-          _buildDocumentsList(_documents.where((doc) => doc.isVerified).toList()),
-          _buildDocumentsList(_documents.where((doc) => doc.isPending).toList()),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator())
+        : _buildRequirementsView(context),
+    );
+  }
+
+  // Build the requirements view
+  Widget _buildRequirementsView(BuildContext context) {
+    return StatefulBuilder(
+      builder: (context, setStateLocal) {
+        // Filter documents based on selected filter
+        List<String> filteredDocTypes = AppConstants.documentTypes;
+        if (_selectedFilter != 'All') {
+          filteredDocTypes = AppConstants.documentTypes.where((docType) {
+            final status = _getDocumentStatus(docType);
+            return status.toLowerCase() == _selectedFilter.toLowerCase();
+          }).toList();
+        }
+        
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Check your document submission status below',
+                    style: TextStyle(
+                      color: AppTheme.textSecondaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildDocumentCompletionProgress(),
+                  const SizedBox(height: 16),
+                  
+                  // Filter chips
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _filterOptions.map((filter) {
+                        final isSelected = filter == _selectedFilter;
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: FilterChip(
+                            label: Text(filter),
+                            selected: isSelected,
+                            onSelected: (selected) {
+                              if (selected) {
+                                setState(() {
+                                  _selectedFilter = filter;
+                                });
+                                setStateLocal(() {});
+                              }
+                            },
+                            backgroundColor: Colors.grey[200],
+                            selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                            checkmarkColor: AppTheme.primaryColor,
+                            labelStyle: TextStyle(
+                              color: isSelected ? AppTheme.primaryColor : Colors.black87,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildDocumentStatusLegend(),
+                ],
+              ),
+            ),
+            
+            // Document grid
+            Expanded(
+              child: filteredDocTypes.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: 64,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No ${_selectedFilter} documents found',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Try selecting a different filter',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : GridView.count(
+                    padding: const EdgeInsets.all(16),
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.8,
+                    children: filteredDocTypes.map((docType) => 
+                      _buildRequiredDocumentCard(docType)
+                    ).toList(),
+                  ),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+  // Show document info dialog
+  void _showDocumentInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Document Requirements'),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'The following documents are required for all reservists:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              _buildInfoItem('Birth Certificate', 'Official birth certificate issued by PSA/NSO'),
+              _buildInfoItem('Picture 2x2', 'Recent 2x2 ID picture with white background'),
+              _buildInfoItem('3R ROTC Certificate', 'Reserve Officers\' Training Corps certificate'),
+              _buildInfoItem('Enlistment Order', 'Official enlistment order document'),
+              _buildInfoItem('Promotion Order', 'Official promotion order document'),
+              _buildInfoItem('Order of Incorporation', 'Official order of incorporation document'),
+              _buildInfoItem('Schooling Certificate', 'Certificate of schooling or training completion'),
+              _buildInfoItem('College Diploma', 'College or university diploma'),
+              _buildInfoItem('RIDS', 'Reservist Information Data Sheet'),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showUploadDocumentDialog();
-        },
-        backgroundColor: AppTheme.primaryColor,
-        child: const Icon(Icons.upload_file, color: Colors.white),
+    );
+  }
+
+  Widget _buildInfoItem(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            description,
+            style: TextStyle(color: Colors.grey[700], fontSize: 13),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildDocumentsList(List<Document> documents) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
     if (documents.isEmpty) {
       return Center(
         child: Column(
@@ -1055,118 +1249,581 @@ class _DocumentsScreenState extends State<DocumentsScreen> with SingleTickerProv
     );
   }
 
-  // Method to show required documents info
-  void _showRequiredDocumentsInfo(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
+  // Build document completion progress indicator
+  Widget _buildDocumentCompletionProgress() {
+    // Count documents by status
+    int totalRequired = AppConstants.documentTypes.length;
+    int verified = 0;
+    int pending = 0;
+    int rejected = 0;
+    
+    for (String docType in AppConstants.documentTypes) {
+      String status = _getDocumentStatus(docType);
+      if (status == 'verified') {
+        verified++;
+      } else if (status == 'pending') {
+        pending++;
+      } else if (status == 'rejected') {
+        rejected++;
+      }
+    }
+    
+    int missing = totalRequired - verified - pending - rejected;
+    double completionPercentage = (verified + pending) / totalRequired;
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Document Completion',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                '${(completionPercentage * 100).toStringAsFixed(0)}%',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: AppTheme.primaryColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: completionPercentage,
+              backgroundColor: Colors.grey[300],
+              color: AppTheme.primaryColor,
+              minHeight: 8,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildStatItem('Verified', verified, AppTheme.successColor),
+              _buildStatItem('Pending', pending, AppTheme.warningColor),
+              _buildStatItem('Missing', missing, Colors.grey),
+              _buildStatItem('Rejected', rejected, AppTheme.errorColor),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Build a stat item for document completion
+  Widget _buildStatItem(String label, int count, Color color) {
+    return Column(
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.2),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              count.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[700],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Build a legend for document status indicators
+  Widget _buildDocumentStatusLegend() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildLegendItem('Verified', AppTheme.successColor),
+          _buildLegendItem('Pending', AppTheme.warningColor),
+          _buildLegendItem('Missing', Colors.grey),
+          _buildLegendItem('Rejected', AppTheme.errorColor),
+        ],
+      ),
+    );
+  }
+
+  // Build a legend item
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[800],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Build a document requirement card
+  Widget _buildRequiredDocumentCard(String documentType) {
+    // Check if the user has submitted this document type
+    final documentStatus = _getDocumentStatus(documentType);
+    
+    Color statusColor;
+    IconData statusIcon;
+    String statusText;
+    
+    switch (documentStatus) {
+      case 'verified':
+        statusColor = AppTheme.successColor;
+        statusIcon = Icons.check_circle;
+        statusText = 'Verified';
+        break;
+      case 'pending':
+        statusColor = AppTheme.warningColor;
+        statusIcon = Icons.hourglass_empty;
+        statusText = 'Pending';
+        break;
+      case 'rejected':
+        statusColor = AppTheme.errorColor;
+        statusIcon = Icons.cancel;
+        statusText = 'Rejected';
+        break;
+      default:
+        statusColor = Colors.grey;
+        statusIcon = Icons.add_circle_outline;
+        statusText = 'Missing';
+    }
+
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: statusColor.withOpacity(0.5),
+          width: 1,
         ),
       ),
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        maxChildSize: 0.9,
-        minChildSize: 0.5,
-        expand: false,
-        builder: (context, scrollController) {
-          return Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: InkWell(
+        onTap: () {
+          if (documentStatus == 'missing') {
+            _showUploadDocumentDialog(preselectedDocType: documentType);
+          } else {
+            // Find and show the existing document
+            final existingDoc = _findDocumentByType(documentType);
+            if (existingDoc != null) {
+              _viewDocument(existingDoc);
+            } else {
+              _showUploadDocumentDialog(preselectedDocType: documentType);
+            }
+          }
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  _getDocumentTypeIcon(documentType),
+                  color: statusColor,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                documentType,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Required Documents',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Icon(
+                      statusIcon,
+                      color: statusColor,
+                      size: 12,
                     ),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
+                    const SizedBox(width: 4),
+                    Text(
+                      statusText,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: statusColor,
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: ListView(
-                    controller: scrollController,
-                    children: [
-                      _buildRequiredDocumentItem(
-                        'Birth Certificate',
-                        'Official birth certificate issued by PSA/NSO',
-                        Icons.description,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'Picture 2x2',
-                        'Recent 2x2 ID picture with white background',
-                        Icons.photo,
-                      ),
-                      _buildRequiredDocumentItem(
-                        '3R ROTC Certificate',
-                        'Reserve Officers\' Training Corps certificate',
-                        Icons.military_tech,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'Enlistment Order',
-                        'Official enlistment order document',
-                        Icons.assignment,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'Promotion Order',
-                        'Official promotion order document',
-                        Icons.trending_up,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'Order of Incorporation',
-                        'Official order of incorporation document',
-                        Icons.integration_instructions,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'Schooling Certificate',
-                        'Certificate of schooling or training completion',
-                        Icons.school,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'College Diploma',
-                        'College or university diploma',
-                        Icons.workspace_premium,
-                      ),
-                      _buildRequiredDocumentItem(
-                        'RIDS',
-                        'Reservist Information Data Sheet',
-                        Icons.article,
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                documentStatus == 'missing' ? 'Tap to upload' : 'Tap to view',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                  fontStyle: FontStyle.italic,
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _showUploadDocumentDialog();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryColor,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    child: const Text('Upload Document'),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  // Get document status for a specific document type
+  String _getDocumentStatus(String documentType) {
+    // Define a mapping between display document types and internal types
+    final Map<String, List<String>> documentTypeMapping = {
+      'Birth Certificate': ['birth certificate'],
+      'ID Card': ['id card', 'id', 'identification'],
+      'Picture 2x2': ['picture 2x2', '2x2', 'picture', 'photo'],
+      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate'],
+      'Enlistment Order': ['enlistment', 'enlistment order'],
+      'Promotion Order': ['promotion', 'promotion order'],
+      'Order of Incorporation': ['incorporation', 'order of incorporation'],
+      'Schooling Certificate': ['schooling certificate'],
+      'College Diploma': ['diploma', 'college diploma', 'university diploma'],
+      'RIDS': ['rids', 'reservist information', 'data sheet'],
+      'Medical Certificate': ['medical', 'medical certificate', 'health'],
+      'Training Certificate': ['training certificate'],
+      'Deployment Order': ['deployment', 'deployment order'],
+      'Commendation': ['commendation', 'award', 'recognition'],
+      'Other': ['other']
+    };
+    
+    // Special case for Birth Certificate - exact title match only
+    if (documentType == 'Birth Certificate') {
+      final matchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle == 'birth certificate';
+      }).toList();
+      
+      if (matchingDocs.isNotEmpty) {
+        // Print debug info
+        print('Birth Certificate - exact match found: ${matchingDocs.length}');
+        for (var doc in matchingDocs) {
+          print('  - ${doc.title} (${doc.type}): ${doc.status}');
+        }
+        
+        // If there are multiple documents of this type, get the one with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
+          return 'verified';
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+          return 'pending';
+        } else {
+          return 'rejected';
+        }
+      }
+      
+      // If no exact match, try a more lenient match
+      final lenientMatchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle.contains('birth');
+      }).toList();
+      
+      if (lenientMatchingDocs.isNotEmpty) {
+        // Print debug info
+        print('Birth Certificate - lenient match found: ${lenientMatchingDocs.length}');
+        for (var doc in lenientMatchingDocs) {
+          print('  - ${doc.title} (${doc.type}): ${doc.status}');
+        }
+        
+        // If there are multiple documents of this type, get the one with the best status
+        if (lenientMatchingDocs.any((doc) => doc.status == 'verified')) {
+          return 'verified';
+        } else if (lenientMatchingDocs.any((doc) => doc.status == 'pending')) {
+          return 'pending';
+        } else {
+          return 'rejected';
+        }
+      }
+      
+      return 'missing';
+    }
+    
+    // Special case for Schooling Certificate vs Training Certificate
+    if (documentType == 'Schooling Certificate') {
+      final matchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle.contains('schooling');
+      }).toList();
+      
+      if (matchingDocs.isNotEmpty) {
+        // Print debug info
+        print('Schooling Certificate - exact match found: ${matchingDocs.length}');
+        for (var doc in matchingDocs) {
+          print('  - ${doc.title} (${doc.type}): ${doc.status}');
+        }
+        
+        // If there are multiple documents of this type, get the one with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
+          return 'verified';
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+          return 'pending';
+        } else {
+          return 'rejected';
+        }
+      }
+    }
+    
+    // Special case for Other document type
+    if (documentType == 'Other') {
+      // Check if there are any documents that don't match any specific category
+      final otherDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        
+        // Check if this document matches any specific category
+        for (var entry in documentTypeMapping.entries) {
+          if (entry.key != 'Other') {
+            for (String keyword in entry.value) {
+              if (docTitle.contains(keyword)) {
+                return false; // This document matches a specific category
+              }
+            }
+          }
+        }
+        
+        return true; // This document doesn't match any specific category
+      }).toList();
+      
+      // Print debug info
+      print('Other documents found: ${otherDocs.length}');
+      for (var doc in otherDocs) {
+        print('  - ${doc.title} (${doc.type}): ${doc.status}');
+      }
+      
+      if (otherDocs.isEmpty) {
+        return 'missing';
+      }
+      
+      // If there are multiple documents of this type, get the one with the best status
+      if (otherDocs.any((doc) => doc.status == 'verified')) {
+        return 'verified';
+      } else if (otherDocs.any((doc) => doc.status == 'pending')) {
+        return 'pending';
+      } else {
+        return 'rejected';
+      }
+    }
+    
+    // Get the keywords for the requested document type
+    List<String> typeKeywords = documentTypeMapping[documentType] ?? [documentType.toLowerCase()];
+    
+    // Find documents that match this specific document type
+    final matchingDocs = _documents.where((doc) {
+      final String docTitle = doc.title.toLowerCase();
+      final String docType = doc.type.toLowerCase();
+      
+      // Special case for "Schooling Certificate" vs "Training Certificate"
+      if (documentType == 'Schooling Certificate') {
+        return docTitle == 'schooling certificate';
+      }
+      
+      if (documentType == 'Training Certificate') {
+        // For Training Certificate, make sure it's not a Schooling Certificate
+        if (docTitle.contains('schooling')) {
+          return false;
+        }
+      }
+      
+      // Check if document matches any of the keywords for this document type
+      bool isMatch = false;
+      for (String keyword in typeKeywords) {
+        if (docTitle == keyword || docType == keyword) {
+          isMatch = true;
+          break;
+        }
+      }
+      
+      return isMatch;
+    }).toList();
+    
+    // Print debug info
+    print('Document type: $documentType');
+    print('Matching documents: ${matchingDocs.length}');
+    for (var doc in matchingDocs) {
+      print('  - ${doc.title} (${doc.type}): ${doc.status}');
+    }
+    
+    if (matchingDocs.isEmpty) {
+      return 'missing';
+    }
+    
+    // If there are multiple documents of this type, get the one with the best status
+    // Priority: verified > pending > rejected
+    if (matchingDocs.any((doc) => doc.status == 'verified')) {
+      return 'verified';
+    } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+      return 'pending';
+    } else {
+      return 'rejected';
+    }
+  }
+
+  // Find a document by type with strict matching
+  Document? _findDocumentByType(String documentType) {
+    // Define a mapping between display document types and internal types
+    final Map<String, List<String>> documentTypeMapping = {
+      'Birth Certificate': ['birth certificate'],
+      'ID Card': ['id card', 'id', 'identification'],
+      'Picture 2x2': ['picture 2x2', '2x2', 'picture', 'photo'],
+      '3R ROTC Certificate': ['rotc', '3r rotc', 'rotc certificate'],
+      'Enlistment Order': ['enlistment', 'enlistment order'],
+      'Promotion Order': ['promotion', 'promotion order'],
+      'Order of Incorporation': ['incorporation', 'order of incorporation'],
+      'Schooling Certificate': ['schooling certificate'],
+      'College Diploma': ['diploma', 'college diploma', 'university diploma'],
+      'RIDS': ['rids', 'reservist information', 'data sheet'],
+      'Medical Certificate': ['medical', 'medical certificate', 'health'],
+      'Training Certificate': ['training certificate'],
+      'Deployment Order': ['deployment', 'deployment order'],
+      'Commendation': ['commendation', 'award', 'recognition'],
+      'Other': ['other']
+    };
+    
+    // Special case for Birth Certificate
+    if (documentType == 'Birth Certificate') {
+      final matchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle == 'birth certificate';
+      }).toList();
+      
+      if (matchingDocs.isNotEmpty) {
+        // Return the document with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'verified');
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'pending');
+        } else {
+          return matchingDocs.first;
+        }
+      }
+    }
+    
+    // Special case for Schooling Certificate
+    if (documentType == 'Schooling Certificate') {
+      final matchingDocs = _documents.where((doc) {
+        final String docTitle = doc.title.toLowerCase();
+        return docTitle.contains('schooling');
+      }).toList();
+      
+      if (matchingDocs.isNotEmpty) {
+        // Return the document with the best status
+        if (matchingDocs.any((doc) => doc.status == 'verified')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'verified');
+        } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+          return matchingDocs.firstWhere((doc) => doc.status == 'pending');
+        } else {
+          return matchingDocs.first;
+        }
+      }
+    }
+    
+    // Get the keywords for the requested document type
+    List<String> typeKeywords = documentTypeMapping[documentType] ?? [documentType.toLowerCase()];
+    
+    // Find documents that match this specific document type
+    final matchingDocs = _documents.where((doc) {
+      final String docTitle = doc.title.toLowerCase();
+      final String docType = doc.type.toLowerCase();
+      
+      // Special case for "Schooling Certificate" vs "Training Certificate"
+      if (documentType == 'Schooling Certificate') {
+        return docTitle == 'schooling certificate';
+      }
+      
+      if (documentType == 'Training Certificate') {
+        // For Training Certificate, make sure it's not a Schooling Certificate
+        if (docTitle.contains('schooling')) {
+          return false;
+        }
+      }
+      
+      // Check if document matches any of the keywords for this document type
+      bool isMatch = false;
+      for (String keyword in typeKeywords) {
+        if (docTitle == keyword || docType == keyword) {
+          isMatch = true;
+          break;
+        }
+      }
+      
+      return isMatch;
+    }).toList();
+    
+    if (matchingDocs.isEmpty) {
+      return null;
+    }
+    
+    // Return the document with the best status
+    if (matchingDocs.any((doc) => doc.status == 'verified')) {
+      return matchingDocs.firstWhere((doc) => doc.status == 'verified');
+    } else if (matchingDocs.any((doc) => doc.status == 'pending')) {
+      return matchingDocs.firstWhere((doc) => doc.status == 'pending');
+    } else {
+      return matchingDocs.first;
+    }
   }
 
   Widget _buildRequiredDocumentItem(String title, String description, IconData icon) {

@@ -1,18 +1,33 @@
 import { NextResponse } from 'next/server';
-import { dbConnect } from '@/utils/dbConnect';
+import { dbConnect, getNativeDb } from '@/utils/dbConnect';
 import Document from '@/models/Document';
 import { verifyJWT } from '@/utils/auth';
 import mongoose from 'mongoose';
 import { emitSocketEvent } from '@/utils/socket';
+import { GridFSBucket } from 'mongodb';
 
 /**
  * GET handler to retrieve documents for the current user or all documents for admins
  */
 export async function GET(request: Request) {
+  let gridFSBucket = null;
+  
   try {
     // Connect to MongoDB
     await dbConnect();
     console.log('Connected to database');
+    
+    // Initialize GridFS
+    try {
+      const db = getNativeDb();
+      if (db) {
+        gridFSBucket = new GridFSBucket(db);
+        console.log('GridFS bucket initialized');
+      }
+    } catch (gridFsError) {
+      console.error('Error initializing GridFS bucket:', gridFsError);
+      // Continue without GridFS - we'll handle files differently
+    }
     
     // Get query parameters
     const { searchParams } = new URL(request.url);
@@ -33,12 +48,23 @@ export async function GET(request: Request) {
     }
     
     const token = authHeader.split(' ')[1];
-    const decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
     
-    if (!decoded) {
-      console.log('Invalid token');
+    // Add try-catch for token verification
+    let decoded;
+    try {
+      decoded = await verifyJWT(token) as { userId: string; role: string; email?: string };
+      
+      if (!decoded) {
+        console.log('Invalid token');
+        return NextResponse.json(
+          { success: false, error: 'Invalid token' },
+          { status: 401 }
+        );
+      }
+    } catch (error: any) {
+      console.log('Error verifying token:', error.message);
       return NextResponse.json(
-        { success: false, error: 'Invalid token' },
+        { success: false, error: 'Invalid token: ' + error.message },
         { status: 401 }
       );
     }
@@ -72,214 +98,253 @@ export async function GET(request: Request) {
     console.log('Query:', query);
     
     // Execute query with populated uploadedBy field
-    let documents = await Document.find(query)
-      .populate([
-        {
-          path: 'uploadedBy',
-          select: 'firstName lastName serviceId company email',
-          model: 'User'
-        },
-        {
-          path: 'uploadedBy',
-          select: 'firstName lastName serviceNumber company email',
-          model: 'Personnel'
-        }
-      ])
-      .populate({
-        path: 'verifiedBy',
-        select: 'firstName lastName'
-      })
-      .sort({ uploadDate: -1, createdAt: -1 })
-      .lean();
-    
-    console.log(`Found ${documents.length} documents`);
+    let documents;
+    try {
+      documents = await Document.find(query)
+        .populate([
+          {
+            path: 'uploadedBy',
+            select: 'firstName lastName serviceId company email',
+            model: 'User'
+          },
+          {
+            path: 'uploadedBy',
+            select: 'firstName lastName serviceNumber company email',
+            model: 'Personnel'
+          }
+        ])
+        .populate({
+          path: 'verifiedBy',
+          select: 'firstName lastName'
+        })
+        .sort({ uploadDate: -1, createdAt: -1 })
+        .lean();
+      
+      console.log(`Found ${documents.length} documents`);
+    } catch (error: any) {
+      console.error('Error querying documents:', error);
+      return NextResponse.json(
+        { success: false, error: 'Error querying documents: ' + error.message },
+        { status: 500 }
+      );
+    }
     
     // Format dates and ensure all documents have proper uploadedBy information
-    documents = await Promise.all(documents.map(async doc => {
+    const processedDocuments = await Promise.all(documents.map(async doc => {
       try {
-      // Format dates as strings for consistent display
-      if (doc.uploadDate) {
-        doc.uploadDate = new Date(doc.uploadDate).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      } else if (doc.createdAt) {
-        doc.uploadDate = new Date(doc.createdAt).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      } else {
-        doc.uploadDate = new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      }
-      
-      if (doc.verifiedDate) {
-        doc.verifiedDate = new Date(doc.verifiedDate).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      }
-      
-      // Handle case where uploadedBy is not populated or is a string ID
-      if (!doc.uploadedBy || typeof doc.uploadedBy === 'string' || (doc.uploadedBy && !doc.uploadedBy.firstName)) {
-        console.log(`Document ${doc._id} has unpopulated uploadedBy: ${doc.uploadedBy}`);
-        
-        // Try to use userId if available
-        if (doc.userId) {
-          console.log(`Using userId ${doc.userId} as fallback`);
-          
-          let userId = doc.userId;
-            let validObjectId = false;
-            
-          // If userId is a string but not 'current_user', try to convert to ObjectId
-          if (typeof userId === 'string' && userId !== 'current_user') {
-            try {
-                // Check if the userId is a valid ObjectId before conversion
-                if (mongoose.Types.ObjectId.isValid(userId)) {
-              userId = new mongoose.Types.ObjectId(userId);
-                  validObjectId = true;
-              console.log(`Converted userId to ObjectId: ${userId}`);
-                } else {
-                  console.log(`Invalid ObjectId format: ${userId}`);
-                  // Use a generic Unknown User instead of trying to convert an invalid ID
-                  doc.uploadedBy = {
-                    firstName: 'Unknown',
-                    lastName: 'User',
-                    serviceId: 'N/A'
-                  };
-                  return doc;
-                }
-            } catch (err) {
-              console.log(`Error converting userId to ObjectId: ${err}`);
-                // Use a generic Unknown User instead of defaulting to John Matthew Banto
-                doc.uploadedBy = {
-                  firstName: 'Unknown',
-                  lastName: 'User',
-                  serviceId: 'N/A'
-                };
-                return doc;
-            }
-          } else if (typeof userId === 'string' && userId === 'current_user') {
-              console.log('userId is "current_user", using generic Unknown User');
-              doc.uploadedBy = {
-                firstName: 'Unknown',
-                lastName: 'User',
-                serviceId: 'N/A'
-              };
-              return doc;
-            }
-            
-            // Only proceed with database lookup if we have a valid ObjectId
-            if (validObjectId) {
-          // Try to find the user in both collections
-          const db = await dbConnect();
-          
-          // First try the users collection
-          const User = mongoose.model('User');
-          let user = null;
-          
+        // Handle GridFS file URLs if present
+        if (doc.fileUrl && typeof doc.fileUrl === 'string' && doc.fileUrl.startsWith('gridfs://')) {
           try {
-            console.log(`Looking for user with ID: ${userId}`);
-            user = await User.findById(userId).select('firstName lastName serviceId company email').lean();
-            if (user) {
-              console.log(`Found user in users collection: ${(user as any).firstName} ${(user as any).lastName}`);
-            } else {
-              console.log('User not found in users collection');
-            }
-          } catch (err) {
-            console.log(`Error finding user: ${err}`);
-          }
-          
-          // If not found in users, try personnels collection
-          if (!user) {
-            console.log(`User not found in users collection, trying personnels collection`);
-            const Personnel = mongoose.model('Personnel');
-            try {
-              // Use any type to bypass TypeScript's strict checking
-              const personnelUser: any = await Personnel.findById(userId).select('firstName lastName serviceNumber company email').lean();
-              
-              if (personnelUser) {
-                console.log(`Found personnel: ${personnelUser.firstName} ${personnelUser.lastName}`);
-                // Create a new object with the required fields
-                user = {
-                  firstName: personnelUser.firstName,
-                  lastName: personnelUser.lastName,
-                  serviceId: personnelUser.serviceNumber, // Map serviceNumber to serviceId
-                  company: personnelUser.company,
-                  email: personnelUser.email
-                } as any;
-              } else {
-                console.log('Personnel not found with ID:', userId);
+            const fileId = doc.fileUrl.replace('gridfs://', '');
+            console.log(`Document ${doc._id} has GridFS fileUrl: ${fileId}`);
+            
+            // Check if the file exists in GridFS
+            if (gridFSBucket) {
+              try {
+                const db = getNativeDb();
+                if (db) {
+                  const file = await db.collection('fs.files').findOne({
+                    _id: new mongoose.Types.ObjectId(fileId)
+                  });
+                  
+                  if (file) {
+                    console.log(`GridFS file found for document ${doc._id}`);
+                  } else {
+                    console.log(`GridFS file not found for document ${doc._id}`);
+                  }
+                }
+              } catch (error) {
+                console.error(`Error checking GridFS file for document ${doc._id}:`, error);
               }
-            } catch (err) {
-              console.log(`Error finding personnel: ${err}`);
             }
+            
+            // We'll keep the GridFS URL but ensure it's properly formatted
+            // In a production app, you might want to generate a temporary URL or serve the file directly
+            doc.fileUrl = `/api/files/${fileId}`;
+          } catch (error) {
+            console.error(`Error processing GridFS URL for document ${doc._id}:`, error);
+            // Provide a fallback URL
+            doc.fileUrl = '#';
           }
-          
-          if (user) {
-            console.log(`Found user: ${(user as any).firstName || 'Unknown'} ${(user as any).lastName || 'User'}`);
-            doc.uploadedBy = user;
+        }
+        
+        // Format dates as strings for consistent display
+        try {
+          if (doc.uploadDate) {
+            doc.uploadDate = new Date(doc.uploadDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
+          } else if (doc.createdAt) {
+            doc.uploadDate = new Date(doc.createdAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
           } else {
-                // If we couldn't find a user, use a generic Unknown User
-                console.log('User not found, using generic Unknown User');
-              doc.uploadedBy = {
-                firstName: 'Unknown',
-                lastName: 'User',
-                serviceId: 'N/A'
-              };
-            }
+            doc.uploadDate = new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
           }
-        } else {
-          console.log('No userId available, using generic Unknown User');
+        } catch (dateError) {
+          console.error(`Error formatting date for document ${doc._id}:`, dateError);
+          doc.uploadDate = 'Unknown date';
+        }
+        
+        try {
+          if (doc.verifiedDate) {
+            doc.verifiedDate = new Date(doc.verifiedDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
+          }
+        } catch (dateError) {
+          console.error(`Error formatting verified date for document ${doc._id}:`, dateError);
+          doc.verifiedDate = '';
+        }
+        
+        // Handle case where uploadedBy is not populated or is a string ID
+        if (!doc.uploadedBy || typeof doc.uploadedBy === 'string' || (doc.uploadedBy && !doc.uploadedBy.firstName)) {
+          console.log(`Document ${doc._id} has unpopulated uploadedBy: ${doc.uploadedBy}`);
+          
+          // Use a generic Unknown User to prevent errors
           doc.uploadedBy = {
             firstName: 'Unknown',
             lastName: 'User',
             serviceId: 'N/A'
           };
+          
+          // Try to use userId if available
+          if (doc.userId) {
+            console.log(`Using userId ${doc.userId} as fallback`);
+            
+            let userId = doc.userId;
+            let validObjectId = false;
+            
+            // If userId is a string but not 'current_user', try to convert to ObjectId
+            if (typeof userId === 'string' && userId !== 'current_user') {
+              try {
+                // Check if the userId is a valid ObjectId before conversion
+                if (mongoose.Types.ObjectId.isValid(userId)) {
+                  userId = new mongoose.Types.ObjectId(userId);
+                  validObjectId = true;
+                  console.log(`Converted userId to ObjectId: ${userId}`);
+                } else {
+                  console.log(`Invalid ObjectId format: ${userId}`);
+                  return doc;
+                }
+              } catch (err) {
+                console.log(`Error converting userId to ObjectId: ${err}`);
+                return doc;
+              }
+            } else if (typeof userId === 'string' && userId === 'current_user') {
+              console.log('userId is "current_user", using generic Unknown User');
+              return doc;
+            }
+            
+            // Only proceed with database lookup if we have a valid ObjectId
+            if (validObjectId) {
+              try {
+                // Try to find the user in both collections
+                const db = await dbConnect();
+                
+                // First try the users collection
+                const User = mongoose.model('User');
+                let user = null;
+                
+                try {
+                  console.log(`Looking for user with ID: ${userId}`);
+                  user = await User.findById(userId).select('firstName lastName serviceId company email').lean();
+                  if (user) {
+                    console.log(`Found user in users collection: ${(user as any).firstName} ${(user as any).lastName}`);
+                  } else {
+                    console.log('User not found in users collection');
+                  }
+                } catch (err) {
+                  console.log(`Error finding user: ${err}`);
+                }
+                
+                // If not found in users, try personnels collection
+                if (!user) {
+                  console.log(`User not found in users collection, trying personnels collection`);
+                  const Personnel = mongoose.model('Personnel');
+                  try {
+                    // Use any type to bypass TypeScript's strict checking
+                    const personnelUser: any = await Personnel.findById(userId).select('firstName lastName serviceNumber company email').lean();
+                    
+                    if (personnelUser) {
+                      console.log(`Found personnel: ${personnelUser.firstName} ${personnelUser.lastName}`);
+                      // Create a new object with the required fields
+                      user = {
+                        firstName: personnelUser.firstName,
+                        lastName: personnelUser.lastName,
+                        serviceId: personnelUser.serviceNumber, // Map serviceNumber to serviceId
+                        company: personnelUser.company,
+                        email: personnelUser.email
+                      } as any;
+                    } else {
+                      console.log('Personnel not found with ID:', userId);
+                    }
+                  } catch (err) {
+                    console.log(`Error finding personnel: ${err}`);
+                  }
+                }
+                
+                if (user) {
+                  console.log(`Found user: ${(user as any).firstName || 'Unknown'} ${(user as any).lastName || 'User'}`);
+                  doc.uploadedBy = user;
+                }
+              } catch (error) {
+                console.error('Error during user lookup:', error);
+              }
+            }
+          }
+        } else if (doc.uploadedBy && (doc.uploadedBy as any).serviceNumber && !(doc.uploadedBy as any).serviceId) {
+          // If we have a populated uploadedBy from Personnel model, map serviceNumber to serviceId
+          console.log(`Mapping serviceNumber to serviceId for document ${doc._id}`);
+          (doc.uploadedBy as any).serviceId = (doc.uploadedBy as any).serviceNumber;
         }
-      } else if (doc.uploadedBy && (doc.uploadedBy as any).serviceNumber && !(doc.uploadedBy as any).serviceId) {
-        // If we have a populated uploadedBy from Personnel model, map serviceNumber to serviceId
-        console.log(`Mapping serviceNumber to serviceId for document ${doc._id}`);
-        (doc.uploadedBy as any).serviceId = (doc.uploadedBy as any).serviceNumber;
-      }
-      
-      // Map document type if it's not one of the standard types
-      if (doc.type && !['training_certificate', 'medical_record', 'identification', 'promotion', 'commendation', 'other'].includes(doc.type)) {
-        // Map to a standard type
-        const typeMapping: { [key: string]: string } = {
-          'Birth Certificate': 'other',
-          'ID Card': 'identification',
-          'Picture 2x2': 'identification',
-          '3R ROTC Certificate': 'training_certificate',
-          'Enlistment Order': 'other',
-          'Promotion Order': 'promotion',
-          'Order of Incorporation': 'other',
-          'Schooling Certificate': 'training_certificate',
-          'College Diploma': 'training_certificate',
-          'RIDS': 'other',
-          'Deployment Order': 'other',
-          'Medical Certificate': 'medical_record',
-          'Training Certificate': 'training_certificate',
-          'Commendation': 'commendation',
-          'Other': 'other'
-        };
         
-        doc.type = typeMapping[doc.type] || 'other';
-      }
-      
-      return doc;
+        // Map document type if it's not one of the standard types
+        if (doc.type && !['training_certificate', 'medical_record', 'identification', 'promotion', 'commendation', 'other'].includes(doc.type)) {
+          // Map to a standard type
+          const typeMapping: { [key: string]: string } = {
+            'Birth Certificate': 'other',
+            'ID Card': 'identification',
+            'Picture 2x2': 'identification',
+            '3R ROTC Certificate': 'training_certificate',
+            'Enlistment Order': 'other',
+            'Promotion Order': 'promotion',
+            'Order of Incorporation': 'other',
+            'Schooling Certificate': 'training_certificate',
+            'College Diploma': 'training_certificate',
+            'RIDS': 'other',
+            'Deployment Order': 'other',
+            'Medical Certificate': 'medical_record',
+            'Training Certificate': 'training_certificate',
+            'Commendation': 'commendation',
+            'Other': 'other'
+          };
+          
+          doc.type = typeMapping[doc.type] || 'other';
+        }
+        
+        return doc;
       } catch (error) {
         console.error(`Error processing document:`, error);
         // Return a safe copy of the document with generic uploadedBy information
         // to prevent the entire request from failing
         return {
-          ...doc,
+          _id: doc._id || 'unknown',
+          name: doc.name || 'Unknown document',
+          type: doc.type || 'other',
+          status: doc.status || 'pending',
+          uploadDate: 'Unknown date',
+          fileUrl: '#',
           uploadedBy: {
             firstName: 'Unknown',
             lastName: 'User',
@@ -290,14 +355,14 @@ export async function GET(request: Request) {
     }));
     
     // Log a sample document to check if uploadedBy is populated
-    if (documents.length > 0) {
-      console.log('Sample document:', JSON.stringify(documents[0], null, 2));
+    if (processedDocuments.length > 0) {
+      console.log('Sample document:', JSON.stringify(processedDocuments[0], null, 2));
     }
     
     return NextResponse.json({
       success: true,
       data: {
-        documents
+        documents: processedDocuments
       }
     });
   } catch (error: any) {

@@ -9,25 +9,13 @@ import { DocumentTextIcon, ArrowLeftIcon, ExclamationCircleIcon } from '@heroico
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { User } from '@/types/auth';
+import { DocumentType, DocumentTypeLabels, DocumentTypeDescriptions } from '@/types/document';
 
 // Extend the User type to include serviceId and company
 interface ExtendedUser extends User {
   serviceId?: string;
   company?: string;
 }
-
-// Define document types
-const documentTypes = [
-  'Personal Information',
-  'Medical Certificate',
-  'Training Certificate',
-  'Identification',
-  'Educational Background',
-  'Military Training',
-  'Promotion',
-  'Commendation',
-  'Other'
-];
 
 export default function UploadDocumentPage() {
   const { user: authUser, isAuthenticated, isLoading } = useAuth();
@@ -37,7 +25,7 @@ export default function UploadDocumentPage() {
   
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [type, setType] = useState(documentTypes[0]);
+  const [type, setType] = useState<DocumentType>(DocumentType.BIRTH_CERTIFICATE);
   const [expirationDate, setExpirationDate] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -266,16 +254,21 @@ export default function UploadDocumentPage() {
                 <select
                   id="type"
                   value={type}
-                  onChange={(e) => setType(e.target.value)}
+                  onChange={(e) => setType(e.target.value as DocumentType)}
                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   required
                 >
-                  {documentTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
+                  {Object.values(DocumentType).map((docType) => (
+                    <option key={docType} value={docType}>
+                      {DocumentTypeLabels[docType]}
                     </option>
                   ))}
                 </select>
+                {type && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    {DocumentTypeDescriptions[type]}
+                  </p>
+                )}
               </div>
               
               <div>
