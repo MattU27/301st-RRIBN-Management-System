@@ -18,7 +18,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Armed Forces Personnel Management System">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -29,10 +29,50 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>armed_forces_app</title>
+  <title>Armed Forces Personnel Management</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- Environment configuration -->
+  <script>
+    // This will be replaced during the build process
+    window.flutterWebEnvironment = {
+      apiUrl: 'https://your-render-service-url.onrender.com',
+      isProduction: true
+    };
+  </script>
 </head>
 <body>
+  <!-- Flutter initialization -->
   <script src="flutter_bootstrap.js" async></script>
+  
+  <!-- Add loading indicator -->
+  <div id="loading">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #1a2639;
+      }
+      #loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 8px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #3f8efc;
+        animation: spin 1s ease-in-out infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <div class="spinner"></div>
+  </div>
 </body>
 </html>

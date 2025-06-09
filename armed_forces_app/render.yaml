@@ -1,0 +1,20 @@
+services:
+  # Web service configuration
+  - type: web
+    name: armed-forces-app
+    env: static
+    buildCommand: ./build.sh
+    staticPublishPath: ./public
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://MattU:Jm22152927-%40@cluster0.wt06z4x.mongodb.net/afp_personnel_db?retryWrites=true&w=majority&appName=Cluster0
+      - key: API_URL
+        value: https://your-render-service-url.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache 

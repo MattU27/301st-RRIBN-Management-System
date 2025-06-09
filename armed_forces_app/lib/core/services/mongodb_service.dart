@@ -25,7 +25,10 @@ class MongoDBService {
 
   String get _getConnectionString {
     // Determine correct connection string based on platform and environment
-    if (Platform.isAndroid) {
+    if (kReleaseMode || kIsWeb) {
+      // Use production MongoDB Atlas connection for deployed app
+      return '${MongoDBConfig.productionConnectionString}/${MongoDBConfig.databaseName}?retryWrites=true&w=majority&appName=Cluster0';
+    } else if (Platform.isAndroid) {
       // For Android emulator
       return '${MongoDBConfig.androidEmulatorConnectionString}/${MongoDBConfig.databaseName}';
     } else if (Platform.isIOS) {

@@ -1,6 +1,8 @@
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import '../constants/app_constants.dart';
+import '../config/mongodb_config.dart';
 
 class DatabaseService {
   static DatabaseService? _instance;
@@ -19,10 +21,18 @@ class DatabaseService {
     if (_isConnected) return;
     
     try {
-      // Connect to MongoDB using connection string
-      // In a real app, this would be in environment variables or secure storage
-      // Using IP address instead of localhost for mobile device to connect
-      final connectionString = 'mongodb://10.0.2.2:27017/afp_personnel_db';
+      // Determine the appropriate connection string based on environment
+      String connectionString;
+      
+      if (kReleaseMode || kIsWeb) {
+        // Use production MongoDB Atlas connection for deployed app
+        connectionString = '${MongoDBConfig.productionConnectionString}/${MongoDBConfig.databaseName}?retryWrites=true&w=majority&appName=Cluster0';
+      } else {
+        // Use local connection for development
+        connectionString = 'mongodb://10.0.2.2:27017/afp_personnel_db';
+      }
+      
+      print('Connecting to MongoDB using: $connectionString');
       _db = await mongo.Db.create(connectionString);
       await _db!.open();
       _isConnected = true;

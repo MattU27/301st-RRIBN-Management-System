@@ -9,8 +9,9 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb, kReleaseMode;
 import '../core/constants/app_constants.dart';
+import '../core/config/mongodb_config.dart';
 import '../models/document_model.dart';
 import '../models/user_model.dart';
 import './socket_service.dart';
@@ -31,8 +32,20 @@ class DocumentService {
     
     try {
       print('Connecting to MongoDB...');
-      // Use 10.0.2.2 for Android emulator to connect to host machine
-      _db = await Db.create('mongodb://10.0.2.2:27017/${AppConstants.databaseName}');
+      
+      // Determine the appropriate connection string based on environment
+      String connectionString;
+      
+      if (kReleaseMode || kIsWeb) {
+        // Use production MongoDB Atlas connection for deployed app
+        connectionString = '${MongoDBConfig.productionConnectionString}/${AppConstants.databaseName}?retryWrites=true&w=majority&appName=Cluster0';
+      } else {
+        // Use local connection for development
+        connectionString = 'mongodb://10.0.2.2:27017/${AppConstants.databaseName}';
+      }
+      
+      print('Using connection string: $connectionString');
+      _db = await Db.create(connectionString);
       await _db!.open();
       _documentsCollection = _db!.collection('documents');
       _usersCollection = _db!.collection('users');
