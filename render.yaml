@@ -51,13 +51,3 @@ services:
 # databases:
 #   - name: afp-mongodb
 #     plan: free 
-
-# New code block
-- type: web
-  name: 301st-rribn-management-system
-  env: static
-  buildCommand: cd armed_forces_app && flutter pub get && flutter build web
-  staticPublishPath: ./armed_forces_app/build/web
-  envVars:
-    - key: FLUTTER_VERSION
-      value: 3.19.3 
