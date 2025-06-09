@@ -257,6 +257,8 @@ export async function GET(request: Request) {
     const search = searchParams.get('search');
     const company = searchParams.get('company');
     const status = searchParams.get('status');
+    const role = searchParams.get('role');
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 10;
     const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')!) : 10;
     const page = searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1;
     
@@ -264,6 +266,7 @@ export async function GET(request: Request) {
     const query: any = {};
     if (company) query.company = company;
     if (status) query.status = status;
+    if (role) query.role = role;
     
     // Add search functionality
     if (search && search.trim() !== '') {
@@ -279,9 +282,11 @@ export async function GET(request: Request) {
     
     // Execute query with optimized options
     const skip = (page - 1) * pageSize;
+    // If limit=0 or a large number is specified, fetch all records without pagination limits
+    const fetchLimit = limit === 0 ? 0 : limit || pageSize;
     const personnel = await Personnel.find(query, {}, { lean: true })
       .skip(skip)
-      .limit(pageSize)
+      .limit(fetchLimit)
       .sort({ lastUpdated: -1 });
     
     // Get total count for pagination

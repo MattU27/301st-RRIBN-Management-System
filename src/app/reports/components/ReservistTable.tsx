@@ -8,8 +8,23 @@ import {
   XCircleIcon
 } from '@heroicons/react/24/outline';
 
+interface ReservistData {
+  id: string;
+  serialNumber: string;
+  name: string;
+  rank: string;
+  company: string;
+  contactNumber: string;
+  email: string;
+  status: string;
+  active: string;
+  verified: string;
+  dateJoined: string;
+  lastUpdated: string;
+}
+
 interface ReservistTableProps {
-  data: any[];
+  data: ReservistData[];
   isLoading: boolean;
 }
 
@@ -59,22 +74,22 @@ const ReservistTable: React.FC<ReservistTableProps> = ({ data, isLoading }) => {
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
           {data.map((reservist, index) => (
-            <tr key={reservist._id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+            <tr key={reservist.id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                {reservist.name || `${reservist.firstName} ${reservist.lastName}`}
+                {reservist.name}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                 {reservist.rank || 'N/A'}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {reservist.serviceNumber || 'N/A'}
+                {reservist.serialNumber || 'N/A'}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                 <div className="flex flex-col">
-                  {reservist.phone && (
+                  {reservist.contactNumber && (
                     <div className="flex items-center">
                       <PhoneIcon className="w-4 h-4 mr-1 text-gray-400" />
-                      <span>{reservist.phone}</span>
+                      <span>{reservist.contactNumber}</span>
                     </div>
                   )}
                   {reservist.email && (
@@ -87,9 +102,9 @@ const ReservistTable: React.FC<ReservistTableProps> = ({ data, isLoading }) => {
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm">
                 <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                  reservist.status === 'Ready' 
+                  reservist.status.toLowerCase() === 'ready' 
                     ? 'bg-green-100 text-green-800' 
-                    : reservist.status === 'Standby'
+                    : reservist.status.toLowerCase() === 'standby'
                     ? 'bg-yellow-100 text-yellow-800'
                     : 'bg-red-100 text-red-800'
                 }`}>
@@ -97,7 +112,7 @@ const ReservistTable: React.FC<ReservistTableProps> = ({ data, isLoading }) => {
                 </span>
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                {reservist.isActive ? (
+                {reservist.active === 'Yes' ? (
                   <CheckCircleIcon className="w-5 h-5 text-green-500" />
                 ) : (
                   <XCircleIcon className="w-5 h-5 text-red-500" />

@@ -28,6 +28,7 @@ export interface IPersonnel extends Document {
   password?: string;
   role: UserRole;
   phone?: string;
+  contactNumber?: string;
   address?: {
     street?: string;
     city?: string;
@@ -96,6 +97,10 @@ const PersonnelSchema = new Schema(
       default: UserRole.STAFF,
     },
     phone: {
+      type: String,
+      trim: true,
+    },
+    contactNumber: {
       type: String,
       trim: true,
     },

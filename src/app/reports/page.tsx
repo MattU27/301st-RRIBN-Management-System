@@ -29,6 +29,41 @@ type ReportType =
   | 'audit_logs'
   | 'reservist_listing';
 
+// Interface to match MongoDB personnel data structure
+interface PersonnelData {
+  _id: string;
+  name: string;
+  firstName?: string;
+  lastName?: string;
+  rank: string;
+  serviceNumber: string;
+  company: string;
+  phone: string;
+  email: string;
+  alternativeEmail?: string;
+  status: string;
+  isActive: boolean;
+  isVerified: boolean;
+  dateJoined?: string;
+  lastUpdated?: string;
+}
+
+// Interface for data displayed in the report
+interface ReportPersonnel {
+  id: string;
+  serialNumber: string;
+  name: string;
+  rank: string;
+  company: string;
+  contactNumber: string;
+  email: string;
+  status: string;
+  active: string;
+  verified: string;
+  dateJoined: string;
+  lastUpdated: string;
+}
+
 // Report formats
 type ExportFormat = 'csv' | 'excel' | 'pdf';
 
@@ -68,13 +103,22 @@ export default function ReportsPage() {
   useEffect(() => {
     if (!allData) return;
     
-    // Extract unique companies
-    const companies = Array.from(new Set(allData.map(item => item.company))).filter(Boolean);
-    setAvailableCompanies(companies);
+    // Extract unique companies and convert IDs to readable names
+    const companies = Array.from(
+      new Set(allData.map(item => getCompanyName(item.company)))
+    ).filter(Boolean);
     
-    // Extract unique statuses
-    const statuses = Array.from(new Set(allData.map(item => item.status))).filter(Boolean);
-    setAvailableStatuses(statuses);
+    setAvailableCompanies(companies.sort());
+    
+    // Extract unique statuses and capitalize first letter
+    const statuses = Array.from(
+      new Set(allData.map(item => {
+        const status = item.status;
+        return status ? status.charAt(0).toUpperCase() + status.slice(1).toLowerCase() : '';
+      }))
+    ).filter(Boolean);
+    
+    setAvailableStatuses(statuses.sort());
   }, [allData]);
 
   // Apply filters when filter values or all data changes
@@ -95,12 +139,15 @@ export default function ReportsPage() {
     
     // Apply company filter
     if (companyFilter) {
-      filtered = filtered.filter(item => item.company === companyFilter);
+      filtered = filtered.filter(item => getCompanyName(item.company) === companyFilter);
     }
     
     // Apply status filter
     if (statusFilter) {
-      filtered = filtered.filter(item => item.status === statusFilter);
+      filtered = filtered.filter(item => {
+        const itemStatus = item.status.charAt(0).toUpperCase() + item.status.slice(1).toLowerCase();
+        return itemStatus === statusFilter;
+      });
     }
     
     setFilteredData(filtered);
@@ -176,15 +223,16 @@ export default function ReportsPage() {
         throw new Error('Authentication failed');
       }
       
-      // API endpoint to fetch reservist data - setting a large limit to get all records
-      const apiUrl = '/api/personnel?role=reservist&limit=1000';
+      // API endpoint to fetch reservist data - using limit=0 to fetch all records
+      const apiUrl = '/api/personnel?role=reservist&limit=0';
       
       // Make the API request
       const response = await fetch(apiUrl, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Cache-Control': 'no-cache'
-        }
+        },
+        next: { revalidate: 0 } // Ensure fresh data each time
       });
       
       if (!response.ok) {
@@ -195,23 +243,23 @@ export default function ReportsPage() {
       
       // Debug the response structure
       console.log('API Response structure:', JSON.stringify(data, null, 2).slice(0, 200) + '...');
-      console.log('Total records fetched:', data.data ? (Array.isArray(data.data) ? data.data.length : (data.data.personnel ? data.data.personnel.length : 'unknown')) : 'unknown');
       
       // Check for different response structures
       if (data.success) {
         // Handle case where data is in data.personnel (standard structure)
         if (data.data && data.data.personnel && Array.isArray(data.data.personnel)) {
           console.log('Using data.data.personnel structure');
-          return data.data.personnel.map((person: any) => ({
+          console.log('Total records fetched:', data.data.personnel.length);
+          
+          // Map MongoDB data to report format
+          return data.data.personnel.map((person: PersonnelData): ReportPersonnel => ({
             id: person._id,
             serialNumber: person.serviceNumber || 'N/A',
             name: person.name || `${person.firstName || ''} ${person.lastName || ''}`.trim() || 'N/A',
             rank: person.rank || 'N/A',
-            company: typeof person.company === 'object' && person.company && person.company.name 
-              ? person.company.name 
-              : (person.companyName || person.company || 'N/A'),
-            contactNumber: person.contactNumber || person.phone || person.phoneNumber || 'N/A',
-            email: person.email || person.alternativeEmail || 'N/A',
+            company: getCompanyName(person.company) || 'N/A',
+            contactNumber: person.phone || 'N/A',
+            email: person.email || 'N/A',
             status: person.status || 'N/A',
             active: person.isActive ? 'Yes' : 'No',
             verified: person.isVerified ? 'Yes' : 'No',
@@ -222,16 +270,17 @@ export default function ReportsPage() {
         // Handle case where data is directly in data (alternative structure)
         else if (data.data && Array.isArray(data.data)) {
           console.log('Using data.data array structure');
-          return data.data.map((person: any) => ({
+          console.log('Total records fetched:', data.data.length);
+          
+          // Map MongoDB data to report format
+          return data.data.map((person: PersonnelData): ReportPersonnel => ({
             id: person._id,
             serialNumber: person.serviceNumber || 'N/A',
             name: person.name || `${person.firstName || ''} ${person.lastName || ''}`.trim() || 'N/A',
             rank: person.rank || 'N/A',
-            company: typeof person.company === 'object' && person.company && person.company.name 
-              ? person.company.name 
-              : (person.companyName || person.company || 'N/A'),
-            contactNumber: person.contactNumber || person.phone || person.phoneNumber || 'N/A',
-            email: person.email || person.alternativeEmail || 'N/A',
+            company: getCompanyName(person.company) || 'N/A',
+            contactNumber: person.phone || 'N/A',
+            email: person.email || 'N/A',
             status: person.status || 'N/A',
             active: person.isActive ? 'Yes' : 'No',
             verified: person.isVerified ? 'Yes' : 'No',
@@ -463,6 +512,37 @@ export default function ReportsPage() {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  // Define the valid companies to match the UI options (reusing the list from the API)
+  const COMPANY_NAMES = [
+    'Alpha',
+    'Bravo',
+    'Charlie', 
+    'Headquarters',
+    'NERRSC (NERR-Signal Company)',
+    'NERRFAB (NERR-Field Artillery Battery)'
+  ];
+
+  // Helper function to get a readable company name
+  const getCompanyName = (companyValue: string): string => {
+    // Create a mapping of company IDs/codes to human-readable names
+    const companyMappings: Record<string, string> = {
+      '67efd5b3c7528c0dfb15442b': 'Headquarters',
+      '67efd5b3c7528c0dfb15442f': 'Bravo',
+      '67efd5b3c7528c0dfb15442c': 'Charlie',
+      '67efd5b3c7528c0dfb154429': 'Alpha',
+      '67efd5b3c7528c0dfb154430': 'NERRFAB (Artillery Battalion)',
+      '67efd5b3c7528c0dfb154431': 'NERRSC (Signal Company)'
+    };
+
+    // If the company is a known ID, return the mapped name
+    if (companyMappings[companyValue]) {
+      return companyMappings[companyValue];
+    }
+
+    // For any other value, return as is
+    return companyValue;
   };
 
   if (isLoading) {
