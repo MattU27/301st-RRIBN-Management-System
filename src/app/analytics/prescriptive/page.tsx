@@ -489,7 +489,6 @@ const PrescriptiveAnalytics = () => {
                 <TrendingUp className="text-blue-600" size={18} />
                 Prescriptive Analytics - Personnel Promotion
               </h1>
-              <p className="text-xs text-gray-600">AI-powered recommendations for strategic personnel advancement</p>
             </div>
               <button
               onClick={fetchAnalyticsData}
@@ -732,25 +731,22 @@ const PrescriptiveAnalytics = () => {
                           </div>
 
                       {/* Training Completions Section */}
-                      <div className="pt-2 mt-2 border-t border-gray-100">
-                        <h5 className="mb-1 text-xs font-semibold text-gray-700">Completed Trainings:</h5>
+                      <div className="pt-3 mt-2 border-t border-gray-100">
+                        <h5 className="mb-2 text-base font-semibold text-gray-800">Completed Trainings:</h5>
                         {isLoadingTrainings ? (
                           <div className="flex items-center justify-center py-2">
                             <div className="w-3 h-3 mr-2 border-2 border-blue-600 rounded-full animate-spin border-t-transparent"></div>
                             <span className="text-xs text-gray-500">Loading trainings...</span>
                               </div>
                         ) : person.completedTrainings && person.completedTrainings.length > 0 ? (
-                          <ul className="pl-4 text-xs text-gray-600 list-disc">
-                            {person.completedTrainings.slice(0, 3).map((training, idx) => (
+                          <ul className="pl-4 text-sm text-gray-700 list-disc">
+                            {person.completedTrainings.map((training, idx) => (
                               <li key={idx} className="mb-1">
                                 {training.title}
                                 <span className="text-xs text-gray-500"> ({training.completionDate})</span>
-                                    </li>
-                                  ))}
-                            {person.completedTrainings.length > 3 && (
-                              <li className="text-blue-600">+{person.completedTrainings.length - 3} more</li>
-                            )}
-                                </ul>
+                              </li>
+                            ))}
+                          </ul>
                         ) : (
                           <p className="text-xs italic text-gray-500">No training records available</p>
                         )}
@@ -784,7 +780,7 @@ const PrescriptiveAnalytics = () => {
                   <Award className="w-10 h-10 mx-auto mb-2 text-gray-400" />
                   <h3 className="mb-1 text-sm font-semibold text-gray-900">Ready to Generate Prescriptive Analytics?</h3>
                   <p className="mb-2 text-xs text-gray-600">
-                    Click the "Generate Promotion Eligibility" button to receive AI-powered 
+                    Click the "Generate Promotion Eligibility" button to receive
                     recommendations based on training completion data and personnel records.
                   </p>
                   {error && (
