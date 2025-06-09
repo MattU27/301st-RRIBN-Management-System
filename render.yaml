@@ -20,9 +20,8 @@ services:
       # Add other environment variables your app needs here
 
   # Flutter mobile app as a web app
-  - type: web
+  - type: static
     name: 301st-rribn-mobile-app
-    env: static
     buildCommand: |
       # Download Flutter SDK directly
       mkdir -p flutter-sdk && cd flutter-sdk && \
@@ -35,17 +34,11 @@ services:
       ../flutter-sdk/flutter/bin/flutter doctor && \
       ../flutter-sdk/flutter/bin/flutter pub get && \
       ../flutter-sdk/flutter/bin/flutter build web
-    startCommand: cd armed_forces_app/build/web && python3 -m http.server $PORT
     staticPublishPath: ./armed_forces_app/build/web
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
-    envVars:
-      - key: FLUTTER_VERSION
-        value: 3.19.3
-      - key: FLUTTER_BASE_HREF
-        value: /
 
 # Uncomment if you want to use Render's database service
 # databases:
