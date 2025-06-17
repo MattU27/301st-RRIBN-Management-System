@@ -63,21 +63,21 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
   }, [onClose]);
   
   return (
-    <div className="fixed bottom-4 right-4 z-50 animate-fade-in-up">
+    <div className="fixed z-50 bottom-4 right-4 animate-fade-in-up">
       <div className={`flex items-center p-4 rounded-lg shadow-lg ${
         type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
       }`}>
         {type === 'success' ? (
-          <CheckCircleIcon className="h-5 w-5 mr-2" />
+          <CheckCircleIcon className="w-5 h-5 mr-2" />
         ) : (
-          <XCircleIcon className="h-5 w-5 mr-2" />
+          <XCircleIcon className="w-5 h-5 mr-2" />
         )}
         <span>{message}</span>
         <button 
           onClick={onClose}
           className="ml-4 text-gray-500 hover:text-gray-700"
         >
-          <XCircleIcon className="h-4 w-4" />
+          <XCircleIcon className="w-4 h-4" />
         </button>
       </div>
     </div>
@@ -116,7 +116,7 @@ const SearchInput = ({ value, onChange }: { value: string, onChange: (value: str
         id={inputId}
         type="text"
         placeholder="Search personnel..."
-        className="pl-4 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full py-2 pl-4 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         value={value}
         onChange={handleChange}
         autoComplete="off"
@@ -146,7 +146,7 @@ const FilterDropdown = ({
       <label htmlFor={id} className="sr-only">{label}</label>
       <select
         id={id}
-        className="pl-3 pr-8 py-2 border border-gray-300 rounded-lg appearance-none w-full md:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="w-full py-2 pl-3 pr-8 border border-gray-300 rounded-lg appearance-none md:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         value={value}
         onChange={onChange}
         aria-label={label}
@@ -155,8 +155,8 @@ const FilterDropdown = ({
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+        <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
         </svg>
       </div>
@@ -374,38 +374,38 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         {/* Background overlay */}
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
+        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={onClose} />
 
         {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
           {/* Close button */}
-          <div className="absolute right-0 top-0 pr-4 pt-4 block">
+          <div className="absolute top-0 right-0 block pt-4 pr-4">
             <button
               type="button"
-              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+              className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none"
               onClick={onClose}
             >
               <span className="sr-only">Close</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <XMarkIcon className="w-6 h-6" aria-hidden="true" />
             </button>
           </div>
 
           {/* Modal content */}
-          <div className="bg-white p-6">
+          <div className="p-6 bg-white">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
+              <div className="w-full mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <h3 className="text-lg font-semibold leading-6 text-gray-900">
                   Add Personnel Account
                 </h3>
                 
                 {/* Admin-only warning for staff users */}
                 {!isAdmin && (
-                  <div className="mt-4 p-3 bg-amber-50 border border-amber-300 rounded-md">
+                  <div className="p-3 mt-4 border rounded-md bg-amber-50 border-amber-300">
                     <div className="flex">
                       <div className="flex-shrink-0">
-                        <svg className="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <svg className="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
                       </div>
@@ -423,7 +423,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                 {isAdmin ? (
                   <>
                     {/* Tab selection */}
-                    <div className="border-b border-gray-200 mt-4 mb-6">
+                    <div className="mt-4 mb-6 border-b border-gray-200">
                       <div className="flex -mb-px">
                         <button
                           className={`py-2 px-4 text-sm font-medium ${
@@ -451,9 +451,9 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                     {/* Single personnel form */}
                     {activeTab === 'single' && (
                       <form onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                           <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700">
                               Full Name*
                             </label>
                             <input
@@ -473,7 +473,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                           </div>
                           
                           <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">
                               Email*
                             </label>
                             <input
@@ -496,7 +496,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                           </div>
                           
                           <div>
-                            <label htmlFor="rank" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="rank" className="block mb-1 text-sm font-medium text-gray-700">
                               Rank*
                             </label>
                             <select
@@ -522,7 +522,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                           </div>
                           
                           <div>
-                            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="company" className="block mb-1 text-sm font-medium text-gray-700">
                               Company*
                             </label>
                             <select
@@ -548,7 +548,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                           </div>
                           
                           <div>
-                            <label htmlFor="serviceNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="serviceNumber" className="block mb-1 text-sm font-medium text-gray-700">
                               Service Number*
                             </label>
                             <input
@@ -568,7 +568,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                           </div>
                           
                           <div>
-                            <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="phoneNumber" className="block mb-1 text-sm font-medium text-gray-700">
                               Phone Number (Optional)
                             </label>
                             <input
@@ -577,12 +577,12 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                               name="phoneNumber"
                               value={formData.phoneNumber || ''}
                               onChange={handleChange}
-                              className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                              className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             />
                           </div>
                         </div>
                         
-                        <div className="mt-6 flex justify-end space-x-3">
+                        <div className="flex justify-end mt-6 space-x-3">
                           <Button
                             variant="secondary"
                             onClick={onClose}
@@ -605,21 +605,21 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                     {/* Bulk upload form */}
                     {activeTab === 'bulk' && (
                       <div>
-                        <div className="mb-6 bg-blue-50 p-4 rounded-md">
+                        <div className="p-4 mb-6 rounded-md bg-blue-50">
                           <div className="flex">
                             <div className="flex-shrink-0">
-                              <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <svg className="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                               </svg>
                             </div>
-                            <div className="ml-3 flex-1 md:flex md:justify-between">
+                            <div className="flex-1 ml-3 md:flex md:justify-between">
                               <p className="text-sm text-blue-700">
                                 Upload a CSV file with personnel data. The file should have a header row with the following columns: name, email, rank, company, serviceNumber, phoneNumber, status.
                               </p>
                               <p className="mt-3 text-sm md:mt-0 md:ml-6">
                                 <button
                                   onClick={downloadTemplate}
-                                  className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600"
+                                  className="font-medium text-blue-700 whitespace-nowrap hover:text-blue-600"
                                 >
                                   Download Template
                                 </button>
@@ -630,18 +630,18 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                         
                         <form onSubmit={handleBulkUpload}>
                           <div className="mb-6">
-                            <label htmlFor="bulk-file" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="bulk-file" className="block mb-1 text-sm font-medium text-gray-700">
                               Personnel CSV File*
                             </label>
-                            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
                               <div className="space-y-1 text-center">
-                                <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <svg className="w-12 h-12 mx-auto text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                                   <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 <div className="flex text-sm text-gray-600">
                                   <label
                                     htmlFor="bulk-file"
-                                    className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500"
+                                    className="relative font-medium text-indigo-600 bg-white rounded-md cursor-pointer hover:text-indigo-500"
                                   >
                                     <span>Upload a file</span>
                                     <input id="bulk-file" name="bulk-file" type="file" accept=".csv" className="sr-only" onChange={handleFileChange} />
@@ -658,7 +658,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                             )}
                           </div>
                           
-                          <div className="mt-6 flex justify-end space-x-3">
+                          <div className="flex justify-end mt-6 space-x-3">
                             <Button
                               variant="secondary"
                               onClick={onClose}
@@ -680,7 +680,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                     )}
                   </>
                 ) : (
-                  <div className="mt-6 flex justify-end">
+                  <div className="flex justify-end mt-6">
                     <Button
                       variant="secondary"
                       onClick={onClose}
@@ -741,8 +741,8 @@ export default function PersonnelPage() {
     try {
       console.log('Fetching all personnel data...');
       
-      // Increase pageSize to ensure we get all personnel
-      const response = await fetch(`/api/personnel?pageSize=1000`);
+      // Set limit=0 to retrieve all personnel records without pagination
+      const response = await fetch(`/api/personnel?limit=0`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1209,7 +1209,7 @@ export default function PersonnelPage() {
   // Function to refresh personnel data after updates
   const refreshPersonnel = async () => {
     try {
-      const response = await fetch(`/api/personnel?pageSize=100`);
+      const response = await fetch(`/api/personnel?limit=0`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1234,7 +1234,7 @@ export default function PersonnelPage() {
         // Apply existing filters
         applyFilters(personnelData);
       } else {
-        throw new Error(data.error || 'Failed to fetch personnel');
+        console.error('Failed to refresh personnel list:', data.error || 'Unknown error');
       }
     } catch (error) {
       console.error('Failed to fetch personnel:', error);
@@ -1319,7 +1319,7 @@ export default function PersonnelPage() {
         // Refresh personnel list
         const refreshPersonnel = async () => {
           try {
-            const response = await fetch(`/api/personnel?pageSize=100`);
+            const response = await fetch(`/api/personnel?limit=0`);
             
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1391,11 +1391,11 @@ export default function PersonnelPage() {
   const PersonnelContent = () => (
     <div className="w-full px-0 py-4">
       {/* Header section with icon and title */}
-      <div className="bg-white rounded-lg shadow-sm mb-4 p-4 mx-2">
+      <div className="p-4 mx-2 mb-4 bg-white rounded-lg shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-grow">
-            <div className="bg-indigo-100 rounded-full p-2 mr-3">
-              <UserGroupIcon className="h-5 w-5 text-indigo-600" />
+            <div className="p-2 mr-3 bg-indigo-100 rounded-full">
+              <UserGroupIcon className="w-5 h-5 text-indigo-600" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">Personnel Management</h1>
@@ -1434,15 +1434,15 @@ export default function PersonnelPage() {
       </div>
       
       {/* Filter section */}
-      <div className="bg-white rounded-lg shadow-sm mb-4 p-3 mx-2">
+      <div className="p-3 mx-2 mb-4 bg-white rounded-lg shadow-sm">
         <div className="flex flex-row items-center justify-between">
           <div className="flex items-center">
-            <span className="text-xs font-medium text-gray-700 mr-2">Search</span>
+            <span className="mr-2 text-xs font-medium text-gray-700">Search</span>
             <SearchInput value={searchValue} onChange={handleSearchChange} />
           </div>
           
           <div className="flex items-center">
-            <span className="text-xs font-medium text-gray-700 mr-1">Company</span>
+            <span className="mr-1 text-xs font-medium text-gray-700">Company</span>
             <FilterDropdown 
               value={filterCompany} 
               onChange={(e) => setFilterCompany(e.target.value as CompanyType | 'All')} 
@@ -1454,7 +1454,7 @@ export default function PersonnelPage() {
       </div>
 
       {/* Status filter tabs */}
-      <div className="bg-white rounded-lg shadow-sm mb-4 overflow-hidden mx-2">
+      <div className="mx-2 mb-4 overflow-hidden bg-white rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
             {['Ready', 'Standby', 'Retired', 'All'].map((status) => (
@@ -1469,13 +1469,13 @@ export default function PersonnelPage() {
               >
                 <span className="flex items-center">
                   {status === 'Ready' && (
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    <span className="w-2 h-2 mr-2 bg-green-500 rounded-full"></span>
                   )}
                   {status === 'Standby' && (
-                    <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                    <span className="w-2 h-2 mr-2 bg-yellow-500 rounded-full"></span>
                   )}
                   {status === 'Retired' && (
-                    <span className="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+                    <span className="w-2 h-2 mr-2 bg-gray-500 rounded-full"></span>
                   )}
                   {status}
                 </span>
@@ -1486,29 +1486,29 @@ export default function PersonnelPage() {
       </div>
       
       {/* Personnel table with modern design */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden mx-2">
+      <div className="mx-2 overflow-hidden bg-white rounded-lg shadow-sm">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Name
               </th>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Rank
               </th>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Company
               </th>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Joined Date
               </th>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Status
               </th>
-              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Last Updated
               </th>
-              <th scope="col" className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th scope="col" className="px-4 py-2 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
                 Actions
               </th>
             </tr>
@@ -1516,7 +1516,7 @@ export default function PersonnelPage() {
           <tbody className="bg-white divide-y divide-gray-200">
             {isLoading ? (
               <tr>
-                <td colSpan={6} className="px-4 py-2 text-center text-sm text-gray-500">
+                <td colSpan={6} className="px-4 py-2 text-sm text-center text-gray-500">
                   Loading...
                 </td>
               </tr>
@@ -1566,7 +1566,7 @@ export default function PersonnelPage() {
                   <td className="px-4 py-1.5 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <button
-                        className="px-2 py-1 text-xs font-medium rounded border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                        className="px-2 py-1 text-xs font-medium text-indigo-700 border border-indigo-200 rounded bg-indigo-50 hover:bg-indigo-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleView(person);
@@ -1576,7 +1576,7 @@ export default function PersonnelPage() {
                       </button>
                       
                       <button
-                        className="px-2 py-1 text-xs font-medium rounded border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100"
+                        className="px-2 py-1 text-xs font-medium text-blue-700 border border-blue-200 rounded bg-blue-50 hover:bg-blue-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEdit(person);
@@ -1587,14 +1587,14 @@ export default function PersonnelPage() {
                       
                       {hasPermission('admin') && (
                         <button
-                          className="p-1 rounded-full text-red-600 hover:bg-red-50"
+                          className="p-1 text-red-600 rounded-full hover:bg-red-50"
                           title="Delete"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleDeleteClick(person);
                           }}
                         >
-                          <TrashIcon className="h-4 w-4" />
+                          <TrashIcon className="w-4 h-4" />
                         </button>
                       )}
                     </div>
@@ -1603,7 +1603,7 @@ export default function PersonnelPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-4 py-2 text-center text-sm text-gray-500">
+                <td colSpan={6} className="px-4 py-2 text-sm text-center text-gray-500">
                   No personnel records found matching your criteria.
                 </td>
               </tr>
@@ -1613,7 +1613,7 @@ export default function PersonnelPage() {
       </div>
       
       {/* Pagination with updated design */}
-      <div className="mt-3 flex justify-between items-center bg-white p-2 rounded-lg shadow-sm mx-2">
+      <div className="flex items-center justify-between p-2 mx-2 mt-3 bg-white rounded-lg shadow-sm">
         <div className="text-xs text-gray-700">
           Showing <span className="font-medium">
             {currentPage === 1 ? "1" : `${(currentPage - 1) * ITEMS_PER_PAGE + 1}`} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredPersonnel.length)}
@@ -1622,7 +1622,7 @@ export default function PersonnelPage() {
         </div>
         <div className="flex items-center space-x-1">
           <button
-            className="relative inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="relative inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => {
               setCurrentPage(prev => Math.max(1, prev - 1));
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1633,7 +1633,7 @@ export default function PersonnelPage() {
           </button>
           
           {/* Pagination numbers */}
-          <div className="hidden sm:flex space-x-1">
+          <div className="hidden space-x-1 sm:flex">
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               // Calculate which page numbers to show
               let pageNum;
@@ -1671,7 +1671,7 @@ export default function PersonnelPage() {
           </div>
           
           <button
-            className="relative inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="relative inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => {
               setCurrentPage(prev => Math.min(totalPages, prev + 1));
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1684,11 +1684,11 @@ export default function PersonnelPage() {
       </div>
 
       {/* Personnel Statistics - Using flex instead of grid for better horizontal layout */}
-      <div className="mt-3 flex flex-col lg:flex-row gap-4 mx-2 mb-4">
+      <div className="flex flex-col gap-4 mx-2 mt-3 mb-4 lg:flex-row">
         {/* Summary Statistics Card */}
-        <div className="bg-white rounded-lg shadow-sm p-3 flex-1">
-          <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center">
-            <ChartBarIcon className="h-3 w-3 mr-1 text-indigo-600" /> Personnel Statistics
+        <div className="flex-1 p-3 bg-white rounded-lg shadow-sm">
+          <h3 className="flex items-center mb-2 text-xs font-semibold text-gray-700">
+            <ChartBarIcon className="w-3 h-3 mr-1 text-indigo-600" /> Personnel Statistics
           </h3>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="bg-blue-50 rounded-md p-1.5">
@@ -1713,11 +1713,11 @@ export default function PersonnelPage() {
         </div>
 
         {/* Company Distribution Card */}
-        <div className="bg-white rounded-lg shadow-sm p-3 flex-1">
-          <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center">
-            <BuildingOfficeIcon className="h-3 w-3 mr-1 text-indigo-600" /> Company Distribution
+        <div className="flex-1 p-3 bg-white rounded-lg shadow-sm">
+          <h3 className="flex items-center mb-2 text-xs font-semibold text-gray-700">
+            <BuildingOfficeIcon className="w-3 h-3 mr-1 text-indigo-600" /> Company Distribution
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
             {COMPANIES.map(company => {
               // Case-insensitive matching and normalize company names for better matching
               const count = allPersonnel.filter(p => {
@@ -1736,11 +1736,11 @@ export default function PersonnelPage() {
               }).length;
               
               return (
-                <div key={company} className="flex justify-between items-center text-xs px-2 py-1 bg-indigo-50 rounded break-words">
-                  <span className="font-medium text-indigo-700 pr-1 overflow-hidden">
+                <div key={company} className="flex items-center justify-between px-2 py-1 text-xs break-words rounded bg-indigo-50">
+                  <span className="pr-1 overflow-hidden font-medium text-indigo-700">
                     {company.includes('(') ? company.split('(')[0].trim() : company}
                   </span>
-                  <span className="font-bold text-indigo-800 flex-shrink-0">{count}</span>
+                  <span className="flex-shrink-0 font-bold text-indigo-800">{count}</span>
                 </div>
               );
             })}
@@ -1785,10 +1785,10 @@ export default function PersonnelPage() {
 
   // Main render
   return (
-    <div className="min-h-screen bg-gray-100 pb-6 w-full">
+    <div className="w-full min-h-screen pb-6 bg-gray-100">
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        <div className="flex items-center justify-center h-64">
+          <div className="w-12 h-12 border-t-2 border-b-2 border-indigo-500 rounded-full animate-spin"></div>
         </div>
       ) : (
         <PersonnelContent />
