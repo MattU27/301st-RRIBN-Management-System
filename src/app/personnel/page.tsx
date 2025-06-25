@@ -63,14 +63,14 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
   }, [onClose]);
   
   return (
-    <div className="fixed z-50 bottom-4 right-4 animate-fade-in-up">
+    <div className="fixed right-4 bottom-4 z-50 animate-fade-in-up">
       <div className={`flex items-center p-4 rounded-lg shadow-lg ${
         type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
       }`}>
         {type === 'success' ? (
-          <CheckCircleIcon className="w-5 h-5 mr-2" />
+          <CheckCircleIcon className="mr-2 w-5 h-5" />
         ) : (
-          <XCircleIcon className="w-5 h-5 mr-2" />
+          <XCircleIcon className="mr-2 w-5 h-5" />
         )}
         <span>{message}</span>
         <button 
@@ -116,7 +116,7 @@ const SearchInput = ({ value, onChange }: { value: string, onChange: (value: str
         id={inputId}
         type="text"
         placeholder="Search personnel..."
-        className="w-full py-2 pl-4 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="py-2 pr-4 pl-4 w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         value={value}
         onChange={handleChange}
         autoComplete="off"
@@ -146,7 +146,7 @@ const FilterDropdown = ({
       <label htmlFor={id} className="sr-only">{label}</label>
       <select
         id={id}
-        className="w-full py-2 pl-3 pr-8 border border-gray-300 rounded-lg appearance-none md:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        className="py-2 pr-8 pl-3 w-full rounded-lg border border-gray-300 appearance-none md:w-40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
         value={value}
         onChange={onChange}
         aria-label={label}
@@ -155,7 +155,7 @@ const FilterDropdown = ({
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
-      <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+      <div className="flex absolute inset-y-0 right-0 items-center px-2 text-gray-700 pointer-events-none">
         <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
         </svg>
@@ -373,15 +373,15 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+    <div className="overflow-y-auto fixed inset-0 z-50">
+      <div className="flex justify-center items-center px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
         {/* Background overlay */}
-        <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={onClose} />
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose} />
 
         {/* Modal panel */}
-        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+        <div className="inline-block overflow-hidden text-left align-bottom bg-white rounded-lg shadow-xl transition-all transform sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
           {/* Close button */}
-          <div className="absolute top-0 right-0 block pt-4 pr-4">
+          <div className="block absolute top-0 right-0 pt-4 pr-4">
             <button
               type="button"
               className="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none"
@@ -395,14 +395,14 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
           {/* Modal content */}
           <div className="p-6 bg-white">
             <div className="sm:flex sm:items-start">
-              <div className="w-full mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+              <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <h3 className="text-lg font-semibold leading-6 text-gray-900">
                   Add Personnel Account
                 </h3>
                 
                 {/* Admin-only warning for staff users */}
                 {!isAdmin && (
-                  <div className="p-3 mt-4 border rounded-md bg-amber-50 border-amber-300">
+                  <div className="p-3 mt-4 bg-amber-50 rounded-md border border-amber-300">
                     <div className="flex">
                       <div className="flex-shrink-0">
                         <svg className="w-5 h-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -577,7 +577,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                               name="phoneNumber"
                               value={formData.phoneNumber || ''}
                               onChange={handleChange}
-                              className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              className="block p-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             />
                           </div>
                         </div>
@@ -605,7 +605,7 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                     {/* Bulk upload form */}
                     {activeTab === 'bulk' && (
                       <div>
-                        <div className="p-4 mb-6 rounded-md bg-blue-50">
+                        <div className="p-4 mb-6 bg-blue-50 rounded-md">
                           <div className="flex">
                             <div className="flex-shrink-0">
                               <svg className="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -633,9 +633,9 @@ const PersonnelAccountModal = ({ isOpen, onClose, onSave }: PersonnelAccountModa
                             <label htmlFor="bulk-file" className="block mb-1 text-sm font-medium text-gray-700">
                               Personnel CSV File*
                             </label>
-                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-300 border-dashed rounded-md">
+                            <div className="flex justify-center px-6 pt-5 pb-6 mt-1 rounded-md border-2 border-gray-300 border-dashed">
                               <div className="space-y-1 text-center">
-                                <svg className="w-12 h-12 mx-auto text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <svg className="mx-auto w-12 h-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                                   <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 <div className="flex text-sm text-gray-600">
@@ -1389,11 +1389,11 @@ export default function PersonnelPage() {
 
   // Main content for users with permission
   const PersonnelContent = () => (
-    <div className="w-full px-0 py-4">
+    <div className="px-0 py-4 w-full">
       {/* Header section with icon and title */}
       <div className="p-4 mx-2 mb-4 bg-white rounded-lg shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center flex-grow">
+        <div className="flex justify-between items-center">
+          <div className="flex flex-grow items-center">
             <div className="p-2 mr-3 bg-indigo-100 rounded-full">
               <UserGroupIcon className="w-5 h-5 text-indigo-600" />
             </div>
@@ -1435,7 +1435,7 @@ export default function PersonnelPage() {
       
       {/* Filter section */}
       <div className="p-3 mx-2 mb-4 bg-white rounded-lg shadow-sm">
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row justify-between items-center">
           <div className="flex items-center">
             <span className="mr-2 text-xs font-medium text-gray-700">Search</span>
             <SearchInput value={searchValue} onChange={handleSearchChange} />
@@ -1454,7 +1454,7 @@ export default function PersonnelPage() {
       </div>
 
       {/* Status filter tabs */}
-      <div className="mx-2 mb-4 overflow-hidden bg-white rounded-lg shadow-sm">
+      <div className="overflow-hidden mx-2 mb-4 bg-white rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
             {['Ready', 'Standby', 'Retired', 'All'].map((status) => (
@@ -1469,13 +1469,13 @@ export default function PersonnelPage() {
               >
                 <span className="flex items-center">
                   {status === 'Ready' && (
-                    <span className="w-2 h-2 mr-2 bg-green-500 rounded-full"></span>
+                    <span className="mr-2 w-2 h-2 bg-green-500 rounded-full"></span>
                   )}
                   {status === 'Standby' && (
-                    <span className="w-2 h-2 mr-2 bg-yellow-500 rounded-full"></span>
+                    <span className="mr-2 w-2 h-2 bg-yellow-500 rounded-full"></span>
                   )}
                   {status === 'Retired' && (
-                    <span className="w-2 h-2 mr-2 bg-gray-500 rounded-full"></span>
+                    <span className="mr-2 w-2 h-2 bg-gray-500 rounded-full"></span>
                   )}
                   {status}
                 </span>
@@ -1486,7 +1486,7 @@ export default function PersonnelPage() {
       </div>
       
       {/* Personnel table with modern design */}
-      <div className="mx-2 overflow-hidden bg-white rounded-lg shadow-sm">
+      <div className="overflow-hidden mx-2 bg-white rounded-lg shadow-sm">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -1566,7 +1566,7 @@ export default function PersonnelPage() {
                   <td className="px-4 py-1.5 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <button
-                        className="px-2 py-1 text-xs font-medium text-indigo-700 border border-indigo-200 rounded bg-indigo-50 hover:bg-indigo-100"
+                        className="px-2 py-1 text-xs font-medium text-indigo-700 bg-indigo-50 rounded border border-indigo-200 hover:bg-indigo-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleView(person);
@@ -1576,7 +1576,7 @@ export default function PersonnelPage() {
                       </button>
                       
                       <button
-                        className="px-2 py-1 text-xs font-medium text-blue-700 border border-blue-200 rounded bg-blue-50 hover:bg-blue-100"
+                        className="px-2 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded border border-blue-200 hover:bg-blue-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEdit(person);
@@ -1613,7 +1613,7 @@ export default function PersonnelPage() {
       </div>
       
       {/* Pagination with updated design */}
-      <div className="flex items-center justify-between p-2 mx-2 mt-3 bg-white rounded-lg shadow-sm">
+      <div className="flex justify-between items-center p-2 mx-2 mt-3 bg-white rounded-lg shadow-sm">
         <div className="text-xs text-gray-700">
           Showing <span className="font-medium">
             {currentPage === 1 ? "1" : `${(currentPage - 1) * ITEMS_PER_PAGE + 1}`} to {Math.min(currentPage * ITEMS_PER_PAGE, filteredPersonnel.length)}
@@ -1622,7 +1622,7 @@ export default function PersonnelPage() {
         </div>
         <div className="flex items-center space-x-1">
           <button
-            className="relative inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex relative items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => {
               setCurrentPage(prev => Math.max(1, prev - 1));
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1671,7 +1671,7 @@ export default function PersonnelPage() {
           </div>
           
           <button
-            className="relative inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex relative items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => {
               setCurrentPage(prev => Math.min(totalPages, prev + 1));
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1688,7 +1688,7 @@ export default function PersonnelPage() {
         {/* Summary Statistics Card */}
         <div className="flex-1 p-3 bg-white rounded-lg shadow-sm">
           <h3 className="flex items-center mb-2 text-xs font-semibold text-gray-700">
-            <ChartBarIcon className="w-3 h-3 mr-1 text-indigo-600" /> Personnel Statistics
+            <ChartBarIcon className="mr-1 w-3 h-3 text-indigo-600" /> Personnel Statistics
           </h3>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="bg-blue-50 rounded-md p-1.5">
@@ -1715,7 +1715,7 @@ export default function PersonnelPage() {
         {/* Company Distribution Card */}
         <div className="flex-1 p-3 bg-white rounded-lg shadow-sm">
           <h3 className="flex items-center mb-2 text-xs font-semibold text-gray-700">
-            <BuildingOfficeIcon className="w-3 h-3 mr-1 text-indigo-600" /> Company Distribution
+            <BuildingOfficeIcon className="mr-1 w-3 h-3 text-indigo-600" /> Company Distribution
           </h3>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
             {COMPANIES.map(company => {
@@ -1736,8 +1736,8 @@ export default function PersonnelPage() {
               }).length;
               
               return (
-                <div key={company} className="flex items-center justify-between px-2 py-1 text-xs break-words rounded bg-indigo-50">
-                  <span className="pr-1 overflow-hidden font-medium text-indigo-700">
+                <div key={company} className="flex justify-between items-center px-2 py-1 text-xs break-words bg-indigo-50 rounded">
+                  <span className="overflow-hidden pr-1 font-medium text-indigo-700">
                     {company.includes('(') ? company.split('(')[0].trim() : company}
                   </span>
                   <span className="flex-shrink-0 font-bold text-indigo-800">{count}</span>
@@ -1785,10 +1785,10 @@ export default function PersonnelPage() {
 
   // Main render
   return (
-    <div className="w-full min-h-screen pb-6 bg-gray-100">
+    <div className="pb-6 w-full min-h-screen bg-gray-100">
       {isLoading ? (
-        <div className="flex items-center justify-center h-64">
-          <div className="w-12 h-12 border-t-2 border-b-2 border-indigo-500 rounded-full animate-spin"></div>
+        <div className="flex justify-center items-center h-64">
+          <div className="w-12 h-12 rounded-full border-t-2 border-b-2 border-indigo-500 animate-spin"></div>
         </div>
       ) : (
         <PersonnelContent />

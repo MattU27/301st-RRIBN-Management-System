@@ -1,11 +1,12 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Your rule content
 
-- No need to use npm run dev command
+- No need to use npm run dev and npm run build command
 - Don't use flutter run command either
 - Mongodb database is afp_personnel_db
+- Please edit the file in small chunks
