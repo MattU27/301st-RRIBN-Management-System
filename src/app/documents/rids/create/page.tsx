@@ -717,15 +717,39 @@ export default function CreateRIDSPage() {
     }
   };
   
+  // Function to view the RIDS form in a new tab
+  const viewRidsPdf = async () => {
+    try {
+      toast.loading('Preparing RIDS form for viewing...');
+      
+      // Create PDF data but don't download it
+      const pdfUrl = await generateRidsPdf(false);
+      
+      if (pdfUrl) {
+        // Open the PDF in a new tab
+        window.open(pdfUrl, '_blank');
+        toast.dismiss();
+        toast.success('RIDS form opened in new tab');
+      } else {
+        toast.dismiss();
+        toast.error('Failed to generate viewable form');
+      }
+    } catch (error) {
+      console.error('Error viewing PDF:', error);
+      toast.dismiss();
+      toast.error('Failed to view RIDS form');
+    }
+  };
+
   // Function to print the RIDS form
   const printRidsPdf = async () => {
     try {
       toast.loading('Preparing RIDS form for printing...');
       
       // Create PDF data but don't download it
-      const pdfBlob = await generateRidsPdf(false);
+      const pdfUrl = await generateRidsPdf(false);
       
-      if (pdfBlob) {
+      if (pdfUrl) {
         // Create a hidden iframe for printing
         const printFrame = document.createElement('iframe');
         printFrame.style.position = 'fixed';
@@ -736,7 +760,7 @@ export default function CreateRIDSPage() {
         printFrame.style.border = '0';
         
         // Set the source to the PDF blob URL
-        printFrame.src = pdfBlob;
+        printFrame.src = pdfUrl;
         
         // Add to document and handle print
         document.body.appendChild(printFrame);
@@ -748,15 +772,32 @@ export default function CreateRIDSPage() {
             try {
               printFrame.contentWindow?.print();
               
-              // Remove the iframe after printing dialog is closed or after a timeout
-              setTimeout(() => {
-                document.body.removeChild(printFrame);
-              }, 2000);
+              // Don't remove the iframe automatically - let the print dialog close naturally
+              // Only add an event listener to remove it after printing is done
+              const checkPrintClosed = setInterval(() => {
+                try {
+                  // If we can't access the iframe's contentWindow, it might have been closed
+                  if (!printFrame.contentWindow || printFrame.contentWindow.closed) {
+                    clearInterval(checkPrintClosed);
+                    if (document.body.contains(printFrame)) {
+                      document.body.removeChild(printFrame);
+                    }
+                  }
+                } catch (e) {
+                  clearInterval(checkPrintClosed);
+                  if (document.body.contains(printFrame)) {
+                    document.body.removeChild(printFrame);
+                  }
+                }
+              }, 1000);
               
               toast.success('Print dialog opened');
             } catch (error) {
               console.error('Error during print:', error);
               toast.error('Failed to open print dialog');
+              if (document.body.contains(printFrame)) {
+                document.body.removeChild(printFrame);
+              }
             }
           }, 500);
         };
@@ -2164,7 +2205,7 @@ export default function CreateRIDSPage() {
                     <div className="flex justify-center space-x-4">
                       <button
                         type="button"
-                        onClick={() => generateRidsPdf(false)}
+                        onClick={viewRidsPdf}
                         className="flex items-center px-4 py-2 text-sm text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50"
                       >
                         <EyeIcon className="w-5 h-5 mr-1" />
