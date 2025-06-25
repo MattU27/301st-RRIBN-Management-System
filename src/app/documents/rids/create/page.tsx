@@ -527,7 +527,7 @@ export default function CreateRIDSPage() {
       y += fieldHeight;
 
       // AFPOS / MOS section - Reduced height to save space
-      const afposHeight = 18;
+      const afposHeight = 20; // Increased height slightly to accommodate all options
       doc.rect(margin, y, 80, afposHeight);
       let afposMosX = margin + 2;
       let afposMosY = y + 3;
@@ -545,12 +545,12 @@ export default function CreateRIDSPage() {
           let itemY = afposMosY;
           col.forEach(opt => {
               drawRadio(colX, itemY, opt, formData.afpos === opt);
-              itemY += 3.5; // Reduced vertical spacing between options
+              itemY += 4; // Increased vertical spacing between options
           });
           colX += 18;
       });
 
-      // Source of Commission section - Further adjustments to prevent overflow
+      // Source of Commission section - Expand width and improve layout
       let sourceCommX = margin + 80;
       doc.rect(sourceCommX, y, contentWidth - 80, afposHeight);
       sourceCommX += 2;
@@ -558,22 +558,49 @@ export default function CreateRIDSPage() {
       doc.setFontSize(5).setFont('helvetica', 'bold').text('Source of Commission / Enlistment', sourceCommX, sourceCommY);
       sourceCommY += 3;
       
-      // Organize commission options with better spacing
-      const commissionOptions1 = ['MNSA', 'ELECTED', 'PRES APPOINTEE', 'DEGREE HOLDER'];
-      const commissionOptions2 = ['MS-43', 'POTC', 'CBT COMMISSION', 'EX-AFP'];
+      // Reorganize commission options with better spacing to prevent overflow
+      // Split options into 4 columns with fewer items per column
+      const commissionOptions1 = ['MNSA', 'ELECTED'];
+      const commissionOptions2 = ['MS-43', 'POTC', 'CBT COMMISSION'];
       const commissionOptions3 = ['ROTC', 'CMT', 'BCMT', 'SBCMT'];
-      const commissionOptions4 = ['CAA (CAFGU)', 'MOT (PAARU)'];
+      const commissionOptions4 = ['CAA (CAFGU)', 'MOT (PAARU)', 'PRES APPOINTEE', 'DEGREE HOLDER', 'EX-AFP'];
 
       // Adjust spacing for Source of Commission options
       colX = sourceCommX;
-      const colWidths = [22, 22, 22, 24]; // Adjusted column widths to fit text
-      [commissionOptions1, commissionOptions2, commissionOptions3, commissionOptions4].forEach((col, idx) => {
+      // More even distribution of column widths with extra space for the last column
+      const colWidths = [22, 28, 25, 35]; // Adjusted column widths to fit text better
+      
+      // Draw the first three columns normally
+      [commissionOptions1, commissionOptions2, commissionOptions3].forEach((col, idx) => {
           let itemY = sourceCommY;
           col.forEach(opt => {
               drawRadio(colX, itemY, opt, formData.sourceOfCommission === opt);
-              itemY += 3.5; // Reduced vertical spacing between options
+              itemY += 4; // Increased vertical spacing between options
           });
           colX += colWidths[idx];
+      });
+      
+      // Handle the fourth column with more items specially
+      let itemY = sourceCommY;
+      commissionOptions4.forEach((opt, idx) => {
+          // For the last column, use two rows for better spacing
+          let adjustedX = colX;
+          if (idx > 2) {
+              // Move DEGREE HOLDER and EX-AFP to a second row
+              adjustedX = sourceCommX + 22; // Align with the second column
+              if (idx === 4) { // EX-AFP
+                  adjustedX += 28; // Move to align with third column
+              }
+          }
+          drawRadio(adjustedX, itemY, opt, formData.sourceOfCommission === opt);
+          
+          // Increment Y position only for first 3 items
+          if (idx < 3) {
+              itemY += 4;
+          } else if (idx === 3) {
+              // Reset Y position for second row
+              itemY = sourceCommY + 8; // Position for DEGREE HOLDER
+          }
       });
       
       y += afposHeight;
@@ -662,29 +689,34 @@ export default function CreateRIDSPage() {
       drawField(margin + smallCol * 3, y, smallCol, fieldHeight, 'Height: cm', formData.height, 'left', 6);
       drawField(margin + smallCol * 4, y, smallCol, fieldHeight, 'Weight: kgs', formData.weight, 'left', 6);
       
-      // Marital Status - Fixed layout with better spacing
+      // Marital Status - Expanded box and improved layout
       let maritalStatusX = margin + smallCol * 5;
-      doc.rect(maritalStatusX, y, smallCol * 2, fieldHeight);
+      const maritalWidth = smallCol * 1.75; // Expanded width
+      const sexWidth = smallCol * 1.25; // Adjusted width
+      
+      doc.rect(maritalStatusX, y, maritalWidth, fieldHeight);
       doc.setFontSize(5).text('Marital Status', maritalStatusX + 1, y + 3);
       
-      // Improve marital status radio button layout
+      // Improve marital status radio button layout - use 2x2 grid with better spacing
+      // First row
       let maritalRow1Y = y + 3;
+      drawRadio(maritalStatusX + 3, maritalRow1Y, 'Single', formData.maritalStatus === 'Single');
+      drawRadio(maritalStatusX + maritalWidth/2 + 3, maritalRow1Y, 'Married', formData.maritalStatus === 'Married');
+      
+      // Second row
       let maritalRow2Y = y + 5.5;
-      drawRadio(maritalStatusX + 2, maritalRow1Y, 'Single', formData.maritalStatus === 'Single');
-      drawRadio(maritalStatusX + 30, maritalRow1Y, 'Married', formData.maritalStatus === 'Married');
-      drawRadio(maritalStatusX + 2, maritalRow2Y, 'Widow', formData.maritalStatus === 'Widow');
-      drawRadio(maritalStatusX + 30, maritalRow2Y, 'Separated', formData.maritalStatus === 'Separated');
+      drawRadio(maritalStatusX + 3, maritalRow2Y, 'Widow', formData.maritalStatus === 'Widow');
+      drawRadio(maritalStatusX + maritalWidth/2 + 3, maritalRow2Y, 'Separated', formData.maritalStatus === 'Separated');
 
       // Sex - Fixed layout with better spacing
-      let sexX = margin + smallCol * 7;
-      doc.rect(sexX, y, smallCol, fieldHeight);
+      let sexX = maritalStatusX + maritalWidth;
+      doc.rect(sexX, y, sexWidth, fieldHeight);
       doc.setFontSize(5).text('Sex', sexX + 1, y + 3);
       
-      // Improve sex radio button layout
-      let sexRow1Y = y + 3;
-      let sexRow2Y = y + 5.5;
-      drawRadio(sexX + 2, sexRow1Y, 'Male', formData.sex === 'Male');
-      drawRadio(sexX + 2, sexRow2Y, 'Female', formData.sex === 'Female');
+      // Improve sex radio button layout - vertical stack with more space
+      drawRadio(sexX + sexWidth/2 - 5, maritalRow1Y, 'Male', formData.sex === 'Male');
+      drawRadio(sexX + sexWidth/2 - 5, maritalRow2Y, 'Female', formData.sex === 'Female');
+      
       y += fieldHeight;
       
       // FB Account, Email Address
