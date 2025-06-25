@@ -453,351 +453,410 @@ export default function CreateRIDSPage() {
       
       toast.loading(shouldDownload ? 'Generating RIDS PDF...' : 'Preparing RIDS form...');
       
-      // Using dynamic import for jsPDF to prevent server-side rendering issues
       const jsPDF = (await import('jspdf')).default;
       
       const doc = new jsPDF('p', 'mm', 'a4');
       const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 10;
       const contentWidth = pageWidth - margin * 2;
-      let y = 12;
+      let y = 10;
 
-      // Helper function to draw a field box with a label inside
-      const drawField = (x: number, y: number, width: number, height: number, label: string, value: any, valueAlign: 'left' | 'center' | 'right' = 'left') => {
-        doc.setFontSize(6);
+      // Helper function to draw fields with labels
+      const drawField = (x: number, y: number, width: number, height: number, label: string, value: any, valueAlign: 'left' | 'center' | 'right' = 'left', fontSize: number = 5) => {
+        doc.setFontSize(5);
         doc.setFont('helvetica', 'normal');
         doc.text(label, x + 1, y + 3);
         doc.rect(x, y, width, height);
 
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(fontSize);
+        doc.setFont('helvetica', 'normal');
         let textX = x + 2;
         if (valueAlign === 'center') {
             textX = x + width / 2;
         } else if (valueAlign === 'right') {
             textX = x + width - 2;
         }
-        doc.text(value || '', textX, y + 8, { align: valueAlign });
+        doc.text(value || '', textX, y + 6, { align: valueAlign });
       };
 
+      // Helper function to draw radio buttons
       const drawRadio = (x: number, y: number, label: string, checked: boolean) => {
         doc.circle(x + 1.5, y + 1.5, 1.5);
         if (checked) {
             doc.setFillColor(0, 0, 0);
             doc.circle(x + 1.5, y + 1.5, 1, 'F');
         }
-        doc.setFontSize(8);
+        doc.setFontSize(5);
         doc.setFont('helvetica', 'normal');
-        doc.text(label, x + 4, y + 2.5);
+        doc.text(label, x + 4, y + 2);
       };
 
       // PDF Header
-      doc.setFontSize(8);
+      doc.setFontSize(6);
       doc.setFont('helvetica', 'normal');
       doc.text('Fill-up this form, save and send as email attachment arescom.rnis@gmail.com', margin, y);
-      y += 4;
+      y += 3;
       doc.text('You can also print and submit a copy of this form to your nearest CDC/RCDG/ARESCOM', margin, y);
 
-      y += 8;
-      doc.setFontSize(14);
+      y += 5;
+      doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
       doc.text('PHILIPPINE ARMY', pageWidth / 2, y, { align: 'center' });
-      y += 6;
-      doc.setFontSize(16);
+      y += 5;
+      doc.setFontSize(10);
       doc.text('RESERVIST INFORMATION DATA SHEET', pageWidth / 2, y, { align: 'center' });
-      y += 6;
+      y += 5;
 
       // RESERVIST PERSONNEL INFORMATION
       doc.setFillColor(200, 200, 200);
-      doc.rect(margin, y, contentWidth, 6, 'F');
-      doc.setFontSize(9);
+      doc.rect(margin, y, contentWidth, 5, 'F');
+      doc.setFontSize(7);
       doc.setFont('helvetica', 'bold');
-      doc.text('RESERVIST PERSONNEL INFORMATION', margin + 1, y + 4);
-      y += 6;
+      doc.text('RESERVIST PERSONNEL INFORMATION', margin + contentWidth/2, y + 3, { align: 'center' });
+      y += 5;
 
-      const fieldHeight = 10;
-      drawField(margin, y, 30, fieldHeight, 'Rank', formData.rank);
-      drawField(margin + 30, y, 45, fieldHeight, 'Last Name', formData.lastName);
-      drawField(margin + 75, y, 45, fieldHeight, 'First Name', formData.firstName);
-      drawField(margin + 120, y, 40, fieldHeight, 'Middle Name', formData.middleName);
-      drawField(margin + 160, y, 15, fieldHeight, 'AFPSN', formData.afpsn);
-      drawField(margin + 175, y, 15, fieldHeight, 'Br/SVC', formData.brSvc);
+      // Reduced field height to save space
+      const fieldHeight = 7;
+      drawField(margin, y, 15, fieldHeight, 'Rank', formData.rank, 'left', 6);
+      drawField(margin + 15, y, 30, fieldHeight, 'Last Name', formData.lastName, 'left', 6);
+      drawField(margin + 45, y, 30, fieldHeight, 'First Name', formData.firstName, 'left', 6);
+      drawField(margin + 75, y, 30, fieldHeight, 'Middle Name', formData.middleName, 'left', 6);
+      drawField(margin + 105, y, 30, fieldHeight, 'AFPSN', formData.afpsn, 'left', 6);
+      drawField(margin + 135, y, 45, fieldHeight, 'Br/SVC', formData.brSvc, 'left', 6);
       y += fieldHeight;
 
-      doc.rect(margin, y, contentWidth, 38);
-      let boxY = y;
-
-      // AFPOS / MOS
+      // AFPOS / MOS section - Reduced height to save space
+      const afposHeight = 18;
+      doc.rect(margin, y, 80, afposHeight);
       let afposMosX = margin + 2;
-      let afposMosY = boxY + 4;
-      doc.setFontSize(8).setFont('helvetica', 'bold').text('AFPOS / MOS', afposMosX, afposMosY);
-      afposMosY += 4;
+      let afposMosY = y + 3;
+      doc.setFontSize(5).setFont('helvetica', 'bold').text('AFPOS / MOS', afposMosX, afposMosY);
+      afposMosY += 3;
       
       const afposOptions1 = ['INF', 'CAV', 'FA'];
       const afposOptions2 = ['SC', 'QMS', 'MI'];
       const afposOptions3 = ['AGS', 'FS', 'RES'];
       const afposOptions4 = ['GSC', 'MNSA'];
 
+      // Adjust spacing for AFPOS options
       let colX = afposMosX;
-      [afposOptions1, afposOptions2, afposOptions3, afposOptions4].forEach(col => {
+      [afposOptions1, afposOptions2, afposOptions3, afposOptions4].forEach((col, idx) => {
           let itemY = afposMosY;
           col.forEach(opt => {
               drawRadio(colX, itemY, opt, formData.afpos === opt);
-              itemY += 5;
+              itemY += 3.5; // Reduced vertical spacing between options
           });
-          colX += 20;
+          colX += 18;
       });
 
-      // Source of Commission
-      let sourceCommX = margin + 100;
-      let sourceCommY = boxY + 4;
-      doc.setFontSize(8).setFont('helvetica', 'bold').text('Source of Commission / Enlistment', sourceCommX, sourceCommY);
-      sourceCommY += 4;
+      // Source of Commission section - Further adjustments to prevent overflow
+      let sourceCommX = margin + 80;
+      doc.rect(sourceCommX, y, contentWidth - 80, afposHeight);
+      sourceCommX += 2;
+      let sourceCommY = y + 3;
+      doc.setFontSize(5).setFont('helvetica', 'bold').text('Source of Commission / Enlistment', sourceCommX, sourceCommY);
+      sourceCommY += 3;
       
+      // Organize commission options with better spacing
       const commissionOptions1 = ['MNSA', 'ELECTED', 'PRES APPOINTEE', 'DEGREE HOLDER'];
       const commissionOptions2 = ['MS-43', 'POTC', 'CBT COMMISSION', 'EX-AFP'];
       const commissionOptions3 = ['ROTC', 'CMT', 'BCMT', 'SBCMT'];
       const commissionOptions4 = ['CAA (CAFGU)', 'MOT (PAARU)'];
 
+      // Adjust spacing for Source of Commission options
       colX = sourceCommX;
-      [commissionOptions1, commissionOptions2, commissionOptions3, commissionOptions4].forEach((col, c_idx) => {
+      const colWidths = [22, 22, 22, 24]; // Adjusted column widths to fit text
+      [commissionOptions1, commissionOptions2, commissionOptions3, commissionOptions4].forEach((col, idx) => {
           let itemY = sourceCommY;
           col.forEach(opt => {
               drawRadio(colX, itemY, opt, formData.sourceOfCommission === opt);
-              itemY += 5;
+              itemY += 3.5; // Reduced vertical spacing between options
           });
-          colX += 30;
+          colX += colWidths[idx];
       });
       
-      y += 22;
-      doc.setDrawColor(0);
-      doc.line(margin, y, pageWidth - margin, y);
-
-      drawField(margin, y, 30, fieldHeight, 'Initial', formData.initialRank);
-      drawField(margin + 30, y, 25, fieldHeight, 'Rank', formData.rank);
-      drawField(margin + 55, y, 45, fieldHeight, 'Date of Comsn/Enlist', formData.dateOfComsnEnlist);
-      drawField(margin + 100, y, 90, fieldHeight, 'Authority', formData.authority);
+      y += afposHeight;
+      
+      // Initial, Rank, Date of Commission, Authority
+      drawField(margin, y, 20, fieldHeight, 'Initial', formData.initialRank, 'left', 6);
+      drawField(margin + 20, y, 20, fieldHeight, 'Rank', formData.rank, 'left', 6);
+      drawField(margin + 40, y, 30, fieldHeight, 'Date of Comsn/Enlist', formData.dateOfComsnEnlist, 'left', 6);
+      drawField(margin + 70, y, 110, fieldHeight, 'Authority', formData.authority, 'left', 6);
       y += fieldHeight;
 
-      doc.rect(margin, y, contentWidth, 38);
-      boxY = y;
-      let leftColX = margin;
-      let rightColX = margin + (contentWidth / 2);
-
-      drawField(leftColX, boxY, contentWidth / 2, fieldHeight, 'Designation', formData.designation);
-      drawField(rightColX, boxY, contentWidth / 2, fieldHeight, 'Company', formData.company);
+      // Reservist Classification and Mobilization Center
+      const resClassWidth = contentWidth * 0.6;
+      const mobiCenterWidth = contentWidth * 0.4;
+      drawField(margin, y, resClassWidth, fieldHeight, 'Reservist Classification', '', 'left', 6);
+      drawField(margin + resClassWidth, y, mobiCenterWidth, fieldHeight, 'Mobilization Center', formData.mobilizationCenter, 'left', 6);
       
-      drawField(leftColX, boxY + fieldHeight, contentWidth / 2, fieldHeight, 'Squad/Team/Section', formData.squad);
-      drawField(rightColX, boxY + fieldHeight, contentWidth / 2, fieldHeight, 'Battalion / Brigade / Division', formData.battalion);
+      // Add radio buttons for Reservist Classification
+      let resOptX = margin + 5;
+      let resOptY = y + 3.5;
+      drawRadio(resOptX, resOptY, 'READY', formData.reservistClassification === 'READY');
+      resOptX += 30;
+      drawRadio(resOptX, resOptY, 'STANDBY', formData.reservistClassification === 'STANDBY');
+      resOptX += 30;
+      drawRadio(resOptX, resOptY, 'RETIRED', formData.reservistClassification === 'RETIRED');
+      y += fieldHeight;
 
-      drawField(leftColX, boxY + fieldHeight * 2, contentWidth / 2, fieldHeight, 'Platoon', formData.platoon);
+      // Designation, Squad, Platoon, Company
+      const desWidth = contentWidth * 0.25;
+      drawField(margin, y, desWidth, fieldHeight, 'Designation', formData.designation, 'left', 6);
+      drawField(margin + desWidth, y, desWidth, fieldHeight, 'Squad/Team/Section', formData.squad, 'left', 6);
+      drawField(margin + desWidth*2, y, desWidth, fieldHeight, 'Platoon', formData.platoon, 'left', 6);
+      drawField(margin + desWidth*3, y, desWidth, fieldHeight, 'Company', formData.company, 'left', 6);
+      y += fieldHeight;
 
-      y += fieldHeight * 3;
+      // Battalion / Brigade / Division
+      drawField(margin, y, contentWidth, fieldHeight, 'Battalion / Brigade / Division', formData.battalion, 'left', 6);
+      y += fieldHeight;
       
-      doc.line(margin, y, pageWidth - margin, y);
-      
-      drawField(margin, y, contentWidth/3, 8, 'Size of Combat Shoes', formData.sizeOfCombatShoes);
-      drawField(margin + contentWidth/3, y, contentWidth/3, 8, 'Size of Cap (cm)', formData.sizeOfCap);
-      drawField(margin + (contentWidth/3)*2, y, contentWidth/3, 8, 'Size of BDA', formData.sizeOfBDA);
-      y += 8;
+      // Size of Combat Shoes, Cap, BDA
+      const shoeWidth = contentWidth / 3;
+      drawField(margin, y, shoeWidth, fieldHeight, 'Size of Combat Shoes', formData.sizeOfCombatShoes, 'left', 6);
+      drawField(margin + shoeWidth, y, shoeWidth, fieldHeight, 'Size of Cap (cm)', formData.sizeOfCap, 'left', 6);
+      drawField(margin + shoeWidth * 2, y, shoeWidth, fieldHeight, 'Size of BDA', formData.sizeOfBDA, 'left', 6);
+      y += fieldHeight;
 
       // PERSONAL INFORMATION
       doc.setFillColor(200, 200, 200);
-      doc.rect(margin, y, contentWidth, 6, 'F');
-      doc.setFontSize(9);
+      doc.rect(margin, y, contentWidth, 5, 'F');
+      doc.setFontSize(7);
       doc.setFont('helvetica', 'bold');
-      doc.text('PERSONAL INFORMATION', margin + 1, y + 4);
-      y += 6;
+      doc.text('PERSONAL INFORMATION', margin + contentWidth/2, y + 3, { align: 'center' });
+      y += 5;
 
-      drawField(margin, y, contentWidth / 2, fieldHeight, 'Present Occupation', formData.presentOccupation);
-      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Company Name & Address', formData.companyNameAddress);
+      // Present Occupation, Company Name & Address, Office Tel Nr
+      const pi_w1 = (contentWidth - 30) / 2;
+      const pi_w2 = pi_w1;
+      const pi_w3 = 30;
+
+      drawField(margin, y, pi_w1, fieldHeight, 'Present Occupation', formData.presentOccupation, 'left', 6);
+      drawField(margin + pi_w1, y, pi_w2, fieldHeight, 'Company Name & Address', formData.companyNameAddress, 'left', 6);
+      drawField(margin + pi_w1 + pi_w2, y, pi_w3, fieldHeight, 'Office Tel Nr', formData.officeTelNr, 'left', 6);
       y += fieldHeight;
-      drawField(margin + contentWidth / 2, y, (contentWidth / 2) - 30, fieldHeight, '', ''); // empty field
-      drawField(margin + contentWidth - 30, y, 30, fieldHeight, 'Office Tel Nr', formData.officeTelNr);
+      
+      // Home Address, Town/City/Province/ZIP, Res.Tel.Nr
+      drawField(margin, y, pi_w1, fieldHeight, 'Home Address: Street/Barangay', formData.homeAddress, 'left', 6);
+      drawField(margin + pi_w1, y, pi_w2, fieldHeight, 'Town/Town/City/Province/ZIP Code', formData.townCityProvinceZip, 'left', 6);
+      drawField(margin + pi_w1 + pi_w2, y, pi_w3, fieldHeight, 'Res.Tel.Nr', formData.resTelNr, 'left', 6);
       y += fieldHeight;
 
-      drawField(margin, y, contentWidth / 2, fieldHeight, 'Home Address: Street/Barangay', formData.homeAddress);
-      drawField(margin + contentWidth / 2, y, (contentWidth / 2), fieldHeight, 'Town/Town/City/Province/ZIP Code', formData.townCityProvinceZip);
-      let resTelX = margin + contentWidth - 30;
-      doc.rect(resTelX, y - fieldHeight, 30, fieldHeight * 2);
-      doc.setFontSize(6).text('Res.Tel.Nr', resTelX + 1, y - fieldHeight + 3);
-      doc.setFontSize(9).setFont('helvetica', 'bold').text(formData.resTelNr, resTelX + 2, y - fieldHeight + 8);
-
-      y += fieldHeight;
-
+      // Mobile Tel Nr, Birthdate, Birth Place, Age, Religion, Blood Type
       const colWidth = contentWidth / 6;
-      drawField(margin, y, colWidth * 2, fieldHeight, 'Mobile Tel Nr', formData.mobileTelNr);
-      drawField(margin + colWidth * 2, y, colWidth, fieldHeight, 'Birthdate(dd-mm-yyyy)', formData.birthdate);
-      drawField(margin + colWidth * 3, y, colWidth * 2, fieldHeight, 'Birth Place (Municipality, Province)', formData.birthPlace);
-      drawField(margin + colWidth * 5, y, colWidth / 2, fieldHeight, 'Age', formData.age);
-      drawField(margin + colWidth * 5.5, y, colWidth / 2, fieldHeight, 'Religion', formData.religion);
-      doc.rect(margin + colWidth * 5.5 + colWidth/2, y, colWidth, fieldHeight); // Blood Type separate
-      doc.setFontSize(6).text('Blood Type', margin + colWidth * 5.5 + colWidth/2 + 1, y+3);
-      doc.setFontSize(9).setFont('helvetica', 'bold').text(formData.bloodType || '', margin + colWidth * 5.5 + colWidth/2 + 2, y+8);
-
-
+      drawField(margin, y, colWidth, fieldHeight, 'Mobile Tel Nr', formData.mobileTelNr, 'left', 6);
+      drawField(margin + colWidth, y, colWidth, fieldHeight, 'Birthdate(dd-mm-yyyy)', formData.birthdate, 'left', 6);
+      drawField(margin + colWidth * 2, y, colWidth * 2, fieldHeight, 'Birth Place (Municipality, Province)', formData.birthPlace, 'left', 6);
+      drawField(margin + colWidth * 4, y, colWidth * 0.5, fieldHeight, 'Age', formData.age, 'left', 6);
+      drawField(margin + colWidth * 4.5, y, colWidth, fieldHeight, 'Religion', formData.religion, 'left', 6);
+      drawField(margin + colWidth * 5.5, y, colWidth * 0.5, fieldHeight, 'Blood Type', formData.bloodType, 'left', 6);
       y += fieldHeight;
       
+      // T.I.N., SSS Nr, PHILHEALTH Nr, Height, Weight, Marital Status, Sex
       const smallCol = contentWidth / 8;
-      drawField(margin, y, smallCol, fieldHeight, 'T.I.N.', formData.tin);
-      drawField(margin + smallCol, y, smallCol, fieldHeight, 'SSS Nr', formData.sssNr);
-      drawField(margin + smallCol * 2, y, smallCol, fieldHeight, 'PHILHEALTH Nr', formData.philhealthNr);
-      drawField(margin + smallCol * 3, y, smallCol, fieldHeight, 'Height: cm', formData.height);
-      drawField(margin + smallCol * 4, y, smallCol, fieldHeight, 'Weight: kgs', formData.weight);
+      drawField(margin, y, smallCol, fieldHeight, 'T.I.N.', formData.tin, 'left', 6);
+      drawField(margin + smallCol, y, smallCol, fieldHeight, 'SSS Nr', formData.sssNr, 'left', 6);
+      drawField(margin + smallCol * 2, y, smallCol, fieldHeight, 'PHILHEALTH Nr', formData.philhealthNr, 'left', 6);
+      drawField(margin + smallCol * 3, y, smallCol, fieldHeight, 'Height: cm', formData.height, 'left', 6);
+      drawField(margin + smallCol * 4, y, smallCol, fieldHeight, 'Weight: kgs', formData.weight, 'left', 6);
       
+      // Marital Status - Fixed layout with better spacing
       let maritalStatusX = margin + smallCol * 5;
       doc.rect(maritalStatusX, y, smallCol * 2, fieldHeight);
-      doc.setFontSize(6).text('Marital Status', maritalStatusX + 1, y + 3);
-      let maritalY = y + 5;
-      drawRadio(maritalStatusX + 2, maritalY, 'Single', formData.maritalStatus === 'Single');
-      drawRadio(maritalStatusX + 20, maritalY, 'Married', formData.maritalStatus === 'Married');
-      drawRadio(maritalStatusX + 2, maritalY + 4, 'Widow', formData.maritalStatus === 'Widow');
-      drawRadio(maritalStatusX + 20, maritalY + 4, 'Separated', formData.maritalStatus === 'Separated');
+      doc.setFontSize(5).text('Marital Status', maritalStatusX + 1, y + 3);
+      
+      // Improve marital status radio button layout
+      let maritalRow1Y = y + 3;
+      let maritalRow2Y = y + 5.5;
+      drawRadio(maritalStatusX + 2, maritalRow1Y, 'Single', formData.maritalStatus === 'Single');
+      drawRadio(maritalStatusX + 30, maritalRow1Y, 'Married', formData.maritalStatus === 'Married');
+      drawRadio(maritalStatusX + 2, maritalRow2Y, 'Widow', formData.maritalStatus === 'Widow');
+      drawRadio(maritalStatusX + 30, maritalRow2Y, 'Separated', formData.maritalStatus === 'Separated');
 
+      // Sex - Fixed layout with better spacing
       let sexX = margin + smallCol * 7;
       doc.rect(sexX, y, smallCol, fieldHeight);
-      doc.setFontSize(6).text('Sex', sexX + 1, y + 3);
-      let sexY = y + 5;
-      drawRadio(sexX + 2, sexY, 'Male', formData.sex === 'Male');
-      drawRadio(sexX + 2, sexY + 4, 'Female', formData.sex === 'Female');
+      doc.setFontSize(5).text('Sex', sexX + 1, y + 3);
       
+      // Improve sex radio button layout
+      let sexRow1Y = y + 3;
+      let sexRow2Y = y + 5.5;
+      drawRadio(sexX + 2, sexRow1Y, 'Male', formData.sex === 'Male');
+      drawRadio(sexX + 2, sexRow2Y, 'Female', formData.sex === 'Female');
       y += fieldHeight;
       
-      drawField(margin, y, contentWidth / 2, fieldHeight, 'FB Account:', formData.fbAccount);
-      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Email Address:', formData.emailAddress);
+      // FB Account, Email Address
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'FB Account:', formData.fbAccount, 'left', 6);
+      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Email Address:', formData.emailAddress, 'left', 6);
       y += fieldHeight;
-      drawField(margin, y, contentWidth / 2, fieldHeight, 'Special Skills:', formData.specialSkills);
-      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Language/Dialect Spoken:', formData.languageDialect);
+      
+      // Special Skills, Language/Dialect Spoken
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'Special Skills:', formData.specialSkills, 'left', 6);
+      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Language/Dialect Spoken:', formData.languageDialect, 'left', 6);
       y += fieldHeight;
 
+      // Function to draw table headers and rows - reduced heights
       const drawTableHeader = (labels: string[], widths: number[]) => {
         doc.setFillColor(200, 200, 200);
-        doc.rect(margin, y, contentWidth, 6, 'F');
-        doc.setFontSize(9).setFont('helvetica', 'bold');
+        doc.rect(margin, y, contentWidth, 4, 'F');
+        doc.setFontSize(7).setFont('helvetica', 'bold');
         let currentX = margin;
         labels.forEach((label, i) => {
-          doc.text(label, currentX + 2, y + 4);
+          doc.text(label, currentX + widths[i]/2, y + 3, { align: 'center' });
           currentX += widths[i];
         });
-        y += 6;
+        y += 4;
       };
 
       const drawTableRow = (values: any[], widths: number[], height: number) => {
         let currentX = margin;
-        doc.setFontSize(9).setFont('helvetica', 'normal');
+        doc.setFontSize(6).setFont('helvetica', 'normal');
         values.forEach((value, i) => {
           doc.rect(currentX, y, widths[i], height);
-          doc.text(value, currentX + 2, y + 5);
+          doc.text(value || '', currentX + 2, y + 3);
           currentX += widths[i];
         });
         y += height;
       };
 
+      // Use smaller row heights for tables to save space
+      const tableRowHeight = 4;
+      
       // PROMOTION/DEMOTION
-      drawTableHeader(['PROMOTION/DEMOTION', 'Date of Rank', 'Authority'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      drawTableHeader(['PROMOTION/DEMOTION'], [contentWidth]);
+      const promWidths = [contentWidth/3, contentWidth/3, contentWidth/3];
+      drawTableRow(['Rank', 'Date of Rank', 'Authority'], promWidths, tableRowHeight);
       formData.promotions.slice(0, 1).forEach(p => {
-        drawTableRow([p.rank, p.date, p.authority], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+        drawTableRow([p.rank, p.date, p.authority], promWidths, tableRowHeight);
       });
       if (formData.promotions.length === 0) {
-        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+        drawTableRow(['', '', ''], promWidths, tableRowHeight);
       }
 
-      // MILITARY TRAINING
-      drawTableHeader(['MILITARY TRAINING/SEMINAR/SCHOOLING', 'School', 'Date Graduated'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      // MILITARY TRAINING/SEMINAR/SCHOOLING
+      drawTableHeader(['MILITARY TRAINING/SEMINAR/SCHOOLING'], [contentWidth]);
+      const trainingWidths = [contentWidth/2, contentWidth/4, contentWidth/4];
+      drawTableRow(['Military Schooling', 'School', 'Date Graduated'], trainingWidths, tableRowHeight);
       formData.militaryTraining.slice(0, 1).forEach(t => {
-        drawTableRow([t.schooling, t.school, t.dateGraduated], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+        drawTableRow([t.schooling, t.school, t.dateGraduated], trainingWidths, tableRowHeight);
       });
-       if (formData.militaryTraining.length === 0) {
-        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      if (formData.militaryTraining.length === 0) {
+        drawTableRow(['', '', ''], trainingWidths, tableRowHeight);
       }
 
-      // AWARDS
-      drawTableHeader(['AWARDS AND DECORATION', 'Authority', 'Date Awarded'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      // AWARDS AND DECORATION
+      drawTableHeader(['AWARDS AND DECORATION'], [contentWidth]);
+      const awardsWidths = [contentWidth/2, contentWidth/4, contentWidth/4];
+      drawTableRow(['Awards/Decoration', 'Authority', 'Date Awarded'], awardsWidths, tableRowHeight);
       formData.awards.slice(0, 1).forEach(a => {
-        drawTableRow([a.award, a.authority, a.dateAwarded], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+        drawTableRow([a.award, a.authority, a.dateAwarded], awardsWidths, tableRowHeight);
       });
       if (formData.awards.length === 0) {
-        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+        drawTableRow(['', '', ''], awardsWidths, tableRowHeight);
       }
       
       // DEPENDENTS
-      drawTableHeader(['DEPENDENTS', 'Name'], [contentWidth / 4, (contentWidth / 4) * 3]);
+      drawTableHeader(['DEPENDENTS'], [contentWidth]);
+      const depWidths = [contentWidth / 2, contentWidth / 2];
+      drawTableRow(['Relation', 'Name'], depWidths, tableRowHeight);
       formData.dependents.slice(0, 1).forEach(d => {
-        drawTableRow([d.relation, d.name], [contentWidth / 4, (contentWidth / 4) * 3], 6);
+        drawTableRow([d.relation, d.name], depWidths, tableRowHeight);
       });
       if (formData.dependents.length === 0) {
-        drawTableRow(['', ''], [contentWidth / 4, (contentWidth / 4) * 3], 6);
+        drawTableRow(['', ''], depWidths, tableRowHeight);
       }
 
-      // EDUCATION
-      drawTableHeader(['HIGHEST EDUCATIONAL ATTAINMENT', 'School', 'Date Graduated'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
-      drawTableRow([formData.education.course, formData.education.school, formData.education.dateGraduated], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      // HIGHEST EDUCATIONAL ATTAINMENT
+      drawTableHeader(['HIGHEST EDUCATIONAL ATTAINMENT'], [contentWidth]);
+      const eduWidths = [contentWidth/2, contentWidth/4, contentWidth/4];
+      drawTableRow(['Course', 'School', 'Date Graduated'], eduWidths, tableRowHeight);
+      drawTableRow([formData.education.course, formData.education.school, formData.education.dateGraduated], eduWidths, tableRowHeight);
       
       // CAD/OJT/ADT
-      drawTableHeader(['CAD/OJT/ADT', 'Purpose / Authority', 'Date Start', 'Date End'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
+      drawTableHeader(['CAD/OJT/ADT'], [contentWidth]);
+      const cadWidths = [contentWidth / 4, contentWidth / 4, contentWidth / 4, contentWidth / 4];
+      drawTableRow(['Unit', 'Purpose / Authority', 'Date Start', 'Date End'], cadWidths, tableRowHeight);
       formData.cadOjt.slice(0,1).forEach(c => {
-        drawTableRow([c.unit, c.purpose, c.dateStart, c.dateEnd], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+        drawTableRow([c.unit, c.purpose, c.dateStart, c.dateEnd], cadWidths, tableRowHeight);
       });
       if (formData.cadOjt.length === 0) {
-        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+        drawTableRow(['', '', '', ''], cadWidths, tableRowHeight);
       }
 
       // UNIT ASSIGNMENT
-      drawTableHeader(['UNIT ASSIGNMENT', 'Authority', 'Date From', 'Date To'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
-       formData.unitAssignment.slice(0,1).forEach(u => {
-        drawTableRow([u.unit, u.authority, u.dateFrom, u.dateTo], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      drawTableHeader(['UNIT ASSIGNMENT'], [contentWidth]);
+      const unitWidths = [contentWidth / 4, contentWidth / 4, contentWidth / 4, contentWidth / 4];
+      drawTableRow(['Unit', 'Authority', 'Date From', 'Date To'], unitWidths, tableRowHeight);
+      formData.unitAssignment.slice(0,1).forEach(u => {
+        drawTableRow([u.unit, u.authority, u.dateFrom, u.dateTo], unitWidths, tableRowHeight);
       });
       if (formData.unitAssignment.length === 0) {
-        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+        drawTableRow(['', '', '', ''], unitWidths, tableRowHeight);
       }
 
       // DESIGNATION
-      drawTableHeader(['DESIGNATION', 'Authority', 'Date From', 'Date To'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
+      drawTableHeader(['DESIGNATION'], [contentWidth]);
+      const desigWidths = [contentWidth / 4, contentWidth / 4, contentWidth / 4, contentWidth / 4];
+      drawTableRow(['Position', 'Authority', 'Date From', 'Date To'], desigWidths, tableRowHeight);
       formData.designationTable.slice(0,1).forEach(d => {
-        drawTableRow([d.position, d.authority, d.dateFrom, d.dateTo], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+        drawTableRow([d.position, d.authority, d.dateFrom, d.dateTo], desigWidths, tableRowHeight);
       });
       if (formData.designationTable.length === 0) {
-        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+        drawTableRow(['', '', '', ''], desigWidths, tableRowHeight);
       }
 
-      y += 5;
-      doc.setFontSize(9).setFont('helvetica', 'bold').text('I HEREBY CERTIFY that all entries in this document are correct.', margin, y);
-      y += 10;
+      // Ensure enough space for the footer section
+      // Calculate remaining space and adjust if needed
+      const remainingSpace = pageHeight - y - 50; // 50mm is estimated space needed for footer
+      if (remainingSpace < 0) {
+        // If not enough space, reduce some element heights
+        y += remainingSpace; // This will move y up (negative value)
+      }
 
-      // Bottom boxes
-      const boxHeight = 35;
-      const photoBoxWidth = 40;
-      const thumbBoxWidth = 40;
-      const signatureBoxWidth = 80;
+      // Certification and signature section
+      y += 3;
+      doc.setFontSize(7).setFont('helvetica', 'normal').text('I HEREBY CERTIFY that all entries in this document are correct.', margin, y);
       
-      doc.rect(margin, y, photoBoxWidth, boxHeight);
-      doc.text('2x2', margin + photoBoxWidth/2, y + boxHeight/2 - 2, { align: 'center' });
-      doc.text('Photo', margin + photoBoxWidth/2, y + boxHeight/2 + 2, { align: 'center' });
+      // Photo, thumbmark and signature boxes
+      const bottomPartY = y + 2;
+      const photoBoxWidth = 30;
+      const thumbBoxWidth = 30;
+      const signatureBoxWidth = 60;
+      const boxHeight = 25; // Reduced height to fit better
       
-      doc.rect(margin + photoBoxWidth + 10, y, thumbBoxWidth, boxHeight);
-      doc.text('RIGHT', margin + photoBoxWidth + 10 + thumbBoxWidth/2, y + boxHeight/2 - 2, { align: 'center' });
-      doc.text('THUMBMARK', margin + photoBoxWidth + 10 + thumbBoxWidth/2, y + boxHeight/2 + 2, { align: 'center' });
+      // 2x2 Photo box
+      doc.rect(margin, bottomPartY, photoBoxWidth, boxHeight);
+      doc.setFontSize(7);
+      doc.text('2x2', margin + photoBoxWidth/2, bottomPartY + boxHeight/2 - 2, { align: 'center' });
+      doc.text('Photo', margin + photoBoxWidth/2, bottomPartY + boxHeight/2 + 2, { align: 'center' });
       
-      let sigX = margin + photoBoxWidth + 10 + thumbBoxWidth + 10;
-      doc.rect(sigX, y, signatureBoxWidth, boxHeight);
-      doc.line(sigX + 5, y + boxHeight - 8, sigX + signatureBoxWidth - 5, y + boxHeight - 8);
-      doc.text('SIGNATURE', sigX + signatureBoxWidth/2, y + boxHeight - 3, { align: 'center' });
+      // RIGHT THUMBMARK box
+      doc.rect(margin + photoBoxWidth + 5, bottomPartY, thumbBoxWidth, boxHeight);
+      doc.text('RIGHT', margin + photoBoxWidth + 5 + thumbBoxWidth/2, bottomPartY + boxHeight/2 - 2, { align: 'center' });
+      doc.text('THUMBMARK', margin + photoBoxWidth + 5 + thumbBoxWidth/2, bottomPartY + boxHeight/2 + 2, { align: 'center' });
+      
+      // SIGNATURE box
+      let sigX = pageWidth - margin - signatureBoxWidth;
+      doc.rect(sigX, bottomPartY, signatureBoxWidth, boxHeight);
+      doc.text('SIGNATURE', sigX + signatureBoxWidth/2, bottomPartY + boxHeight + 4, { align: 'center' });
 
-      y += boxHeight + 8;
-      doc.line(sigX + 5, y, sigX + signatureBoxWidth - 5, y);
+      // Attesting Personnel line
+      y = bottomPartY + boxHeight + 10;
+      doc.line(sigX, y, sigX + signatureBoxWidth, y);
       doc.text('Attesting Personnel', sigX + signatureBoxWidth/2, y + 4, { align: 'center' });
 
-      // Footer
-      y = doc.internal.pageSize.getHeight() - 15;
-      doc.setFontSize(7);
-      doc.text("This form will form part of the Reservist's MPF to be filed at HQS ARPMC(P), ARESCOM and Sent a Scan or E-Copy to arescom.rnis@gmail.com", margin, y);
+      // Footer text - ensure it's at the bottom of the page
+      y = pageHeight - 15;
+      doc.setFontSize(6);
+      doc.text("This will form part of the Reservist's MPF to be filed at HQS ARPMC(P), ARESCOM and Sent a Scan or E-Copy to arescom.rnis@gmail.com", margin, y);
       y += 3;
       doc.text("Note: Other information that needs Supporting Documents shall be attached to be valid.", margin, y);
-      doc.text("s2019", pageWidth - margin - 10, y + 3);
+      doc.text("s2019", pageWidth - margin - 10, y);
 
       toast.dismiss();
       
-      // Output the PDF
       const pdfBlob = doc.output('blob');
       const url = window.URL.createObjectURL(pdfBlob);
       
