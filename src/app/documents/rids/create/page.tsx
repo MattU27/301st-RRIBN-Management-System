@@ -451,7 +451,7 @@ export default function CreateRIDSPage() {
         return null;
       }
       
-      toast.loading(shouldDownload ? 'Generating RIDS PDF...' : 'Previewing RIDS form...');
+      toast.loading(shouldDownload ? 'Generating RIDS PDF...' : 'Preparing RIDS form...');
       
       const apiCompatibleData = transformRIDSFormDataForAPI(formData);
       
@@ -512,13 +512,13 @@ export default function CreateRIDSPage() {
           ['Name', `${formData.lastName}, ${formData.firstName} ${formData.middleName || ''}`],
           ['Rank', formData.rank || 'N/A'],
           ['AFPSN', apiCompatibleData.afpsn || 'N/A'],
-          ['Date of Birth', personalInfo.dateOfBirth || 'N/A'],
-          ['Place of Birth', personalInfo.placeOfBirth || 'N/A'],
-          ['Gender', personalInfo.gender || 'N/A'],
-          ['Civil Status', personalInfo.civilStatus || 'N/A'],
-          ['Religion', personalInfo.religion || 'N/A'],
-          ['Citizenship', personalInfo.citizenship || 'Filipino'],
-          ['Blood Type', personalInfo.bloodType || 'N/A']
+          ['Date of Birth', (personalInfo as any).dateOfBirth || 'N/A'],
+          ['Place of Birth', (personalInfo as any).placeOfBirth || 'N/A'],
+          ['Gender', (personalInfo as any).gender || 'N/A'],
+          ['Civil Status', (personalInfo as any).civilStatus || 'N/A'],
+          ['Religion', (personalInfo as any).religion || 'N/A'],
+          ['Citizenship', (personalInfo as any).citizenship || 'Filipino'],
+          ['Blood Type', (personalInfo as any).bloodType || 'N/A']
         ],
         theme: 'grid',
         tableWidth: pageWidth - (margin * 2),
@@ -526,8 +526,8 @@ export default function CreateRIDSPage() {
       });
       
       // Get the Y position after the table
-      // @ts-ignore
-      yPos = doc.previousAutoTable.finalY + 10;
+      // Handle potential undefined finalY
+      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
       
       // Add Contact Information
       doc.setFontSize(12);
@@ -544,18 +544,18 @@ export default function CreateRIDSPage() {
         startY: yPos,
         head: [['Field', 'Value']],
         body: [
-          ['Residential Address', contactInfo.residentialAddress || 'N/A'],
-          ['Mobile Number', contactInfo.mobileNumber || 'N/A'],
-          ['Office Phone', contactInfo.officePhone || 'N/A'],
-          ['Email Address', contactInfo.emailAddress || 'N/A']
+          ['Residential Address', (contactInfo as any).residentialAddress || 'N/A'],
+          ['Mobile Number', (contactInfo as any).mobileNumber || 'N/A'],
+          ['Office Phone', (contactInfo as any).officePhone || 'N/A'],
+          ['Email Address', (contactInfo as any).emailAddress || 'N/A']
         ],
         theme: 'grid',
         tableWidth: pageWidth - (margin * 2),
         margin: { left: margin, right: margin }
       });
       
-      // @ts-ignore
-      yPos = doc.previousAutoTable.finalY + 10;
+      // Handle potential undefined finalY
+      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
       
       // Add Identification Information
       doc.setFontSize(12);
@@ -572,19 +572,19 @@ export default function CreateRIDSPage() {
         startY: yPos,
         head: [['Field', 'Value']],
         body: [
-          ['Height', idInfo.height || 'N/A'],
-          ['Weight', idInfo.weight || 'N/A'],
-          ['SSS Number', idInfo.sssNumber || 'N/A'],
-          ['TIN Number', idInfo.tinNumber || 'N/A'],
-          ['PhilHealth Number', idInfo.philHealthNumber || 'N/A']
+          ['Height', (idInfo as any).height || 'N/A'],
+          ['Weight', (idInfo as any).weight || 'N/A'],
+          ['SSS Number', (idInfo as any).sssNumber || 'N/A'],
+          ['TIN Number', (idInfo as any).tinNumber || 'N/A'],
+          ['PhilHealth Number', (idInfo as any).philHealthNumber || 'N/A']
         ],
         theme: 'grid',
         tableWidth: pageWidth - (margin * 2),
         margin: { left: margin, right: margin }
       });
       
-      // @ts-ignore
-      yPos = doc.previousAutoTable.finalY + 10;
+      // Handle potential undefined finalY
+      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -607,18 +607,18 @@ export default function CreateRIDSPage() {
         startY: yPos,
         head: [['Field', 'Value']],
         body: [
-          ['Highest Education', educInfo.highestEducation || 'N/A'],
-          ['Course', educInfo.course || 'N/A'],
-          ['School', educInfo.school || 'N/A'],
-          ['Year Graduated', educInfo.yearGraduated || 'N/A']
+          ['Highest Education', (educInfo as any).highestEducation || 'N/A'],
+          ['Course', (educInfo as any).course || 'N/A'],
+          ['School', (educInfo as any).school || 'N/A'],
+          ['Year Graduated', (educInfo as any).yearGraduated || 'N/A']
         ],
         theme: 'grid',
         tableWidth: pageWidth - (margin * 2),
         margin: { left: margin, right: margin }
       });
       
-      // @ts-ignore
-      yPos = doc.previousAutoTable.finalY + 10;
+      // Handle potential undefined finalY
+      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -641,17 +641,17 @@ export default function CreateRIDSPage() {
         startY: yPos,
         head: [['Field', 'Value']],
         body: [
-          ['Occupation', occInfo.occupation || 'N/A'],
-          ['Employer', occInfo.employer || 'N/A'],
-          ['Office Address', occInfo.officeAddress || 'N/A']
+          ['Occupation', (occInfo as any).occupation || 'N/A'],
+          ['Employer', (occInfo as any).employer || 'N/A'],
+          ['Office Address', (occInfo as any).officeAddress || 'N/A']
         ],
         theme: 'grid',
         tableWidth: pageWidth - (margin * 2),
         margin: { left: margin, right: margin }
       });
       
-      // @ts-ignore
-      yPos = doc.previousAutoTable.finalY + 10;
+      // Handle potential undefined finalY
+      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -674,9 +674,9 @@ export default function CreateRIDSPage() {
           startY: yPos,
           head: [['Training', 'Authority', 'Date Completed']],
           body: apiCompatibleData.militaryTraining.map(training => [
-            training.name || 'N/A',
-            training.authority || 'N/A',
-            training.dateCompleted || 'N/A'
+            (training as any).name || 'N/A',
+            (training as any).authority || 'N/A',
+            (training as any).dateCompleted || 'N/A'
           ]),
           theme: 'grid',
           tableWidth: pageWidth - (margin * 2),
@@ -706,40 +706,68 @@ export default function CreateRIDSPage() {
         link.parentNode?.removeChild(link);
         
         toast.success('RIDS PDF generated and downloaded successfully');
-      } else {
-        // Open the PDF in a new window for preview
-        const newWindow = window.open(url, '_blank');
-        
-        // If popup was blocked, provide fallback
-        if (!newWindow) {
-          toast.error('Popup blocked. Please allow popups to preview the RIDS form.');
-          return url; // Return URL so we can use it elsewhere
-        }
-        
-        toast.success('RIDS form preview opened in a new window');
       }
       
       return url;
     } catch (error) {
       console.error('Error generating PDF:', error);
       toast.dismiss();
-      toast.error(shouldDownload ? 'Failed to generate RIDS PDF' : 'Failed to preview RIDS form');
+      toast.error(shouldDownload ? 'Failed to generate RIDS PDF' : 'Failed to prepare RIDS form');
       return null;
     }
   };
   
   // Function to print the RIDS form
   const printRidsPdf = async () => {
-    const url = await generateRidsPdf(false);
-    if (url) {
-      const printWindow = window.open(url, '_blank');
-      if (printWindow) {
-        printWindow.addEventListener('load', () => {
-          printWindow.print();
-        });
+    try {
+      toast.loading('Preparing RIDS form for printing...');
+      
+      // Create PDF data but don't download it
+      const pdfBlob = await generateRidsPdf(false);
+      
+      if (pdfBlob) {
+        // Create a hidden iframe for printing
+        const printFrame = document.createElement('iframe');
+        printFrame.style.position = 'fixed';
+        printFrame.style.right = '0';
+        printFrame.style.bottom = '0';
+        printFrame.style.width = '0';
+        printFrame.style.height = '0';
+        printFrame.style.border = '0';
+        
+        // Set the source to the PDF blob URL
+        printFrame.src = pdfBlob;
+        
+        // Add to document and handle print
+        document.body.appendChild(printFrame);
+        
+        // Wait for iframe to load before printing
+        printFrame.onload = () => {
+          toast.dismiss();
+          setTimeout(() => {
+            try {
+              printFrame.contentWindow?.print();
+              
+              // Remove the iframe after printing dialog is closed or after a timeout
+              setTimeout(() => {
+                document.body.removeChild(printFrame);
+              }, 2000);
+              
+              toast.success('Print dialog opened');
+            } catch (error) {
+              console.error('Error during print:', error);
+              toast.error('Failed to open print dialog');
+            }
+          }, 500);
+        };
       } else {
-        toast.error('Popup blocked. Please allow popups to print the RIDS form.');
+        toast.dismiss();
+        toast.error('Failed to generate printable form');
       }
+    } catch (error) {
+      console.error('Error in print process:', error);
+      toast.dismiss();
+      toast.error('Failed to print RIDS form');
     }
   };
 
@@ -808,15 +836,15 @@ export default function CreateRIDSPage() {
   // Check authentication
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="w-12 h-12 rounded-full border-t-2 border-b-2 border-indigo-500 animate-spin"></div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-t-2 border-b-2 border-indigo-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   if (!isAuthenticated || !user || !['staff', 'admin', 'director'].includes(user.role)) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="mb-4 text-red-500">You don't have permission to access this page.</div>
         <Button variant="primary" onClick={() => router.push('/documents/rids')}>
           Return to RIDS Management
@@ -826,14 +854,14 @@ export default function CreateRIDSPage() {
   }
 
   return (
-    <div className="container p-4 mx-auto max-w-full">
+    <div className="container max-w-full p-4 mx-auto">
       <div className="flex items-center mb-6">
         <Button
           variant="secondary"
           onClick={() => router.push('/documents/rids')}
           className="flex items-center mr-4"
         >
-          <ArrowLeftIcon className="mr-1 w-5 h-5" />
+          <ArrowLeftIcon className="w-5 h-5 mr-1" />
           Back
         </Button>
         <h1 className="text-2xl font-bold text-gray-900">Create Reservist Information Data Sheet</h1>
@@ -844,7 +872,7 @@ export default function CreateRIDSPage() {
       <div className="flex flex-col gap-6 md:flex-row">
         {/* Left sidebar navigation - styled like DFA passport form */}
         <div className="flex-shrink-0 w-full md:w-72">
-          <div className="overflow-hidden bg-white rounded-lg border border-gray-200">
+          <div className="overflow-hidden bg-white border border-gray-200 rounded-lg">
             <div className="p-3 text-center text-white bg-blue-600 border-b border-gray-200">
               <h3 className="font-bold">Individual Appointment</h3>
             </div>
@@ -912,7 +940,7 @@ export default function CreateRIDSPage() {
               </ul>
             </div>
             
-            <div className="p-3 text-xs text-center text-gray-600 bg-gray-50 border-t border-gray-200">
+            <div className="p-3 text-xs text-center text-gray-600 border-t border-gray-200 bg-gray-50">
               Form Progress: {completedSections.size} of {Object.values(FormSection).length} Sections Complete
             </div>
           </div>
@@ -925,10 +953,10 @@ export default function CreateRIDSPage() {
               <h2 className="font-bold">{currentSection}</h2>
             </div>
             
-            <div className="p-6 bg-white rounded-b-lg border border-gray-200">
+            <div className="p-6 bg-white border border-gray-200 rounded-b-lg">
               {/* Section Content */}
               {sectionValidationErrors[currentSection]?.length > 0 && (
-                <div className="p-3 mb-4 bg-red-50 rounded-md border border-red-200">
+                <div className="p-3 mb-4 border border-red-200 rounded-md bg-red-50">
                   <div className="flex">
                     <div className="flex-shrink-0">
                       <svg className="w-5 h-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -960,7 +988,7 @@ export default function CreateRIDSPage() {
                       <select
                         value={formData.rank} 
                         onChange={(e) => handleInputChange('rank', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       >
                         <option value="">Select Rank</option>
                         <option value="Private">Private</option>
@@ -983,7 +1011,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.lastName}
                         onChange={(e) => handleInputChange('lastName', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -993,7 +1021,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.firstName}
                         onChange={(e) => handleInputChange('firstName', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1003,7 +1031,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.middleName}
                         onChange={(e) => handleInputChange('middleName', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1013,7 +1041,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.afpsn}
                         onChange={(e) => handleInputChange('afpsn', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1023,7 +1051,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.brSvc}
                         onChange={(e) => handleInputChange('brSvc', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1081,7 +1109,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.initialRank}
                         onChange={(e) => handleInputChange('initialRank', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1091,7 +1119,7 @@ export default function CreateRIDSPage() {
                         type="date"
                         value={formData.dateOfComsnEnlist}
                         onChange={(e) => handleInputChange('dateOfComsnEnlist', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1101,7 +1129,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.authority}
                         onChange={(e) => handleInputChange('authority', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1132,7 +1160,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.mobilizationCenter}
                         onChange={(e) => handleInputChange('mobilizationCenter', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1144,7 +1172,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.designation}
                         onChange={(e) => handleInputChange('designation', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1154,7 +1182,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.squad}
                         onChange={(e) => handleInputChange('squad', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1164,7 +1192,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.platoon}
                         onChange={(e) => handleInputChange('platoon', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1174,7 +1202,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.company}
                         onChange={(e) => handleInputChange('company', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1184,7 +1212,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.battalion}
                         onChange={(e) => handleInputChange('battalion', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1196,7 +1224,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.sizeOfCombatShoes}
                         onChange={(e) => handleInputChange('sizeOfCombatShoes', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1206,7 +1234,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.sizeOfCap}
                         onChange={(e) => handleInputChange('sizeOfCap', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1216,7 +1244,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.sizeOfBDA}
                         onChange={(e) => handleInputChange('sizeOfBDA', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1234,7 +1262,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.presentOccupation}
                         onChange={(e) => handleInputChange('presentOccupation', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1244,7 +1272,7 @@ export default function CreateRIDSPage() {
                         type="tel"
                         value={formData.officeTelNr}
                         onChange={(e) => handleInputChange('officeTelNr', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1254,7 +1282,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.companyNameAddress}
                         onChange={(e) => handleInputChange('companyNameAddress', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1264,7 +1292,7 @@ export default function CreateRIDSPage() {
                         type="tel"
                         value={formData.resTelNr}
                         onChange={(e) => handleInputChange('resTelNr', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1274,7 +1302,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.homeAddress}
                         onChange={(e) => handleInputChange('homeAddress', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1284,7 +1312,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.townCityProvinceZip}
                         onChange={(e) => handleInputChange('townCityProvinceZip', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1296,7 +1324,7 @@ export default function CreateRIDSPage() {
                         type="tel"
                         value={formData.mobileTelNr}
                         onChange={(e) => handleInputChange('mobileTelNr', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1306,7 +1334,7 @@ export default function CreateRIDSPage() {
                         type="date"
                         value={formData.birthdate}
                         onChange={(e) => handleInputChange('birthdate', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1316,7 +1344,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.birthPlace}
                         onChange={(e) => handleInputChange('birthPlace', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1326,7 +1354,7 @@ export default function CreateRIDSPage() {
                         type="number"
                         value={formData.age}
                         onChange={(e) => handleInputChange('age', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1336,7 +1364,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.religion}
                         onChange={(e) => handleInputChange('religion', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1345,7 +1373,7 @@ export default function CreateRIDSPage() {
                       <select
                         value={formData.bloodType}
                         onChange={(e) => handleInputChange('bloodType', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       >
                         <option value="">Select Blood Type</option>
                         <option value="A+">A+</option>
@@ -1367,7 +1395,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.tin}
                         onChange={(e) => handleInputChange('tin', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1377,7 +1405,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.sssNr}
                         onChange={(e) => handleInputChange('sssNr', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1387,7 +1415,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.philhealthNr}
                         onChange={(e) => handleInputChange('philhealthNr', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1397,7 +1425,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.height}
                         onChange={(e) => handleInputChange('height', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1407,7 +1435,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.weight}
                         onChange={(e) => handleInputChange('weight', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1457,7 +1485,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.fbAccount}
                         onChange={(e) => handleInputChange('fbAccount', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1467,7 +1495,7 @@ export default function CreateRIDSPage() {
                         type="email"
                         value={formData.emailAddress}
                         onChange={(e) => handleInputChange('emailAddress', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1477,7 +1505,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.specialSkills}
                         onChange={(e) => handleInputChange('specialSkills', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1487,7 +1515,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.languageDialect}
                         onChange={(e) => handleInputChange('languageDialect', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1502,10 +1530,10 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Rank</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date of Rank</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Authority</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Rank</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date of Rank</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Authority</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1574,10 +1602,10 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Military Schooling</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">School</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date Graduated</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Military Schooling</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">School</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date Graduated</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1646,10 +1674,10 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Awards/Decoration</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Authority</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date Awarded</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Awards/Decoration</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Authority</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date Awarded</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1718,9 +1746,9 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Relation</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Name</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Relation</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Name</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1784,7 +1812,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.education.course}
                         onChange={(e) => handleEducationChange('course', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1794,7 +1822,7 @@ export default function CreateRIDSPage() {
                         type="text"
                         value={formData.education.school}
                         onChange={(e) => handleEducationChange('school', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                     
@@ -1804,7 +1832,7 @@ export default function CreateRIDSPage() {
                         type="date"
                         value={formData.education.dateGraduated}
                         onChange={(e) => handleEducationChange('dateGraduated', e.target.value)}
-                        className="p-2 w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -1819,11 +1847,11 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Unit</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Purpose / Authority</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date Start</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date End</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Unit</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Purpose / Authority</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date Start</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date End</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1900,11 +1928,11 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Unit</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Authority</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date From</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date To</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Unit</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Authority</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date From</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date To</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1981,11 +2009,11 @@ export default function CreateRIDSPage() {
                     <table className="min-w-full bg-white border border-gray-300">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Position</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Authority</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date From</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Date To</th>
-                          <th className="px-4 py-2 text-left border text-black font-semibold">Actions</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Position</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Authority</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date From</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Date To</th>
+                          <th className="px-4 py-2 font-semibold text-left text-black border">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -2060,7 +2088,7 @@ export default function CreateRIDSPage() {
                   <p className="text-gray-600">Please review all information before submitting the RIDS form.</p>
                   
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <h4 className="mb-3 font-medium text-gray-800">Reservist Personnel Information</h4>
                       <div className="space-y-2">
                         <p className="text-gray-700"><span className="font-medium text-gray-800">Rank:</span> {formData.rank || 'Not specified'}</p>
@@ -2071,7 +2099,7 @@ export default function CreateRIDSPage() {
                       </div>
                     </div>
                     
-                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <h4 className="mb-3 font-medium text-gray-800">Personal Information</h4>
                       <div className="space-y-2">
                         <p className="text-gray-700"><span className="font-medium text-gray-800">Address:</span> {formData.homeAddress}, {formData.townCityProvinceZip}</p>
@@ -2082,7 +2110,7 @@ export default function CreateRIDSPage() {
                       </div>
                     </div>
                     
-                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <h4 className="mb-3 font-medium text-gray-800">Personal Details</h4>
                       <div className="space-y-2">
                         <p className="text-gray-700"><span className="font-medium text-gray-800">Height:</span> {formData.height || 'Not specified'} cm</p>
@@ -2095,7 +2123,7 @@ export default function CreateRIDSPage() {
                   </div>
                   
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <h4 className="mb-3 font-medium text-gray-800">Promotion History</h4>
                       {formData.promotions.length > 0 ? (
                         <ul className="space-y-2">
@@ -2110,7 +2138,7 @@ export default function CreateRIDSPage() {
                       )}
                     </div>
                     
-                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <h4 className="mb-3 font-medium text-gray-800">Military Training</h4>
                       {formData.militaryTraining.length > 0 ? (
                         <ul className="space-y-2">
@@ -2126,8 +2154,8 @@ export default function CreateRIDSPage() {
                     </div>
                   </div>
                   
-                  <div className="flex flex-col p-4 bg-blue-50 rounded-md border border-blue-300">
-                    <h4 className="mb-2 text-center font-medium text-blue-800">Ready to Submit</h4>
+                  <div className="flex flex-col p-4 border border-blue-300 rounded-md bg-blue-50">
+                    <h4 className="mb-2 font-medium text-center text-blue-800">Ready to Submit</h4>
                     <p className="mb-4 text-center text-blue-700">
                       Before submitting, you can preview or print the RIDS form.
                       By clicking "Submit & Download", you certify that all provided information is correct and accurate.
@@ -2137,7 +2165,7 @@ export default function CreateRIDSPage() {
                       <button
                         type="button"
                         onClick={() => generateRidsPdf(false)}
-                        className="px-4 py-2 text-sm flex items-center text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50"
+                        className="flex items-center px-4 py-2 text-sm text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50"
                       >
                         <EyeIcon className="w-5 h-5 mr-1" />
                         View Form
@@ -2145,7 +2173,7 @@ export default function CreateRIDSPage() {
                       <button
                         type="button"
                         onClick={printRidsPdf}
-                        className="px-4 py-2 text-sm flex items-center text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50"
+                        className="flex items-center px-4 py-2 text-sm text-blue-700 bg-white border border-blue-300 rounded-md hover:bg-blue-50"
                       >
                         <PrinterIcon className="w-5 h-5 mr-1" />
                         Print Form
@@ -2165,7 +2193,7 @@ export default function CreateRIDSPage() {
                     onClick={goToPreviousSection}
                     className="flex items-center"
           >
-                    <ArrowLeftIcon className="mr-1 w-4 h-4" />
+                    <ArrowLeftIcon className="w-4 h-4 mr-1" />
                     Previous
           </Button>
                 )}
@@ -2178,7 +2206,7 @@ export default function CreateRIDSPage() {
                     className="flex items-center"
           >
                     {isSubmitting ? 'Submitting...' : 'Submit & Download'}
-                    <DocumentTextIcon className="ml-1 w-4 h-4" />
+                    <DocumentTextIcon className="w-4 h-4 ml-1" />
           </Button>
                 ) : (
                   <Button
@@ -2187,7 +2215,7 @@ export default function CreateRIDSPage() {
                     className="flex items-center"
                   >
                     Next
-                    <ArrowRightIcon className="ml-1 w-4 h-4" />
+                    <ArrowRightIcon className="w-4 h-4 ml-1" />
                   </Button>
                 )}
               </div>
