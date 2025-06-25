@@ -453,244 +453,349 @@ export default function CreateRIDSPage() {
       
       toast.loading(shouldDownload ? 'Generating RIDS PDF...' : 'Preparing RIDS form...');
       
-      const apiCompatibleData = transformRIDSFormDataForAPI(formData);
-      
-      // First validate the data with the API
-      const response = await axios.post(
-        '/api/personnel/rids/generate-pdf',
-        { ridsData: apiCompatibleData }, 
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      
-      if (!response.data.success) {
-        toast.dismiss();
-        toast.error(response.data.error || 'Failed to process data');
-        return null;
-      }
-      
-      toast.dismiss();
-      
       // Using dynamic import for jsPDF to prevent server-side rendering issues
       const jsPDF = (await import('jspdf')).default;
-      const { default: autoTable } = await import('jspdf-autotable');
       
-      // Create new PDF document
-      const doc = new jsPDF();
-      const pageWidth = doc.internal.pageSize.width || 210;
-      const margin = 15;
-      
-      // Add header
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 10;
+      const contentWidth = pageWidth - margin * 2;
+      let y = 12;
+
+      // Helper function to draw a field box with a label inside
+      const drawField = (x: number, y: number, width: number, height: number, label: string, value: any, valueAlign: 'left' | 'center' | 'right' = 'left') => {
+        doc.setFontSize(6);
+        doc.setFont('helvetica', 'normal');
+        doc.text(label, x + 1, y + 3);
+        doc.rect(x, y, width, height);
+
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        let textX = x + 2;
+        if (valueAlign === 'center') {
+            textX = x + width / 2;
+        } else if (valueAlign === 'right') {
+            textX = x + width - 2;
+        }
+        doc.text(value || '', textX, y + 8, { align: valueAlign });
+      };
+
+      const drawRadio = (x: number, y: number, label: string, checked: boolean) => {
+        doc.circle(x + 1.5, y + 1.5, 1.5);
+        if (checked) {
+            doc.setFillColor(0, 0, 0);
+            doc.circle(x + 1.5, y + 1.5, 1, 'F');
+        }
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(label, x + 4, y + 2.5);
+      };
+
+      // PDF Header
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Fill-up this form, save and send as email attachment arescom.rnis@gmail.com', margin, y);
+      y += 4;
+      doc.text('You can also print and submit a copy of this form to your nearest CDC/RCDG/ARESCOM', margin, y);
+
+      y += 8;
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('PHILIPPINE ARMY', pageWidth / 2, y, { align: 'center' });
+      y += 6;
       doc.setFontSize(16);
+      doc.text('RESERVIST INFORMATION DATA SHEET', pageWidth / 2, y, { align: 'center' });
+      y += 6;
+
+      // RESERVIST PERSONNEL INFORMATION
+      doc.setFillColor(200, 200, 200);
+      doc.rect(margin, y, contentWidth, 6, 'F');
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
-      doc.text('RESERVIST INFORMATION DATA SHEET (RIDS)', pageWidth / 2, 20, { align: 'center' });
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.text('RESERVIST PERSONNEL INFORMATION', margin + 1, y + 4);
+      y += 6;
+
+      const fieldHeight = 10;
+      drawField(margin, y, 30, fieldHeight, 'Rank', formData.rank);
+      drawField(margin + 30, y, 45, fieldHeight, 'Last Name', formData.lastName);
+      drawField(margin + 75, y, 45, fieldHeight, 'First Name', formData.firstName);
+      drawField(margin + 120, y, 40, fieldHeight, 'Middle Name', formData.middleName);
+      drawField(margin + 160, y, 15, fieldHeight, 'AFPSN', formData.afpsn);
+      drawField(margin + 175, y, 15, fieldHeight, 'Br/SVC', formData.brSvc);
+      y += fieldHeight;
+
+      doc.rect(margin, y, contentWidth, 38);
+      let boxY = y;
+
+      // AFPOS / MOS
+      let afposMosX = margin + 2;
+      let afposMosY = boxY + 4;
+      doc.setFontSize(8).setFont('helvetica', 'bold').text('AFPOS / MOS', afposMosX, afposMosY);
+      afposMosY += 4;
       
-      // Current Y position tracker
-      let yPos = 30;
+      const afposOptions1 = ['INF', 'CAV', 'FA'];
+      const afposOptions2 = ['SC', 'QMS', 'MI'];
+      const afposOptions3 = ['AGS', 'FS', 'RES'];
+      const afposOptions4 = ['GSC', 'MNSA'];
+
+      let colX = afposMosX;
+      [afposOptions1, afposOptions2, afposOptions3, afposOptions4].forEach(col => {
+          let itemY = afposMosY;
+          col.forEach(opt => {
+              drawRadio(colX, itemY, opt, formData.afpos === opt);
+              itemY += 5;
+          });
+          colX += 20;
+      });
+
+      // Source of Commission
+      let sourceCommX = margin + 100;
+      let sourceCommY = boxY + 4;
+      doc.setFontSize(8).setFont('helvetica', 'bold').text('Source of Commission / Enlistment', sourceCommX, sourceCommY);
+      sourceCommY += 4;
       
-      // Add Personal Information
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('PERSONAL INFORMATION', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      
-      yPos += 5;
-      
-      // Personal Info Table
-      const personalInfo = apiCompatibleData.personalInformation || {};
-      
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Field', 'Value']],
-        body: [
-          ['Name', `${formData.lastName}, ${formData.firstName} ${formData.middleName || ''}`],
-          ['Rank', formData.rank || 'N/A'],
-          ['AFPSN', apiCompatibleData.afpsn || 'N/A'],
-          ['Date of Birth', (personalInfo as any).dateOfBirth || 'N/A'],
-          ['Place of Birth', (personalInfo as any).placeOfBirth || 'N/A'],
-          ['Gender', (personalInfo as any).gender || 'N/A'],
-          ['Civil Status', (personalInfo as any).civilStatus || 'N/A'],
-          ['Religion', (personalInfo as any).religion || 'N/A'],
-          ['Citizenship', (personalInfo as any).citizenship || 'Filipino'],
-          ['Blood Type', (personalInfo as any).bloodType || 'N/A']
-        ],
-        theme: 'grid',
-        tableWidth: pageWidth - (margin * 2),
-        margin: { left: margin, right: margin }
+      const commissionOptions1 = ['MNSA', 'ELECTED', 'PRES APPOINTEE', 'DEGREE HOLDER'];
+      const commissionOptions2 = ['MS-43', 'POTC', 'CBT COMMISSION', 'EX-AFP'];
+      const commissionOptions3 = ['ROTC', 'CMT', 'BCMT', 'SBCMT'];
+      const commissionOptions4 = ['CAA (CAFGU)', 'MOT (PAARU)'];
+
+      colX = sourceCommX;
+      [commissionOptions1, commissionOptions2, commissionOptions3, commissionOptions4].forEach((col, c_idx) => {
+          let itemY = sourceCommY;
+          col.forEach(opt => {
+              drawRadio(colX, itemY, opt, formData.sourceOfCommission === opt);
+              itemY += 5;
+          });
+          colX += 30;
       });
       
-      // Get the Y position after the table
-      // Handle potential undefined finalY
-      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
+      y += 22;
+      doc.setDrawColor(0);
+      doc.line(margin, y, pageWidth - margin, y);
+
+      drawField(margin, y, 30, fieldHeight, 'Initial', formData.initialRank);
+      drawField(margin + 30, y, 25, fieldHeight, 'Rank', formData.rank);
+      drawField(margin + 55, y, 45, fieldHeight, 'Date of Comsn/Enlist', formData.dateOfComsnEnlist);
+      drawField(margin + 100, y, 90, fieldHeight, 'Authority', formData.authority);
+      y += fieldHeight;
+
+      doc.rect(margin, y, contentWidth, 38);
+      boxY = y;
+      let leftColX = margin;
+      let rightColX = margin + (contentWidth / 2);
+
+      drawField(leftColX, boxY, contentWidth / 2, fieldHeight, 'Designation', formData.designation);
+      drawField(rightColX, boxY, contentWidth / 2, fieldHeight, 'Company', formData.company);
       
-      // Add Contact Information
-      doc.setFontSize(12);
+      drawField(leftColX, boxY + fieldHeight, contentWidth / 2, fieldHeight, 'Squad/Team/Section', formData.squad);
+      drawField(rightColX, boxY + fieldHeight, contentWidth / 2, fieldHeight, 'Battalion / Brigade / Division', formData.battalion);
+
+      drawField(leftColX, boxY + fieldHeight * 2, contentWidth / 2, fieldHeight, 'Platoon', formData.platoon);
+
+      y += fieldHeight * 3;
+      
+      doc.line(margin, y, pageWidth - margin, y);
+      
+      drawField(margin, y, contentWidth/3, 8, 'Size of Combat Shoes', formData.sizeOfCombatShoes);
+      drawField(margin + contentWidth/3, y, contentWidth/3, 8, 'Size of Cap (cm)', formData.sizeOfCap);
+      drawField(margin + (contentWidth/3)*2, y, contentWidth/3, 8, 'Size of BDA', formData.sizeOfBDA);
+      y += 8;
+
+      // PERSONAL INFORMATION
+      doc.setFillColor(200, 200, 200);
+      doc.rect(margin, y, contentWidth, 6, 'F');
+      doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
-      doc.text('CONTACT INFORMATION', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
+      doc.text('PERSONAL INFORMATION', margin + 1, y + 4);
+      y += 6;
+
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'Present Occupation', formData.presentOccupation);
+      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Company Name & Address', formData.companyNameAddress);
+      y += fieldHeight;
+      drawField(margin + contentWidth / 2, y, (contentWidth / 2) - 30, fieldHeight, '', ''); // empty field
+      drawField(margin + contentWidth - 30, y, 30, fieldHeight, 'Office Tel Nr', formData.officeTelNr);
+      y += fieldHeight;
+
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'Home Address: Street/Barangay', formData.homeAddress);
+      drawField(margin + contentWidth / 2, y, (contentWidth / 2), fieldHeight, 'Town/Town/City/Province/ZIP Code', formData.townCityProvinceZip);
+      let resTelX = margin + contentWidth - 30;
+      doc.rect(resTelX, y - fieldHeight, 30, fieldHeight * 2);
+      doc.setFontSize(6).text('Res.Tel.Nr', resTelX + 1, y - fieldHeight + 3);
+      doc.setFontSize(9).setFont('helvetica', 'bold').text(formData.resTelNr, resTelX + 2, y - fieldHeight + 8);
+
+      y += fieldHeight;
+
+      const colWidth = contentWidth / 6;
+      drawField(margin, y, colWidth * 2, fieldHeight, 'Mobile Tel Nr', formData.mobileTelNr);
+      drawField(margin + colWidth * 2, y, colWidth, fieldHeight, 'Birthdate(dd-mm-yyyy)', formData.birthdate);
+      drawField(margin + colWidth * 3, y, colWidth * 2, fieldHeight, 'Birth Place (Municipality, Province)', formData.birthPlace);
+      drawField(margin + colWidth * 5, y, colWidth / 2, fieldHeight, 'Age', formData.age);
+      drawField(margin + colWidth * 5.5, y, colWidth / 2, fieldHeight, 'Religion', formData.religion);
+      doc.rect(margin + colWidth * 5.5 + colWidth/2, y, colWidth, fieldHeight); // Blood Type separate
+      doc.setFontSize(6).text('Blood Type', margin + colWidth * 5.5 + colWidth/2 + 1, y+3);
+      doc.setFontSize(9).setFont('helvetica', 'bold').text(formData.bloodType || '', margin + colWidth * 5.5 + colWidth/2 + 2, y+8);
+
+
+      y += fieldHeight;
       
-      yPos += 5;
+      const smallCol = contentWidth / 8;
+      drawField(margin, y, smallCol, fieldHeight, 'T.I.N.', formData.tin);
+      drawField(margin + smallCol, y, smallCol, fieldHeight, 'SSS Nr', formData.sssNr);
+      drawField(margin + smallCol * 2, y, smallCol, fieldHeight, 'PHILHEALTH Nr', formData.philhealthNr);
+      drawField(margin + smallCol * 3, y, smallCol, fieldHeight, 'Height: cm', formData.height);
+      drawField(margin + smallCol * 4, y, smallCol, fieldHeight, 'Weight: kgs', formData.weight);
       
-      // Contact Info Table
-      const contactInfo = apiCompatibleData.contactInformation || {};
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Field', 'Value']],
-        body: [
-          ['Residential Address', (contactInfo as any).residentialAddress || 'N/A'],
-          ['Mobile Number', (contactInfo as any).mobileNumber || 'N/A'],
-          ['Office Phone', (contactInfo as any).officePhone || 'N/A'],
-          ['Email Address', (contactInfo as any).emailAddress || 'N/A']
-        ],
-        theme: 'grid',
-        tableWidth: pageWidth - (margin * 2),
-        margin: { left: margin, right: margin }
-      });
+      let maritalStatusX = margin + smallCol * 5;
+      doc.rect(maritalStatusX, y, smallCol * 2, fieldHeight);
+      doc.setFontSize(6).text('Marital Status', maritalStatusX + 1, y + 3);
+      let maritalY = y + 5;
+      drawRadio(maritalStatusX + 2, maritalY, 'Single', formData.maritalStatus === 'Single');
+      drawRadio(maritalStatusX + 20, maritalY, 'Married', formData.maritalStatus === 'Married');
+      drawRadio(maritalStatusX + 2, maritalY + 4, 'Widow', formData.maritalStatus === 'Widow');
+      drawRadio(maritalStatusX + 20, maritalY + 4, 'Separated', formData.maritalStatus === 'Separated');
+
+      let sexX = margin + smallCol * 7;
+      doc.rect(sexX, y, smallCol, fieldHeight);
+      doc.setFontSize(6).text('Sex', sexX + 1, y + 3);
+      let sexY = y + 5;
+      drawRadio(sexX + 2, sexY, 'Male', formData.sex === 'Male');
+      drawRadio(sexX + 2, sexY + 4, 'Female', formData.sex === 'Female');
       
-      // Handle potential undefined finalY
-      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
+      y += fieldHeight;
       
-      // Add Identification Information
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('IDENTIFICATION INFORMATION', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      
-      yPos += 5;
-      
-      // ID Info Table
-      const idInfo = apiCompatibleData.identificationInfo || {};
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Field', 'Value']],
-        body: [
-          ['Height', (idInfo as any).height || 'N/A'],
-          ['Weight', (idInfo as any).weight || 'N/A'],
-          ['SSS Number', (idInfo as any).sssNumber || 'N/A'],
-          ['TIN Number', (idInfo as any).tinNumber || 'N/A'],
-          ['PhilHealth Number', (idInfo as any).philHealthNumber || 'N/A']
-        ],
-        theme: 'grid',
-        tableWidth: pageWidth - (margin * 2),
-        margin: { left: margin, right: margin }
-      });
-      
-      // Handle potential undefined finalY
-      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
-      
-      // Check if we need a new page
-      if (yPos > 250) {
-        doc.addPage();
-        yPos = 20;
-      }
-      
-      // Add Educational Background
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('EDUCATIONAL BACKGROUND', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      
-      yPos += 5;
-      
-      // Education Info Table
-      const educInfo = apiCompatibleData.educationalBackground || {};
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Field', 'Value']],
-        body: [
-          ['Highest Education', (educInfo as any).highestEducation || 'N/A'],
-          ['Course', (educInfo as any).course || 'N/A'],
-          ['School', (educInfo as any).school || 'N/A'],
-          ['Year Graduated', (educInfo as any).yearGraduated || 'N/A']
-        ],
-        theme: 'grid',
-        tableWidth: pageWidth - (margin * 2),
-        margin: { left: margin, right: margin }
-      });
-      
-      // Handle potential undefined finalY
-      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
-      
-      // Check if we need a new page
-      if (yPos > 250) {
-        doc.addPage();
-        yPos = 20;
-      }
-      
-      // Add Occupation Information
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('OCCUPATION INFORMATION', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      
-      yPos += 5;
-      
-      // Occupation Info Table
-      const occInfo = apiCompatibleData.occupationInfo || {};
-      autoTable(doc, {
-        startY: yPos,
-        head: [['Field', 'Value']],
-        body: [
-          ['Occupation', (occInfo as any).occupation || 'N/A'],
-          ['Employer', (occInfo as any).employer || 'N/A'],
-          ['Office Address', (occInfo as any).officeAddress || 'N/A']
-        ],
-        theme: 'grid',
-        tableWidth: pageWidth - (margin * 2),
-        margin: { left: margin, right: margin }
-      });
-      
-      // Handle potential undefined finalY
-      yPos = ((doc as any).previousAutoTable?.finalY || yPos + 30) + 10;
-      
-      // Check if we need a new page
-      if (yPos > 250) {
-        doc.addPage();
-        yPos = 20;
-      }
-      
-      // Add Military Training
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('MILITARY TRAINING', margin, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      
-      yPos += 5;
-      
-      // Military Training Table
-      if (Array.isArray(apiCompatibleData.militaryTraining) && apiCompatibleData.militaryTraining.length > 0) {
-        autoTable(doc, {
-          startY: yPos,
-          head: [['Training', 'Authority', 'Date Completed']],
-          body: apiCompatibleData.militaryTraining.map(training => [
-            (training as any).name || 'N/A',
-            (training as any).authority || 'N/A',
-            (training as any).dateCompleted || 'N/A'
-          ]),
-          theme: 'grid',
-          tableWidth: pageWidth - (margin * 2),
-          margin: { left: margin, right: margin }
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'FB Account:', formData.fbAccount);
+      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Email Address:', formData.emailAddress);
+      y += fieldHeight;
+      drawField(margin, y, contentWidth / 2, fieldHeight, 'Special Skills:', formData.specialSkills);
+      drawField(margin + contentWidth / 2, y, contentWidth / 2, fieldHeight, 'Language/Dialect Spoken:', formData.languageDialect);
+      y += fieldHeight;
+
+      const drawTableHeader = (labels: string[], widths: number[]) => {
+        doc.setFillColor(200, 200, 200);
+        doc.rect(margin, y, contentWidth, 6, 'F');
+        doc.setFontSize(9).setFont('helvetica', 'bold');
+        let currentX = margin;
+        labels.forEach((label, i) => {
+          doc.text(label, currentX + 2, y + 4);
+          currentX += widths[i];
         });
-      } else {
-        autoTable(doc, {
-          startY: yPos,
-          body: [['No military training records']],
-          theme: 'plain',
-          tableWidth: pageWidth - (margin * 2),
-          margin: { left: margin, right: margin }
+        y += 6;
+      };
+
+      const drawTableRow = (values: any[], widths: number[], height: number) => {
+        let currentX = margin;
+        doc.setFontSize(9).setFont('helvetica', 'normal');
+        values.forEach((value, i) => {
+          doc.rect(currentX, y, widths[i], height);
+          doc.text(value, currentX + 2, y + 5);
+          currentX += widths[i];
         });
+        y += height;
+      };
+
+      // PROMOTION/DEMOTION
+      drawTableHeader(['PROMOTION/DEMOTION', 'Date of Rank', 'Authority'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      formData.promotions.slice(0, 1).forEach(p => {
+        drawTableRow([p.rank, p.date, p.authority], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      });
+      if (formData.promotions.length === 0) {
+        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
       }
+
+      // MILITARY TRAINING
+      drawTableHeader(['MILITARY TRAINING/SEMINAR/SCHOOLING', 'School', 'Date Graduated'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      formData.militaryTraining.slice(0, 1).forEach(t => {
+        drawTableRow([t.schooling, t.school, t.dateGraduated], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      });
+       if (formData.militaryTraining.length === 0) {
+        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      }
+
+      // AWARDS
+      drawTableHeader(['AWARDS AND DECORATION', 'Authority', 'Date Awarded'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      formData.awards.slice(0, 1).forEach(a => {
+        drawTableRow([a.award, a.authority, a.dateAwarded], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      });
+      if (formData.awards.length === 0) {
+        drawTableRow(['', '', ''], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      }
+      
+      // DEPENDENTS
+      drawTableHeader(['DEPENDENTS', 'Name'], [contentWidth / 4, (contentWidth / 4) * 3]);
+      formData.dependents.slice(0, 1).forEach(d => {
+        drawTableRow([d.relation, d.name], [contentWidth / 4, (contentWidth / 4) * 3], 6);
+      });
+      if (formData.dependents.length === 0) {
+        drawTableRow(['', ''], [contentWidth / 4, (contentWidth / 4) * 3], 6);
+      }
+
+      // EDUCATION
+      drawTableHeader(['HIGHEST EDUCATIONAL ATTAINMENT', 'School', 'Date Graduated'], [contentWidth / 2, contentWidth / 4, contentWidth / 4]);
+      drawTableRow([formData.education.course, formData.education.school, formData.education.dateGraduated], [contentWidth / 2, contentWidth / 4, contentWidth / 4], 6);
+      
+      // CAD/OJT/ADT
+      drawTableHeader(['CAD/OJT/ADT', 'Purpose / Authority', 'Date Start', 'Date End'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
+      formData.cadOjt.slice(0,1).forEach(c => {
+        drawTableRow([c.unit, c.purpose, c.dateStart, c.dateEnd], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      });
+      if (formData.cadOjt.length === 0) {
+        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      }
+
+      // UNIT ASSIGNMENT
+      drawTableHeader(['UNIT ASSIGNMENT', 'Authority', 'Date From', 'Date To'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
+       formData.unitAssignment.slice(0,1).forEach(u => {
+        drawTableRow([u.unit, u.authority, u.dateFrom, u.dateTo], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      });
+      if (formData.unitAssignment.length === 0) {
+        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      }
+
+      // DESIGNATION
+      drawTableHeader(['DESIGNATION', 'Authority', 'Date From', 'Date To'], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6]);
+      formData.designationTable.slice(0,1).forEach(d => {
+        drawTableRow([d.position, d.authority, d.dateFrom, d.dateTo], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      });
+      if (formData.designationTable.length === 0) {
+        drawTableRow(['', '', '', ''], [contentWidth / 3, contentWidth / 3, contentWidth / 6, contentWidth / 6], 6);
+      }
+
+      y += 5;
+      doc.setFontSize(9).setFont('helvetica', 'bold').text('I HEREBY CERTIFY that all entries in this document are correct.', margin, y);
+      y += 10;
+
+      // Bottom boxes
+      const boxHeight = 35;
+      const photoBoxWidth = 40;
+      const thumbBoxWidth = 40;
+      const signatureBoxWidth = 80;
+      
+      doc.rect(margin, y, photoBoxWidth, boxHeight);
+      doc.text('2x2', margin + photoBoxWidth/2, y + boxHeight/2 - 2, { align: 'center' });
+      doc.text('Photo', margin + photoBoxWidth/2, y + boxHeight/2 + 2, { align: 'center' });
+      
+      doc.rect(margin + photoBoxWidth + 10, y, thumbBoxWidth, boxHeight);
+      doc.text('RIGHT', margin + photoBoxWidth + 10 + thumbBoxWidth/2, y + boxHeight/2 - 2, { align: 'center' });
+      doc.text('THUMBMARK', margin + photoBoxWidth + 10 + thumbBoxWidth/2, y + boxHeight/2 + 2, { align: 'center' });
+      
+      let sigX = margin + photoBoxWidth + 10 + thumbBoxWidth + 10;
+      doc.rect(sigX, y, signatureBoxWidth, boxHeight);
+      doc.line(sigX + 5, y + boxHeight - 8, sigX + signatureBoxWidth - 5, y + boxHeight - 8);
+      doc.text('SIGNATURE', sigX + signatureBoxWidth/2, y + boxHeight - 3, { align: 'center' });
+
+      y += boxHeight + 8;
+      doc.line(sigX + 5, y, sigX + signatureBoxWidth - 5, y);
+      doc.text('Attesting Personnel', sigX + signatureBoxWidth/2, y + 4, { align: 'center' });
+
+      // Footer
+      y = doc.internal.pageSize.getHeight() - 15;
+      doc.setFontSize(7);
+      doc.text("This form will form part of the Reservist's MPF to be filed at HQS ARPMC(P), ARESCOM and Sent a Scan or E-Copy to arescom.rnis@gmail.com", margin, y);
+      y += 3;
+      doc.text("Note: Other information that needs Supporting Documents shall be attached to be valid.", margin, y);
+      doc.text("s2019", pageWidth - margin - 10, y + 3);
+
+      toast.dismiss();
       
       // Output the PDF
       const pdfBlob = doc.output('blob');
