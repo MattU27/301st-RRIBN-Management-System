@@ -20,7 +20,8 @@ import {
   ChevronRightIcon,
   LightBulbIcon,
   EyeIcon,
-  DocumentChartBarIcon
+  DocumentChartBarIcon,
+  ClipboardDocumentIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '@/contexts/AuthContext';
 import { navigationConfig, NavItem } from '@/config/navigation';
@@ -136,6 +137,8 @@ const Sidebar = () => {
         return <HomeIcon className="h-6 w-6" aria-hidden="true" />;
       case 'Documents':
         return <DocumentTextIcon className="h-6 w-6" aria-hidden="true" />;
+      case 'RIDS':
+        return <ClipboardDocumentIcon className="h-6 w-6" aria-hidden="true" />;
       case 'Manage RIDS':
         return <DocumentTextIcon className="h-6 w-6" aria-hidden="true" />;
       case 'View RIDS':

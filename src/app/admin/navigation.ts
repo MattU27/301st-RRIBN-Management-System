@@ -12,6 +12,11 @@ export const adminNavigationConfig = [
     roles: [UserRole.ADMIN],
   },
   {
+    label: 'RIDS',
+    href: '/documents/rids',
+    roles: [UserRole.ADMIN],
+  },
+  {
     label: 'Policy Control',
     href: '/policy',
     roles: [UserRole.ADMIN],

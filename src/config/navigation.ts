@@ -20,6 +20,11 @@ export const navigationConfig: NavItem[] = [
     roles: [UserRole.ADMIN, UserRole.STAFF], // Make accessible to Admin and Staff roles
   },
   {
+    label: 'RIDS',
+    href: '/documents/rids',
+    roles: [UserRole.ADMIN, UserRole.STAFF], // Make accessible to Admin and Staff roles
+  },
+  {
     label: 'Policy Control',
     href: '/policy',
     roles: [UserRole.ADMIN], // Admin can control policies

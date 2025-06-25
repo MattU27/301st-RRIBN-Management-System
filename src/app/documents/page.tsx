@@ -758,27 +758,6 @@ export default function DocumentsPage() {
             <DocumentTextIcon className="w-5 h-5 mr-2" />
             Upload Document
           </Button>
-          
-          {/* RIDS Button - with different text for administrator vs staff/admin/director */}
-          {user && (['staff', 'admin', 'director', 'administrator'].includes(user.role)) && (
-            <Button
-              variant="secondary"
-              onClick={() => router.push('/documents/rids')}
-              className="flex items-center"
-            >
-              {isAdministrator ? (
-                <>
-                  <EyeIcon className="w-5 h-5 mr-2" />
-                  View RIDS
-                </>
-              ) : (
-                <>
-                  <DocumentCheckIcon className="w-5 h-5 mr-2" />
-                  Manage RIDS
-                </>
-              )}
-            </Button>
-          )}
         </div>
       </div>
       
