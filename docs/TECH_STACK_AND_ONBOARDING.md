@@ -1,5 +1,11 @@
-## 301st RRIBN Management System — Tech Stack and Onboarding
+## 301st RRIBN Management System — Mern Tech Stack and Onboarding
 
+
+### Stack classification
+- Primary: MERN (React/Next.js variant) — MongoDB + Node.js (Next.js APIs) + React (Next.js) + Tailwind CSS
+- Realtime: Socket.IO on the Node server with web and Flutter clients
+- Mobile: Flutter (Dart) app in `armed_forces_app/` connecting to the same backend/DB
+- Not used: Angular (MEAN), Vue (MEVN), PHP/Apache (LAMP), ASP.NET, Java/Spring, Rails, Django/Flask
 
 ### Architecture
 - **Monorepo** with:
