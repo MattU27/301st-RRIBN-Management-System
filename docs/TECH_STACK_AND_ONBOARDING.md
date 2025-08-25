@@ -1,6 +1,5 @@
 ## 301st RRIBN Management System — Tech Stack and Onboarding
 
-This document gives a complete overview of the technology stack, environment variables, local setup, scripts, and deployment so a new developer can get productive quickly.
 
 ### Architecture
 - **Monorepo** with:
@@ -154,7 +153,5 @@ Configure its MongoDB connection/URLs in code as needed (see `armed_forces_app/l
 - Sockets: `src/utils/socket` (initialized in `server.js`)
 - PDFs/Exports: `src/utils/exportUtils.ts`, `src/app/*` pages that import jspdf/pdfkit
 - Maintenance scripts: `src/scripts/` and `scripts/`
-
-This document should be kept up to date as dependencies or structure change.
 
 
