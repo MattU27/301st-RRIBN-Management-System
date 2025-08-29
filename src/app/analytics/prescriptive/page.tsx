@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { TrendingUp, Users, Target, AlertCircle, CheckCircle, Clock, Award, Download, Search, Filter } from 'lucide-react';
+import { TrendingUp, Users, Target, AlertCircle, CheckCircle, Clock, Award, Download, Search, Filter, X, BarChart3 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 
 // Interface for training completion
@@ -76,6 +76,9 @@ const PrescriptiveAnalytics = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [lastAnalysisDate, setLastAnalysisDate] = useState<string>("");
   const [isLoadingTrainings, setIsLoadingTrainings] = useState(false);
+  
+  // Modal state for Prescriptive System Analysis
+  const [showAnalysisModal, setShowAnalysisModal] = useState(false);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
@@ -102,8 +105,12 @@ const PrescriptiveAnalytics = () => {
         return;
       }
       
-      // Call the API endpoint
-      const response = await fetch('/api/analytics/prescriptive', {
+      // Call the EO 212 enhanced API endpoint
+      const apiEndpoint = '/api/analytics/prescriptive/enhanced';
+        
+      console.log('🔄 Using EO 212 Algorithm with real database data');
+      
+      const response = await fetch(apiEndpoint, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -488,27 +495,35 @@ const PrescriptiveAnalytics = () => {
               <h1 className="flex items-center gap-2 text-xl font-bold text-gray-900">
                 <TrendingUp className="text-blue-600" size={18} />
                 Prescriptive Analytics - Personnel Promotion
+                <span className="px-2 py-1 text-xs text-green-700 bg-green-100 rounded-full">
+                  EO 212 (1939)
+                </span>
               </h1>
+              <p className="text-sm text-gray-600">
+                Using Executive Order No. 212 (1939) policy-based algorithm with real database data
+              </p>
             </div>
               <button
-              onClick={fetchAnalyticsData}
-              disabled={isGenerating}
-              className="flex items-center gap-1 px-4 py-2 text-sm text-white transition-colors bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 disabled:bg-blue-300"
-            >
-              {isGenerating ? (
-                <>
-                  <div className="w-3 h-3 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Award size={14} />
-                  Generate Promotion Eligibility
-                </>
-              )}
+                onClick={fetchAnalyticsData}
+                disabled={isGenerating}
+                className="flex items-center gap-1 px-4 py-2 text-sm text-white transition-colors bg-green-600 rounded-lg shadow-md hover:bg-green-700 disabled:opacity-50"
+              >
+                {isGenerating ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Award size={14} />
+                    Generate Promotion Eligibility
+                  </>
+                )}
               </button>
           </div>
         </div>
+
+
 
         {/* Main Content Area - Horizontal Layout */}
         <div className="flex flex-1 overflow-hidden">
@@ -627,36 +642,26 @@ const PrescriptiveAnalytics = () => {
               </div>
             </div>
 
-            {/* Text-based Analytics Insights */}
+            {/* Prescriptive System Analysis Button */}
             <div className="p-3 border border-gray-200 rounded-lg bg-gray-50">
-              <h2 className="mb-2 text-sm font-bold text-gray-900">Prescriptive System Analysis</h2>
-              <div className="space-y-2 text-xs text-gray-700">
-                {analyticsData ? (
-                  <>
-                    <p>
-                      <strong className="text-gray-900">Performance Overview:</strong> {analyticsData.promotionRecommendations.suggestion || 
-                        `Current promotion system shows ${getEligiblePersonnelCount()} personnel meeting eligibility criteria with ${getAverageBasisScore()}% average performance score.`}
-                    </p>
-                    <p>
-                      <strong className="text-gray-900">Training Analysis:</strong> {analyticsData.trainingRecommendations.overallSuggestion || 
-                        "Training completion data shows opportunities for improvement through targeted interventions."}
-                    </p>
-                    <p>
-                      <strong className="text-gray-900">Resource Allocation:</strong> {analyticsData.resourceAllocation.suggestion || 
-                        "Personnel distribution analysis indicates potential for optimization across companies."}
-                    </p>
-                    <p>
-                      <strong className="text-gray-900">Document Verification:</strong> {analyticsData.documentVerification.suggestion || 
-                        "Document processing efficiency can be improved to support promotion readiness."}
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-center text-gray-500">
-                    {error ? error : "Click 'Generate Promotion Eligibility' to view analysis"}
-                  </p>
-                )}
-        </div>
-        </div>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-sm font-bold text-gray-900">Prescriptive System Analysis</h2>
+                <button
+                  onClick={() => setShowAnalysisModal(true)}
+                  disabled={!analyticsData}
+                  className="flex items-center gap-1 px-3 py-1 text-xs text-white transition-colors bg-blue-600 rounded hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <BarChart3 size={12} />
+                  View Analysis
+                </button>
+              </div>
+              <p className="text-xs text-gray-600">
+                {analyticsData 
+                  ? "Click 'View Analysis' to see detailed prescriptive insights and recommendations."
+                  : "Generate promotion eligibility data to view detailed system analysis."
+                }
+              </p>
+            </div>
       </div>
 
           {/* Right Panel - Recommendations */}
@@ -794,6 +799,132 @@ const PrescriptiveAnalytics = () => {
             </div>
           </div>
       </div>
+
+      {/* Prescriptive System Analysis Modal */}
+      {showAnalysisModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-4xl max-h-[90vh] mx-4 bg-white rounded-lg shadow-xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-green-600">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <BarChart3 size={20} />
+                Prescriptive System Analysis - EO 212 (1939)
+              </h2>
+              <button
+                onClick={() => setShowAnalysisModal(false)}
+                className="p-1 text-white transition-colors rounded hover:bg-white hover:bg-opacity-20"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+              {analyticsData ? (
+                <div className="space-y-6">
+                  {/* Performance Overview */}
+                  <div className="p-4 border border-blue-200 rounded-lg bg-blue-50">
+                    <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-blue-900">
+                      <Target size={16} />
+                      Performance Overview
+                    </h3>
+                    <p className="text-sm text-blue-800 leading-relaxed">
+                      {analyticsData.promotionRecommendations.suggestion || 
+                        `Current promotion system shows ${getEligiblePersonnelCount()} personnel meeting eligibility criteria with ${getAverageBasisScore()}% average performance score.`}
+                    </p>
+                  </div>
+
+                  {/* Training Analysis */}
+                  <div className="p-4 border border-green-200 rounded-lg bg-green-50">
+                    <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-green-900">
+                      <CheckCircle size={16} />
+                      Training Analysis
+                    </h3>
+                    <p className="text-sm text-green-800 leading-relaxed">
+                      {analyticsData.trainingRecommendations.overallSuggestion || 
+                        "Training completion data shows opportunities for improvement through targeted interventions."}
+                    </p>
+                  </div>
+
+                  {/* Resource Allocation */}
+                  <div className="p-4 border border-amber-200 rounded-lg bg-amber-50">
+                    <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-amber-900">
+                      <Users size={16} />
+                      Resource Allocation
+                    </h3>
+                    <p className="text-sm text-amber-800 leading-relaxed">
+                      {analyticsData.resourceAllocation.suggestion || 
+                        "Personnel distribution analysis indicates potential for optimization across companies."}
+                    </p>
+                  </div>
+
+                  {/* Document Verification */}
+                  <div className="p-4 border border-purple-200 rounded-lg bg-purple-50">
+                    <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-purple-900">
+                      <AlertCircle size={16} />
+                      Document Verification
+                    </h3>
+                    <p className="text-sm text-purple-800 leading-relaxed">
+                      {analyticsData.documentVerification.suggestion || 
+                        "Document processing efficiency can be improved to support promotion readiness."}
+                    </p>
+                  </div>
+
+                  {/* EO 212 Policy Information */}
+                  <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-gray-900">
+                      <Award size={16} />
+                      EO 212 Policy Foundation
+                    </h3>
+                    <div className="space-y-2 text-sm text-gray-700">
+                      <p><strong>Legal Basis:</strong> Executive Order No. 212 (1939) - "Regulations Governing Seniority, Promotion, and Separation from the Service"</p>
+                      <p><strong>Policy Source:</strong> Issued by President Manuel L. Quezon, Philippine Army Reserve Force</p>
+                      <p><strong>Algorithm Weights:</strong> Seniority (30%), Performance (25%), Time-in-Grade (20%), Education (15%), Training (10%)</p>
+                      <p><strong>Last Analysis:</strong> {lastAnalysisDate}</p>
+                    </div>
+                  </div>
+
+                  {/* Key Metrics Summary */}
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    <div className="p-3 text-center border border-blue-200 rounded-lg bg-blue-50">
+                      <div className="text-lg font-bold text-blue-600">{getEligiblePersonnelCount()}</div>
+                      <div className="text-xs text-blue-800">Eligible Personnel</div>
+                    </div>
+                    <div className="p-3 text-center border border-green-200 rounded-lg bg-green-50">
+                      <div className="text-lg font-bold text-green-600">{getAverageBasisScore()}%</div>
+                      <div className="text-xs text-green-800">Average Score</div>
+                    </div>
+                    <div className="p-3 text-center border border-amber-200 rounded-lg bg-amber-50">
+                      <div className="text-lg font-bold text-amber-600">{getTotalCompletedTrainings()}</div>
+                      <div className="text-xs text-amber-800">Total Trainings</div>
+                    </div>
+                    <div className="p-3 text-center border border-purple-200 rounded-lg bg-purple-50">
+                      <div className="text-lg font-bold text-purple-600">EO 212</div>
+                      <div className="text-xs text-purple-800">Policy Basis</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="py-12 text-center">
+                  <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">No Analysis Data Available</h3>
+                  <p className="text-sm text-gray-600">Please generate promotion eligibility data first to view prescriptive analysis.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex justify-end p-4 border-t border-gray-200 bg-gray-50">
+              <button
+                onClick={() => setShowAnalysisModal(false)}
+                className="px-4 py-2 text-sm text-gray-700 transition-colors bg-white border border-gray-300 rounded hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
