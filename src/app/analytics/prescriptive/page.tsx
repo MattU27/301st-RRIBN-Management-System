@@ -93,11 +93,30 @@ const PrescriptiveAnalytics = () => {
   // Fetch data from the API
   const fetchAnalyticsData = async () => {
     try {
+      console.log('🚀 Starting fetchAnalyticsData...');
+      
+      // Log training requirements by rank
+      console.log('\n===========================================');
+      console.log('TRAINING REQUIREMENTS BY RANK:');
+      console.log('===========================================');
+      console.log('Private: 2 completed trainings');
+      console.log('Private First Class: 3 completed trainings');
+      console.log('Corporal: 4 completed trainings');
+      console.log('Sergeant: 5 completed trainings');
+      console.log('Second Lieutenant: 6 completed trainings');
+      console.log('First Lieutenant: 7 completed trainings');
+      console.log('Captain: 8 completed trainings');
+      console.log('Major: 9 completed trainings');
+      console.log('Lieutenant Colonel: 10 completed trainings');
+      console.log('Colonel: 12 completed trainings');
+      console.log('===========================================\n');
+      
       setIsGenerating(true);
       setError(null);
       
       // Get authentication token
       const token = await getToken();
+      console.log('🔑 Token obtained:', token ? 'Yes' : 'No');
       
       if (!token) {
         setError('Authentication required. Please log in again.');
@@ -107,6 +126,7 @@ const PrescriptiveAnalytics = () => {
       
       // Call the EO 212 enhanced API endpoint
       const apiEndpoint = '/api/analytics/prescriptive/enhanced';
+      console.log('📡 Calling API endpoint:', apiEndpoint);
         
       console.log('🔄 Using EO 212 Algorithm with real database data');
       
@@ -118,16 +138,71 @@ const PrescriptiveAnalytics = () => {
         }
       });
       
+      console.log('📥 API Response status:', response.status);
+      console.log('📥 API Response ok:', response.ok);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('❌ API Error:', errorData);
         throw new Error(errorData.error || 'Failed to fetch analytics data');
       }
       
       const data = await response.json();
+      console.log('✅ API Response data:', data);
       
       if (data.success && data.data) {
         // Get the promotion recommendations
         const recommendations = data.data.promotionRecommendations.personnel;
+        
+        // Log query results
+        console.log('\n===========================================');
+        console.log('PROMOTION ELIGIBILITY QUERY RESULTS:');
+        console.log('===========================================');
+        console.log(`Total Eligible Personnel for Promotions: ${recommendations.length}`);
+        console.log('\nEO 212 (1939) Eligibility Criteria Applied:');
+        console.log('✓ Seniority Score (30% weight) - Total active service length');
+        console.log('✓ Performance Score (25% weight) - Efficiency ratings and performance');
+        console.log('✓ Time-in-Grade Score (20% weight) - Minimum time requirements per rank');
+        console.log('✓ Education Score (15% weight) - Required certificates and courses');
+        console.log('✓ Training Score (10% weight) - Minimum 21 days active duty training');
+        console.log('✓ Personnel must be active (isActive: true)');
+        console.log('✓ Personnel must achieve minimum 60% total weighted score');
+        console.log('\nResult Summary:');
+        console.log(`${recommendations.length} personnel in the database currently meet all eligibility criteria`);
+        console.log('for promotion based on Executive Order No. 212 (1939) comprehensive evaluation.');
+        
+        if (recommendations.length > 0) {
+          console.log('\nBreakdown by Current Rank:');
+          const rankCounts = recommendations.reduce((acc: {[key: string]: number}, person: PromotionRecommendation) => {
+            acc[person.currentRank] = (acc[person.currentRank] || 0) + 1;
+            return acc;
+          }, {});
+          
+          Object.entries(rankCounts).forEach(([rank, count]) => {
+            console.log(`- ${rank}: ${count} personnel eligible`);
+          });
+          
+          console.log('\nBreakdown by Company:');
+          const companyCounts = recommendations.reduce((acc: {[key: string]: number}, person: PromotionRecommendation) => {
+            acc[person.company] = (acc[person.company] || 0) + 1;
+            return acc;
+          }, {});
+          
+          Object.entries(companyCounts).forEach(([company, count]) => {
+            console.log(`- ${company} Company: ${count} personnel eligible`);
+          });
+          
+          console.log('\nAverage EO 212 Promotion Score:', Math.round(recommendations.reduce((sum: number, person: PromotionRecommendation) => sum + person.score, 0) / recommendations.length) + '%');
+        } else {
+          console.log('\n⚠️  ANALYSIS RESULT:');
+          console.log('No personnel currently meet the strict EO 212 (1939) promotion criteria.');
+          console.log('\nLikely reasons:');
+          console.log('• Time-in-Grade Requirements: Most ranks require 24-84 months in current grade');
+          console.log('• Personnel may have joined recently and need more time in current rank');
+          console.log('• EO 212 algorithm requires 60% minimum score across all weighted criteria');
+          console.log('• Consider reviewing promotion policies for modern military timelines');
+        }
+        console.log('===========================================\n');
         
         // Fetch completed trainings for each personnel
         await fetchCompletedTrainings(recommendations, token);
@@ -806,7 +881,7 @@ const PrescriptiveAnalytics = () => {
           <div className="relative w-full max-w-4xl max-h-[90vh] mx-4 bg-white rounded-lg shadow-xl overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-green-600">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-white">
                 <BarChart3 size={20} />
                 Prescriptive System Analysis - EO 212 (1939)
               </h2>
@@ -828,7 +903,7 @@ const PrescriptiveAnalytics = () => {
                       <Target size={16} />
                       Performance Overview
                     </h3>
-                    <p className="text-sm text-blue-800 leading-relaxed">
+                    <p className="text-sm leading-relaxed text-blue-800">
                       {analyticsData.promotionRecommendations.suggestion || 
                         `Current promotion system shows ${getEligiblePersonnelCount()} personnel meeting eligibility criteria with ${getAverageBasisScore()}% average performance score.`}
                     </p>
@@ -840,19 +915,19 @@ const PrescriptiveAnalytics = () => {
                       <CheckCircle size={16} />
                       Training Analysis
                     </h3>
-                    <p className="text-sm text-green-800 leading-relaxed">
+                    <p className="text-sm leading-relaxed text-green-800">
                       {analyticsData.trainingRecommendations.overallSuggestion || 
                         "Training completion data shows opportunities for improvement through targeted interventions."}
                     </p>
                   </div>
 
                   {/* Resource Allocation */}
-                  <div className="p-4 border border-amber-200 rounded-lg bg-amber-50">
+                  <div className="p-4 border rounded-lg border-amber-200 bg-amber-50">
                     <h3 className="flex items-center gap-2 mb-3 text-base font-semibold text-amber-900">
                       <Users size={16} />
                       Resource Allocation
                     </h3>
-                    <p className="text-sm text-amber-800 leading-relaxed">
+                    <p className="text-sm leading-relaxed text-amber-800">
                       {analyticsData.resourceAllocation.suggestion || 
                         "Personnel distribution analysis indicates potential for optimization across companies."}
                     </p>
@@ -864,7 +939,7 @@ const PrescriptiveAnalytics = () => {
                       <AlertCircle size={16} />
                       Document Verification
                     </h3>
-                    <p className="text-sm text-purple-800 leading-relaxed">
+                    <p className="text-sm leading-relaxed text-purple-800">
                       {analyticsData.documentVerification.suggestion || 
                         "Document processing efficiency can be improved to support promotion readiness."}
                     </p>
@@ -894,7 +969,7 @@ const PrescriptiveAnalytics = () => {
                       <div className="text-lg font-bold text-green-600">{getAverageBasisScore()}%</div>
                       <div className="text-xs text-green-800">Average Score</div>
                     </div>
-                    <div className="p-3 text-center border border-amber-200 rounded-lg bg-amber-50">
+                    <div className="p-3 text-center border rounded-lg border-amber-200 bg-amber-50">
                       <div className="text-lg font-bold text-amber-600">{getTotalCompletedTrainings()}</div>
                       <div className="text-xs text-amber-800">Total Trainings</div>
                     </div>

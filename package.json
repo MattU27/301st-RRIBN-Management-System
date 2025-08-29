@@ -9,10 +9,14 @@
     "lint": "next lint",
     "seed:personnel": "node scripts/seed-personnel.js",
     "populate-db": "node scripts/create-personnel-records.js",
+    "populate-database": "node scripts/populate-database.js",
+    "populate:json": "USE_JSON_FALLBACK=true node scripts/populate-database.js",
     "cleanup-db": "node scripts/cleanup-db.js",
     "update-archived": "node scripts/update-archived-status.js",
     "seed:policies": "node scripts/seedPolicies.js",
-    "update-policy-file": "node update-policy-file-link.js"
+    "update-policy-file": "node update-policy-file-link.js",
+    "import-db": "node import_database.js",
+    "import-database": "node import_database.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",

@@ -42,9 +42,17 @@ class WebSocketService {
   }
 
   // Initialize WebSocket connection
-  connect(userId: string, silent = false): void {
+  connect(userId: string, silent = true): void { // Default to silent mode
     // Skip if running on server
     if (typeof window === 'undefined') {
+      return;
+    }
+    
+    // Skip WebSocket in development to avoid console spam
+    if (process.env.NODE_ENV === 'development') {
+      if (!silent) {
+        console.log('WebSocket: Disabled in development mode to avoid connection errors');
+      }
       return;
     }
     
@@ -66,6 +74,11 @@ class WebSocketService {
       const wsUrl = this.getWebSocketURL();
       // Create new WebSocket connection with user ID in the URL for authentication
       this.socket = new WebSocket(`${wsUrl}?userId=${userId}`);
+      
+      if (!this.silentMode) {
+        console.log('WebSocket URL:', wsUrl);
+        console.log('User ID:', userId);
+      }
 
       // Set up event handlers
       this.socket.onopen = this.handleOpen.bind(this);
@@ -82,7 +95,10 @@ class WebSocketService {
       }
       this.isConnecting = false;
       this.connectionError = true;
-      this.scheduleReconnect();
+      // Don't schedule reconnect in development
+      if (process.env.NODE_ENV === 'production') {
+        this.scheduleReconnect();
+      }
     }
   }
 
@@ -212,8 +228,8 @@ class WebSocketService {
       console.log(`WebSocket: Connection closed (${event.code}): ${event.reason}`);
     }
     
-    // Try to reconnect unless it was a normal closure
-    if (event.code !== 1000) {
+    // Try to reconnect unless it was a normal closure, and only in production
+    if (event.code !== 1000 && process.env.NODE_ENV === 'production') {
       this.scheduleReconnect();
     }
   }
@@ -223,9 +239,8 @@ class WebSocketService {
     this.isConnecting = false;
     this.connectionError = true;
     
-    // Only log the error once, not repeatedly
-    if (!this.silentMode && this.reconnectAttempts < 1) {
-      // Use a more informative error message that won't clutter the console
+    // Only log the error once, not repeatedly, and only in production
+    if (!this.silentMode && this.reconnectAttempts < 1 && process.env.NODE_ENV === 'production') {
       console.warn('WebSocket: Connection error - will retry in background. This is normal if server is not available.');
     }
     
@@ -234,8 +249,10 @@ class WebSocketService {
       this.silentMode = true;
     }
     
-    // Immediately try to reconnect
-    this.scheduleReconnect();
+    // Only try to reconnect in production
+    if (process.env.NODE_ENV === 'production') {
+      this.scheduleReconnect();
+    }
   }
 
   // Schedule reconnection with exponential backoff
